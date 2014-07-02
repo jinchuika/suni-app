@@ -1,0 +1,21 @@
+.lista_filtrada {
+  height: 20em;
+  line-height: 2em;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+
+.lista_filtrada li {
+  border-top: 1px solid #ccc;
+}
+
+.lista_filtrada ul ul {
+  text-indent: 1em;
+}
+
+.lista_filtrada ul ul ul {
+  text-indent: 2em;
+}

@@ -1,0 +1,615 @@
+/*******************
+LOGIN FORM STYLESHEET
+by: Amit Jakhu
+www.amitjakhu.com
+*******************/
+
+/*******************
+FONTS
+*******************/
+
+@font-face {
+    font-family: 'Bree Serif';
+    src: url('../media/fonts/Bree_Serif/BreeSerif-Regular.ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
+/*******************
+SELECTION STYLING
+*******************/
+
+::selection {
+	color: #fff;
+	background: #f676b2; /* Safari */
+}
+::-moz-selection {
+	color: #fff;
+	background: #f676b2; /* Firefox */
+}
+
+/*******************
+BODY STYLING
+*******************/
+
+* {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+body {
+	background: url(../media/img/formlogin/bg.png) repeat;
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-weight:300;
+	text-align: left;
+	text-decoration: none;
+}
+
+
+#cabeza{
+	width: 100%;
+	height: 70px;
+	padding: 0px;
+	margin-right: 0px;	
+	background: none;
+	border: none;
+	font-family: 'Bree Serif', serif;
+	font-weight: 300;
+	font-size: 14px;
+	color: #414848;
+	text-shadow: 0px 1px 0 rgba(256,256,256,0.5);
+	padding-top: 10px;
+	padding-left: 50px;
+	padding-right: 50px;
+}
+
+#cabeza{	
+	background:  rgba(212,222,223,0.75);
+	border-radius: 0px 0px 0px 0px;
+	border-bottom: 1px solid #D4DEDF;
+	
+	-webkit-box-shadow: 0 8px 6px -6px black;
+	   -moz-box-shadow: 0 8px 6px -6px black;
+	        box-shadow: 0 8px 6px -6px black;
+  
+	box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);
+	-moz-box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);
+	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);	
+	z-index: 5;	
+}
+
+.cerrarSesion {
+	transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	-ms-transition: all 0.5s;
+}
+
+.cerrarSesion{
+	width: 
+	text-align: right;
+	margin-right: 150px
+}
+
+.cerrarSesion{
+	display: block;
+	float: right;
+	background: none;
+	border: none;
+	cursor: pointer;	
+	font-family: 'Bree Serif', serif;
+	font-weight: 300;
+	font-size: 14px;
+	color: #414848;
+	text-shadow: 0px 1px 0 rgba(256,256,256,0.5);
+	text-decoration: none;
+}
+
+.cerrarSesion a:hover{
+	color: #ffffff;	
+	text-decoration:none; 
+}
+
+.cerrarSesion a:link { 
+	color: #333333;
+	text-decoration:none; 
+}
+.cerrarSesion a:visited { 
+	color: #333333;
+	text-decoration:none; 
+} 
+
+#contenido{
+	width: 550px;
+	height: 500px;
+	position: absolute;
+	left: 50%;
+	top: 100px;
+	margin-left:-275px;
+}
+
+#contenido2{
+	width: 650px;
+	height: 900px;
+	position: absolute;
+	left: 50%;
+	top: 100px;
+	margin-left:-275px;
+}
+
+#contenido{
+	background: #f3f3f3;
+	border-radius: 5px;	
+	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	z-index: 10;
+	padding: 20px;
+	text-align: center;
+}
+
+#contenido2{
+	background: #f3f3f3;
+	border-radius: 5px;	
+	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	z-index: 10;
+	padding: 20px;
+	text-align: center;
+}
+
+#contenido li{
+	width: 168px;
+	height:150px;
+	border: 1px solid red;
+	text-decoration: none;
+	display: inline-block;
+	vertical-align: middle;	
+}
+
+#contenido2 li{
+	width: 168px;
+	height:150px;
+	border: 1px solid red;
+	text-decoration: none;
+	display: inline-block;
+	vertical-align: middle;	
+}
+
+#contenido li{
+	text-align: center;
+	border: none;
+	font-family: 'Bree Serif', serif;
+	color: #414848;
+	font-weight: 300;
+	font-size: 14px;
+	color: #414848;
+	text-shadow: 0px 1px 0 rgba(256,256,256,0.5);
+	text-decoration: none;		
+}
+
+#contenido2 li{
+	text-align: center;
+	border: none;
+	font-family: 'Bree Serif', serif;
+	color: #414848;
+	font-weight: 300;
+	font-size: 14px;
+	color: #414848;
+	text-shadow: 0px 1px 0 rgba(256,256,256,0.5);
+	text-decoration: none;		
+}
+
+#top{
+	margin-left: -20px;
+	margin-top: -20px;
+}
+
+.controlA{
+	background: url(../media/img/menu/ca.png) no-repeat top center;	
+}
+.eva{
+	background: url(../media/img/menu/eva.png) no-repeat top center;
+}
+.info{
+	background: url(../media/img/menu/info.png) no-repeat top center;
+}
+.estadia{
+	background: url(../media/img/menu/estae.png) no-repeat top center;
+}
+
+.subir{
+	background: url(../media/img/menu/subir.png) no-repeat top center;	
+}
+.editar{
+	background: url(../media/img/menu/editar.png) no-repeat top center;
+}
+.eliminar{
+	background: url(../media/img/menu/eliminar.png) no-repeat top center;
+}
+
+li.controlA:hover { 
+	background: url(../media/img/menu/caC.png) no-repeat top center;
+} 
+li.eva:hover { 
+	background: url(../media/img/menu/evaC.png) no-repeat top center;
+}
+li.info:hover { 
+	background: url(../media/img/menu/infoC.png) no-repeat top center;
+} 
+li.estadia:hover{
+	background: url(../media/img/menu/estaeC.png) no-repeat top center;
+}
+
+
+li.subir:hover { 
+	background: url(../media/img/menu/subir_h.png) no-repeat top center;
+} 
+
+li.editar:hover { 
+	background: url(../media/img/menu/editar_h.png) no-repeat top center;
+} 
+
+li.eliminar:hover { 
+	background: url(../media/img/menu/eliminar_h.png) no-repeat top center;
+} 
+
+#cola{
+	width: 550px;
+	height: 30px;
+	position: absolute;
+	left: 50%;
+	top: 650px;
+	margin-left:-275px;
+	z-index: 5;
+	opacity: 0;
+	background: rgba(65,72,72,0.75) url(../media/img/menu/att.png) no-repeat left;	
+	
+	padding-left: 40px;
+}
+
+#cola{
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+#cola .controlA .eva .info .subir .editar .eliminar .estadia {
+
+	transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	-ms-transition: all 0.5s;
+}
+
+#texto{
+	display: block;
+	float: left;
+	background: none;
+	border: none;
+	cursor: pointer;	
+	font-family: 'Bree Serif', serif;
+	font-weight: 300;
+	font-size: 14px;
+	color: #ffffff;
+	text-shadow: 0px 1px 0 rgba(256,256,256,0.5);
+	text-decoration: none;
+}
+
+
+#wrapper {
+	/* Center wrapper perfectly */
+	width: 300px;
+	height: 500px;
+	position: absolute;
+	left: 50%;
+	top: 40%;
+	margin-left: -150px;
+	margin-top: -200px;
+}
+
+/*
+.gradient {
+	width: 600px;
+	height: 600px;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -300px;
+	
+	background: url(../media/img/formlogin/gradient.png) no-repeat;
+}
+*/
+
+.gradient {
+	/* Center Positioning */
+	width: 600px;
+	height: 600px;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	margin-left: -300px;
+	margin-top: -300px;
+	
+	/* Fallback */ 
+	background-repeat: no-repeat; 
+	
+	/* CSS3 Gradient */
+	background-image: -webkit-gradient(radial, 0% 0%, 0% 100%, from(rgba(213,246,255,1)), to(rgba(213,246,255,0)));
+	background-image: -webkit-radial-gradient(50% 50%, 40% 40%, rgba(213,246,255,1), rgba(213,246,255,0));
+	background-image: -moz-radial-gradient(50% 50%, 50% 50%, rgba(213,246,255,1), rgba(213,246,255,0));
+	background-image: -ms-radial-gradient(50% 50%, 50% 50%, rgba(213,246,255,1), rgba(213,246,255,0));
+	background-image: -o-radial-gradient(50% 50%, 50% 50%, rgba(213,246,255,1), rgba(213,246,255,0));
+}
+
+/*******************
+LOGIN FORM
+*******************/
+
+.login-form {
+	padding-top: 182px;
+	width: 300px;
+	margin: 0 auto;
+	position: relative;
+	z-index:5;
+	
+	background: #f3f3f3;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	
+	box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}
+
+/*******************
+HEADER
+*******************/
+
+.login-form .header {
+	padding: 0px 30px 10px 30px;
+}
+
+.login-form .header h1 {
+	font-family: 'Bree Serif', serif;
+	font-weight: 300;
+	font-size: 28px;
+	line-height:34px;
+	color: #414848;
+	text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+	margin-bottom: 0px;
+}
+
+.login-form .header span {
+	font-size: 11px;
+	line-height: 16px;
+	color: #678889;
+	text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+}
+
+/*******************
+CONTENT
+*******************/
+
+.login-form .content {
+	padding: 0 30px 25px 30px;
+}
+
+/* Input field */
+.login-form .content .input {
+	width: 188px;
+	padding: 15px 25px;
+	
+	font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+	font-weight: 400;
+	font-size: 14px;
+	color: #9d9e9e;
+	text-shadow: 1px 1px 0 rgba(256,256,256,1.0);
+	
+	background: #fff;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	
+	box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+	-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.50);
+}
+
+/* Second input field */
+.login-form .content .password, .login-form .content .pass-icon {
+	margin-top: 25px;
+}
+
+.login-form .content .input:hover {
+	background: #dfe9ec;
+	color: #414848;
+}
+
+.login-form .content .input:focus {
+	background: #dfe9ec;
+	color: #414848;
+	
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+	-moz-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+	-webkit-box-shadow: inset 0 1px 2px rgba(0,0,0,0.25);
+}
+
+.logo {
+	width: 302px;
+	height: 178px;
+	display: block;
+	position: absolute;
+	left: auto;
+	padding-right: 1px;
+	z-index: 10;
+}
+.logo {
+	top:1px; /* Positioning fix for slide-in, got lazy to think up of simpler method. */
+	background: url(../media/img/logo.png) no-repeat center;	
+	background-position:50% 50%;
+}
+
+
+.user-icon, .pass-icon {
+	width: 46px;
+	height: 47px;
+	display: block;
+	position: relative;
+	margin: auto - 150;
+	
+	left: 0px;
+	padding-right: 2px;
+	z-index: 3;
+	
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-webkit-border-top-left-radius: 5px;
+	-webkit-border-bottom-left-radius: 5px;
+}
+
+.user-icon {
+	top:140px; /* Positioning fix for slide-in, got lazy to think up of simpler method. */
+	background: rgba(65,72,72,0.75) url(../media/img/formlogin/user-icon.png) no-repeat center;	
+}
+
+.pass-icon {
+	top:322px;
+	background: rgba(65,72,72,0.75) url(../media/img/formlogin/pass-icon.png) no-repeat center;
+}
+
+/* Animation */
+.input, .user-icon, .pass-icon, .button, .register, .mensajeBox {
+	transition: all 0.5s;
+	-moz-transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-o-transition: all 0.5s;
+	-ms-transition: all 0.5s;
+}
+
+/*******************
+FOOTER
+*******************/
+
+.login-form .footer {
+	padding: 25px 30px 40px 30px;
+	overflow: auto;
+	
+	background: #d4dedf;
+	border-top: 1px solid #fff;
+	
+	box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);
+	-moz-box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);
+	-webkit-box-shadow: inset 0 1px 0 rgba(0,0,0,0.15);
+}
+
+/* Login button */
+.login-form .footer .button {
+	float:right;
+	padding: 11px 25px;
+	
+	font-family: 'Bree Serif', serif;
+	font-weight: 300;
+	font-size: 14px;
+	color: #fff;
+	text-shadow: 0px 1px 0 rgba(0,0,0,0.25);
+	
+	background: #56c2e1;
+	border: 1px solid #46b3d3;
+	border-radius: 5px;
+	cursor: pointer;
+	
+	box-shadow: inset 0 0 2px rgba(256,256,256,0.75);
+	-moz-box-shadow: inset 0 0 2px rgba(256,256,256,0.75);
+	-webkit-box-shadow: inset 0 0 2px rgba(256,256,256,0.75);
+}
+
+.login-form .footer .button:hover {
+	background: #3f9db8;
+	border: 1px solid rgba(256,256,256,0.75);
+	
+	box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+	-moz-box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+	-webkit-box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
+}
+
+.login-form .footer .button:focus {
+	position: relative;
+	bottom: -1px;
+	
+	background: #56c2e1;
+	
+	box-shadow: inset 0 1px 6px rgba(256,256,256,0.75);
+	-moz-box-shadow: inset 0 1px 6px rgba(256,256,256,0.75);
+	-webkit-box-shadow: inset 0 1px 6px rgba(256,256,256,0.75);
+}
+
+/* Register button */
+.login-form .footer .register{
+	display: block;
+	float: right;
+	padding: 10px;
+	margin-right: 20px;
+	
+	background: none;
+	border: none;
+	cursor: pointer;
+	
+	font-family: 'Bree Serif', serif;
+	font-weight: 300;
+	font-size: 14px;
+	color: #414848;
+	text-shadow: 0px 1px 0 rgba(256,256,256,0.5);
+}
+
+.login-form .footer .register:hover {
+	color: #3f9db8;
+}
+
+.login-form .footer .register:focus {
+	position: relative;
+	bottom: -1px;
+}
+
+.mensajeBox {
+	width: 150px;
+	height: 50px;
+	display: block;
+	position: absolute;
+	right: 0px;
+	padding-right: 2px;
+	z-index: -10;
+	/*background-color: #000000;*/
+	top:415px; /* Positioning fix for slide-in, got lazy to think up of simpler method. */
+	/*background: url(../media/img/ajax.gif) no-repeat left;*/
+	background: rgba(212,222,223,1)  url(../media/img/ajax.gif) no-repeat left;
+	background-position: 10px 10px;
+	-moz-border-radius-topleft: 5px;
+	-moz-border-radius-bottomleft: 5px;
+	-webkit-border-top-right-radius: 5px;
+	-webkit-border-bottom-right-radius: 5px;
+	box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}
+
+.mensaje {
+	display: block;
+	float: right;
+	padding: 10px;
+	margin-right: 20px;
+	
+	background: none;
+	border: none;
+	cursor: pointer;
+	
+	font-family: 'Bree Serif', serif;
+	font-weight: 300;
+	font-size: 14px;
+	color: #414848;
+	text-shadow: 0px 1px 0 rgba(256,256,256,0.5);
+} 

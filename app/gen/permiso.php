@@ -1,0 +1,116 @@
+<?php
+/**
+* -> Gestión de seguridad, id_area = 4;
+*/
+include '../src/libs/incluir.php';
+$nivel_dir = 2;
+$id_area = 4;
+$libs = new librerias($nivel_dir);
+$sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $id_area));
+$bd = $libs->incluir('bd');
+?>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>Gestión de permisos</title>
+	<?php
+	$libs->defecto();
+	$libs->incluir('bs-editable');
+	$libs->incluir('gn-listar');
+	$libs->incluir('datepicker');
+	$libs->incluir('notify');
+	?>
+</head>
+<body>
+	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span3 well" id="contenedor_lista">
+				<div class="input-append input-block-level">
+					<input class="span10" type="text" id="buscador">
+					<button type="button" class="btn btn-primary add-on" onclick="ver_form_nuevo();" id="btn_nuevo"><i class="icon-plus"></i> </button>
+				</div>
+				<ul size="15" id="lista_usuario" class="nav nav-list bs-docs-sidenav lista_filtrada">
+				</ul>
+				<small id="contador_lista"></small>
+			</div>
+			<div class="span7 well" id="contenedor_tabla">
+				<legend id="nombre_usuario"></legend>
+				<table class='table table-bordered' id="tabla_datos">
+					<thead>
+						<tr>
+							<th>Área</th>
+							<th>Eliminar</th>
+							<th>Editar</th>
+							<th>Crear</th>
+							<th>Ver</th>
+						</tr>
+					</thead>
+					<tbody id="tbody_area">
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<script>
+    function editar_permiso (id_permiso, valor, accion) {
+        $.ajax({
+            url: nivel_entrada+'app/src/libs_gen/aut_permiso.php',
+            data: {
+                fn_nombre: 'editar_permiso',
+                id_permiso: id_permiso,
+                valor: valor,
+                accion: accion
+            },
+            success: function (data) {
+                var resp = $.parseJSON(data);
+
+            }
+        })
+    }
+
+    function crear_binario (nMask, id_permiso) {
+        var sRespuesta = "";
+        for (var nFlag = 0, nShifted = nMask, sMask = ""; nFlag < 32;
+            nFlag++, sMask += String(nShifted >>> 31), nShifted <<= 1);
+            for (var i = 28; i <32; i++) {
+                sRespuesta += '<td><input type="checkbox" data-id_permiso="'+id_permiso+'" value="'+Math.pow(2,(31-i))+'" class="chk_permiso" '+(sMask[i]=="1" ? 'checked' : '')+'></td>';
+            };
+            return sRespuesta;
+        }
+
+        function abrir_usuario (id_usr) {
+            $("#tabla_datos").find("tr:gt(0)").remove();
+            document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML);
+            if(id_usr){
+                $.ajax({
+                    url: nivel_entrada+"app/src/libs_gen/aut_permiso.php",
+                    data: {
+                       fn_nombre: "listar_permiso",
+                       id_usr: id_usr
+                   },
+                   success: function (data) {
+                       var arr_permiso = $.parseJSON(data);
+                       $.each(arr_permiso, function (index, item) {
+                          $('#tbody_area').append("<tr><td>"+item.area+"</td>"+crear_binario(item.permiso, item.id)+"</tr>");
+                      });
+                       $(".chk_permiso").change(function () {
+                        var accion = ($(this).is(':checked') ? true : false);
+                        editar_permiso($(this).attr('data-id_permiso'), $(this).val(), accion);
+                        if($(this).is(':checked')){
+
+                        }
+                    });
+                   }
+               });
+            }
+        }
+        $(document).ready(function () {
+            fn_listar('lista_usuario','buscador','app/src/libs_gen/usr.php?fn=listar_usuario', 'abrir_usuario');
+            
+        });
+        </script>
+    </body>
+    </html>

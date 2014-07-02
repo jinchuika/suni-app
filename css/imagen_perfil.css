@@ -1,0 +1,10 @@
+.contenedor_img {
+    display: inline;
+    position: relative;
+}
+.contenedor_img .avatar {
+    display: none;
+    position: absolute;
+    right:0;
+    z-index: 2;
+}

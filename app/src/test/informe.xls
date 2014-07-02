@@ -1,0 +1,12 @@
+<table id="tabla_export" class="table table-hover well">
+						<thead>
+							<tr id="thead_export">
+								<th>No.</th>
+								<th>Nombre</th>
+								<th>Apellido</th>
+								<th>Correo electrónico</th>
+								<th>Teléfono</th>
+							</tr>
+						</thead>
+						<tbody id="tbody_export"><tr id="row_export_35"><td>1</td><td>Maria Andrea</td><td>Corzo</td><td>acorzo@fashgt.com</td><td>42143141</td></tr><tr id="row_export_87"><td>2</td><td>Zury</td><td>Monterroso</td><td>zurym_2@hotmail.com</td><td>30093338</td></tr><tr id="row_export_93"><td>3</td><td>Keyla</td><td>Bermudez</td><td>keyla_bermudez@hotmail.com</td><td>46992241</td></tr><tr id="row_export_94"><td>4</td><td>Keyla</td><td>Bermudez</td><td>keyla_bermudez@hotmail.com</td><td>46992241</td></tr><tr id="row_export_95"><td>5</td><td>Keyla</td><td>Bermudez</td><td>keyla_bermudez@hotmail.com</td><td>46992241</td></tr><tr id="row_export_156"><td>6</td><td>Mauricio</td><td>Contreras</td><td>mac.91@live.com</td><td>31396038</td></tr></tbody>
+					</table>

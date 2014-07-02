@@ -1,0 +1,21 @@
+.QOverlay {
+	background-color: #000000; /* Color de la pantalla mientras carga */
+	z-index: 9999;
+}
+
+.QLoader {
+	background-color: #CCCCCC; /* Color de la barra */
+	height: 10px; /* Grosor de la barra */
+}
+
+.QAmt { /* Estilos para los números del porcentaje */
+	color:#333333;
+	/*font-family:"Trebuchet MS",Arial,Helvetica,sans-serif;*/
+	font-family: 'Bree Serif', serif;
+	font-size:40px;
+	font-weight:bold;
+	line-height:50px;
+	height:50px;
+	width:100px;
+	margin:-60px 0 0 -50px;
+}
