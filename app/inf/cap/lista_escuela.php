@@ -78,6 +78,7 @@ $bd = $libs->incluir('bd');
 							</ul>
 						</div>
 						<button class="btn btn-primary" id="btn_seleccionar">Seleccionar</button>
+						<button class="btn btn-success" onclick="descargar_tabla_excel('tabla_listado');" ><i class='icon-download-alt'></i></button>
 					</div>
 				</div>
 			</div>
@@ -88,8 +89,8 @@ $bd = $libs->incluir('bd');
 							<tr id="thead_export">
 								<th>No.</th>
 								<th>Escuela</th>
-								<th>UDI</th>
 								<th>Capacitados</th>
+								<th>UDI</th>
 							</tr>
 						</thead>
 						<tbody id="tbody_listado">

@@ -59,8 +59,13 @@ class encabezado
 					$this->imprimir();
 				}
 				break;
+			case 50:
+				if(include ($otro_nivel.'src/cab/cab_tpe.php')){
+					$this->imprimir();
+				}
+				break;
 			case 52:
-				if(include ($otro_nivel.'src/cab/cab_kardex.php')){
+				if(include ($otro_nivel.'src/cab/cab_tpe.php')){
 					$this->imprimir();
 				}
 				break;

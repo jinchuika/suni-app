@@ -213,7 +213,7 @@ $bd = $libs->incluir('bd');
 					});
 				}
 			});
-			$("#calendar").fullCalendar('refetchEvents');
+			//$("#calendar").fullCalendar('refetchEvents');
 		}
 
 		$("#lista_per").change(function () {
@@ -270,16 +270,19 @@ $bd = $libs->incluir('bd');
 							if (position.top > 475){
 								return "top";
 							}
+							if (position.top < 350){
+								return "bottom";
+							}
 							return "left";
 						}
 						if (position.left < 315) {
 							if (position.top > 475){
 								return "top";
 							}
+							if (position.top < 350){
+								return "bottom";
+							}
 							return "right";
-						}
-						if (position.top < 250){
-							return "bottom";
 						}
 						return "top";
 					},

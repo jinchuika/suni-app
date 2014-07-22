@@ -28,8 +28,7 @@ $bd = $libs->incluir('bd');
 		<div class="row-fluid">
 			<div class="span3 well" id="contenedor_lista">
 				<div class="input-append input-block-level">
-					<input class="span10" type="text" id="buscador">
-					<button type="button" class="btn btn-primary add-on" onclick="ver_form_nuevo();" id="btn_nuevo"><i class="icon-plus"></i> </button>
+					<input class="span12" type="text" id="buscador">
 				</div>
 				<ul size="15" id="lista_usuario" class="nav nav-list bs-docs-sidenav lista_filtrada">
 				</ul>
@@ -71,6 +70,36 @@ $bd = $libs->incluir('bd');
         })
     }
 
+    <?php
+    if($sesion->has($id_area, 2)){
+    ?>
+    function crear_permiso (id_usr) {
+    	document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML) + <?php echo $sesion->has($id_area, 2) ? "  \"<button class='btn btn-mini btn-primary' onclick='crear_permiso(\"+id_usr+\")'>Agregar</button>\"" : '';?>;
+    	$("#nombre_usuario").append('<select name="listado_area" id="listado_area" class="nuevo_permiso"></select>');
+    	$("#nombre_usuario").append(' <button class="btn btn-primary" id="btn_nuevo" class="nuevo_permiso">Ok</button>');
+    	$("#nombre_usuario").append('<button class="btn btn-danger" id="btn_nuevo_cancel" class="nuevo_permiso">Cancelar</button>');
+    	listar_campos_select('app/src/libs_gen/aut_area.php?fn_nombre=listar_area', 'listado_area', '');
+    	$("#btn_nuevo_cancel").click(function () {
+    		document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML) + <?php echo $sesion->has($id_area, 2) ? "  \"<button class='btn btn-mini btn-primary' onclick='crear_permiso(\"+id_usr+\")'>Agregar</button>\"" : '';?>;
+    	});
+    	$("#btn_nuevo").click(function () {
+    		$.ajax({
+    			url: nivel_entrada+'app/src/libs_gen/aut_permiso.php',
+    			data:{
+    				fn_nombre: 'crear_permiso',
+    				id_usr: id_usr,
+    				id_area: $("#listado_area").val()
+    			},
+    			success: function () {
+    				abrir_usuario(id_usr);
+    			}
+    		});
+    	});
+    }
+    <?php
+    }
+    ?>
+
     function crear_binario (nMask, id_permiso) {
         var sRespuesta = "";
         for (var nFlag = 0, nShifted = nMask, sMask = ""; nFlag < 32;
@@ -83,7 +112,7 @@ $bd = $libs->incluir('bd');
 
         function abrir_usuario (id_usr) {
             $("#tabla_datos").find("tr:gt(0)").remove();
-            document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML);
+            document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML) + <?php echo $sesion->has($id_area, 2) ? "  \"<button class='btn btn-mini btn-primary' onclick='crear_permiso(\"+id_usr+\")'>Agregar</button>\"" : '';?>;
             if(id_usr){
                 $.ajax({
                     url: nivel_entrada+"app/src/libs_gen/aut_permiso.php",
@@ -99,9 +128,6 @@ $bd = $libs->incluir('bd');
                        $(".chk_permiso").change(function () {
                         var accion = ($(this).is(':checked') ? true : false);
                         editar_permiso($(this).attr('data-id_permiso'), $(this).val(), accion);
-                        if($(this).is(':checked')){
-
-                        }
                     });
                    }
                });
@@ -109,7 +135,6 @@ $bd = $libs->incluir('bd');
         }
         $(document).ready(function () {
             fn_listar('lista_usuario','buscador','app/src/libs_gen/usr.php?fn=listar_usuario', 'abrir_usuario');
-            
         });
         </script>
     </body>

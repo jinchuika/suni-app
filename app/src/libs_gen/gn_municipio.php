@@ -13,6 +13,9 @@ function listar_municipio($id=null, $args = null)
 			}
 		}
 	}
+	elseif ($args['editable']) {
+		$query_muni = "SELECT id as value, nombre as text from gn_municipio";
+	}
 	$stmt_muni = $bd->ejecutar($query_muni);
 	while ($muni = $bd->obtener_fila($stmt_muni, 0)) {
 		array_push($arr_muni, $muni);

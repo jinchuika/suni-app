@@ -134,7 +134,15 @@ $bd = $libs->incluir('bd');
 				type: "text",
 				url: "../../src/libs/editar_participante.php",
 				name: "dpi",
-				title: "Cambiar dpi"
+				title: "Cambiar dpi",
+				error: function(response, newValue) {
+					console.log(response);
+					if(response.status === 500) {
+						return "El dpi ya existe "+response.statusText;
+					} else {
+						return response.responseText;
+					}
+				},
 			});
 			$(".udi_editable").editable({
 				type: "text",

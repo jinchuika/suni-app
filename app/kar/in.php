@@ -191,7 +191,7 @@ while ($estado = $bd->obtener_fila($stmt_estado, 0)) {
                                 </div>
                                 <div class="row-fluid">
                                     <br>
-                                    <table id="tabla_listado" class="table table-hover hide">
+                                    <table id="tabla_listado" class="table table-hover hide" style="display: table;">
                                         <thead>
                                             <tr>
                                                 <th>No.</th>

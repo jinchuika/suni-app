@@ -16,11 +16,11 @@ function listar_permiso($libs, $id_usr=null, $id_fun=null)
 	$bd = $libs->incluir('bd');
 	if($sesion->has(4,1)){	
 		$query = "SELECT
-			aut_permiso.id,
-			aut_permiso.id_usr,
-			aut_area.id as id_area,
-			aut_area.area as area,
-			aut_permiso.permiso
+		aut_permiso.id,
+		aut_permiso.id_usr,
+		aut_area.id as id_area,
+		aut_area.area as area,
+		aut_permiso.permiso
 		FROM aut_permiso
 		left outer join aut_area ON aut_permiso.id_area=aut_area.id
 		where aut_permiso.id>0 ";
@@ -44,9 +44,9 @@ function editar_permiso($libs, $id_permiso, $valor, $accion)
 	$bd = $libs->incluir('bd');
 	if($sesion->has(4,4)){	
 		$query = "SELECT
-			id_usr,
-			id_area,
-			permiso
+		id_usr,
+		id_area,
+		permiso
 		FROM aut_permiso
 		where id=".$id_permiso;
 		
@@ -69,9 +69,35 @@ function editar_permiso($libs, $id_permiso, $valor, $accion)
 		return array("msj" => "no");
 	}
 }
+function crear_permiso($libs, $id_usr, $id_area)
+{
+	$sesion = $libs->incluir('seguridad');
+	$bd = $libs->incluir('bd');
+	if($sesion->has(4, 2)){
+		$query_sel = "SELECT id from aut_permiso WHERE id_usr=".$id_usr." AND id_area=".$id_area;
+		$stmt_sel = $bd->ejecutar($query_sel);
+		$sel = $bd->obtener_fila($stmt_sel, 0);
+		if(empty($sel[0])){
+			$query = "INSERT INTO aut_permiso (id_usr, id_area, permiso) VALUES ('".$id_usr."','".$id_area."', '0')";
+			if($stmt = $bd->ejecutar($query)){
+				$respuesta = array('msj' => 'si','id'=> $bd->lastID() );
+			}
+			else{
+				$respuesta = null;
+			}
+		}
+		else{
+			$respuesta = null;
+		}
+	}
+	else{
+		$respuesta = null;
+	}
+	return $respuesta;
+}
 switch ($_GET['fn_nombre']) {
 	case 'crear_permiso':
-	echo json_encode();
+	echo json_encode(crear_permiso($libs, $_GET['id_usr'], $_GET['id_area']));
 	break;
 	case 'abrir_permiso':
 	echo json_encode();

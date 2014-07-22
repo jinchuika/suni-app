@@ -18,8 +18,12 @@ if($campo=="dpi"){
 		$stmt = $bd->ejecutar($query);
 	}
 	else{
-		header('HTTP 304 Conflict', true, 304);
-		echo "El dato ya existe";
+		$query = "SELECT nombre, apellido from gn_persona inner join pr_dpi ON pr_dpi.id=gn_persona.id where pr_dpi.dpi='".$value."'";
+		$stmt = $bd->ejecutar($query);
+		$persona = $bd->obtener_fila($stmt, 0);
+		$result = array('success' => false, 'message' => 'Something happened');
+		header($_SERVER['SERVER_PROTOCOL'].'HTTP 500 para '.$persona['nombre'].' '.$persona['apellido'], true, 304);
+		echo json_encode($result);
 	}
 	
 }

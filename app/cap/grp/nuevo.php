@@ -258,7 +258,7 @@ $bd = $libs->incluir('bd');
 									type: "get",
 									data: {nuevo_grupo: data["id_grupo"], id_grupo: '.$_GET["clonar"].'},
 									success: function () {
-										self.close();
+										//self.close();
 										window.opener.location.href = "buscar.php?id_grupo="+data["id_grupo"];
 									}
 								});

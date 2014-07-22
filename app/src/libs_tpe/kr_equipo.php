@@ -2,12 +2,12 @@
 require_once('../../../includes/auth/Db.class.php');
 require_once('../../../includes/auth/Conf.class.php');
 
-function listar_equipo()
+function listar_equipo($select=0)
 {
 	$bd = Db::getInstance();
 	$respuesta = array();
 
-	$query_equipo = "select id, nombre from kr_equipo ";
+	$query_equipo = ($select==1) ? "select id as value, nombre as text from kr_equipo " : "select id, nombre from kr_equipo ";
 	$stmt_equipo = $bd->ejecutar($query_equipo);
 
 	while ($equipo = $bd->obtener_fila($stmt_equipo, 0)) {
@@ -280,7 +280,7 @@ function ensamblar_fecha($fecha_inicio, $fecha_fin)
 
 switch ($_GET['fn_nombre']) {
 	case 'listar_equipo':
-	echo json_encode(listar_equipo());
+	echo json_encode(listar_equipo($_GET['select']));
 	break;
 	case 'abrir_equipo':
 	echo json_encode(abrir_equipo($_GET['id_equipo']));
