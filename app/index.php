@@ -160,7 +160,7 @@ $('#calendar').fullCalendar({
 			<div class="well">
 				
 				<?php if($sesion->get("rol") < 3){ ?>
-				<h1>Hola mundo</h1>
+				<h1> En estos momentos</h1>
 
 				<table class="table hide" id="tabla_home">
 					
