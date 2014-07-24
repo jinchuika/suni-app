@@ -6,15 +6,23 @@ class encabezado
 {
 	var $nombre, $apellido, $id_per, $nivel;
 	
-	function __construct($id_per, $nivel_entrada)
+	function __construct($id_per, $nivel_entrada, $app=null)
 	{
 		$cont = 0;
+		if(!empty($app)){
+			//para los que están fuera del /app (pe., afe)
+			$nivel_entrada = $nivel_entrada - 1;
+		}
 		for ($i=0; $i < $nivel_entrada; $i++) { 
 			$this->nivel .= "../";
 			if($cont>=1){
 				$otro_nivel .= "../";
 			}
 			$cont = $cont + 1;
+		}
+		if(!empty($app)){
+			//para los que están fuera del /app
+			$otro_nivel .= '../app/';
 		}
 		//require_once($this->nivel.'includes/auth/Db.class.php');
 		//require_once($this->nivel.'includes/auth/Conf.class.php');

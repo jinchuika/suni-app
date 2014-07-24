@@ -1,10 +1,12 @@
 <?php
-    require_once("../includes/auth/sesion.class.php"); 
-    include '../includes/libs/connect.php';
-    include '../app/cabeza.php';
-    
-    $bd=Db::getInstance();
-    $sesion = new sesion();
+      //Include de Sesión (david)
+include '../app/src/libs/incluir.php';
+$nivel_dir = 1;
+$libs = new librerias($nivel_dir);
+$sesion = $libs->incluir('seguridad');
+$bd = $libs->incluir('bd');
+require_once '../app/src/libs/cabeza.php';
+
     $nombre_usuario = $sesion->get("nombre");
     $usuario = $sesion->get("usuario");
 
@@ -144,15 +146,7 @@ $(document).ready(function(){
 <body>
 
 <div class="container" >
-    <!--Cabeza -->
-    <?php
-        if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
- 		Imprimir_cabeza(1,$sesion->get("nombre"),$sesion->get("apellido"), $sesion->get("id_per"),$sesion->get("avatar"));
- 	}
- 	else{
- 		Imprimir_cabeza(2,$sesion->get("nombre"),$sesion->get("apellido"), $sesion->get("id_per"),$sesion->get("avatar"));
- 	}
-    ?>
+    <?php $cabeza = new encabezado($sesion->get("id_per"), 2, 'app');	?>
 
 
 <legend>Consulta de Informaci&oacute;n Ingresada en AFMSP</legend>

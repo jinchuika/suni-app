@@ -72,7 +72,8 @@ class librerias
 				$this->imprimir("src", "cabeza.php");
 				break;
 			case 'mapa':
-				$this->imprimir("src", "mapa.php");
+				$GLOBALS['mapa_str'] = $this->nivel;
+				$this->imprimir("src", 'mapa.php');
 				break;
 			case 'bd':
 				$this->imprimir("php", "includes/auth/Db.class.php");

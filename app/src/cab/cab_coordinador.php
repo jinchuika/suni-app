@@ -2,6 +2,7 @@
 /* Coordinador de capacitación (p. ej. pedagoga) */
 function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 {
+	$sesion = sesion::getInstance($id_per);
 	?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<div class="modal hide fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -146,6 +147,11 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 										</a>
 									</li>
 									<li>
+										<a href="<?php echo $nivel_dir; ?>app/inf/cap/lista_escuela.php">
+											<i class="icon-hospital"></i><span class="glyphicon glyphicon-user"></span> Lista de escuelas
+										</a>
+									</li>
+									<li>
 										<a href="<?php echo $nivel_dir; ?>app/inf/cap/semanal.php">
 											<i class="icon-list"></i><span class="glyphicon glyphicon-user"></span> Informe semanal
 										</a>
@@ -204,29 +210,48 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 											Herramientas
 										</a>
 										<ul class="dropdown-menu">
-											<li>
-												<a href="<?php echo $nivel_dir; ?>app/cap/par/eliminar.php">
-													Eliminar asignación</a>
+											<?php
+											if($sesion->has(1,8)){
+												?>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/cap/par/eliminar.php">
+														Eliminar asignación
+													</a>
 												</li>
-											</ul>
-										</li>
-										<li>
-											<a href="<?php echo $nivel_dir; ?>cerrarsesion.php">
-												<i class="icon-off"></i> Cerrar sesión
-											</a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-						</li>
-					</ul>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/cap/grp/eliminar.php">
+														Eliminar grupo
+													</a>
+												</li>
+												<?php 
+											} 
+											if($sesion->has(4,1)){
+												?>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/gen/permiso.php"><i class="icon-unlock-alt"></i> Gestionar permisos</a>
+												</li>
+												<?php
+											} ?>
 
-				</div>
+										</ul>
+									</li>
+									<li>
+										<a href="<?php echo $nivel_dir; ?>cerrarsesion.php">
+											<i class="icon-off"></i> Cerrar sesión
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
 
-			</div></div>
-		</div>
+			</div>
 
+		</div></div>
 	</div>
-	<?
+
+</div>
+<?
 }
 ?>

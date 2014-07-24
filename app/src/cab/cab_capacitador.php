@@ -1,6 +1,7 @@
 <?php
 function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 {
+	$sesion = sesion::getInstance($id_per);
 	?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<div class="modal hide fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -229,6 +230,11 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 										<i class="icon-list-ul"></i> Asistencias por período
 									</a>
 								</li>
+								<li>
+									<a href="<?php echo $nivel_dir; ?>app/inf/cap/lista_escuela.php">
+										<i class="icon-hospital"></i><span class="glyphicon glyphicon-user"></span> Lista de escuelas
+									</a>
+								</li>
 							</ul>
 						</li>
 						<!-- Termina dropdown de informe -->
@@ -260,6 +266,36 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 										<i class="icon-user"></i> Mi perfil
 									</a>
 								</li>
+								<li class="dropdown-submenu">
+										<a tabindex="-1" href="#">
+											Herramientas
+										</a>
+										<ul class="dropdown-menu">
+											<?php
+											if($sesion->has(1,8)){
+												?>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/cap/par/eliminar.php">
+														Eliminar asignación
+													</a>
+												</li>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/cap/grp/eliminar.php">
+														Eliminar grupo
+													</a>
+												</li>
+												<?php 
+											} 
+											if($sesion->has(4,1)){
+												?>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/gen/permiso.php"><i class="icon-unlock-alt"></i> Gestionar permisos</a>
+												</li>
+												<?php
+											} ?>
+
+										</ul>
+									</li>
 								<li>
 									<a href="<?php echo $nivel_dir; ?>cerrarsesion.php">
 										<i class="icon-off"></i> Cerrar sesión

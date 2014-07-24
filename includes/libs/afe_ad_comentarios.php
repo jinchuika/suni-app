@@ -1,48 +1,8 @@
 <?php 
 /* Área de validación de datos */
 require_once("../../includes/auth/sesion.class.php"); 
-include '../../afe/cabeza.php';
-$sesion = new sesion();
-  $usuario = $sesion->get("usuario");
-  if( $usuario == true )
-  { 
-    $nombre_usuario = $sesion->get("nombre");
-    
-  }else{
-    header("Location: ../../admin.php");    
-  }
- ?>
-<html>
-  <head>
-  <!-- Bootstrap / Responsive David-->
-    <link rel="stylesheet" type="text/css" href="../../css/myboot.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/queryLoader.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/bs/bootstrap.css" />
-    <link rel="stylesheet" type="text/css" href="../../css/bs/bootstrap-responsive.css">
-    <!-- inclusión de JQuery -->
-  <script language="javascript" src="../../js/framework/jquery-1.7.2.min.js"></script>
-  <!--JQuery form -->
-  <script language="javascript" src="../../js/framework/jquery.form.js"></script>
-  <!-- Bootstrap David-->
-    <script src="../../js/framework/bootstrap.js"></script>
-    <script src="../../js/framework/bootstrap-collapse.js"></script>
-  </head>
-  <body>
-    <?php 
-      Imprimir_cabeza(3,$sesion->get("nombre"),$sesion->get("apellido"));
-     ?>
-  <table border="1" width="100%">
-  <tbody>
-  <tr>
-  <td>No.<br />
-  </td>
-  <td>Comentario<br />
-  </td>
-  </tr>
-<?php
 
 
-/* Extracción de la base de datos*/
 include '../../includes/libs/connect.php';
 $USR = $_GET["id_usr"];
   $ID_usr = $_GET["usr"]; //Detecta el contenido del usuario
@@ -140,36 +100,12 @@ $USR = $_GET["id_usr"];
   $stmt=$bd->ejecutar($sql);
 
   $comments = array();
-      //Ciclo para obtener el promedio de cada seción
   while($x=$bd->obtener_fila($stmt,0)){
+
   	$cuenta = $cuenta + 1;
     if((strlen($x[22])>1)){
-        array_push($comments, strval($x[22]));
+        array_push($comments, $x[22]);
       }
   }
-  echo "<legend>".$USR.": ".$cuenta." registros encontrados</legend>";
-
-     //Inicia impresión de gráfico
-  echo "
-  
-  ";
-  foreach ($comments as $key => $value) {
-    if(empty($value)){
-
-    }
-    else{
-      $contador = $contador + 1;
-      echo "<tr>
-      <td style=\"vertical-align: top;\">".$contador."<br />
-      </td>
-      <td style=\"vertical-align: top;\">".$value."<br />
-      </td>
-      </tr>";
-    }
-  }
-  echo "
-  </tbody>
-  </table>
-  </body>
-  </html>";
+  echo json_encode($comments);
   ?>

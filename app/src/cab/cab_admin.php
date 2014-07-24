@@ -210,6 +210,11 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 													<i class="icon-list-ul"></i> Asistencias por período
 												</a>
 											</li>
+											<li>
+												<a href="<?php echo $nivel_dir; ?>app/inf/cap/lista_escuela.php">
+													<i class="icon-hospital"></i><span class="glyphicon glyphicon-user"></span> Lista de escuelas
+												</a>
+											</li>
 										</ul>
 									</li>
 									<li class="dropdown-submenu">
@@ -358,56 +363,56 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 										</a>
 										<ul class="dropdown-menu">
 											<?php
-											if($sesion->has(6,1)){
-											?>
-											<li>
-												<a href="<?php echo $nivel_dir; ?>app/gen/permiso.php"><i class="icon-search icon-white"></i> Gestionar permisos</a>
-											</li>
-											<?php } ?>
-											<li>
-												<a href="<?php echo $nivel_dir; ?>app/err">
-													Control de errores
-												</a>
+											if($sesion->has(4,1)){
+												?>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/gen/permiso.php"><i class="icon-unlock-alt"></i> Gestionar permisos</a>
+												</li>
+												<?php } ?>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/err">
+														Control de errores
+													</a>
 												</li>
 												<li>
 													<a href="<?php echo $nivel_dir; ?>app/cap/par/eliminar.php">
 														Eliminar asignación
 													</a>
-													</li>
-													<li>
-														<a href="<?php echo $nivel_dir; ?>app/cap/grp/eliminar.php">
-															Eliminar grupo
-														</a>
-													</li>
-													<li>
-														<a href="<?php echo $nivel_dir; ?>app/src/test/prueba.php">
-															Página de pruebas
-														</a>
-													</li>
-													<li>
-														<a href="<?php echo $nivel_dir; ?>app/usr/nuevo.php"><i class="icon-pencil"></i> Crear un usuario</a>
-													</li>
+												</li>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/cap/grp/eliminar.php">
+														Eliminar grupo
+													</a>
+												</li>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/src/test/prueba.php">
+														Página de pruebas
+													</a>
+												</li>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/usr/nuevo.php"><i class="icon-pencil"></i> Crear un usuario</a>
+												</li>
 
-													<li>
-														<a href="<?php echo $nivel_dir; ?>app/usr/buscar.php"><i class="icon-search icon-white"></i> Buscar un usuario</a>
-													</li>
-												</ul>
-											</li>
-											<li>
-												<a href="<?php echo $nivel_dir; ?>cerrarsesion.php">
-													<i class="icon-off"></i> Cerrar sesión
-												</a>
-											</li>
-										</ul>
-									</li>
-								</ul>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/usr/buscar.php"><i class="icon-search icon-white"></i> Buscar un usuario</a>
+												</li>
+											</ul>
+										</li>
+										<li>
+											<a href="<?php echo $nivel_dir; ?>cerrarsesion.php">
+												<i class="icon-off"></i> Cerrar sesión
+											</a>
+										</li>
+									</ul>
+								</li>
+							</ul>
 
-							</div>
+						</div>
 
-						</div></div>
-					</div>
-
+					</div></div>
 				</div>
-				<?
-			}
-			?>
+
+			</div>
+			<?
+		}
+		?>
