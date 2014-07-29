@@ -56,7 +56,7 @@ if($_GET["mail"]){
 		$resultado = validarUsuario($result["id_usr"], $result["pass"], "");
 		$usuario = $result["id_usr"];
 		$r= $resultado[0];
-
+		$sesion = sesion::getInstance($resultado[6]);
 		switch ($r) {
 			case '4':
 			header("location: ../../admin.php?validar=4");

@@ -114,6 +114,11 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 												<i class="icon-link"></i> Asignar participante
 											</a>
 										</li>
+										<li>
+											<a href="<?php echo $nivel_dir; ?>app/cap/par/doble.php">
+												<i class="icon-columns"></i> Comparar datos
+											</a>
+										</li>
 									</ul>
 								</li>
 								<li class="divider"></li>

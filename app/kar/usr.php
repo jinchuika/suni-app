@@ -75,7 +75,7 @@ $bd = $libs->incluir('bd');
 	}
 
 	$(document).ready(function () {
-		fn_listar('lista_usuario','buscador','app/src/libs_gen/usr.php?fn=listar_usuario&filtros={"rol":[1,50,51,52,53]}', 'abrir_usuario');
+		fn_listar('lista_usuario','buscador','app/src/libs_gen/usr.php?fn=listar_usuario&filtros={"rol":[1,50,51,52,53]}', 'abrir_usuario', {0: 1, nombre:'apellido'});
 		<?php
 		if(!empty($_GET['id'])){
 			echo "abrir_usuario(".$_GET['id'].");";

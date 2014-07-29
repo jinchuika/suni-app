@@ -88,7 +88,7 @@ if($id_escuela = $_GET['id']){
 	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
 	<header id="overview" class="jumbotron subhead well">
 		<div class="container">
-			<h1><a href="#" id="nombre"> <? echo $escuela['nombre']; ?></a></h1>
+			<h1><a href="#" <?php if($sesion->has($id_area,4)){  echo 'class="editable_gen"';}?> data-type="text" data-name="nombre" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nombre"><? echo $escuela['nombre']; ?></a></h1>
 			<p class="lead"></p>
 		</div>
 	</header>
@@ -144,25 +144,25 @@ if($id_escuela = $_GET['id']){
 												<td>Distrito:</td><td><a href="#" <?php if($sesion->has($id_area,4)){  echo 'class="editable_cyd"';}?> data-type="text" data-name="distrito" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="distrito"><? echo $escuela['distrito']; ?></a></td>
 											</tr>
 											<tr>
-												<td>Nivel:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="nivel" data-source="../../app/src/libs_gen/esc_nivel.php?fn_nombre=listar_nivel&args='{editable:1}'" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nivel"><? echo $escuela['nivel']; ?></a></td>
+												<td>Nivel:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="nivel" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=nivel" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nivel"><? echo $escuela['nivel']; ?></a></td>
 											</tr>
 											<tr>
 												<td>Nivel1:</td><td></td>
 											</tr>
 											<tr>
-												<td>Sector:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="sector" data-source="../../app/src/libs_gen/esc_sector.php?fn_nombre=listar_sector&args='{editable:1}'" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="sector"><? echo $escuela['sector']; ?></a></td>
+												<td>Sector:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="sector" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=sector" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="sector"><? echo $escuela['sector']; ?></a></td>
 											</tr>
 											<tr>
-												<td>Área:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="area" data-source="../../app/src/libs_gen/esc_area.php?fn_nombre=listar_area&args='{editable:1}'" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="area"><? echo $escuela['area']; ?></a></td>
+												<td>Área:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="area" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=area" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="area"><? echo $escuela['area']; ?></a></td>
 											</tr>
 											<tr>
-												<td>Modalidad:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="modalidad" data-source="../../app/src/libs_gen/esc_modalidad.php?fn_nombre=listar_modalidad&args='{editable:1}'" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="modalidad"><? echo $escuela['modalidad']; ?></a></td>
+												<td>Modalidad:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="modalidad" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=modalidad" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="modalidad"><? echo $escuela['modalidad']; ?></a></td>
 											</tr>
 											<tr>
-												<td>Jornada:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="jornada" data-source="../../app/src/libs_gen/esc_jornada.php?fn_nombre=listar_jornada&args='{editable:1}'" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="jornada"><? echo $escuela['jornada']; ?></a></td>
+												<td>Jornada:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="jornada" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=jornada" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="jornada"><? echo $escuela['jornada']; ?></a></td>
 											</tr>
 											<tr>
-												<td>Plan:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="plan" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&args='{tabla:plan}'" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="plan"><? echo $escuela['plan']; ?></a></td>
+												<td>Plan:</td><td><a href="#" <?php if($sesion->has($id_area_cyd,4)){  echo 'class="editable_cyd"';}?> data-type="select" data-name="plan" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=plan" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="plan"><? echo $escuela['plan']; ?></a></td>
 											</tr>
 											<tr>
 												<td>Sedes:</td>
@@ -211,10 +211,12 @@ if($id_escuela = $_GET['id']){
 <script>
 $(document).ready(function () {
 	$('.editable_gen').editable({
-		pk: <?php echo $escuela['id'];?>
+		pk: <?php echo $escuela['id'];?>,
+		mode: 'inline'
 	});
 	$('.editable_cyd').editable({
-		pk: <?php echo $escuela['id'];?>
+		pk: <?php echo $escuela['id'];?>,
+		mode: 'inline'
 	});
 });
 </script>

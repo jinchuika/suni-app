@@ -37,6 +37,7 @@ else{
 			/* para crear la notificacion en el sistema */
 			
 			/* Eliminar las notas y asignacion */
+			$this->participante_notificacion = validar_asignacion($id_asignacion, $bd);
 			$query_nota = "DELETE FROM gn_nota WHERE id_asignacion=".$id_asignacion;
 			if($stmt_nota = $bd->ejecutar($query_nota)){
 				$this->error = 2;
@@ -61,24 +62,27 @@ else{
 			$query_participante = "SELECT * FROM gn_participante WHERE id=".$id_participante;
 			$stmt_participante = $bd->ejecutar($query_participante);
 			if($participante = $bd->obtener_fila($stmt_participante, 0)){
-				$query_dpi = "DELETE FROM pr_dpi WHERE id=".$participante['id_persona'];
-				if($stmt_dpi = $bd->ejecutar($query_dpi)){
+				$this->asignacion($id_asignacion, $bd);
+				$query_del_par = "DELETE FROM gn_participante WHERE id=".$id_participante;
+				if($stmt_del_par = $bd->ejecutar($query_del_par)){
 					$this->error = 2;
-				//echo $error;
-
 					$query_persona = "DELETE FROM gn_persona WHERE id=".$participante['id_persona'];
 					if($stmt_persona = $bd->ejecutar($query_persona)){
 						$this->error = 2;
-					//echo $error;
-
-						$query_del_par = "DELETE FROM gn_participante WHERE id=".$id_participante;
-						if($stmt_del_par = $bd->ejecutar($query_del_par)){
+						$query_dpi = "DELETE FROM pr_dpi WHERE id=".$participante['id_persona'];
+						if($stmt_dpi = $bd->ejecutar($query_dpi)){
 							$this->error = 2;
-						//echo $error;
-							$this->asignacion($id_asignacion, $bd);
-						}
+
+							
+						}		
+					}
+					else{
+						echo $query_participante;
+						echo $query_persona;
+						echo "sin persona";
 					}
 				}
+				
 			}
 		}
 	}
@@ -104,6 +108,7 @@ else{
 	else{
 		$eliminar->asignacion($asignacion_actual['id'], $bd);
 	}
+
 	if($eliminar->error==2){
 		echo json_encode("correcto");
 	}

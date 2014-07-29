@@ -81,8 +81,12 @@ if($mapa=="2"){	//Para Crear un nuevo registro
 	}
 	
 }
-if($_POST["listar_participantes"]){
+if($_POST["listar_participantes"]  || $_GET['listar_participantes'] ){
 	$respuesta = array();
+	$id_sede = $_POST['id_sede'];
+	if(empty($id_sede)){
+		$id_sede = $_GET['id_sede'];
+	}
 	//sum(gn_nota.nota)/count(distinct(gn_grupo.id_curso)) as nota
 	$query = "
 		SELECT 
@@ -114,7 +118,7 @@ if($_POST["listar_participantes"]){
 			right JOIN gn_escuela
 				ON gn_escuela.id = gn_participante.id_escuela
 		WHERE
-			gn_sede.id=".$_POST['id_sede']."
+			gn_sede.id=".$id_sede."
 		group by
 			id_par
 		order by

@@ -1,4 +1,4 @@
-function fn_listar (objetivo, buscador, url_listar, onclick_accion) {
+function fn_listar (objetivo, buscador, url_listar, onclick_accion, campo, p_accion) {
   /* Crea listados a partir de <ul>
   objetivo: el lugar donde va la lista
   buscador: el input de texto para filtrar la lista
@@ -15,6 +15,20 @@ function fn_listar (objetivo, buscador, url_listar, onclick_accion) {
   else{
     $('#carga_'+objetivo).show();
   }
+  function f_campo (item) {
+    var resp = '';
+    if(campo instanceof Object){
+      for (var i in campo) {
+        if(item.hasOwnProperty(i)){
+          resp += item[campo[i]]+' ';
+        }
+      };
+    }
+    else{
+      return item[campo];
+    }
+    return resp;
+  }
   $.ajax({
     url: nivel_entrada+url_listar,
     success: function (data) {
@@ -26,7 +40,7 @@ function fn_listar (objetivo, buscador, url_listar, onclick_accion) {
         /* Cada item que regresa debe ser un array de modo
         array(_id, _texto)*/
         var entry = document.createElement('li');
-        entry.innerHTML = "<a id='a_listado_"+item[0]+"' href='#' onclick='"+onclick_accion+"("+item[0]+");'>"+item[1]+"</a>";
+        entry.innerHTML = "<a id='a_listado_"+item[0]+"' href='#' onclick='"+onclick_accion+"("+item[0]+(p_accion ? p_accion : '')+");'>"+(campo ? f_campo(item) : item[1])+"</a>";
         entry.id = 'li_listado_'+item[0];
         document.getElementById(objetivo).appendChild(entry);
         total = Math.round(Number(total) + Number(porc));
@@ -49,7 +63,7 @@ function fn_listar (objetivo, buscador, url_listar, onclick_accion) {
         }
         );
       }
-      
+      $(objetivo).attr('class', 'nav nav-list lista_filtrada');
     }
 
   });

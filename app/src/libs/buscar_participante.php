@@ -110,7 +110,7 @@ if (isset($_GET['term'])) {
     $palabras=explode(" ",$term);
     $numero=count($palabras);
     if($numero==1){
-        $query .= " AND (gn_persona.nombre LIKE '%".$term."%' OR apellido LIKE '%".$term."%') ";
+        $query .= " AND (gn_persona.nombre LIKE '".$term."%' OR apellido LIKE '".$term."%') ";
     }
     elseif($numero>1){
         $query .= " AND (CONCAT(gn_persona.nombre, ' ', apellido) LIKE '%".implode("%' AND CONCAT(gn_persona.nombre, ' ', apellido) LIKE '%", $palabras)."%') ";

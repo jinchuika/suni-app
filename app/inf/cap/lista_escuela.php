@@ -20,6 +20,7 @@ $bd = $libs->incluir('bd');
 	$libs->incluir('gn-listar');
 	$libs->incluir('datepicker');
 	$libs->incluir('gn-date');
+	$libs->incluir('stupidtable');
 	?>
 </head>
 <body>
@@ -87,10 +88,10 @@ $bd = $libs->incluir('bd');
 					<table id="tabla_listado" class="table table-hover">
 						<thead>
 							<tr id="thead_export">
-								<th>No.</th>
-								<th>Escuela</th>
-								<th>Capacitados</th>
-								<th>UDI</th>
+								<th data-sort="int">No.</th>
+								<th data-sort="string">Escuela</th>
+								<th data-sort="int">Capacitados</th>
+								<th data-sort="string">UDI</th>
 							</tr>
 						</thead>
 						<tbody id="tbody_listado">
@@ -159,6 +160,7 @@ function crear_tabla (id_per, id_depto, id_muni, fecha_inicio, fecha_fin) {
 				$("#tbody_listado").append('<tr><td>'+(index+1)+'</td><td><a href="'+nivel_entrada+'app/esc/escuela.php?id_escuela='+item.id+'">'+item.nombre+'</td><td>'+item.cantidad+'</td><td>'+item.codigo+'</td>'+capacitador+sede+fecha+direccion+'</tr>');
 			});
 			modal_c.ocultar();
+			$("#tabla_listado").stupidtable();
 		}
 	});
 }

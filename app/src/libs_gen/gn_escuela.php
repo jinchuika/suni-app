@@ -26,10 +26,10 @@ class gn_escuela
 		}
 	}
 
-	public function listar_option($args=null)
+	public function listar_option($args=null, $pk)
 	{
 		$arr_campo = array();
-		$query = "SELECT id_".$args['tabla']." as value, ".$args['tabla']." as text FROM esc_".$args['tabla'];
+		$query = "SELECT id_".$pk." as value, ".$pk." as text FROM esc_".$pk;
 		$stmt = $this->bd->ejecutar($query);
 		while ($campo=$this->bd->obtener_fila($stmt, 0)) {
 			array_push($arr_campo, $campo);
@@ -108,6 +108,11 @@ if($_GET['fn_nombre']){
 		$pk = $_POST['pk'];
 		$name = $_POST['name'];
 		$value = $_POST['value'];
+	}
+	if($_GET['pk']){
+		$pk = $_GET['pk'];
+		$name = $_GET['name'];
+		$value = $_GET['value'];
 	}
 
 	$gn_escuela = new gn_escuela();

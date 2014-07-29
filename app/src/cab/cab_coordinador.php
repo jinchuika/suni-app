@@ -223,6 +223,11 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 														Eliminar grupo
 													</a>
 												</li>
+												<li>
+													<a href="<?php echo $nivel_dir; ?>app/cap/par/doble.php">
+														<i class="icon-columns"></i> Comparar datos
+													</a>
+												</li>
 												<?php 
 											} 
 											if($sesion->has(4,1)){
