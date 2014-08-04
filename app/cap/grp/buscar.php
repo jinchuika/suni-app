@@ -126,7 +126,7 @@ $bd = $libs->incluir('bd');
 							else{
 								$.pnotify({
 									title: 'Error al asignar',
-									text: 'Verifique los datos',
+									text: data['mensaje'],
 									delay: 2000,
 									type: "error"
 								});
@@ -176,6 +176,7 @@ $bd = $libs->incluir('bd');
 
 	function generar_vista_grupo (grupo) {
 		limpiar_tablas();
+		$("#lista_tab").hide();
 		$("#detalle").hide("100");
 		limpiar_tablas();
 		$.ajax({
@@ -245,9 +246,12 @@ $bd = $libs->incluir('bd');
 					}
 				});
 				$("#detalle").show("100");
+				$("#lista_tab").show("100");
+				$('#lista_tab a:first').tab('show');
 				$("#loading_gif").hide();
 			},
 			error: function () {
+				$("#lista_tab").hide("100");
 				$("#detalle").hide("100");
 			}
 		});
@@ -256,7 +260,6 @@ $bd = $libs->incluir('bd');
 $(document).ready(function () {
 	/* Para la búsqueda de sedes */
 	$("#id_sede").select2({
-		width: 200,
 		minimumInputLength: 0,
 		ajax: {
 			<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
@@ -300,7 +303,6 @@ $(document).ready(function () {
 
 	/* Para la búsqueda de sedes */
 	$("#id_curso").select2({
-		width: 200,
 		allowClear: true,
 		minimumInputLength: 0,
 		ajax: {
@@ -383,92 +385,111 @@ $(document).ready(function () {
 </head>
 <body>
 	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
-	<div class="row row-fluid">
-		<div class="span1"></div>
-		<div class="span10">
-			<form class="form-inline well" action="../../src/libs/crear_reporte_excel.php" method="post" target="_blank" id="form_exportar">
-				<label for="id_sede">Sede: </label><input id="id_sede" required="required"> 
-				<label for="id_curso">Curso: </label><input id="id_curso"> 
-				<label for="id_grupo">Grupo: </label><select name="id_grupo" id="id_grupo"></select> 
-				<img src="http://funsepa.net/suni/js/framework/select2/select2-spinner.gif" class="hide" id="loading_gif">
-				<input type="button" id="boton_busqueda_grupo" value="Seleccionar" class="btn btn-primary">
-			</form>
-
-			<div id="detalle" class="hide">
-				<div class="row">
-					<div class="span1"></div>
-					<div class="span7 well">
-						<legend>Detalle del grupo <span id="enlace"></span></legend>
-						<table class="table table-bordered" id="tabla_desc">
-							<thead>
-								<tr id="r_numero_grupo"><th>Grupo </th></tr>
-								<tr id="r_descripcion_grupo"><th>Descripción</th></tr>
-								<tr id="r_curso_grupo"><th>Curso</th></tr>
-								<tr id="r_capacitador"><th>Capacitador</th></tr>
-								<tr id="r_sede"><th>Sede</th></tr>
-								<tr id="r_cant_hombre"><th>Cantidad de hombres:</th></tr>
-								<tr id="r_cant_mujer"><th>Cantidad de mujeres</th></tr>
-								<tr id="r_total_asig"><th>Total asignados</th></tr>
-							</thead>
-							<tbody>
-
-							</tbody>
-						</table>
-						<table>
-							<tr>
-								<td>
-									<div class="row-fluid">
-										<div class="span6" id="chart_genero" width="50%"></div>
-										<div class="span6" id="chart_notas" width="50%"></div>
-									</div>
-								</td>
-							</tr>
-						</table>
+	<div class="container-fluid">
+		<div class="row-fluid">
+			<div class="span3">
+				<div class="row-fluid">
+					<div class="span12">
+						<form class="form-horizontal well" method="post" target="_blank" id="form_exportar">
+							<fieldset>
+								<div class="row-fluid">
+									<label for="id_sede">Sede: </label><input id="id_sede" class="span12" required="required"> 
+								</div>
+								<div class="row-fluid">
+									<label for="id_curso">Curso: </label><input id="id_curso" class="span12"> 
+								</div>
+								<div class="row-fluid">
+									<label for="id_grupo">Grupo: </label><select name="id_grupo" id="id_grupo" class="span12"></select> 
+								</div>
+								<img src="http://funsepa.net/suni/js/framework/select2/select2-spinner.gif" class="hide" id="loading_gif">
+								<input type="button" id="boton_busqueda_grupo" value="Seleccionar" class="btn btn-primary">
+							</fieldset>
+						</form>
 					</div>
 				</div>
-
-				<div class="row">
-					<div class="span1"></div>
-					<div class="span10 well">
-						<legend>Calendario</legend>
-						<button class="btn btn-info" onclick="descargar_tabla_excel('tabla_cal')">Descargar</button>
-						<!--<a href="http://funsepa.net/suni/app/src/libs/google_login.php" target="_blank" class="btn btn-primary btn-mini">Google LogIn</a>
-						<button class="btn btn-mini" id="google_calendar">GCalendar</button>-->
-						<table id="tabla_cal" class="table table-bordered">
-							<thead>
-								<th>Asistencia</th>
-								<th>Fecha</th>
-								<th>Hora inicio</th>
-								<th>Hora fin</th>
-							</thead>
-							<tbody id="tablabody_calendario">
-
-							</tbody>
-						</table>
-					</div>
+				<div class="row-fluid">
+					<ul class="nav nav-list hide" id="lista_tab">
+						<li><a href="#tab0" data-toggle="tab"><i class="icon-info-sign"></i> Información general</a></li>
+						<li><a href="#tab1" data-toggle="tab"><i class="icon-building"></i> Calendario</a></li>
+						<li><a href="#tab2" data-toggle="tab"><i class="icon-group"></i> Participantes</a></li>
+					</ul>
 				</div>
+			</div>
+			<div class="span9">
+				<div >
+					<div id="detalle" class="tabbable tabs-right well hide">
+						<div class="tab-content">
+							<div id="tab0" class="tab-pane">
+								<legend>Detalle del grupo <span id="enlace"></span></legend>
+								<table class="table table-bordered" id="tabla_desc">
+									<thead>
+										<tr id="r_numero_grupo"><th>Grupo </th></tr>
+										<tr id="r_descripcion_grupo"><th>Descripción</th></tr>
+										<tr id="r_curso_grupo"><th>Curso</th></tr>
+										<tr id="r_capacitador"><th>Capacitador</th></tr>
+										<tr id="r_sede"><th>Sede</th></tr>
+										<tr id="r_cant_hombre"><th>Cantidad de hombres:</th></tr>
+										<tr id="r_cant_mujer"><th>Cantidad de mujeres</th></tr>
+										<tr id="r_total_asig"><th>Total asignados</th></tr>
+									</thead>
+									<tbody>
 
-				<div class="well">
-					<legend>Participantes asignados <span id="abrir_ca"></span></legend>
-					<table id="tabla_par" class="table table-bordered">
-						<thead>
-							<th>No.</th>
-							<th>Nombre</th>
-							<th>Apellido</th>
-							<th>Género</th>
-							<th>Escuela</th>
-							<th>Nota</th>
-							<th>Resultado</th>
-						</thead>
-						<tbody id="tablabody">
+									</tbody>
+								</table>
+								<div class="row-fluid">
+									<div class="span6" id="chart_genero"></div>
+									<div class="span6" id="chart_notas"></div>
+								</div>
+							</div>
+							<div class="tab-pane" id="tab1">
+								<legend>Calendario</legend>
+								<button class="btn btn-info" onclick="descargar_tabla_excel('tabla_cal')">Descargar</button>
+								<table id="tabla_cal" class="table table-bordered">
+									<thead>
+										<th>Asistencia</th>
+										<th>Fecha</th>
+										<th>Hora inicio</th>
+										<th>Hora fin</th>
+									</thead>
+									<tbody id="tablabody_calendario">
 
-						</tbody>
-					</table>
-					<br>
-					<button class="btn btn-info" onclick="descargar_tabla_excel('tabla_par')">Descargar</button>
+									</tbody>
+								</table>
+							</div>
+							<div class="tab-pane" id="tab2">
+								<legend>Participantes asignados <span id="abrir_ca"></span></legend>
+								<table id="tabla_par" class="table table-bordered">
+									<thead>
+										<th>No.</th>
+										<th>Nombre</th>
+										<th>Apellido</th>
+										<th>Género</th>
+										<th>Escuela</th>
+										<th>Nota</th>
+										<th>Resultado</th>
+									</thead>
+									<tbody id="tablabody">
+
+									</tbody>
+								</table>
+								<br>
+								<button class="btn btn-info" onclick="descargar_tabla_excel('tabla_par')">Descargar</button>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
+	</div>
+</div>
+</div>
+<div class="row row-fluid">
+	<div class="span1"></div>
+	<div class="span10">
+
+
+
 		<div class="span1"></div>
 	</div>
 	

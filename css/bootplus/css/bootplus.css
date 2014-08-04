@@ -136,7 +136,9 @@ input::-moz-focus-inner {
   padding: 0;
   border: 0;
 }
-
+input {
+  max-width: 100%;
+} 
 button,
 html input[type="button"],
 input[type="reset"],
@@ -6878,4 +6880,11 @@ input.search-query {
 }
 body, .navbar-fixed-top, .navbar-fixed-bottom {
   margin-right: 0 !important;
+}
+@media(max-width:767px){
+   .affix {
+     position: static;
+     width: auto;
+     top: 0;
+    }
 }

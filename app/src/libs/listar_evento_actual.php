@@ -178,7 +178,7 @@ if($_GET['ejecutar_diario']){
 		$allDay = false;
 		$other = array("curso" => $evento[5], "sede" => $evento[6], "grupo" => $evento[4], "inicio" => $evento['hora_inicio'], "fin" => $evento['hora_fin']);
 		$color = elegir_color($evento[8]);
-		$url= "http://funsepa.net/suni/app/cap/grp/buscar.php?id_grupo=".$evento[0].'';
+		$url= "cap/grp/buscar.php?id_grupo=".$evento[0].'';
 
 		array_push($array_respuesta, new calendario($title, $start, $end, $allDay, $other, $url, $color));
 	}

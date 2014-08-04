@@ -28,7 +28,15 @@ if(($id_participante!==0) && !(empty($id_participante))){
 	$asignacion_val = $bd->obtener_fila($stmt_asignacion_val, 0);
 
 	if( !(empty($asignacion_val)) ){
-		$respuesta["mensaje"] = " ya recibe ese curso en esa sede";
+		$query_par = "SELECT
+		nombre, apellido
+		from
+		gn_participante
+		INNER JOIN gn_persona ON gn_persona.id=gn_participante.id_persona
+		WHERE gn_participante.id=".$id_participante;
+		$stmt_par = $bd->ejecutar($query_par);
+		$participante = $bd->obtener_fila($stmt_par, 0);
+		$respuesta["mensaje"] = $participante['nombre'].' '.$participante['apellido']." ya recibe ese curso en esa sede";
 	}
 	else{
 		$id_asignacion = 0;

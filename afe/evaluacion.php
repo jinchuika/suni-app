@@ -144,6 +144,17 @@ $(document).ready(function() {
 		})
 
 });
+function contar () {
+	$.ajax({
+		url: '../includes/libs/enviar_afe_ev.php?consulta=1',
+		type: 'post',
+		data: $("#form1").serialize() ,
+		success: function (data) {
+			var data = $.parseJSON(data);
+			notificacion_error('Ha ingresado '+data[0]+' evaluaciones en ese grupo.');
+		}
+	});
+}
 </script>
 
 </head>
@@ -239,7 +250,12 @@ $(document).ready(function() {
 							</div>
 						</div>   
 					</div>
+					<div class="row-fluid">
+						<div class="span12" >
+							<a onclick="contar();" class="btn btn-primary">Contar para este grupo</a>
+						</div>
 
+					</div>
 					<div class="row-fluid">
 						<div class="span12" >
 						</div>

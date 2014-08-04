@@ -3,7 +3,7 @@
 require_once("../../includes/auth/sesion.class.php"); 
 
 
-include '../../includes/libs/connect.php';
+//require_once '../../includes/libs/connect.php';
 $USR = $_GET["id_usr"];
   $ID_usr = $_GET["usr"]; //Detecta el contenido del usuario
   $ID_depto = $_GET["depto"]; //Detecta el contenido del departamento

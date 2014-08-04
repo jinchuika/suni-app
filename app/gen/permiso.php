@@ -39,6 +39,7 @@ $bd = $libs->incluir('bd');
 				<table class='table table-bordered' id="tabla_datos">
 					<thead>
 						<tr>
+							<th>No.</th>
 							<th>Área</th>
 							<th>Eliminar</th>
 							<th>Editar</th>
@@ -123,7 +124,7 @@ $bd = $libs->incluir('bd');
                    success: function (data) {
                        var arr_permiso = $.parseJSON(data);
                        $.each(arr_permiso, function (index, item) {
-                          $('#tbody_area').append("<tr><td>"+item.area+"</td>"+crear_binario(item.permiso, item.id)+"</tr>");
+                          $('#tbody_area').append("<tr><td>"+item.id_area+"</td><td>"+item.area+"</td>"+crear_binario(item.permiso, item.id)+"</tr>");
                       });
                        $(".chk_permiso").change(function () {
                         var accion = ($(this).is(':checked') ? true : false);
@@ -134,7 +135,7 @@ $bd = $libs->incluir('bd');
             }
         }
         $(document).ready(function () {
-            fn_listar('lista_usuario','buscador','app/src/libs_gen/usr.php?fn=listar_usuario', 'abrir_usuario');
+            fn_listar('lista_usuario','buscador','app/src/libs_gen/usr.php?fn=listar_usuario', 'abrir_usuario', {0:'nombre', 1:'apellido'});
         });
         </script>
     </body>
