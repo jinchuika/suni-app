@@ -99,7 +99,8 @@ if($_POST["listar_participantes"]  || $_GET['listar_participantes'] ){
 			gn_escuela.codigo,
 			usr_rol.rol,
 			sum(gn_nota.nota)/count(distinct(gn_grupo.id_curso)) as nota,
-			pr_escolaridad.escolaridad
+			pr_escolaridad.escolaridad,
+			count(distinct gn_grupo.id_curso) as cant_curso
 		FROM gn_sede
 			right JOIN gn_grupo
 				ON gn_grupo.id_sede = gn_sede.id

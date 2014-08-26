@@ -398,7 +398,7 @@ else{
 				$("#tabla_par").remove();
 				$("#tab3").append("");
 				$("#tab3").append("<div id='detalle_par'></div>");
-				$("#tab3").append("<table class='table hide' id='tabla_par'><thead><th>No.</th><th data-sort='string' class='head'>Nombre</th><th data-sort='string' class='head'>Apellido</th><th data-sort='int'>Grupo</th><th data-sort='int' class='head'>Nota</th><th>Rol</th><th data-sort='string' class='head'>Escuela</th></thead></table>");
+				$("#tab3").append("<table class='table hide' id='tabla_par'><thead><th data-sort='int' class='head'>No.</th><th data-sort='string' class='head'>Nombre</th><th data-sort='string' class='head'>Apellido</th><th data-sort='int'>Grupo</th><th data-sort='int' class='head'>Nota</th><th data-sort='string' class='head'>Cursos</th><th data-sort='string' class='head'>Rol</th><th data-sort='string' class='head'>Escuela</th></thead></table>");
 				$.each(data, function (index, item) {
 					/* Contar por roles */
 					arr_roles[item['rol']] ? arr_roles[item['rol']]['cant'] = arr_roles[item['rol']]['cant']+1 : arr_roles[item['rol']] = {'rol': item['rol'], 'cant':1};
@@ -421,7 +421,7 @@ else{
 						}
 						cant_repro = cant_repro + 1;
 					}
-					$("#tabla_par").append("<tr><td>"+(index+1)+"</td><td><a href='http://funsepa.net/suni/app/cap/par/perfil.php?id="+item[0]+"'>"+item[1]+"</a></td><td>"+item[2]+"</td><td>"+item[4]+"</td><td>"+(item['nota']<75 ? "<strong>"+item['nota']+"</strong>":item['nota'])+"</td><td>"+item[7]+"</td><td>"+item[5]+"; "+item[6]+"</td></tr>");
+					$("#tabla_par").append("<tr><td>"+(index+1)+"</td><td><a href='http://funsepa.net/suni/app/cap/par/perfil.php?id="+item[0]+"'>"+item[1]+"</a></td><td>"+item[2]+"</td><td>"+item[4]+"</td><td>"+(item['nota']<75 ? "<strong>"+item['nota']+"</strong>":item['nota'])+"</td><td>"+item['cant_curso']+"</td><td>"+item[7]+"</td><td>"+item[5]+"; "+item[6]+"</td></tr>");
 				});
 				for(var key in arr_roles){
 					if (arr_roles.hasOwnProperty(key)){
