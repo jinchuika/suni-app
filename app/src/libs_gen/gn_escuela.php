@@ -96,6 +96,42 @@ class gn_escuela
 		$escuela['arr_sede'] = $arr_sede;
 		return $escuela;
 	}
+
+	/**
+	 * Lista a todos los participantes en una escuela
+	 * @param Array $args {id: el id de la escuela}
+	 * @return Array {
+	 * 		@param int $id
+	 * 		@param string $nombre
+	 * 		@param string $apellido
+	 * 		@param string $genero
+	 * }
+	 */
+	public function listar_participante($args)
+	{
+		$arr_respuesta = array();
+		$query_participante = "
+		SELECT
+		gn_participante.id,
+		gn_persona.nombre,
+		gn_persona.apellido,
+		gn_persona.genero
+		FROM gn_participante
+		INNER JOIN gn_persona ON gn_persona.id=gn_participante.id_persona
+		WHERE gn_participante.id_escuela=".$args['id'];
+		$stmt_participante = $this->bd->ejecutar($query_participante);
+		while ($participante = $this->bd->obtener_fila($stmt_participante, 0)) {
+			array_push(
+				$arr_respuesta, array(
+					'id'=>$participante['id'],
+					'nombre'=>$participante['nombre'],
+					'apellido' => $participante['apellido'],
+					'genero'=>$participante['genero']
+					)
+				);
+		}
+		return $arr_respuesta;
+	}
 }
 
 if($_GET['fn_nombre']){

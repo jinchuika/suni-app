@@ -30,7 +30,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 					<a class="brand" href="<?php echo $nivel_dir; ?>"> <i class="icon-home"></i> SUNI</a>
 					<div class="nav-collapse collapse">
 
-						<ul class="nav pull-left">
+						<ul class="nav pull-left success">
 							<!-- >Empieza el dropdown para capacitación</!-->
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-sitemap"></i> Capacitaciones <b class="caret"></b></a>

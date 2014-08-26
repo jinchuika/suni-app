@@ -393,7 +393,7 @@ else{
 			data: {listar_participantes: true, id_sede: <? echo $id_sede; ?>},
 			success: function (data){
 				var data = $.parseJSON(data);
-				var cant_h = 0, cant_m = 0, arr_roles = new Array(), arr_escolaridad = new Array();
+				var cant_h = 0, cant_m = 0, arr_roles = new Array(), arr_escolaridad = new Array(), cant_apro = 0, cant_repro =0, cant_medio=0;
 				$("#detalle_par").remove();
 				$("#tabla_par").remove();
 				$("#tab3").append("");
@@ -412,7 +412,16 @@ else{
 						cant_m = cant_m + 1;
 						item['genero'] = "Mujer";
 					}
-					$("#tabla_par").append("<tr><td>"+(index+1)+"</td><td><a href='http://funsepa.net/suni/app/cap/par/perfil.php?id="+item[0]+"'>"+item[1]+"</a></td><td>"+item[2]+"</td><td>"+item[4]+"</td><td>"+item['nota']+"</td><td>"+item[7]+"</td><td>"+item[5]+"; "+item[6]+"</td></tr>");
+					if(item['nota']>=Number(75)){
+						cant_apro = cant_apro + 1;
+					}
+					else{
+						if(item['nota']>=Number(71)){
+							cant_medio = cant_medio + 1;
+						}
+						cant_repro = cant_repro + 1;
+					}
+					$("#tabla_par").append("<tr><td>"+(index+1)+"</td><td><a href='http://funsepa.net/suni/app/cap/par/perfil.php?id="+item[0]+"'>"+item[1]+"</a></td><td>"+item[2]+"</td><td>"+item[4]+"</td><td>"+(item['nota']<75 ? "<strong>"+item['nota']+"</strong>":item['nota'])+"</td><td>"+item[7]+"</td><td>"+item[5]+"; "+item[6]+"</td></tr>");
 				});
 				for(var key in arr_roles){
 					if (arr_roles.hasOwnProperty(key)){
@@ -426,6 +435,7 @@ else{
 					}
 				}
 				$("#detalle_par").append("<br>"+cant_h+" hombres, "+cant_m+" mujeres. Total: "+data.length);
+				$("#detalle_par").append("<br>"+cant_apro+" aprobados, "+cant_repro+" reprobados, nivelar: "+cant_medio);
 				document.getElementById("cant_par").innerHTML = data.length;
 				$("#boton_par").hide();
 				$("#tabla_par").show(50);

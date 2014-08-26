@@ -51,7 +51,6 @@ function modal_carga_gn2 (id_html) {
     });
   }
   this.mostrar = function() {
-    console.log(nombre);
     $("#"+nombre+"").modal('hide');
   }
   this.ocultar = function () {
@@ -157,6 +156,29 @@ function validar_mail(mail)
   }
 }
 
+/**
+ * Convierte el primer caracter en mayúscula usando .capitalize
+ * @return string Cadena con primer caracter en mayúscula
+ */
+function cap_first(string)
+{
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+/**
+ * Cambiar los valores escritos como 'null' por ''
+ * @param  {string} string el string a convertir
+ * @return {string}        Valor cambiado por '' o el original
+ */
+function nullToEmpty(string){
+  if(string==='null' || string==null){
+    return '';
+  }
+  else{
+    return string;
+  }
+}
+
 (function($) {
     $.fn.goTo = function() {
         $('html, body').animate({
@@ -166,6 +188,26 @@ function validar_mail(mail)
     }
 })(jQuery);
 
+/**
+ * Convertir campos de un formulario a un array sociativo
+ * @return object Objeto de datos asociativo
+ */
+$.fn.serializeObject = function()
+{
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
 //Sistema de notificaciones
 /*if (!!window.EventSource) {
   var source = new EventSource(nivel_entrada+'app/src/libs/mostrar_notificacion.php?id_persona='+id_per_entrada);

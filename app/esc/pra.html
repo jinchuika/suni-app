@@ -1,0 +1,804 @@
+<!doctype html>
+<html lang="es">
+<head>
+	<script src="../../js/framework/timeline/timeline-min.js"></script>
+			<script src="../../js/framework/timeline/timeline-locales.js"></script>
+			<link href="../../js/framework/timeline/timeline.css" rel="stylesheet"/>
+			<script src="../../js/framework/jquery.js"></script>
+			<link href="../../css/bootplus/css/bootplus.css" rel="stylesheet"/>
+			<link href="../../css/bootplus/css/bootplus-responsive.min.css" rel="stylesheet"/>
+			<script src="../../js/framework/bootstrap.js"></script>
+			<script src="../../js/framework/bootbox.js"></script>
+			<link href="../../js/framework/select2/select2.css" rel="stylesheet"/>
+			<script src="../../js/framework/select2/select2.js"></script>
+			<meta name="viewport" content="width=device-width">
+			<script id="js_general" id_per="41" nivel="../../" src="../../app/src/js-libs/general.js"></script>
+		<link href="../../js/framework/bootstrap-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+			<script src="../../js/framework/bootstrap-editable/js/bootstrap-editable.js"></script>
+			<link href="../../js/framework/bootstrap-datepicker/css/datepicker.css" rel="stylesheet"/>
+			<script src="../../js/framework/bootstrap-datepicker/js/bootstrap-datepicker.es.js"></script>
+				<meta charset="UTF-8">
+	<script src="../../js/framework/stupidtable.min.js"></script>
+
+	<title>INSTITUTO NORMAL MIXTO JUAN DE LEON</title>
+	<style>
+	.hide{
+		z-index: -1;
+	}
+	#map-canvas img { max-width: none; }
+	</style>
+</head>
+<body style="position:relative;">
+		<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+	<div class="modal hide fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			<h3 id="myModalLabel">Contacto</h3>
+		</div>
+		<div class="modal-body" id="modal_error_cuerpo">
+		</div>
+		<div class="modal-footer" id="modal_footer_error">
+
+		</div>
+	</div>
+	<div class="navbar navbar-fixed-top navbar-custom" role="navigation">
+		<div class="navbar-inner">
+			<div class="container-fluid" style="width:auto">
+				<div class="row-fluid">
+
+					<a class="btn btn-navbar " data-toggle="collapse" data-target=".nav-collapse" id="">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+
+					<a class="brand" href="../../"> <i class="icon-home"></i> SUNI</a>
+					<div class="nav-collapse collapse">
+
+						<ul class="nav pull-left success">
+							<!-- >Empieza el dropdown para capacitación</!-->
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-sitemap"></i> Capacitaciones <b class="caret"></b></a>
+								<ul class="dropdown-menu" role="menu">
+									<li class="dropdown-submenu">
+										<a tabindex="-1" href="#"><i class="icon-flag"></i> Sede</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../app/cap/sed/nuevo.php"><i class="icon-pencil"></i> Crear sede</a>
+											</li>
+											<li>
+												<a href="../../app/cap/sed/buscar.php"><i class="icon-search icon-white"></i> Buscar sede</a>
+											</li>
+										</ul>
+									</li>
+									<li class="dropdown-submenu">
+										<a tabindex="-1" href="#"><i class="icon-group"></i> Grupo</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="funsepa.net/suni/app/cap/grp/nuevo.php"><i class="icon-pencil"></i> Crear grupo</a>
+											</li>
+											<li>
+												<a href="../../app/cap/grp/buscar.php"><i class="icon-search icon-white"></i> Buscar grupo</a>
+											</li>
+											<li>
+												<a href="../../app/cap/grp/clonar.php"><i class="icon-code-fork"></i> Clonar un grupo</a>
+											</li>
+										</ul>
+									</li>
+									<li class="dropdown-submenu">
+										<a tabindex="-1" href="#"><i class="icon-user"></i> Participante</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../app/cap/par/nuevo.php"><i class="icon-pencil"></i> Crear participante</a>
+											</li>
+											<li>
+												<a href="../../app/cap/par/nuevo_lista.php"><i class="icon-list"></i> Ingresar listado</a>
+											</li>
+											<li>
+												<a href="../../app/cap/par/buscar.php"><i class="icon-search icon-white"></i> Buscar participante</a>
+											</li>
+											<li>
+												<a href="../../app/cap/par/asignar.php"><i class="icon-link"></i> Asignar participante</a>
+											</li>
+											<li>
+												<a href="../../app/cap/par/doble.php"><i class="icon-columns"></i> Comparar datos</a>
+											</li>
+										</ul>
+									</li>
+									<li class="divider"></li>
+									<!-- > Dropdown para control de curso</!-->
+									<li class="dropdown-submenu">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-book"></i> Curso</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../app/crs/nuevo.php"><i class="icon-pencil"></i> Crear un curso</a>
+											</li>
+											<li>
+												<a href="../../app/crs/buscar.php"><i class="icon-search icon-white"></i> Buscar un curso</a>
+											</li>
+										</ul>
+									</li>
+									<!-- >Termina el dropdown para control de curso</!-->
+									<li class="dropdown-submenu">
+										<a tabindex="-1" href="../../">
+											<i class="icon-bar-chart"></i> AFMSP (BETA)
+										</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../afe/grafico.php"><i class="icon-bar-chart"></i> AFMSP</a>
+											</li>
+											<li>
+												<a href="../../app/cap/afe/nuevo.php"><i class="icon-pencil"></i> Ingreso (BETA)</a>
+											</li>
+											<li>
+												<a href="../../app/cap/afe/grafico.php"><i class="icon-bar-chart"></i> Gráfico (BETA)</a>
+											</li>
+										</ul>
+									</li>
+									<!-- Sub menú de calendario -->
+									<li class="dropdown-submenu">
+										<a href="#">
+											<i class="icon-calendar"></i> Calendario
+										</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../app/cap/cal/"><i class="icon-calendar"></i> Mensual</a>
+											</li>
+											<li>
+												<a href="../../app/cap/cal/asesoria.php">
+													<i class="icon-comments"></i> Asesorías
+												</a>
+											</li>
+											<li>
+												<a href="../../app/cap/cal/tl.php"><i class="icon-align-left"></i> Línea de tiempo</a>
+											</li>
+											<li>
+												<a href="../../app/cap/cal/sede.php"><i class="icon-calendar"></i> Anual</a>
+											</li>
+											<li>
+												<a href="../../app/inf/cap/cal_asistencia.php"><i class="icon-check"></i> Contador de asistencias</a>
+											</li>
+										</ul>
+									</li>
+									<li class="dropdown-submenu">
+										<a tabindex="-1" href="../../app/cap/syr">
+											<i class="icon-list-ol"></i> Control académico
+										</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../app/cap/syr"><i class="icon-check"></i> Único</a>
+											</li>
+											<li>
+												<a href="../../app/cap/syr/tabla.php"><i class="icon-group"></i> Por grupo</a>
+											</li>
+											<li>
+												<a href="../../app/cap/grp/buscar_cal.php"><i class="icon-flag"></i> Asistencias diferentes</a>
+											</li>
+										</ul>
+									</li>
+									<li class="dropdown-submenu">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-map-marker"></i> Locaciones</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../app/geo"><i class="icon-globe"></i> Geografía</a>
+											</li>
+											<li class="divider" role="presentation"></li>
+											<li>
+												<a href="../../app/esc/nuevo.php"><i class="icon-pencil"></i> Creación de escuela</a>
+											</li>
+											<li>
+												<a href="../../app/esc/buscar.php"><i class="icon-search icon-white"></i> Buscar una escuela</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<!-- >Termina el dropdown para capacitación</!-->
+							<!-- Dropdown de informe -->
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-ok-circle"></i> Informes <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li class="dropdown-submenu">
+										<a tabindex="-1" href="#">
+											<i class="icon-list-ol"></i> CyD
+										</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../app/inf/cap/ca.php">
+													<i class="icon-list-ol"></i> Control académico
+												</a>
+											</li>
+											<li>
+												<a href="../../app/inf/cap/ca_asistencias.php">
+													<i class="icon-calendar-empty"></i> CA - Asistencias
+												</a>
+											</li>
+											<li>
+												<a href="../../app/inf/cap/final.php">
+													<i class="icon-ok-sign"></i> Finalización de proceso
+												</a>
+											</li>
+											<li>
+												<a href="../../app/inf/cap/capacitador.php">
+													<i class="icon-user"></i> Capacitadores
+												</a>
+											</li>
+											<li>
+												<a href="../../app/inf/cap/escuela.php">
+													<i class="icon-hospital"></i> Por escuela
+												</a>
+											</li>
+											<li>
+												<a href="../../app/inf/cap/grupo_exp.php">
+													<i class="icon-list"></i> Grupo completo
+												</a>
+											</li>
+											<li>
+												<a href="../../app/inf/cap/modulo.php">
+													<i class="icon-list-ul"></i> Asistencias por período
+												</a>
+											</li>
+											<li>
+												<a href="../../app/inf/cap/lista_escuela.php">
+													<i class="icon-hospital"></i><span class="glyphicon glyphicon-user"></span> Lista de escuelas
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="dropdown-submenu">
+										<a tabindex="-1" href="#">
+											<i class="icon-map-marker"></i> Mapas
+										</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../app/inf/cap/mapa.php">
+													<i class="icon-map-marker"></i> Escuelas capacitadas
+												</a>
+											</li>
+											<li>
+												<a href="../../app/inf/tpe/mapa.php">
+													<i class="icon-map-marker"></i> Escuelas equipadas
+												</a>
+											</li>
+										</ul>
+									</li>
+									<li class="dropdown-submenu">
+										<a tabindex="-1" href="#">
+											<i class="icon-leaf"></i> Khan
+										</a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../app/inf/khan">
+													<i class="icon-map-marker"></i> Mapa de escuelas
+												</a>
+											</li>
+											<li>
+												<a href="../../app/inf/khan/lista.php">
+													<i class="icon-list-ol"></i> Escuelas de Khan
+												</a>
+											</li>
+										</ul>
+									</li>
+								</ul>
+							</li>
+							<!-- Termina dropdown de informe -->
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-thumbs-up"></i> FundRaising <b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="../../app/dir"><i class="icon-user"></i> Directorio</a>
+									</li>
+									<li>
+										<a href="../../app/dir/tag"><i class="icon-tag"></i> Etiquetas</a>
+									</li>
+									<li>
+										<a href="../../app/dir/emp"><i class="icon-building"></i> Empresas</a>
+									</li>
+									<li>
+										<a href="../../app/dir/evn"><i class="icon-flag"></i> Eventos</a>
+									</li>
+									<!-- >Empieza el dropdown para Datos directorio</!-->
+									<li class="dropdown-submenu">
+										<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-folder-open"></i> Datos</b></a>
+										<ul class="dropdown-menu">
+											<li>
+												<a href="../../app/dir/imp.php"><i class="icon-reply"></i> Importar</a>
+											</li>
+											<li>
+												<a href="../../app/dir/exp.php"><i class="icon-share-alt"></i> Exportar</a>
+											</li>
+										</ul>
+									</li>
+									<!-- >Termina el dropdown para Datos directorio</!-->
+								</ul>
+							</li>
+							
+								<!-- Dropdown de TPE -->
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-desktop"></i> TPE <b class="caret"></b></a>
+		<ul class="dropdown-menu">
+							<li class="dropdown-submenu">
+					<a tabindex="-1" href="../../">
+						<i class="icon-bar-chart"></i> Kárdex
+					</a>
+					<ul class="dropdown-menu">
+						<li>
+							<a href="../../app/kar/prov.php"><i class="icon-briefcase"></i> Proveedor</a>
+						</li>
+						<li>
+							<a href="../../app/kar/item.php"><i class="icon-keyboard"></i> Equipo</a>
+						</li>
+						<li>
+							<a href="../../app/kar/in.php"><i class="icon-signin"></i> Entradas</a>
+						</li>
+						<li>
+							<a href="../../app/kar/out.php"><i class="icon-signout"></i> Salidas</a>
+						</li>
+						<li>
+							<a href="../../app/kar/exp.php"><i class="icon-share-alt"></i> Exportar</a>
+						</li>
+						<li>
+							<a href="../../app/inf/tpe/kar_char.php"><i class="icon-bar-chart"></i> Flujo de inventario</a>
+						</li>
+						<li>
+							<a href="../../app/kar/usr.php"><i class="icon-user"></i> Técnicos</a>
+						</li>
+													<li>
+								<a href="../../app/kar/req.php"><i class="icon-search icon-white"></i> Ver compras</a>
+							</li>
+												</ul>
+				</li>
+							<li class="dropdown-submenu">
+				<a tabindex="-1" href="../../">
+					<i class="icon-desktop"></i> Equipo
+				</a>
+				<ul class="dropdown-menu">
+					<li>
+						<a href="../../app/tpe/inv/nuevo_lista.php"><i class="icon-pencil"></i> Ingreso</a>
+					</li>
+					<li>
+						<a href="../../app/tpe/inv/buscar.php"><i class="icon-search"></i> Buscar/editar</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
+	</li>
+	<!-- Termina dropdown de TPE -->
+						</ul>
+						<ul class="nav pull-right">
+							<!-- modal de ayuda -->
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-question"></i> Ayuda</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="#" id="boton_ayuda"><i class="icon-warning-sign"></i> Contacto ></span></a>
+									</li>
+									<li>
+										<a href="../../wiki"><i class="fa-book"></i> Manual de uso ></span></a>
+									</li>
+									<div  id="modal_error" role="dialog"></div>
+								</ul>
+
+								<script type="text/javascript" id="informe_error_js" id_per="41" src="../../app/src/js-libs/crear_informe_error.js" ></script>							</li>
+
+							<li class="dropdown">
+								<a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
+																		<i class="icon-user"></i> Luis Carlos <b class="caret"></b>
+								</a>
+								<ul class="dropdown-menu">
+									<li>
+										<a href="../../app/usr/perfil.php?id_per=41"  >
+											Mi perfil
+										</a>
+									</li>
+									<li class="dropdown-submenu">
+										<a tabindex="-1" href="#">
+											Herramientas
+										</a>
+										<ul class="dropdown-menu">
+																							<li>
+													<a href="../../app/gen/permiso.php"><i class="icon-unlock-alt"></i> Gestionar permisos</a>
+												</li>
+																							<li>
+												<a href="../../app/err">
+													Control de errores
+												</a>
+											</li>
+											<li>
+												<a href="../../app/cap/par/eliminar.php">
+													Eliminar asignación
+												</a>
+											</li>
+											<li>
+												<a href="../../app/cap/grp/eliminar.php">
+													Eliminar grupo
+												</a>
+											</li>
+											<li>
+												<a href="../../app/src/test/prueba.php">
+													Página de pruebas
+												</a>
+											</li>
+											<li>
+												<a href="../../app/usr/nuevo.php"><i class="icon-pencil"></i> Crear un usuario</a>
+											</li>
+
+											<li>
+												<a href="../../app/usr/buscar.php"><i class="icon-search icon-white"></i> Buscar un usuario</a>
+											</li>
+										</ul>
+									</li>
+									<li>
+										<a href="../../cerrarsesion.php">
+											<i class="icon-off"></i> Cerrar sesión
+										</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</div>
+		<header id="overview" class="jumbotron subhead well">
+		<div class="container">
+			<h1><a href="#" class="editable_gen" data-type="text" data-name="nombre" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nombre">INSTITUTO NORMAL MIXTO JUAN DE LEON</a></h1>
+			<p class="lead"></p>
+		</div>
+	</header>
+	<div class="container-fluid" id="ctn_principal">
+		<div class="row-fluid">
+			<div class="span3">
+				<ul class="nav nav-list" id="lista_tab">
+					<li class="active"><a href="#info_general" data-toggle="tab"><i class="icon-info-sign"></i> Información general</a></li>
+					<li><a href="#cyd" data-toggle="tab"><i class="icon-book"></i> Capacitación</a></li>					<li><a href="#tpe" data-toggle="tab"><i class="icon-building"></i> Equipamiento</a></li>					<li><a href="#mye" data-toggle="tab"><i class="icon-search"></i> Monitoreo</a></li>					<li><a href="#seccion_contacto" data-toggle="tab"><i class="icon-user"></i> Contactos</a></li>
+				</ul>
+			</div>
+			<div class="span9">
+				<div class="row-fluid">
+					<div id="principal" class="span12">
+						<div class="tabbable tabs-right well">
+							<div class="tab-content">
+								<div id="info_general" class="tab-pane active">
+									<legend>Información general</legend>
+									UDI: <a href="#" data-name="codigo" id="codigo">14-01-0085-46</a><br />
+									Departamento: <a href="#" class="editable_gen" data-type="select" data-source="../../app/src/libs_gen/gn_departamento.php?fn_nombre=listar_departamento&args='{editable:1}'" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" data-name="departamento" id="departamento">QUICHE</a><br />
+									Municipio: <a href="#" class="editable_gen" data-type="select" data-name="municipio" data-source="../../app/src/libs_gen/gn_municipio.php?fn_nombre=listar_municipio&args='{editable:1}'" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="municipio">SANTA CRUZ DEL QUICHE</a><br />
+									Dirección: <a href="#" class="editable_gen" data-type="text" data-name="direccion" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="direccion">12 CALLE 0-36 ZONA 5</a><br />
+									Supervisor: <a href="#" class="editable_gen" data-type="text" data-name="supervisor" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="supervisor">ARMANDO EFRAIN BLANCO RIVERA</a><br />
+									Cantidad de alumnos: <a href="#" class="editable_gen" data-type="text" data-name="cant_alumnos" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="cant_alumnos"></a><br />
+									Observaciones: <a href="#" class="editable_gen" data-type="text" data-name="obs" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="obs"></a><br />
+									Mapa:
+									<div id="map-canvas" style="width: 95%; height: 500px"></div><br />
+	<input value="Cómo llegar" type="button" class="btn btn-primary" onclick="calcRoute();">
+	<select id="modo_mapa" onchange="calcRoute();">
+	<option value="DRIVING">En carro</option>
+	<option value="WALKING">Caminando</option>
+	</select><br />
+	<strong>Lat:</strong>15.02516, <strong>Long:</strong>-91.147813
+	<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
+	<script type="text/javascript" id="mapa_js" lat_in="15.02516" lng_in="-91.147813" descripcion="INSTITUTO NORMAL MIXTO JUAN DE LEON" src="../..//app/src/js-libs/mapa.js" ></script>
+	<br />
+	<br /> <input type="button" id="link_mapa" class="btn" value="Modificar mapa">								</div>
+								<div id="seccion_contacto" class="tab-pane">
+									<form class="form-horizontal hide" id="form_contacto">
+										<fieldset>
+											<legend>Agregar contacto</legend>
+											<div class="control-group">
+												<label class="control-label" for="inp_nombre_cnt">Nombre</label>
+												<div class="controls">
+													<input id="inp_nombre_cnt" name="inp_nombre_cnt" type="text" placeholder="" class="input-large" required="">
+													<input id="inp_id_escuela_cnt" name="inp_id_escuela_cnt" type="hidden" value="26867" placeholder="" class="input-large" required="">
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label" for="inp_apellido_cnt">Apellido</label>
+												<div class="controls">
+													<input id="inp_apellido_cnt" name="inp_apellido_cnt" type="text" placeholder="" class="input-large" required="">
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label" for="inp_rol_cnt">Rol</label>
+												<div class="controls">
+													<select id="inp_rol_cnt" name="inp_rol_cnt" class="input-medium">
+														
+													</select>
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label" for="inp_tel_movil_cnt">Teléfono</label>
+												<div class="controls">
+													<input id="inp_tel_movil_cnt" name="inp_tel_movil_cnt" type="text" placeholder="" class="input-small" required="">
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label" for="inp_mail_cnt">Correo electrónico</label>
+												<div class="controls">
+													<input id="inp_mail_cnt" name="inp_mail_cnt" type="text" placeholder="" class="input-large">
+												</div>
+											</div>
+											<div class="control-group">
+												<label class="control-label" for="inp_boton_cnt"></label>
+												<div class="controls">
+													<button type="submit" id="inp_boton_cnt" name="inp_boton_cnt" class="btn btn-primary">Guardar</button>
+													<button type="button" onclick="nuevo_contacto(false);" id="inp_boton_cnt" name="inp_boton_cnt" class="btn btn-danger">Cancelar</button>
+												</div>
+											</div>
+
+										</fieldset>
+									</form>
+									<p class="text-right"><button class="btn btn-primary" onclick="nuevo_contacto(1);">Nuevo</button> <button class="btn btn-info" onclick="listar_contacto_escuela(26867, 'lista_contacto');"><i class="icon-refresh"></i></button></p>
+									<ul id="lista_contacto" class="unstyled">
+									</ul>
+								</div>
+																	<div class="tab-pane" id="cyd">
+										<legend>Capacitación</legend>
+										
+										<table class="table table-hover">
+											<tr>
+												<td>Distrito:</td><td><a href="#" class="editable_cyd" data-type="text" data-name="distrito" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="distrito">14-001</a></td>
+											</tr>
+											<tr>
+												<td>Nivel:</td><td><a href="#"  data-type="select" data-name="nivel" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=nivel" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nivel"></a></td>
+											</tr>
+											<tr>
+												<td>Nivel1:</td><td></td>
+											</tr>
+											<tr>
+												<td>Sector:</td><td><a href="#"  data-type="select" data-name="sector" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=sector" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="sector">OFICIAL</a></td>
+											</tr>
+											<tr>
+												<td>Área:</td><td><a href="#"  data-type="select" data-name="area" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=area" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="area">URBANA</a></td>
+											</tr>
+											<tr>
+												<td>Modalidad:</td><td><a href="#"  data-type="select" data-name="modalidad" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=modalidad" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="modalidad">MONOLINGUE</a></td>
+											</tr>
+											<tr>
+												<td>Jornada:</td><td><a href="#"  data-type="select" data-name="jornada" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=jornada" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="jornada">VESPERTINA</a></td>
+											</tr>
+											<tr>
+												<td>Plan:</td><td><a href="#"  data-type="select" data-name="plan" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=plan" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="plan">DIARIO(REGULAR)</a></td>
+											</tr>
+											<tr>
+												<td>Sedes:</td>
+												<td>
+													<ul>
+														<li><a href="../cap/sed/sede.php?id=53">QUICHE JV (Faby)</a> por Fabiola Pezzarossi</li><li><a href="../cap/sed/sede.php?id=54">Quiche Matutina(Mary)</a> por María Flores </li><li><a href="../cap/sed/sede.php?id=56">Quiche Vespertina (Mary)</a> por María Flores </li><li><a href="../cap/sed/sede.php?id=57">QUICHE JV (HECTOR)</a> por Hector Bringuez</li><li><a href="../cap/sed/sede.php?id=58">QUICHE JM (FABY)</a> por Fabiola Pezzarossi</li>													</ul>
+												</td>
+											</tr>
+										</table>
+										<legend>Participante <button class="btn btn-primary" onclick="listar_participantes_escuela(26867,'t_participante');">Abrir</button><button class="btn btn-danger">Cerrar</button></legend>
+										<table id="t_participante" class="table table-hover hide">
+											<thead>
+												<tr>
+													<th>No.</th>
+													<th>Nombre</th>
+													<th>Apellido</th>
+													<th>Género</th>
+												</tr>
+											</thead>
+										</table>
+									</div>
+																		<div class="tab-pane" id="tpe">
+										<legend>Equipamiento</legend>
+										Donante: <br>
+										Estado de equipación: <br>
+										Fecha en que se equipó: <br>
+									</div>
+																		<div class="tab-pane" id="mye">
+										<legend>Monitoreo y evaluación</legend>
+										Estado de proceso: <br>
+									</div>
+									
+																</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<ul class="media-list hide">
+		<li class="media">
+			<a class="pull-left" href="#">
+				<i class="icon-angle-right media-object"></i>
+
+			</a>
+			<div class="media-body">
+				<h4 class="media-heading">Facebook</h4>
+				<p>Facebook is the worlds largest Social Network
+					with over 1.3 billion Users.</p>
+					<!-- Nested media object -->
+					<div class="media">
+						<a class="pull-left" href="#">
+							<i class="icon-angle-right media-object"></i>
+						</a>
+						<div class="media-body">
+							<h4 class="media-heading">Twitter</h4>
+							Twitter is an online social networking and microblogging
+							service that enables users to send and read "tweets",
+							which are text messages limited to 140 characters. 
+							<!-- Nested media object -->
+							<div class="media">
+								<a class="pull-left" href="#">
+									<i class="icon-angle-right media-object"></i>
+								</a>
+								<div class="media-body">
+									<h4 class="media-heading">Google Plus</h4>
+									Google+ is social network designed and developed by Google Inc.Google
+									describes it as "social layer" for its other products
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Nested media object -->
+					<div class="media">
+						<a class="pull-left" href="#">
+							<i class="icon-angle-right media-object"></i>
+						</a>
+						<div class="media-body">
+							<h4 class="media-heading">Google Plus</h4>
+							Google+ is social network designed and developed by Google Inc.Google
+							describes it as "social layer" for its other products
+						</div>
+					</div>
+				</div>
+			</li>
+		</ul>
+	</body>
+	<script>
+	var modal_c = modal_carga_gn();
+	modal_c.crear();
+	var arr_roles = [
+	{value: '4', text: 'Maestro'},
+	{value: '5', text: 'Director'},
+	{value: '6', text: 'Supervisor'},
+	{value: '7', text: 'Director departamental'},
+	{value: '8', text: 'Alumno'},
+	{value: '11', text: 'Personal administrativo'},
+	{value: '12', text: 'Personal de la escuela'}
+	];
+	function listar_participantes_escuela (id_escuela, objetivo) {
+		$('#'+objetivo).hide();
+		modal_c.mostrar();
+		$("#"+objetivo).find("tr:gt(0)").remove();
+		$.getJSON( nivel_entrada+'app/src/libs_gen/gn_escuela.php', {
+			fn_nombre: 'listar_participante',
+			args: JSON.stringify({id:id_escuela})
+		})
+		.done(function (resp) {
+			$.each(resp, function (index, item) {
+				$('#'+objetivo).append('<tr><td>'+(index+1)+'</td><td>'+item.nombre+'</td><td>'+item.apellido+'</td><td>'+item.genero+'</td></tr>');
+			});
+			$('#'+objetivo).show();
+			modal_c.ocultar();
+		});
+	}
+	/**
+	 * Hace la solicitud del listado de TODOS los contactos asociados
+	 * @param  {int} id_escuela El id de la escuela a la que se solicitan los datos
+	 * @param  {string}	objetivo	el ID de la lista donde se agregan  los contactos
+	 * @return {json}            [description]
+	 */
+	function listar_contacto_escuela (id_escuela, objetivo) {
+		$('#'+objetivo).empty();
+		$.getJSON( nivel_entrada+'app/src/libs_gen/esc_contacto.php', {
+			fn_nombre: 'listar_contacto_escuela',
+			args: JSON.stringify({id:id_escuela})
+		})
+		.done(function (resp) {
+			$.each(resp, function (index, item) {
+				render_contacto(item, objetivo);
+			});
+		});
+	}
+	/**
+	 * Abre un único contacto y lo agrega al final de una lista
+	 * @param  {int} id_contacto El ID para buscar
+	 * @param  {string} objetivo    la lista a la que se añade
+	 */
+	function abrir_contacto_escuela (id_contacto, objetivo) {
+		$.getJSON(nivel_entrada+'app/src/libs_gen/esc_contacto.php', {
+			fn_nombre: 'abrir_contacto',
+			args: JSON.stringify({id:id_contacto})
+		})
+		.done(function (resp) {
+			render_contacto(resp, objetivo);
+		});
+	}
+	/**
+	 * Crea la vista para la info del contacto
+	 * @param  {Array} contacto {id, id_persona, nombre, apellido, tel_movil, mail}
+	 * @param  {String} objetivo Una UL a la que se agregan items
+	 * @param  {Bool} editable Permite que la info de este contacto sea editable
+	 * @return {[type]}          [description]
+	 */
+	 function render_contacto (contacto, objetivo, editable) {
+	 	$('#'+objetivo).append('<li id="li_contacto_'+contacto.id+'"></li>');
+	 	var string_blockquote = '<blockquote class="well well-small" id="blck_'+contacto.id+'"></blockquote>';
+	 	var string_rol = '<p><strong><span data-type="select" data-source=\''+JSON.stringify(arr_roles)+'\' data-name="id_rol" class="cnt_'+contacto.id+'">'+nullToEmpty(contacto.rol)+'</span></strong> - <i class="icon-edit" id="icon_edit_'+contacto.id+'" onclick="activar_edicion_contacto('+contacto.id+', \'cnt_'+contacto.id+'\');"></i></p>';
+	 	var string_close = '<button class="close" onclick="abrir_contacto_escuela('+contacto.id+', \'lista_contacto\');" type="button">×</button>';
+	 	var string_nombre = '<small><strong>Nombre: </strong><span data-name="nombre" data-type="text" class="cnt_'+contacto.id+'">'+contacto.nombre+'</span> <span data-name="apellido" data-type="text" class="cnt_'+contacto.id+'">'+contacto.apellido+'</span> </small>';
+	 	var string_tel = '<small><strong>Teléfono: </strong><span data-name="tel_movil" data-type="text" class="cnt_'+contacto.id+'">'+nullToEmpty(contacto.tel_movil)+'</span></small>';
+	 	var string_mail = '<small><strong>Correo electrónico: </strong><span data-name="mail" data-type="text" class="cnt_'+contacto.id+'">'+nullToEmpty(contacto.mail)+'</span></small>';
+	 	$('#li_contacto_'+contacto.id).append(string_blockquote);
+	 	$('#blck_'+contacto.id).append(string_rol+string_close+string_nombre+string_tel+string_mail);
+	 }
+	 /**
+	  * Habilita la x-editable para el contacto
+	  * @param  {int} pk         La ID que se le agrega al campo para enviar
+	  * @param  {string} clase_cnt  La clase en la que se basa para reconocer el contacto
+	  * @param  {int} desactivar Si es 1 desactiva la edicion
+	  */
+	 function activar_edicion_contacto (pk, clase_cnt, desactivar) {
+	 	var datos_contacto = document.getElementsByClassName(clase_cnt);
+	 	for (var i = datos_contacto.length - 1; i >= 0; i--) {
+	 		var data_name = $(datos_contacto[i]).attr('data-name');
+	 		if(desactivar==1){
+	 			$('.'+clase_cnt+'_edit').contents().unwrap();
+	 			$('#icon_edit_'+pk).attr('onclick', "activar_edicion_contacto("+pk+", '"+clase_cnt+"');");
+	 		}
+	 		else{
+	 			datos_contacto[i].innerHTML = '<a href="#" data-type="'+$(datos_contacto[i]).attr('data-type')+'" class="'+clase_cnt+'_edit" data-name="'+data_name+'" data-pk="'+pk+'">'+$(datos_contacto[i]).text()+'</a>';
+	 			$('#icon_edit_'+pk).attr('onclick', "activar_edicion_contacto("+pk+", '"+clase_cnt+"', 1);");
+	 		}
+	 	};
+	 	$('.'+clase_cnt+'_edit').editable({
+	 		url: nivel_entrada+'app/src/libs_gen/esc_contacto.php?fn_nombre=editar_contacto',
+	 		mode: 'inline',
+	 		source: arr_roles
+	 	});
+	 }
+	/**
+	 * Oculta o muestra el formulario para nuevo contacto
+	 * @param  {int} mostrar Si es 1 muestra, de lo contrario oculta
+	 */
+	function nuevo_contacto (mostrar) {
+		document.getElementById('form_contacto').reset();
+		if(mostrar==1){
+			$('#form_contacto').show();
+		}
+		else{
+			$('#form_contacto').hide();
+		}
+	}
+	 $(document).ready(function () {
+
+	 	$.each(arr_roles, function (index, item) {
+	 		$('#inp_rol_cnt').append('<option value="'+item['value']+'">'+item.text+'</option>');
+	 	});
+	 	$('.editable_gen').editable({
+	 		pk: 26867,
+	 		mode: 'inline'
+	 	});
+	 	listar_contacto_escuela(26867, 'lista_contacto');
+	 	$('.editable_cyd').editable({
+	 		pk: 26867,
+	 		mode: 'inline'
+	 	});
+	 	$('#form_contacto').submit(function (e) {
+	 		e.preventDefault();
+	 		modal_c.mostrar();
+	 		$.ajax({
+	 			url: nivel_entrada+'app/src/libs_gen/esc_contacto.php',
+	 			data: {
+	 				fn_nombre: 'crear_contacto',
+	 				args: JSON.stringify($('#form_contacto').serializeObject())
+	 			},
+	 			dataType: 'json',
+	 			success: function (data) {
+	 				if(data.msj=='si'){
+	 					var id_contacto = $.parseJSON(data.contacto);
+	 					abrir_contacto_escuela((id_contacto['id']), 'lista_contacto');
+	 				}
+	 				modal_c.ocultar();
+	 			}
+	 		});
+	 		nuevo_contacto();
+	 	});
+	 });
+	 </script>
+	 </html>

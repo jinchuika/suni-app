@@ -1,10 +1,10 @@
 <?php
-require_once('../../../includes/auth/Db.class.php');
-require_once('../../../includes/auth/Conf.class.php');
-require_once('validar.class.php');
-/*Obtiene los datos de la cookie para validar la edición*/
-require_once("../../../includes/auth/sesion.class.php");
-$sesion = new sesion();
+
+include '../../src/libs/incluir.php';
+$nivel_dir = 3;
+$libs = new librerias($nivel_dir);
+$sesion = $libs->incluir('seguridad');
+$bd = $libs->incluir('bd');
 
 if(($sesion->get("rol"))==1){	//Valida que sólo un administrador pueda hacerlo
 	$bd = Db::getInstance();

@@ -232,7 +232,7 @@ $bd = $libs->incluir('bd');
 							participante = this;
 							cont++;
 							$("#header_nota").attr('colspan', cant_notas);
-							$("#tabla_body").append("<tr><td><a href='"+nivel_entrada+"app/cap/par/perfil.php?id="+participante.id_par+"'>" + cont + "</a></td><td><a href='#' data-type='text' data-pk='"+participante.id_persona+"' class='nombre_editable'>" + participante.nombre + "</a></td><td><a href='#' data-type='text' data-pk='"+participante.id_persona+"' class='apellido_editable'>" + participante.apellido + "</a></td><td><a href='#' data-type='text' data-pk='"+participante.id_persona+"' class='id_dpi'>" + participante.dpi + "</a></td><td>" + participante.genero + "</td><td><a href='#' data-type='text' data-pk='"+participante.id_persona+"' class='mail_editable'>" + participante.mail + "</a></td><td>" + participante.escuela + "</td><td><a href='#' data-type='text' data-pk='"+participante.id_persona+"' class='telefono_editable'>" + participante.telefono + "</a><td><a href='#' data-type='select' data-pk='"+participante.id_par+"' class='etnia_editable'>" + participante.etnia + "</a></td><td>" + participante.curso + "</td><td>" + participante.desc + "</td><td><a href='#' data-type='text' data-pk='"+participante.id_par+"' class='udi_editable'>" + participante.udi + "</a></td><td><a href='#' data-type='text' data-pk='"+participante.id_par+"' class='escolaridad_editable'>" + participante.escolaridad + "</a></td></tr>");
+							$("#tabla_body").append("<tr><td><a href='"+nivel_entrada+"app/cap/par/perfil.php?id="+participante.id_par+"'>" + cont + "</a></td><td><a href='#' data-type='text' data-pk='"+participante.id_persona+"' class='nombre_editable'>" + participante.nombre + "</a></td><td><a href='#' data-type='text' data-pk='"+participante.id_persona+"' class='apellido_editable'>" + participante.apellido + "</a></td><td><a href='#' data-type='text' data-pk='"+participante.id_persona+"' class='id_dpi'>" + participante.dpi + "</a></td><td>" + participante.genero + "</td><td><a href='#' data-type='text' data-pk='"+participante.id_persona+"' class='mail_editable'>" + participante.mail + "</a></td><td>" + participante.escuela + "</td><td><a href='#' data-type='text' data-pk='"+participante.id_par+"' class='udi_editable'>" + participante.udi + "</a><td><a href='#' data-type='select' data-pk='"+participante.id_par+"' class='etnia_editable'>" + participante.etnia + "</a></td><td>" + participante.curso + "</td><td>" + participante.desc + "</td><td><a href='#' data-type='text' data-pk='"+participante.id_persona+"' class='telefono_editable'>" + participante.telefono + "</a></td><td><a href='#' data-type='text' data-pk='"+participante.id_par+"' class='escolaridad_editable'>" + participante.escolaridad + "</a></td></tr>");
 						}
 					});
 habilitar_edicion();
@@ -271,11 +271,11 @@ $("#loading_gif").hide();
 							<th data-sort="string" class="head">Género </th>
 							<th data-sort="string" class="head">Correo </th>
 							<th data-sort="string" class="head">Escuela </th>
+							<th data-sort="string" class="head">UDI </th>
 							<th data-sort="string" class="head">Teléfono </th>
 							<th data-sort="int" class="head">Etnia </th>
 							<th data-sort="string" class="head">Curso </th>
 							<th data-sort="string" class="head">Grupo </th>
-							<th data-sort="string" class="head">Escuela </th>
 							<th data-sort="string" class="head">Escolaridad </th>
 						</tr>
 					</thead>
