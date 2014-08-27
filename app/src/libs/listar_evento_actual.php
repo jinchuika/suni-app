@@ -56,8 +56,9 @@ function listar_eventos_diarios($id_persona)
 {
 	$bd = Db::getInstance();
 	$respuesta = array();
-	$query = "SELECT gn_grupo.id, fecha, hora_inicio, hora_fin, gn_grupo.numero, gn_curso.nombre, gn_sede.nombre, gn_persona.nombre, gn_persona.id
+	$query = "SELECT gn_grupo.id, fecha, hora_inicio, hora_fin, gn_grupo.numero, gn_curso.nombre, gn_sede.nombre, gn_persona.nombre, gn_persona.id, cr_asis_descripcion.modulo_num
 	FROM gr_calendario
+	left join cr_asis_descripcion ON gr_calendario.id_cr_asis_descripcion=cr_asis_descripcion.id
 	INNER JOIN gn_grupo ON gn_grupo.id = gr_calendario.id_grupo
 	INNER JOIN gn_sede ON gn_sede.id = gn_grupo.id_sede
 	INNER JOIN gn_persona ON gn_persona.id = gn_sede.capacitador
@@ -172,7 +173,7 @@ if($_GET['ejecutar_diario']){
 	$array_respuesta = array();
 	$array_horario = listar_eventos_diarios($_POST['id_persona']);
 	foreach ($array_horario as $key => $evento) {
-		$title= $evento[6];
+		$title= $evento[6]." [Asistencia ".$evento['modulo_num']."]";
 		$start  = $evento['fecha']." ".$evento['hora_inicio'];
 		$end    = $evento['fecha']." ".$evento['hora_fin'];
 		$allDay = false;

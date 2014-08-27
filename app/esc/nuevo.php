@@ -298,9 +298,9 @@ $rol = $sesion->get("rol");
 					success: function(data) {
 						var data = $.parseJSON(data);
 						
-						if(data["respuesta"]=="correcto"){
+						if(data["msj"]=="si"){
 							bootbox.alert("Enviado", function () {
-								//location.reload();
+								location.reload();
 							});
 						}
 						else{

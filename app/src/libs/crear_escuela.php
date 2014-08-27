@@ -42,8 +42,8 @@ if(empty($duplicados)){
 	$query = "INSERT INTO gn_escuela (codigo, distrito, departamento, municipio, nombre, direccion, telefono, supervisor, nivel, nivel1, sector, area, status, modalidad, jornada, plan, mapa)";
 	$query .= "VALUES ('".$udi."', '".$distrito."', '".$departamento."', '".$municipio."', '".$nombre."', '".$direccion."', '".$telefono."', '".$supervisor."', '".$nivel."', '".$nivel1."' , '".$sector."', '".$area."', '".$status."', '".$modalidad."', '".$jornada."', '".$plan."', '".$mapa."')";
 		if($ejecutar = $bd->ejecutar($query)){
-		$mensaje = array('respuesta' => 'correcto');
-		echo json_encode('correcto');
+		$mensaje = array('msj' => 'si');
+		echo json_encode($mensaje);
 	}
 	else{
 		$mensaje = array('respuesta' => 'error');
