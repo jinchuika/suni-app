@@ -139,6 +139,10 @@ class librerias
 				/* Para utilizar paginación en base a una tabla*/
 				$this->imprimir("php", "app/src/libs_tpe/paginacion.php");
 				break;
+			case 'js-lib':
+				/* Para utilizar paginación en base a una tabla*/
+				$this->imprimir("js-libs", $extra);
+				break;
 			default:
 				# code...
 				break;

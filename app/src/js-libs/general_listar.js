@@ -8,13 +8,13 @@
  * @param  {string} p_accion       parametros extra para que realice la funcion adjunta
  * @param  {string} plantilla_id=listado      plantilla para el ID de los elementos de la lista
  */
-function fn_listar (lista_objetivo, input_buscador, url_listar, onclick_accion, campo_mostrado, p_accion, plantilla_id) {
+ function fn_listar (lista_objetivo, input_buscador, url_listar, onclick_accion, campo_mostrado, p_accion, plantilla_id) {
   /**
    * Compone los métodos 
    * @param  {Object || String} campo Los campos que se van a mostrar
    * @return {String}       Campos que se muestran en la lista
    */
-  function f_campo_mostrado (campo) {
+   function f_campo_mostrado (campo) {
     var resp = '';
     if(campo_mostrado instanceof Object){
       for (var i in campo_mostrado) {
@@ -54,7 +54,7 @@ function fn_listar (lista_objetivo, input_buscador, url_listar, onclick_accion, 
       /**
        * Asigna al input designado en input_buscador como buscador para la lista
        */
-      if(input_buscador){
+       if(input_buscador){
         $('#'+input_buscador).filtrar_lista_ul('#'+lista_objetivo,
         {
           callback: function(total) { 
@@ -115,4 +115,42 @@ function llenar_select2 (objetivo, src_remote, campo) {
       });
     }
   });
+}
+
+var arr_data_chunche_PRUEBA_NO_USAR = new Array();
+function listar_remote (objetivo, src_remote, cant_page, page_num, flag_remove) {
+  if(typeof(cant_page)==='undefined') cant_page = 10;
+  if(typeof(page_num)==='undefined') page_num = 0;
+  if(typeof(flag_remove)==='undefined') flag_remove = false;
+  
+  $.getJSON( nivel_entrada+'app/src/libs_gen/gn_proceso.php', {
+    fn_nombre: "listar_escuela",
+    args: JSON.stringify({
+      cant_page: cant_page,
+      page_num: page_num
+    })
+  })
+  .done(function (data) {
+    $.each(data, function (index, item) {
+      render_listar_remote(objetivo, item);
+    });
+    if(data.length>0){
+      listar_remote (objetivo, src_remote, cant_page, (page_num+cant_page), flag_remove);
+    }
+    else{
+      $("#inp_abrir_escuela").select2({
+        data:function() { return { text:'text', results: arr_data_chunche_PRUEBA_NO_USAR }; }
+      });
+    }
+  });
+}
+
+function render_listar_remote (objetivo, lista_item) {
+  var currentdate = new Date();
+  var temp_arr = new Array();
+  temp_arr['text'] = lista_item.codigo + ' = '+lista_item.nombre;
+  temp_arr['value'] = lista_item.id;
+  arr_data_chunche_PRUEBA_NO_USAR.push(temp_arr);
+  console.log(currentdate.getHours() + ":"  
+   + currentdate.getMinutes() + ":" + currentdate.getSeconds()+'=> '+lista_item.id);
 }

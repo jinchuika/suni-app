@@ -75,16 +75,9 @@ class esc_contacto
 	public function crear_contacto($args=null)
 	{
 		$respuesta = array('msj' => 'no');
-		$query = "call
-		crearContacto(
-			'".$args['inp_nombre_cnt']."'
-			, '".$args['inp_apellido_cnt']."'
-			, '1'
-			, '".$args['inp_mail_cnt']."'
-			, '".$args['inp_tel_movil_cnt']."'
-			,'".$args['inp_id_escuela_cnt']."'
-			, '".$args['inp_rol_cnt']."')";
-		if($contacto=$this->bd->ejecutar_procedimiento($query)){
+		$query = "call crearContactoEscuela('".$args['inp_nombre_cnt']."', '".$args['inp_apellido_cnt']."', '1', '".$args['inp_mail_cnt']."', '".$args['inp_tel_movil_cnt']."','".$args['inp_id_escuela_cnt']."', '".$args['inp_rol_cnt']."')";
+		$stmt=$this->bd->ejecutar($query);
+		if($contacto=$this->bd->obtener_fila($stmt, 0)){
 			$respuesta['msj'] = 'si';
 			$respuesta['contacto'] = json_encode($contacto);
 			//$respuesta['contacto'] = json_encode($this->abrir_contacto(json_decode($respuesta['contacto'], true)));
@@ -148,6 +141,21 @@ class esc_contacto
 			$respuesta['msj'] = 'si';
 			$respuesta['id'] = $pk;
 			$respuesta['name'] = $name;
+		}
+		return $respuesta;
+	}
+
+	public function eliminar_contacto($args=null)
+	{
+		$respuesta = array('msj' => 'no');
+		$query = "call eliminarContactoEscuela('".$args['id']."')";
+		if($stmt=$this->bd->ejecutar($query)){
+			$respuesta['msj'] = 'si';
+			$respuesta['id'] = json_encode($args['id']);
+			//$respuesta['contacto'] = json_encode($this->abrir_contacto(json_decode($respuesta['contacto'], true)));
+		}
+		else{
+			$respuesta['query'] = $query;
 		}
 		return $respuesta;
 	}

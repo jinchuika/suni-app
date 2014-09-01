@@ -10,6 +10,7 @@ $rol = $sesion->get("rol");
 
 
 $id_escuela = $_GET["id_escuela"];
+header('Location: perfil.php?id='.$id_escuela);
 $query = "SELECT * FROM gn_escuela WHERE id=".$id_escuela;
 $stmt = $bd->ejecutar($query);
 if($escuela = $bd->obtener_fila($stmt, 0)){

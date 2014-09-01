@@ -109,7 +109,7 @@ else{
 									<ul>
 										<?php
 										foreach ($array_escuelas as $key => $escuela) {
-											echo "<li> <a title='".$escuela['direccion']."' href='http://funsepa.net/suni/app/esc/escuela.php?id_escuela=".$escuela["id"]."'>".$escuela["nombre"]."</a>, (".$escuela['cantidad'].")</li>";
+											echo "<li> <a title='".$escuela['direccion']."' href='../../esc/escuela.php?id_escuela=".$escuela["id"]."'>".$escuela["nombre"]."</a>, (".$escuela['cantidad'].")</li>";
 										}
 										?>
 									</ul>
