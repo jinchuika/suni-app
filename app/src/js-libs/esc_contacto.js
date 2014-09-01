@@ -5,7 +5,7 @@ var arr_roles_contacto = [
 {value: '7', text: 'Director departamental'},
 {value: '8', text: 'Alumno'},
 {value: '11', text: 'Personal administrativo'},
-{value: '12', text: 'Personal de la escuela'}
+{value: '12', text: 'Encargado de laboratorio'}
 ];
 /**
 * Hace la solicitud del listado de TODOS los contactos asociados

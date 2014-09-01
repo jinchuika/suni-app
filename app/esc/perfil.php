@@ -51,7 +51,8 @@ if($id_escuela = $_GET['id']){
 	gn_escuela.supervisor,
 	gn_escuela.mapa,
 	gn_departamento.nombre as departamento,
-	gn_municipio.nombre as municipio
+	gn_municipio.nombre as municipio,
+	gn_escuela.facebook
 	FROM
 	gn_escuela
 	left join gn_departamento ON gn_departamento.id_depto=gn_escuela.departamento
@@ -116,7 +117,7 @@ if($id_escuela = $_GET['id']){
 									Municipio: <a href="#" <?php if($sesion->has($id_area,4)){  echo 'class="editable_gen"';}?> data-type="select" data-name="municipio" data-source="../../app/src/libs_gen/gn_municipio.php?fn_nombre=listar_municipio&args='{editable:1}'" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="municipio"><? echo $escuela['municipio']; ?></a><br />
 									Dirección: <a href="#" <?php if($sesion->has($id_area,4)){  echo 'class="editable_gen"';}?> data-type="text" data-name="direccion" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="direccion"><? echo $escuela['direccion']; ?></a><br />
 									Supervisor: <a href="#" <?php if($sesion->has($id_area,4)){  echo 'class="editable_gen"';}?> data-type="text" data-name="supervisor" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="supervisor"><? echo $escuela['supervisor']; ?></a><br />
-									Cantidad de alumnos: <a href="#" <?php if($sesion->has($id_area,4)){  echo 'class="editable_gen"';}?> data-type="text" data-name="cant_alumnos" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="cant_alumnos"><? echo $escuela['cant_alumnos']; ?></a><br />
+									Facebook: <a href="#" <?php if($sesion->has($id_area,4)){  echo 'class="editable_gen"';}?> data-type="text" data-name="facebook" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="facebook"><? echo $escuela['facebook']; ?></a><br />
 									Observaciones: <a href="#" <?php if($sesion->has($id_area,4)){  echo 'class="editable_gen"';}?> data-type="text" data-name="obs" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="obs"><? echo $escuela['obs']; ?></a><br />
 									Mapa:
 									<?php
@@ -354,6 +355,30 @@ if($id_escuela = $_GET['id']){
 	 		mode: 'inline'
 	 	});
 	 	activar_form_contacto('form_contacto');
+	 	$("#link_mapa").click(function () {
+			bootbox.prompt("Ingrese la latitud (Lat)", function(result) {
+				var temp_result = result;
+				bootbox.prompt("Ingrese la longitud (Lng)", function (result) {
+					if(result){
+						$.ajax({
+							type: "post",
+							<?
+							if($escuela["mapa"]!=="0"){
+								echo 'url: "../../app/src/libs/editar_escuela.php?mapa=1",';	//Para modificar
+							}
+							else{
+								echo 'url: "../../app/src/libs/editar_escuela.php?mapa=2",';	//Para crear uno nuevo
+							}
+							echo 'data: {lat: temp_result, lng: result, id_escuela: '.$id_escuela.' },';
+							?>
+							success: function () {
+								location.reload();
+							}
+						});
+					}
+				});
+			});
+		});
 	 });
 </script>
 </html>

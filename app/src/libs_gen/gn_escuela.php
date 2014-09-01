@@ -22,7 +22,13 @@ class gn_escuela
 	{
 		if($this->sesion->has($this->id_area,4)){
 			$query = "UPDATE gn_escuela SET ".$name."='".$value."' WHERE id='".$pk."'";
-			return $query;
+			if($this->bd->ejecutar($query)){
+				return array('msj'=>'si');
+			}
+			else{
+				return $query;
+				
+			}
 		}
 	}
 
