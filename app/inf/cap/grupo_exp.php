@@ -272,10 +272,10 @@ $("#loading_gif").hide();
 							<th data-sort="string" class="head">Correo </th>
 							<th data-sort="string" class="head">Escuela </th>
 							<th data-sort="string" class="head">UDI </th>
-							<th data-sort="string" class="head">Teléfono </th>
 							<th data-sort="int" class="head">Etnia </th>
 							<th data-sort="string" class="head">Curso </th>
 							<th data-sort="string" class="head">Grupo </th>
+							<th data-sort="string" class="head">Teléfono </th>
 							<th data-sort="string" class="head">Escolaridad </th>
 						</tr>
 					</thead>

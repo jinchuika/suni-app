@@ -19,6 +19,7 @@ $bd = $libs->incluir('bd');
     $libs->incluir('jquery-ui');
     $libs->incluir('bs-editable');
     $libs->incluir('gn-listar');
+    
     $libs->incluir('datepicker');
     ?>
 </head>
@@ -89,6 +90,10 @@ $bd = $libs->incluir('bd');
                     </div>
                     <div id="tab_nuevo_form" data-function="nuevo_form" class="accordion-body collapse">
                         <div class="accordion-inner">
+                            <div class="row">
+                                <div class="span1"></div>
+                                <button class="btn btn-success span6">Solicitud</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -96,26 +101,35 @@ $bd = $libs->incluir('bd');
             <div class="span9">
                 <div class="row-fluid">
                     <div class="span12 well">
-                        <form class="form-inline">
-                            <label for="udi_form">UDI</label>
-                            <input type="text" class="input-medium" name="udi_form">
+                        <legend>Información de la escuela</legend>
+                        <form id="form_udi" class="form-inline">
+                            <label for="inp_udi_form">UDI</label>
+                            <input type="text" class="input-medium" name="inp_udi_form" id="inp_udi_form">
                             <button type="submit" class="btn">
                                 <i class="icon-search"></i>
                             </button>
                         </form>
-                        <div>
-                            Nombre escuela: <br>
-                            Dirección: <br>
-                            Correo electrónico: Teléfono: <br>
-                            Departamento:   Municipio: <br>
-                            Jornada:        Comunidad étnica <br>
+                        <div id="info_gen_escuela" class="hide">
+                            <table class="table">
+                                <tr><td>Nombre</td><td><span class="snp_escuela" data-campo="nombre"></span></td></tr>
+                                <tr><td>Dirección</td><td><span class="snp_escuela" data-campo="direccion"></span></td></tr>
+                                <tr><td>Correo electrónico</td><td><span class="snp_escuela" data-campo="mail"></span></td></tr>
+                                <tr><td>Teléfono</td><td><span class="snp_escuela" data-campo="telefono"></span></td></tr>
+                                <tr><td>Departamento</td><td><span class="snp_escuela" data-campo="departamento"></span></td></tr>
+                                <tr><td>Municipio</td><td><span class="snp_escuela" data-campo="municipio"></span></td></tr>
+                                <tr><td>Jornada</td><td><span class="snp_escuela" data-campo="jornada"></span></td></tr>
+                                <tr><td>Comunidad étnica</td><td><span class="snp_escuela" data-campo="etnia"></span><br></td></tr>
+                            </table>
+                            <div class="btn-group pull-right">
+                                <button onclick="reiniciar_solicitud();" class="btn btn-danger">Cancelar</button>
+                                <button id="btn_abrir_solicitud" class="btn btn-primary">Abrir</button>
+                                <button id="btn_nueva_solicitud" class="btn btn-success">Nueva</button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="row-fluid">
-                    <div class="span4 well"></div>
-                    <div class="span4 well"></div>
-                    <div class="span4 well"></div>
+                    <ul id="lista_contactos" class="unstyled"></ul>
                 </div>
                 <div class="row-fluid well">
                     <div class="span2">
@@ -207,9 +221,12 @@ $bd = $libs->incluir('bd');
         </div>
     </div>
 </body>
+<?php $libs->incluir('js-lib', 'esc_contacto.js'); ?>
+<?php $libs->incluir('js-lib', 'mye_index.js'); ?>
 <script>
-    $(document).ready(function (){
-        listar_remote ('objetivo', 'src_remote', 10);
-    });
+$(document).ready(function () {
+    listar_remote ('inp_abrir_escuela', 'app/src/libs_gen/gn_proceso.php', 'listar_escuela', 8);
+    activar_form_udi('form_udi', 'inp_udi_form');
+});
 </script>
 </html>

@@ -218,8 +218,10 @@ $bd = $libs->incluir('bd');
 					format: 'yyyy-mm-dd',
 					url: '../../src/libs/editar_calendario.php',
 					datepicker: {
-						firstDay: 1
+						firstDay: 1,
+						language: 'es'
 					},
+					mode: 'inline',
 					success: function (data) {
 						var data = $.parseJSON(data);
 						if(data>0){

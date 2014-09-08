@@ -84,11 +84,6 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 												<i class="icon-search icon-white"></i> Buscar grupo
 											</a>
 										</li>
-										<li>
-											<a href="<?php echo $nivel_dir; ?>app/cap/grp/clonar.php">
-												<i class="icon-code-fork"></i> Clonar un grupo
-											</a>
-										</li>
 									</ul>
 								</li>
 								<li class="dropdown-submenu">

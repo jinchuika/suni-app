@@ -43,6 +43,11 @@ class gn_proceso
 		}
 		return $arr_respuesta;
 	}
+
+	public function crear_proceso($args=null)
+	{
+		//$query = "insert into gn_proceso (id_escuela, id_estado, observacion) ";
+	}
 }
 
 if($_GET['fn_nombre']){

@@ -416,7 +416,7 @@ else{
 						cant_apro = cant_apro + 1;
 					}
 					else{
-						if(item['nota']>=Number(71)){
+						if(item['nota']>=Number(70)){
 							cant_medio = cant_medio + 1;
 						}
 						cant_repro = cant_repro + 1;

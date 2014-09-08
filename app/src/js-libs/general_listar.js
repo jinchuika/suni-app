@@ -117,14 +117,16 @@ function llenar_select2 (objetivo, src_remote, campo) {
   });
 }
 
+
 var arr_data_chunche_PRUEBA_NO_USAR = new Array();
-function listar_remote (objetivo, src_remote, cant_page, page_num, flag_remove) {
+function format(item) { return item.text; }
+function listar_remote (objetivo, src_remote, function_remote, cant_page, page_num, flag_remove) {
   if(typeof(cant_page)==='undefined') cant_page = 10;
   if(typeof(page_num)==='undefined') page_num = 0;
   if(typeof(flag_remove)==='undefined') flag_remove = false;
   
-  $.getJSON( nivel_entrada+'app/src/libs_gen/gn_proceso.php', {
-    fn_nombre: "listar_escuela",
+  $.getJSON( nivel_entrada+src_remote, {
+    fn_nombre: function_remote,
     args: JSON.stringify({
       cant_page: cant_page,
       page_num: page_num
@@ -135,22 +137,21 @@ function listar_remote (objetivo, src_remote, cant_page, page_num, flag_remove) 
       render_listar_remote(objetivo, item);
     });
     if(data.length>0){
-      listar_remote (objetivo, src_remote, cant_page, (page_num+cant_page), flag_remove);
+      listar_remote (objetivo, src_remote, function_remote, cant_page, (page_num+cant_page), flag_remove);
     }
     else{
-      $("#inp_abrir_escuela").select2({
-        data:function() { return { text:'text', results: arr_data_chunche_PRUEBA_NO_USAR }; }
+      $("#"+objetivo).select2({
+        data:function() { return { text:'text', results: arr_data_chunche_PRUEBA_NO_USAR }; },
+        formatSelection: format,
+        formatResult: format
       });
     }
   });
 }
-
 function render_listar_remote (objetivo, lista_item) {
   var currentdate = new Date();
   var temp_arr = new Array();
   temp_arr['text'] = lista_item.codigo + ' = '+lista_item.nombre;
-  temp_arr['value'] = lista_item.id;
+  temp_arr['id'] = lista_item.id;
   arr_data_chunche_PRUEBA_NO_USAR.push(temp_arr);
-  console.log(currentdate.getHours() + ":"  
-   + currentdate.getMinutes() + ":" + currentdate.getSeconds()+'=> '+lista_item.id);
 }

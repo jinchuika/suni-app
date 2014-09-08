@@ -96,37 +96,39 @@ function listar_entrada($id_prov = 0, $fecha_inicio = null, $fecha_fin =null, $i
 	}
 	return $respuesta;
 }
-function ensamblar_fecha($fecha_inicio, $fecha_fin)
-{
-	if( !empty($fecha_inicio) && !empty($fecha_fin) && $fecha_inicio==$fecha_fin){
-		return " and fecha='".$fecha_inicio."' ";
-	}
-	elseif(!empty($fecha_inicio) && !empty($fecha_fin) && $fecha_inicio!==$fecha_fin){
-		return " and fecha between '".$fecha_inicio."' and '".$fecha_fin."' ";
-	}
-	elseif(!empty($fecha_inicio) && empty($fecha_fin)){
-		return " and fecha > '".$fecha_inicio."' ";
-	}
-	elseif(empty($fecha_inicio) && !empty($fecha_fin)){
-		return " and fecha < '".$fecha_fin."' ";
-	}
-	elseif(empty($fecha_inicio) && empty($fecha_fin)){
-		return " ";
+if(!function_exists('ensamblar_fecha')){
+	function ensamblar_fecha($fecha_inicio, $fecha_fin)
+	{
+		if( !empty($fecha_inicio) && !empty($fecha_fin) && $fecha_inicio==$fecha_fin){
+			return " and fecha='".$fecha_inicio."' ";
+		}
+		elseif(!empty($fecha_inicio) && !empty($fecha_fin) && $fecha_inicio!==$fecha_fin){
+			return " and fecha between '".$fecha_inicio."' and '".$fecha_fin."' ";
+		}
+		elseif(!empty($fecha_inicio) && empty($fecha_fin)){
+			return " and fecha > '".$fecha_inicio."' ";
+		}
+		elseif(empty($fecha_inicio) && !empty($fecha_fin)){
+			return " and fecha < '".$fecha_fin."' ";
+		}
+		elseif(empty($fecha_inicio) && empty($fecha_fin)){
+			return " ";
+		}
 	}
 }
 switch ($_GET['fn_nombre']) {
 	case 'crear_entrada':
-		echo json_encode(crear_entrada($_GET['id_item'], $_GET['cantidad'], $_GET['id_prov'], implode("-", array_reverse(explode("/", $_GET['fecha_nueva']))), $_GET['id_estado'], $_GET['id_tipo_entrada'], $_GET['precio'], $_GET['id_salida'], $_GET['no_factura'] ));
-		break;
+	echo json_encode(crear_entrada($_GET['id_item'], $_GET['cantidad'], $_GET['id_prov'], implode("-", array_reverse(explode("/", $_GET['fecha_nueva']))), $_GET['id_estado'], $_GET['id_tipo_entrada'], $_GET['precio'], $_GET['id_salida'], $_GET['no_factura'] ));
+	break;
 	case 'abrir_entrada':
-		echo json_encode(abrir_entrada($_GET['id_entrada']));
-		break;
+	echo json_encode(abrir_entrada($_GET['id_entrada']));
+	break;
 	case 'editar_entrada':
-		echo json_encode(editar_entrada($_POST['pk'], $_POST['name'], $_POST['value']));
-		break;
+	echo json_encode(editar_entrada($_POST['pk'], $_POST['name'], $_POST['value']));
+	break;
 	case 'listar_entrada':
-		echo json_encode(listar_entrada($_GET['id_prov'], $_GET['fecha_inicio'], $_GET['fecha_fin'], $_GET['id_item'], $_GET['id_tipo_entrada']));
-		break;
+	echo json_encode(listar_entrada($_GET['id_prov'], $_GET['fecha_inicio'], $_GET['fecha_fin'], $_GET['id_item'], $_GET['id_tipo_entrada']));
+	break;
 	default:
 
 	break;
