@@ -43,7 +43,6 @@ if(empty($duplicados)){
 	$query .= "VALUES ('".$udi."', '".$distrito."', '".$departamento."', '".$municipio."', '".$nombre."', '".$direccion."', '".$telefono."', '".$supervisor."', '".$nivel."', '".$nivel1."' , '".$sector."', '".$area."', '".$status."', '".$modalidad."', '".$jornada."', '".$plan."', '".$mapa."')";
 		if($ejecutar = $bd->ejecutar($query)){
 		$mensaje = array('msj' => 'si');
-		echo json_encode($mensaje);
 	}
 	else{
 		$mensaje = array('respuesta' => 'error');

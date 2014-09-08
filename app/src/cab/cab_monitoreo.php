@@ -47,6 +47,9 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
                                             <i class="icon-search icon-white"></i><span class="glyphicon glyphicon-search"></span> Buscar una escuela
                                         </a>
                                     </li>
+                                    <li>
+										<a href="<?php echo $nivel_dir; ?>app/esc/nuevo.php"><i class="icon-pencil"></i> Creación de escuela</a>
+									</li>
                                 </ul>
                             </li>
                             <!-- >Termina el dropdown para locaciones</!-->
