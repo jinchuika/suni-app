@@ -53,6 +53,18 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
                                 </ul>
                             </li>
                             <!-- >Termina el dropdown para locaciones</!-->
+                             <!-- Dropdown de proceso -->
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-flag-checkered"></i> Procesos <b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="<?php echo $nivel_dir; ?>app/mye">
+                                            <i class="icon-check"></i> Solicitud y Validación
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <!-- Termina dropdown de proceso -->
                             <!-- Dropdown de informe -->
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-ok-circle"></i><span class="glyphicon glyphicon-ok-circle"></span> Informes <b class="caret"></b></a>

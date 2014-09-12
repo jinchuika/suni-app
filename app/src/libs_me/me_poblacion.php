@@ -1,5 +1,5 @@
 <?php
-class me_requisito
+class me_poblacion
 {	
 	/**
 	 * @param object $bd     Objeto para la conectarse al modelo
@@ -20,28 +20,28 @@ class me_requisito
 		}
 	}
 
-	public function abrir_requisito($args)
+	public function abrir_poblacion($args)
 	{
-		$query = "select * from me_requisito where id=".$args['id_requisito'];
+		$query = "select * from me_poblacion where id=".$args['id_poblacion'];
 		$stmt = $this->bd->ejecutar($query);
-		if($requisito = $this->bd->obtener_fila($stmt, 0)){
-			return $requisito;
+		if($poblacion = $this->bd->obtener_fila($stmt, 0)){
+			return $poblacion;
 		}
 	}
 
     /**
-	 * Edita la información de la requisito
+	 * Edita la información de la poblacion
 	 * @param  array $args  Enviado sólo para aceptar el uso del método mediante ajax
-	 * @param  int $pk    El ID de la requisito
+	 * @param  int $pk    El ID de la poblacion
 	 * @param  string $name  El campo a editar
 	 * @param  string $value Nuevo valor del campo
 	 * @return array        {
 	 *         string 	$msj 	Respuesta sobre la edición
 	 * }
 	 */
-    public function editar_requisito($args=null, $pk=null, $name=null, $value=null)
+    public function editar_poblacion($args=null, $pk=null, $name=null, $value=null)
     {
-    	$query = "UPDATE me_requisito SET ".$name."='".$value."' WHERE id='".$pk."'";
+    	$query = "UPDATE me_poblacion SET ".$name."='".$value."' WHERE id='".$pk."'";
     	if($this->bd->ejecutar($query)){
     		return array('msj'=>'si', 'id'=>$pk, 'name'=>$name);
     	}
@@ -51,8 +51,8 @@ class me_requisito
     	}
     }
 }
-$fn_nombre = !empty($_GET['fn_nombre']) ? $_GET['fn_nombre'] : $_POST['fn_nombre'];
-if($fn_nombre){
+if($_GET['fn_nombre']){
+	$fn_nombre = $_GET['fn_nombre'];
 	$args = $_GET['args'];
 	unset($_GET['fn_nombre']);
 	unset($_GET['args']);
@@ -63,7 +63,7 @@ if($fn_nombre){
 		$value = $_POST['value'];
 	}
 
-	$me_requisito = new me_requisito();
-	echo json_encode($me_requisito->$fn_nombre(json_decode($args, true),$pk,$name,$value));
+	$me_poblacion = new me_poblacion();
+	echo json_encode($me_poblacion->$fn_nombre(json_decode($args, true),$pk,$name,$value));
 }
 ?>

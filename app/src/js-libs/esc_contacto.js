@@ -13,7 +13,7 @@ var arr_roles_contacto = [
 * @param  {string}  objetivo    el ID de la lista donde se agregan  los contactos
 * @return {json}            [description]
 */
-function listar_contacto_escuela (id_escuela, objetivo) {
+function listar_contacto_escuela (id_escuela, objetivo, callback) {
     $('#'+objetivo).empty();
     $.getJSON( nivel_entrada+'app/src/libs_gen/esc_contacto.php', {
         fn_nombre: 'listar_contacto_escuela',
@@ -21,7 +21,7 @@ function listar_contacto_escuela (id_escuela, objetivo) {
     })
     .done(function (resp) {
         $.each(resp, function (index, item) {
-            render_contacto(item, objetivo);
+            render_contacto(item, objetivo, false, callback);
         });
     });
 }
@@ -29,13 +29,15 @@ function listar_contacto_escuela (id_escuela, objetivo) {
  * Abre un único contacto y lo agrega al final de una lista
  * @param  {int} id_contacto El ID para buscar
  * @param  {string} objetivo    la lista a la que se añade
+ * @param {bool} limpiar para saber si se limpia el DIV objetivo
  */
- function abrir_contacto_escuela (id_contacto, objetivo) {
+ function abrir_contacto_escuela (id_contacto, objetivo, limpiar) {
     $.getJSON(nivel_entrada+'app/src/libs_gen/esc_contacto.php', {
         fn_nombre: 'abrir_contacto',
         args: JSON.stringify({id:id_contacto})
     })
     .done(function (resp) {
+      limpiar==true ? $('#'+objetivo).empty() : '';
         render_contacto(resp, objetivo);
     });
 }
@@ -46,7 +48,7 @@ function listar_contacto_escuela (id_escuela, objetivo) {
  * @param  {Bool} editable Permite que la info de este contacto sea editable
  * @return {[type]}          [description]
  */
- function render_contacto (contacto, objetivo, editable) {
+ function render_contacto (contacto, objetivo, editable, callback) {
     $('#'+objetivo).append('<li id="li_contacto_'+contacto.id+'"></li>');
     var string_blockquote = '<blockquote class="well well-small" id="blck_'+contacto.id+'"></blockquote>';
     var string_rol = '<p><strong><span data-type="select" data-source=\''+JSON.stringify(arr_roles_contacto)+'\' data-name="id_rol" class="cnt_'+contacto.id+'">'+nullToEmpty(contacto.rol)+'</span></strong> - <i class="icon-edit" id="icon_edit_'+contacto.id+'" onclick="activar_edicion_contacto('+contacto.id+', \'cnt_'+contacto.id+'\');"></i>  <a href="tel:'+nullToEmpty(contacto.tel_movil)+'">[ <i class="icon-phone text-center"></i> ]</a></p>';
@@ -56,6 +58,9 @@ function listar_contacto_escuela (id_escuela, objetivo) {
     var string_mail = '<small><strong>Correo electrónico: </strong><span data-name="mail" data-type="text" class="cnt_'+contacto.id+'">'+nullToEmpty(contacto.mail)+'</span></small>';
     $('#li_contacto_'+contacto.id).append(string_blockquote);
     $('#blck_'+contacto.id).append(string_rol+string_close+string_nombre+string_tel+string_mail);
+    if(callback && typeof(callback) === "function") {  
+      callback(contacto.id);  
+    }
 }
  /**
   * Habilita la x-editable para el contacto
@@ -87,7 +92,8 @@ function listar_contacto_escuela (id_escuela, objetivo) {
  * @param  {int} mostrar Si es 1 muestra, de lo contrario oculta
  */
  function nuevo_contacto (mostrar, objetivo) {
-    document.getElementById('form_contacto').reset();
+  objetivo = objetivo || 'form_contacto';
+    document.getElementById(objetivo).reset();
     if(mostrar==1){
         $('#'+objetivo).show();
     }
