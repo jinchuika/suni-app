@@ -12,9 +12,11 @@
   $('#div_req').hide();
   $('#div_medio').hide();
   $('#div_obs').hide();
+  $('#contenedor_form').children().unbind();
 
   $('#lista_contactos').empty();
   $('.cnt_solicitud').remove();
+  $('#form_udi').goTo();
 
 }
 
@@ -217,7 +219,7 @@ function crear_solicitud (id_proceso, callback) {
       $('#spn_jornadas').html('<a class="dato_solicitud" data-type="number" data-name="jornadas" href="#">'+solicitud.jornadas+'</a>');
       $('#spn_obs_solicitud').html('<a class="dato_solicitud" data-type="textarea" data-name="obs" href="#">'+nullToEmpty(solicitud.obs)+'</a>');
       $('#chk_lab_actual').prop('checked', (solicitud.lab_actual == "1" ? true : false))
-      .change(function () {
+      .unbind().bind('change', function () {
         var accion = ($(this).is(':checked') ? "1" : "0");
         $.post(nivel_entrada+'app/src/libs_me/me_solicitud.php', {
           pk: solicitud.id_solicitud,
@@ -251,6 +253,7 @@ function crear_solicitud (id_proceso, callback) {
       abrir_poblacion(solicitud.id_poblacion);
       abrir_requisito(solicitud.id_requisito);
       abrir_medio(solicitud.id_medio);
+      $('#spn_id_solicitud').goTo();
 
       if(callback && typeof(callback) === "function") {  
         callback(solicitud.id);
@@ -303,10 +306,10 @@ function abrir_contactos_solicitud (id_solicitud) {
           return '<div id="'+ div_id +'">cargando...</div>';
         }
       });
-      $popover.on("shown", function(e) {
+      $popover.unbind().bind("shown", function(e) {
         abrir_contacto_escuela($(this).data('idcontacto'), "popover" + $(this).data('idcontacto'), true);
       });
-      $('body').on('click', function (e) {
+      $('body').unbind().bind('click', function (e) {
         if ($(e.target).data('toggle') !== 'popover'
           && $(e.target).parents('.popover.in').length === 0) { 
           $('[data-toggle="popover"]').popover('hide');
@@ -366,7 +369,8 @@ function abrir_poblacion (id_poblacion) {
       $('#chk_requisito'+index).val(item);
       $('#chk_requisito_'+index).prop('checked', ((item == "1") ? true : false));
     });
-    $('.chk_requisito').on('change', function () {
+    $('.chk_requisito').unbind();
+    $('.chk_requisito').unbind().bind('change', function () {
       var accion = ($(this).is(':checked') ? "1" : "0");
       $.post(nivel_entrada+'app/src/libs_me/me_requisito.php', {
         pk: id_requisito,
@@ -397,7 +401,7 @@ function abrir_poblacion (id_poblacion) {
       $('#chk_medio'+index).val(item);
       $('#chk_medio_'+index).prop('checked', ((item == "1") ? true : false));
     });
-    $('.chk_medio').on('change', function () {
+    $('.chk_medio').unbind().bind('change', function () {
       var accion = ($(this).is(':checked') ? "1" : "0");
       $.post(nivel_entrada+'app/src/libs_me/me_medio.php', {
         pk: id_medio,
@@ -430,7 +434,7 @@ function abrir_poblacion (id_poblacion) {
     });
     $('#spn_edf_fecha').html('<a class="edf_editable" data-name="fecha" href="#">'+edf.fecha+'</a>');
     $('#spn_edf_nivel').html('<a class="edf_editable" data-name="nivel" href="#">'+edf.nivel+'</a>');
-    $('.chk_edf').on('change', function () {
+    $('.chk_edf').unbind().bind('change', function () {
       var accion = ($(this).is(':checked') ? "1" : "0");
       $.post(nivel_entrada+'app/src/libs_me/me_edf.php', {
         pk: id_edf,

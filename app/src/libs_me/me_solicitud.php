@@ -102,13 +102,14 @@ class me_solicitud
         me_solicitud.id as id_solicitud,
         esc_contacto.id as value,
         esc_contacto.id_rol,
-        concat(gn_persona.nombre, " ", gn_persona.apellido) as text,
+        concat(gn_persona.nombre, " ", gn_persona.apellido, " - ", usr_rol.rol) as text,
         gn_persona.apellido,
         gn_persona.tel_movil
         from me_solicitud
         inner join gn_proceso ON gn_proceso.id=me_solicitud.id_proceso
         inner join gn_escuela ON gn_escuela.id=gn_proceso.id_escuela
         right join esc_contacto ON gn_escuela.id=esc_contacto.id_escuela
+        inner join usr_rol ON esc_contacto.id_rol=usr_rol.idRol
         left join gn_persona ON gn_persona.id=esc_contacto.id_persona
         where me_solicitud.id="'.$args['id_solicitud'].'" 
         ';
