@@ -36,7 +36,13 @@ class me_solicitud
     {
         $query = "call crearMeSolicitud(".$args['id_proceso'].")";
         $stmt = $this->bd->ejecutar($query);
-        if($solicitud = $this->bd->obtener_fila($stmt, 0)){
+        if($solicitud = $this->bd->ejecutar_procedimiento($stmt)){
+            require_once('../libs_gen/gn_proceso.php');
+            $gn_proceso = new gn_proceso($this->bd, $this->sesion);
+            $gn_proceso->cambiar_estado_proceso(array(
+            	'id_estado' => 1,
+            	'id_proceso' => $args['id_proceso']
+            	));
             return (empty($args['ejecutar']) ? $solicitud : $this->abrir_solicitud($solicitud));
         }
         else{
@@ -78,6 +84,15 @@ class me_solicitud
         }
     }
 
+    /**
+     * Abre los contactos asociados a la solicitud
+     * @param  Array $args Contiene el id de la solicitud
+     * @return Array {
+     *         @var supervisor array
+     *         @var director array
+     *         @var responsable array
+     * }
+     */
     public function abrir_contactos_solicitud($args=null)
     {
         $arr_respuesta = array();
@@ -157,6 +172,11 @@ class me_solicitud
             header($_SERVER['SERVER_PROTOCOL'].'HTTP 500 El rol de '.$contacto['nombre'].' '.$contacto['apellido'].' no corresponde', true, 304);
             return($result);
         }
+    }
+
+    public function listar_solicitud($args)
+    {
+    	
     }
 
     /**

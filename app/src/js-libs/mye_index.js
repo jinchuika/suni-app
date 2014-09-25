@@ -1,4 +1,9 @@
 /**
+ * Estados para indicar si hay una solicitud abierta
+ */
+var estado_solicitud_actual = 0
+, estado_validacion_actual = 0;
+/**
  * Limpia todos los campos de la solicitud
  */
  function reiniciar_solicitud () {
@@ -123,7 +128,8 @@ if(!modal_c){
     // si la escuela ya tiene un proceso
     if(data.msj=='si'){
       if(nuevo_form && tipo_form=='1'){
-        bootbox.confirm('Esta escuela ya envió una solicitud; ¿desea crear otra?', function (result) {
+        modal_c.ocultar();
+        bootbox.confirm('Esta escuela ya tiene un proceso activo, y es posible que ya haya ingresado una solicitud; ¿desea continuar?', function (result) {
           if(result==true){
             /**
              * Crear el una nueva solicitud y la abre
@@ -132,6 +138,7 @@ if(!modal_c){
              */
              crear_solicitud(data.id, function (id_solicitud_callback) {
               abrir_solicitud(id_solicitud_callback);
+              modal_c.ocultar();
             });
            }
            else{
@@ -182,6 +189,7 @@ function crear_solicitud (id_proceso, callback) {
   })
   .done(function (data) {
     if(data.id){
+      console.log('Creada solicitud: '+data.id);
       if(callback && typeof(callback) === "function") {  
         callback(data.id);
       }
@@ -263,12 +271,17 @@ function crear_solicitud (id_proceso, callback) {
       bootbox.alert('Error al abrir la solicitud');
     }
     modal_c.ocultar();
+    console.log('Se debió haber ocultado desde abrir_solicitud()');
   });
 
 }
 
-
-function abrir_contactos_solicitud (id_solicitud) {
+/**
+ * Carga los contactos asignados a esa solicitud
+ * @param  {int} id_solicitud el ID de la solicitud
+ * @return {bool}              False en caso de error
+ */
+ function abrir_contactos_solicitud (id_solicitud) {
   $.getJSON(nivel_entrada+'app/src/libs_me/me_solicitud.php', {
     fn_nombre: 'abrir_contactos_solicitud',
     args: JSON.stringify({
@@ -317,16 +330,14 @@ function abrir_contactos_solicitud (id_solicitud) {
     });
     }
     else{
-
+      bootbox.alert('Error al cargar los contactos. Por favor abra de nuevo la solicitud');
+      return false;
     }
   });
-  /*listar_contacto_escuela(id_escuela,'lista_contactos', function (id_contacto) {
-    console.log('render para id: '+id_contacto);
-    $('#blck_'+id_contacto).append('<small><button class="btn btn-mini btn-danger span12" data-idcontacto="'+id_contacto+'">Utilizar</button></small>');
-  });*/
 }
 
 function abrir_poblacion (id_poblacion) {
+  modal_c.mostrar();
   $.getJSON(nivel_entrada+'app/src/libs_me/me_poblacion.php', {
     fn_nombre: 'abrir_poblacion',
     args: JSON.stringify({
@@ -346,7 +357,8 @@ function abrir_poblacion (id_poblacion) {
       });
     }
     else{
-      bootbox.alert('Error al abrir la solicitud');
+      bootbox.alert('Error al cargar la población estudiantil. Por favor abra de nuevo la solicitud');
+      return false;
     }
     modal_c.ocultar();
   });
@@ -365,22 +377,28 @@ function abrir_poblacion (id_poblacion) {
     })
   })
   .done(function (requisito) {
-    $.each(requisito, function (index, item) {
-      $('#chk_requisito'+index).val(item);
-      $('#chk_requisito_'+index).prop('checked', ((item == "1") ? true : false));
-    });
-    $('.chk_requisito').unbind();
-    $('.chk_requisito').unbind().bind('change', function () {
-      var accion = ($(this).is(':checked') ? "1" : "0");
-      $.post(nivel_entrada+'app/src/libs_me/me_requisito.php', {
-        pk: id_requisito,
-        name: $(this).data('name'),
-        value: accion,
-        fn_nombre: 'editar_requisito'
+    if(requisito){
+      $.each(requisito, function (index, item) {
+        $('#chk_requisito'+index).val(item);
+        $('#chk_requisito_'+index).prop('checked', ((item == "1") ? true : false));
       });
-    });
-    $('#div_req').show();
-    modal_c.ocultar();
+      $('.chk_requisito').unbind();
+      $('.chk_requisito').unbind().bind('change', function () {
+        var accion = ($(this).is(':checked') ? "1" : "0");
+        $.post(nivel_entrada+'app/src/libs_me/me_requisito.php', {
+          pk: id_requisito,
+          name: $(this).data('name'),
+          value: accion,
+          fn_nombre: 'editar_requisito'
+        });
+      });
+      $('#div_req').show();
+      modal_c.ocultar();
+    }
+    else{
+      bootbox.alert('Error al cargar los requisitos. Por favor abra de nuevo la solicitud');
+      return false;
+    }
   });
 }
 
@@ -397,21 +415,27 @@ function abrir_poblacion (id_poblacion) {
     })
   })
   .done(function (medio) {
-    $.each(medio, function (index, item) {
-      $('#chk_medio'+index).val(item);
-      $('#chk_medio_'+index).prop('checked', ((item == "1") ? true : false));
-    });
-    $('.chk_medio').unbind().bind('change', function () {
-      var accion = ($(this).is(':checked') ? "1" : "0");
-      $.post(nivel_entrada+'app/src/libs_me/me_medio.php', {
-        pk: id_medio,
-        name: $(this).data('name'),
-        value: accion,
-        fn_nombre: 'editar_medio'
+    if(medio){
+      $.each(medio, function (index, item) {
+        $('#chk_medio'+index).val(item);
+        $('#chk_medio_'+index).prop('checked', ((item == "1") ? true : false));
       });
-    });
-    $('#div_medio').show();
-    modal_c.ocultar();
+      $('.chk_medio').unbind().bind('change', function () {
+        var accion = ($(this).is(':checked') ? "1" : "0");
+        $.post(nivel_entrada+'app/src/libs_me/me_medio.php', {
+          pk: id_medio,
+          name: $(this).data('name'),
+          value: accion,
+          fn_nombre: 'editar_medio'
+        });
+      });
+      $('#div_medio').show();
+      modal_c.ocultar();
+    }
+    else{
+      bootbox.alert('Error al cargar la información sobre medios. Por favor abra de nuevo la solicitud');
+      return false;
+    }
   });
 }
 
@@ -428,26 +452,32 @@ function abrir_poblacion (id_poblacion) {
     })
   })
   .done(function (edf) {
-    $.each(edf, function (index, item) {
-      $('#chk_edf'+index).val(item);
-      $('#chk_edf_'+index).prop('checked', ((item == "1") ? true : false));
-    });
-    $('#spn_edf_fecha').html('<a class="edf_editable" data-name="fecha" href="#">'+edf.fecha+'</a>');
-    $('#spn_edf_nivel').html('<a class="edf_editable" data-name="nivel" href="#">'+edf.nivel+'</a>');
-    $('.chk_edf').unbind().bind('change', function () {
-      var accion = ($(this).is(':checked') ? "1" : "0");
-      $.post(nivel_entrada+'app/src/libs_me/me_edf.php', {
-        pk: id_edf,
-        name: $(this).data('name'),
-        value: accion,
-        fn_nombre: 'editar_edf'
+    if(edf){
+      $.each(edf, function (index, item) {
+        $('#chk_edf'+index).val(item);
+        $('#chk_edf_'+index).prop('checked', ((item == "1") ? true : false));
       });
-    });
-    $('.edf_editable').editable({
-      pk: id_edf,
-      url: nivel_entrada+'app/src/libs_me/me_edf.php?fn_nombre=editar_edf'
-    })
-    $('#div_edf').show();
+      $('#spn_edf_fecha').html('<a class="edf_editable" data-name="fecha" href="#">'+edf.fecha+'</a>');
+      $('#spn_edf_nivel').html('<a class="edf_editable" data-name="nivel" href="#">'+edf.nivel+'</a>');
+      $('.chk_edf').unbind().bind('change', function () {
+        var accion = ($(this).is(':checked') ? "1" : "0");
+        $.post(nivel_entrada+'app/src/libs_me/me_edf.php', {
+          pk: id_edf,
+          name: $(this).data('name'),
+          value: accion,
+          fn_nombre: 'editar_edf'
+        });
+      });
+      $('.edf_editable').editable({
+        pk: id_edf,
+        url: nivel_entrada+'app/src/libs_me/me_edf.php?fn_nombre=editar_edf'
+      })
+      $('#div_edf').show();
+    }
+    else{
+      bootbox.alert('Error al cargar la información sobre EDF. Por favor abra de nuevo la solicitud');
+      return false;
+    }
     modal_c.ocultar();
   });
 }
