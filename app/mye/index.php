@@ -307,6 +307,7 @@ $bd = $libs->incluir('bd');
             </div>
         </div>
     </div>
+    <!-- Modal -->
 </body>
 <?php $libs->incluir('js-lib', 'esc_contacto.js'); ?>
 <?php $libs->incluir('js-lib', 'mye_index.js'); ?>

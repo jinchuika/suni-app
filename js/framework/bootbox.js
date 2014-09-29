@@ -8,7 +8,7 @@ var bootbox = window.bootbox || (function(document, $) {
 
     var _locale        = 'en',
         _defaultLocale = 'en',
-        _animate       = true,
+        _animate       = false,
         _backdrop      = 'static',
         _defaultHref   = 'javascript:;',
         _classes       = '',
@@ -384,7 +384,7 @@ var bootbox = window.bootbox || (function(document, $) {
         // check whether we should fade in/out
         var shouldFade = (typeof options.animate === 'undefined') ? _animate : options.animate;
 
-        if (shouldFade) {
+        if (shouldFade===true) {
             div.addClass("fade");
         }
 

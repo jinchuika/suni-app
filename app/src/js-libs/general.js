@@ -3,7 +3,7 @@ var id_per_entrada=js_general.getAttribute("id_per");
 var id_rol_entrada=js_general.getAttribute("id_rol");
 var nivel_entrada=js_general.getAttribute("nivel");
 function ventana_seleccion (mensaje, elemento) {
-	window.prompt (mensaje, elemento);
+  window.prompt (mensaje, elemento);
 }
 function crear_filtro_grupo (id_objetivo) {
   $(id_objetivo).append('<label for="id_sede">Sede: </label><input id="id_sede" required="required"><label for="id_curso">Curso: </label><input id="id_curso"><label for="id_grupo">Grupo: </label><select name="id_grupo" id="id_grupo"></select><img src="http://funsepa.net/suni/js/framework/select2/select2-spinner.gif" class="hide" id="loading_gif"><input type="button" id="boton_busqueda_grupo" value="Seleccionar" class="btn btn-primary">');

@@ -1,3 +1,4 @@
+$.fn.modal.Constructor.prototype.enforceFocus = function () {};
 /**
  * Estados para indicar si hay una solicitud abierta
  */
@@ -22,7 +23,7 @@ var estado_solicitud_actual = 0
   $('#lista_contactos').empty();
   $('.cnt_solicitud').remove();
   $('#form_udi').goTo();
-
+  estado_solicitud_actual = 0;
 }
 
 if(!modal_c){
@@ -211,6 +212,7 @@ function crear_solicitud (id_proceso, callback) {
  * @return {bool}              Informa el estado
  */
  function abrir_solicitud (id_solicitud, id_proceso, id_escuela, callback) {
+  estado_solicitud_actual = 1;
   modal_c.mostrar();
   $.getJSON(nivel_entrada+'app/src/libs_me/me_solicitud.php', {
     fn_nombre: 'abrir_solicitud',
@@ -236,8 +238,8 @@ function crear_solicitud (id_proceso, callback) {
           fn_nombre: 'editar_solicitud'
         });
       });
-      $('#div_header_solicitud').show();
-      $('#div_obs').show();
+      (estado_solicitud_actual===1) ? $('#div_header_solicitud').show() : '';
+      (estado_solicitud_actual===1) ? $('#div_obs').show() : '';
       $('.dato_solicitud').editable({
         pk: solicitud.id_solicitud,
         url: nivel_entrada+'app/src/libs_me/me_solicitud.php?fn_nombre=editar_solicitud',
@@ -294,7 +296,7 @@ function crear_solicitud (id_proceso, callback) {
         $('#td_'+rol_contacto).html('<a data-type="select" data-name="id_'+rol_contacto+'" class="cnt_solicitud" href="#">'+(datos_contacto ? nullToEmpty(datos_contacto['nombre']) : '')+'</a>');
         $('#td_'+rol_contacto).append('<button data-content=" " data-idcontacto='+datos_contacto.id+' data-name="'+datos_contacto['id']+'" class="btn btn-mini btn-info btn_cnt pull-left">Ver</button>');
       });      
-      $('#div_contacto').show();
+      (estado_solicitud_actual===1) ? $('#div_contacto').show() : '';
       $('.cnt_solicitud').editable({
         mode: 'inline',
         source: nivel_entrada+'app/src/libs_me/me_solicitud.php?fn_nombre=listar_contacto_solicitud&args='+JSON.stringify({id_solicitud:id_solicitud})+'',
@@ -350,7 +352,7 @@ function abrir_poblacion (id_poblacion) {
       $('#td_alum_hombre').html('<a class="me_poblacion" data-name="alum_hombre" href="#">'+poblacion.alum_hombre+'</a>');
       $('#td_maestro_mujer').html('<a class="me_poblacion" data-name="maestro_mujer" href="#">'+poblacion.maestro_mujer+'</a>');
       $('#td_maestro_hombre').html('<a class="me_poblacion" data-name="maestro_hombre" href="#">'+poblacion.maestro_hombre+'</a>');
-      $('#div_poblacion').show();
+      (estado_solicitud_actual===1) ? $('#div_poblacion').show() : '';
       $('.me_poblacion').editable({
         url: nivel_entrada + 'app/src/libs_me/me_poblacion.php?fn_nombre=editar_poblacion',
         pk: poblacion.id
@@ -392,7 +394,7 @@ function abrir_poblacion (id_poblacion) {
           fn_nombre: 'editar_requisito'
         });
       });
-      $('#div_req').show();
+      (estado_solicitud_actual===1) ? $('#div_req').show() : '';
       modal_c.ocultar();
     }
     else{
@@ -429,7 +431,7 @@ function abrir_poblacion (id_poblacion) {
           fn_nombre: 'editar_medio'
         });
       });
-      $('#div_medio').show();
+      (estado_solicitud_actual===1) ? $('#div_medio').show() : '';
       modal_c.ocultar();
     }
     else{
@@ -472,7 +474,7 @@ function abrir_poblacion (id_poblacion) {
         pk: id_edf,
         url: nivel_entrada+'app/src/libs_me/me_edf.php?fn_nombre=editar_edf'
       })
-      $('#div_edf').show();
+      (estado_solicitud_actual===1) ? $('#div_edf').show() : '';
     }
     else{
       bootbox.alert('Error al cargar la información sobre EDF. Por favor abra de nuevo la solicitud');
