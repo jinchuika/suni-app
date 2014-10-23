@@ -1,2 +1,13 @@
 
 app/kar/req (luis-mac-mini's conflicted copy 2014-07-10).php
+###FTP
+/sftp-config.json
+
+### Base de datos
+/config.php
+includes/auth/config.php
+
+### OSX ###
+.DS_Store
+.AppleDouble
+.LSOverride
