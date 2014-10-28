@@ -56,7 +56,7 @@ function abrir_salida($id_salida)
 	gn_persona.apellido as apellido_persona,
 	kr_salida.fecha,
 	kr_salida.observacion
-	FROM suni.kr_salida
+	FROM kr_salida
 	inner join kr_equipo on kr_salida.id_kr_equipo=kr_equipo.id
 	inner join gn_persona on kr_salida.id_tecnico=gn_persona.id
 	where kr_salida.id=".$id_salida;

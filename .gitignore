@@ -6,6 +6,7 @@ app/kar/req (luis-mac-mini's conflicted copy 2014-07-10).php
 ### Base de datos
 /config.php
 includes/auth/config.php
+afe/conexion.php
 
 ### OSX ###
 .DS_Store

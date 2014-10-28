@@ -3,10 +3,10 @@
 /* Clase encargada de gestionar las conexiones a la base de datos */
 Class Db{
 
-   private $servidor='suni.db.4541636.hostedresource.com';
-   private $usuario='suni';
-   private $password='Fun53P@L!Br4ry';
-   private $base_datos='suni';
+   private $servidor='suni2.db.4541636.hostedresource.com';
+   private $usuario='suni2';
+   private $password='Fun53P@!2';
+   private $base_datos='suni2';
    private $link;
    private $stmt;
    private $array;

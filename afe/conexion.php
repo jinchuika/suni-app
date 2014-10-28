@@ -1,9 +1,9 @@
 <?php 
     function Conn() 
     {   
-        define('DB_SERVER','suni.db.4541636.hostedresource.com');
-        define('DB_NAME','suni');
-        define('DB_USER','suni');
+        define('DB_SERVER','suni2.db.4541636.hostedresource.com');
+        define('DB_NAME','suni2');
+        define('DB_USER','suni2');
         define('DB_PASS','Fun53P@!2');
         if (!($link=mysql_connect(DB_SERVER,DB_USER,DB_PASS))) 
         { 

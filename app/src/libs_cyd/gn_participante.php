@@ -117,7 +117,7 @@ class gn_participante
 		gn_escuela.codigo,
 		gn_persona.nombre,
 		gn_persona.apellido
-		FROM suni.gn_participante
+		FROM gn_participante
 		LEFT OUTER JOIN gn_persona ON gn_persona.id=gn_participante.id_persona
 		LEFT OUTER JOIN pr_dpi ON pr_dpi.id=gn_persona.id
 		LEFT OUTER JOIN gn_escuela ON gn_escuela.id=gn_participante.id_escuela

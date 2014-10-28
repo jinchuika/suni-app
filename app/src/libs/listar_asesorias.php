@@ -19,7 +19,7 @@ function listar_asesoria($id_capacitador, $id_sede)
 		gr_asesoria.fecha,
 		gr_asesoria.hora_inicio,
 		gr_asesoria.hora_fin
-		FROM suni.gr_asesoria
+		FROM gr_asesoria
 		inner join gn_sede ON gn_sede.id=gr_asesoria.id_sede
 		where gn_sede.capacitador=".$id_capacitador;
 	}
@@ -92,7 +92,7 @@ function listar_asesoria_calendario($id_per, $id_sede, $start, $end)
 	gn_sede.nombre as nombre_sede,
 	gn_persona.nombre,
 	gn_persona.apellido
-	FROM suni.gr_asesoria
+	FROM gr_asesoria
 	inner join gn_sede ON gn_sede.id=gr_asesoria.id_sede
 	inner join gn_persona ON gn_persona.id = gn_sede.capacitador
 	WHERE fecha >= FROM_UNIXTIME(".$_GET["start"].") AND fecha <= FROM_UNIXTIME(".$_GET["end"].") ";

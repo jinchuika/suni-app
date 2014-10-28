@@ -1,9 +1,9 @@
 <?php
-  define(HOSTNAME,"suni.db.4541636.hostedresource.com");
-  define(USER,"suni");
-  define(PASS,"Fun53P@L!Br4ry");
+  define(HOSTNAME,"suni2.db.4541636.hostedresource.com");
+  define(USER,"suni2");
+  define(PASS,"Fun53P@!2");
   $conexion = mysql_connect(HOSTNAME,USER,PASS);
-  mysql_select_db("suni",$conexion);
+  mysql_select_db("suni2",$conexion);
   $ID = 0;
   $ID = $_POST["elegido"];
   $ID = $ID + 1;

@@ -97,7 +97,7 @@ Class Db{
 
     function duplicados($dato, $tabla, $pos, $alias){
       
-      $sql = "SELECT * FROM suni.".$tabla;
+      $sql = "SELECT * FROM ".$tabla;
       $stmt = $this->ejecutar($sql);
         while ($x=$this->obtener_fila($stmt,0)){
           if($x[$pos]==$dato){

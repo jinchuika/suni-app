@@ -46,7 +46,7 @@ function abrir_entrada($id_entrada)
 	kr_entrada.cantidad,
 	kr_entrada.fecha,
 	kr_entrada.precio
-	FROM suni.kr_entrada
+	FROM kr_entrada
 	inner join kr_equipo on kr_entrada.id_kr_equipo=kr_equipo.id
 	inner join kr_proveedor on kr_entrada.id_proveedor =kr_proveedor.id
 	inner join kr_entrada_tipo on kr_entrada.id_tipo_entrada=kr_entrada_tipo.id
