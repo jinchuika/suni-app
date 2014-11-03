@@ -83,7 +83,7 @@ $(document).ready(function(){
     <img src="../media/img/biblio2.png">
      <div class="cerrarSesion">
       <a href="cerrarsesion.php">Cerrar Sesi&oacute;n</a>
-      <br/>Bienvenido: <?echo $sesion->get("nombre"); echo " ".$sesion->get("apellido");?>
+      <br/>Bienvenido: <?php echo $sesion->get("nombre"); echo " ".$sesion->get("apellido");?>
       <br/><a href="../principal.php">Men&uacute; Principal</a>
      </div>
   </div>

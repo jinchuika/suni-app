@@ -244,12 +244,12 @@ function Imprimir_cabeza($entrada,$nombre,$apellido, $id_per, $avatar){
 
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-									<?echo "";?>
-									<i class="icon-user"></i> <?echo $nombre; echo " ".$apellido;?> <b class="caret"></b>
+									<?php echo "";?>
+									<i class="icon-user"></i> <?php echo $nombre; echo " ".$apellido;?> <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href=<?echo "\"http://funsepa.net/suni/app/usr/perfil.php?id_per=".$id_per."\"";?> >
+										<a href=<?php echo "\"http://funsepa.net/suni/app/usr/perfil.php?id_per=".$id_per."\"";?> >
 											<span class="glyphicon glyphicon-user"></span> Mi perfil
 										</a>
 									</li>
@@ -470,11 +470,11 @@ function Imprimir_cabeza($entrada,$nombre,$apellido, $id_per, $avatar){
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
 									
-									<i class="icon-user"></i> <?echo $nombre; echo " ".$apellido;?> <b class="caret"></b>
+									<i class="icon-user"></i> <?php echo $nombre; echo " ".$apellido;?> <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href=<?echo "\"http://funsepa.net/suni/app/usr/perfil.php?id_per=".$id_per."\"";?> >
+										<a href=<?php echo "\"http://funsepa.net/suni/app/usr/perfil.php?id_per=".$id_per."\"";?> >
 											<i class="icon-user"></i> Mi perfil
 										</a>
 									</li>
@@ -518,7 +518,7 @@ function Imprimir_cabeza($entrada,$nombre,$apellido, $id_per, $avatar){
 						<ul class="nav nav-list">
 							<li >
 								<a href="">
-									<i class="icon-home"></i> Bienvenido: <?echo $nombre; echo " ".$apellido;?>
+									<i class="icon-home"></i> Bienvenido: <?php echo $nombre; echo " ".$apellido;?>
 								</a>
 							</li>
 

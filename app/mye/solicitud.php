@@ -14,6 +14,12 @@ $bd = $libs->incluir('bd');
 <head>
 	<meta charset="UTF-8">
 	<title>Solicitud</title>
+	<?php
+	$libs->defecto();
+	$libs->incluir('bs-editable');
+	$libs->incluir('gn-listar');
+	
+	?>
 </head>
 <body>
 <?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>

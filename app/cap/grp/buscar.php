@@ -15,8 +15,7 @@ $bd = $libs->incluir('bd');
 <head>
 	<meta charset="UTF-8">
 	<title>Buscar grupo</title>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('notify');
 	$libs->incluir('google_chart');
@@ -377,8 +376,7 @@ $(document).ready(function () {
 				$("#loading_gif").hide();
 			});
 		});
-	<?
-	if($id_grupo = $_GET["id_grupo"]){
+	<?php 	if($id_grupo = $_GET["id_grupo"]){
 		echo "window.onload = generar_vista_grupo(".$id_grupo.");";
 	}
 	?>

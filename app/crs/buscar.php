@@ -14,8 +14,7 @@ $bd = $libs->incluir('bd');
 <head>
 	<meta charset="UTF-8">
 	<title>Buscar curso - SUNI</title>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	?>
@@ -28,8 +27,7 @@ $bd = $libs->incluir('bd');
 	<script>
 	//Para carga remota
 	$(document).ready(function () {
-		var data=<?
-		$resultado = array();
+		var data=<?php 		$resultado = array();
 		$query = "SELECT * FROM gn_curso";
 		$stmt = $bd->ejecutar($query);
 		while ($option_curso=$bd->obtener_fila($stmt, 0)) {

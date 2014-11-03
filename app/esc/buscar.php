@@ -10,8 +10,7 @@ $bd = $libs->incluir('bd');
 <!doctype html>
 <html lang="en">
 <head>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	?>
@@ -177,8 +176,7 @@ $("#tabla").dataTable({
 					<label class="control-label" for="departamento" required="required">Departamento</label>
 					<div class="controls">
 						<select id="departamento" name="departamento" class="input-large">
-							<?
-							$queryDepto = "SELECT * FROM gn_departamento";
+							<?php 							$queryDepto = "SELECT * FROM gn_departamento";
 							$stmtDepto = $bd->ejecutar($queryDepto);
 							echo '<option value="">TODOS</option>';
 							while ($depto = $bd->obtener_fila($stmtDepto, 0)) {

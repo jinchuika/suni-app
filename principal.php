@@ -66,8 +66,7 @@
     <ul>
         <a href=
 
-<?
-            $elRol=$sesion->get("rol");
+<?php             $elRol=$sesion->get("rol");
             if($elRol==3){
                 echo "\"afe/consulta_capa.php\"";
             }else{

@@ -156,7 +156,7 @@
                 	<div class="btn btn-medium btn-inverse" name="recuperar_pass" id="recuperar_pass">Enviar solicitud</div>
                 </form>
                     <!--Body content-->
-                    <? include("app/src/google/index.php");?>
+                    <?php include("app/src/google/index.php");?>
                     <button class='btn btn-primary' onclick='$("#noticias").toggle(100);'>Noticias</button>
                 </div>
                 <br>

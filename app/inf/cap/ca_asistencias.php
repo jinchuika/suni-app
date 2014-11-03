@@ -14,8 +14,7 @@ $bd = $libs->incluir('bd');
 	<meta charset="UTF-8">
 	<title>Informe - Asistencias control académico</title>
 	
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	$libs->incluir('google_chart');

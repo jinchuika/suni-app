@@ -13,8 +13,7 @@ $bd = $libs->incluir('bd');
 <!doctype html>
 <html lang="es">
 <head>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	$libs->incluir('notify');
@@ -121,8 +120,7 @@ $bd = $libs->incluir('bd');
 		}, 100);
 	};
 	/* Listado de roles */
-	var roles = <?
-	$query_rol = "SELECT * FROM usr_rol WHERE (idRol > 3) AND (idRol<9)";
+	var roles = <?php 	$query_rol = "SELECT * FROM usr_rol WHERE (idRol > 3) AND (idRol<9)";
 	$stmt_rol = $bd->ejecutar($query_rol);
 	echo "[";
 	while ($resp_rol=$bd->obtener_fila($stmt_rol, 0)) {
@@ -139,8 +137,7 @@ $bd = $libs->incluir('bd');
 	}
 
 	/* Listado de géneros */
-	var generos = <?
-	$query_genero = "SELECT * FROM pr_genero";
+	var generos = <?php 	$query_genero = "SELECT * FROM pr_genero";
 	$stmt_genero = $bd->ejecutar($query_genero);
 	echo "[";
 	while ($resp_genero=$bd->obtener_fila($stmt_genero, 0)) {
@@ -157,8 +154,7 @@ $bd = $libs->incluir('bd');
 	}
 
 	/* Listado de etnias */
-	var etnias = <?
-	$query_etnia = "SELECT * FROM pr_etnia";
+	var etnias = <?php 	$query_etnia = "SELECT * FROM pr_etnia";
 	$stmt_etnia = $bd->ejecutar($query_etnia);
 	echo "[";
 	while ($resp_etnia=$bd->obtener_fila($stmt_etnia, 0)) {
@@ -175,8 +171,7 @@ $bd = $libs->incluir('bd');
 	}
 
 	/* Listado de escolaridades */
-	var escolaridades = <?
-	$query_escolaridad = "SELECT * FROM pr_escolaridad";
+	var escolaridades = <?php 	$query_escolaridad = "SELECT * FROM pr_escolaridad";
 	$stmt_escolaridad = $bd->ejecutar($query_escolaridad);
 	echo "[";
 	while ($resp_escolaridad=$bd->obtener_fila($stmt_escolaridad, 0)) {

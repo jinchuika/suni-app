@@ -11,8 +11,7 @@ $bd = $libs->incluir('bd');
 <!doctype html>
 <html lang="es">
 <head>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('notify');
 	$libs->incluir('gn-listar');
 	$libs->incluir('bs-editable');

@@ -2,7 +2,7 @@
 require_once("includes/auth/sesion.class.php");	
 	
 
-public function vLog($existe, $noExiste){
+function vLog($existe, $noExiste){
 	$sesion = new sesion();
 
 	$usuario = $sesion->get("usuario");

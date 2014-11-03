@@ -14,8 +14,7 @@ $rol = $sesion->get("rol");
 <head>
 	<meta charset="UTF-8">
 	<title>Nueva escuela</title>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	?>
@@ -59,8 +58,7 @@ $rol = $sesion->get("rol");
 						<label class="control-label" for="departamento" required="required">Departamento</label>
 						<div class="controls">
 							<select id="departamento" name="departamento" class="input-large">
-								<?
-								$queryDepto = "SELECT * FROM gn_departamento";
+								<?php 								$queryDepto = "SELECT * FROM gn_departamento";
 								$stmtDepto = $bd->ejecutar($queryDepto);
 								while ($depto = $bd->obtener_fila($stmtDepto, 0)) {
 									echo '<option value="'.$depto[0].'">'.$depto[1].'</option>';
@@ -120,8 +118,7 @@ $rol = $sesion->get("rol");
 						<label class="control-label" for="nivel">Nivel</label>
 						<div class="controls">
 							<select id="nivel" name="nivel" class="input-medium" required="required">
-								<?
-								$queryNivel = "SELECT * FROM esc_nivel";
+								<?php 								$queryNivel = "SELECT * FROM esc_nivel";
 								$stmtNivel = $bd->ejecutar($queryNivel);
 								while ($Nivel = $bd->obtener_fila($stmtNivel, 0)) {
 									echo '<option value="'.$Nivel[0].'">'.$Nivel[1].'</option>';
@@ -136,8 +133,7 @@ $rol = $sesion->get("rol");
 						<label class="control-label" for="nivel1">Nivel 1 (*)</label>
 						<div class="controls">
 							<select id="nivel1" name="nivel1" class="input-medium" default>
-								<?
-								$queryNivel = "SELECT * FROM esc_nivel";
+								<?php 								$queryNivel = "SELECT * FROM esc_nivel";
 								$stmtNivel = $bd->ejecutar($queryNivel);
 								while ($Nivel = $bd->obtener_fila($stmtNivel, 0)) {
 									if($Nivel[0]=="8"){
@@ -157,8 +153,7 @@ $rol = $sesion->get("rol");
 						<label class="control-label" for="sector">Sector</label>
 						<div class="controls">
 							<select id="sector" name="sector" class="input-medium" required="required">
-								<?
-								$querysector = "SELECT * FROM esc_sector";
+								<?php 								$querysector = "SELECT * FROM esc_sector";
 								$stmtsector = $bd->ejecutar($querysector);
 								while ($sector = $bd->obtener_fila($stmtsector, 0)) {
 									echo '<option value="'.$sector[0].'">'.$sector[1].'</option>';
@@ -173,8 +168,7 @@ $rol = $sesion->get("rol");
 						<label class="control-label" for="area">Área</label>
 						<div class="controls">
 							<select id="area" name="area" class="input-medium" required="required">
-								<?
-								$queryarea = "SELECT * FROM esc_area";
+								<?php 								$queryarea = "SELECT * FROM esc_area";
 								$stmtarea = $bd->ejecutar($queryarea);
 								while ($area = $bd->obtener_fila($stmtarea, 0)) {
 									echo '<option value="'.$area[0].'">'.$area[1].'</option>';
@@ -189,8 +183,7 @@ $rol = $sesion->get("rol");
 						<label class="control-label" for="status">Status</label>
 						<div class="controls">
 							<select id="status" name="status" class="input-medium" required="required">
-								<?
-								$querystatus = "SELECT * FROM esc_status";
+								<?php 								$querystatus = "SELECT * FROM esc_status";
 								$stmtstatus = $bd->ejecutar($querystatus);
 								while ($status = $bd->obtener_fila($stmtstatus, 0)) {
 									echo '<option value="'.$status[0].'">'.$status[1].'</option>';
@@ -205,8 +198,7 @@ $rol = $sesion->get("rol");
 						<label class="control-label" for="modalidad">Modalidad</label>
 						<div class="controls">
 							<select id="modalidad" name="modalidad" class="input-large" required="required">
-								<?
-								$querymodalidad = "SELECT * FROM esc_modalidad";
+								<?php 								$querymodalidad = "SELECT * FROM esc_modalidad";
 								$stmtmodalidad = $bd->ejecutar($querymodalidad);
 								while ($modalidad = $bd->obtener_fila($stmtmodalidad, 0)) {
 									echo '<option value="'.$modalidad[0].'">'.$modalidad[1].'</option>';
@@ -221,8 +213,7 @@ $rol = $sesion->get("rol");
 						<label class="control-label" for="jornada">Jornada</label>
 						<div class="controls">
 							<select id="jornada" name="jornada" class="input-medium" required="required">
-								<?
-								$queryjornada = "SELECT * FROM esc_jornada";
+								<?php 								$queryjornada = "SELECT * FROM esc_jornada";
 								$stmtjornada = $bd->ejecutar($queryjornada);
 								while ($jornada = $bd->obtener_fila($stmtjornada, 0)) {
 									echo '<option value="'.$jornada[0].'">'.$jornada[1].'</option>';
@@ -237,8 +228,7 @@ $rol = $sesion->get("rol");
 						<label class="control-label" for="plan">Plan</label>
 						<div class="controls">
 							<select id="plan" name="plan" class="input-large" required="required">
-								<?
-								$queryplan = "SELECT * FROM esc_plan";
+								<?php 								$queryplan = "SELECT * FROM esc_plan";
 								$stmtplan = $bd->ejecutar($queryplan);
 								while ($plan = $bd->obtener_fila($stmtplan, 0)) {
 									echo '<option value="'.$plan[0].'">'.$plan[1].'</option>';

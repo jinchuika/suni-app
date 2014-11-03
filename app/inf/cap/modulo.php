@@ -11,8 +11,7 @@ $bd = $libs->incluir('bd');
 <!doctype html>
 <html lang="es">
 <head>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('jquery-ui');
 	$libs->incluir('gn-listar');
 	?>

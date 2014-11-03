@@ -32,8 +32,7 @@ if(isset($id_lugar)){
 	
 </head>
 <body>
-	<?
-	/**
+	<?php 	/**
 	 * El tipo se usa para saber si se está tratando a un municipio o un departamento
 	 * 1 y 2 hacen referencia a departamento / municipio
 	 * 3 hace referencia a la edición del link

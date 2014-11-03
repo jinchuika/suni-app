@@ -14,8 +14,7 @@ $bd = $libs->incluir('bd');
 <head>
 	<meta charset="UTF-8">
 	<title>Asignar participante</title>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	$libs->incluir('notify');

@@ -314,8 +314,8 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-									<?echo "";?>
-									<i class="icon-user"></i> <?echo $nombre;?> <b class="caret"></b>
+									<?php echo "";?>
+									<i class="icon-user"></i> <?php echo $nombre;?> <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
 									<li>
@@ -381,7 +381,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 		</div>
 
 	</div>
-	<?
+	<?php
 }
 function imprimir_tpe($nivel_dir,$kar = 0, $req = 0)
 {

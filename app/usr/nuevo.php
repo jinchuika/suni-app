@@ -11,8 +11,7 @@ $bd = $libs->incluir('bd');
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 	<title>Nuevo usuario</title>
 
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	?>

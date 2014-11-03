@@ -104,7 +104,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
                                     
-                                    <i class="icon-user"></i> <?echo $nombre; echo " ".$apellido;?> <b class="caret"></b>
+                                    <i class="icon-user"></i> <?php echo $nombre; echo " ".$apellido;?> <b class="caret"></b>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
@@ -125,6 +125,6 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
                 </div>
             </div>
         </div>
-    <?
+    <?php 
 }
 ?>

@@ -26,8 +26,7 @@ while ($escuela=$bd->obtener_fila($stmt, 0)) {
 <head>
 	<meta charset="UTF-8">
 	<title>FUNSEPA - Escuelas Khan</title>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	$libs->incluir('handson');

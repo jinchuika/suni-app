@@ -79,14 +79,14 @@ private function conectar(){
 
 /**
 * Ejecuta una consulta de MySQL
-* @param  string $sql
-* @return object mysqli_result
+* @param  string $sql 	La consulta a ejecutar
+* @return mysqli_result
 */
 public function ejecutar($sql){
 	switch ($this->tipo){
 		case 'mysql':     
 		$this->stmt=mysqli_query($this->link, $sql);
-		//printf(mysqli_error($this->link));
+		printf(mysqli_error($this->link));
 		break;
 		case 'postgress': $this->stmt=pg_Euery($this->link,$sql);
 		break;
@@ -95,7 +95,12 @@ public function ejecutar($sql){
 	return $this->stmt;
 }
 
-/*Método para obtener una fila de resultados de la sentencia sql*/
+/**
+ * Devuelve la fila resultado de la consulta
+ * @param  mysqli_result  $stmt creado mediante ejecutar()
+ * @param  integer $fila la posición del dominio de la función
+ * @return Array        El resultado de la función
+ */
 public function obtener_fila($stmt,$fila=0){
 	switch ($this->tipo){
 		case 'mysql':
@@ -120,6 +125,11 @@ public function obtener_fila($stmt,$fila=0){
 	return $this->array;
 }
 
+/**
+ * Ejecuta un procedimiento almacenado en la DB
+ * @param  mysqli_result $stmt resultado de un ejecutar()
+ * @return Array       Los selects que se realicen dentro del procedimiento
+ */
 public function ejecutar_procedimiento($stmt)
 {
 	//mysqli_store_result($this->link);
@@ -144,6 +154,10 @@ public function ver_var(){
 	return $this->servidor;
 }
 
+/**
+ * Obtiene el último ID insertado en la DB
+ * @return string el ID generado auto-incrementalmente
+ */
 public function lastID(){
 	return mysqli_insert_id($this->link);}
 

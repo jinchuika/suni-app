@@ -9,8 +9,7 @@ $bd = $libs->incluir('bd');
 <!doctype html>
 <html lang="en">
 <head>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('jquery-ui');
 	?>
 	<meta charset="UTF-8">
@@ -86,8 +85,7 @@ $bd = $libs->incluir('bd');
 						<label class="control-label" for="capacitador">Capacitador</label>
 						<div class="controls">
 							<select id="capacitador" name="capacitador" class="input-medium">
-								<?
-								if(($sesion->get("rol"))=="3"){
+								<?php 								if(($sesion->get("rol"))=="3"){
 									echo "<option value=\"".$sesion->get("id_per")."\">".$sesion->get("nombre")."</option>";
 								}
 								else{

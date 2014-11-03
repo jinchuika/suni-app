@@ -15,8 +15,7 @@ $bd = $libs->incluir('bd');
 <head>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	?>

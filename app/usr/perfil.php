@@ -101,8 +101,7 @@ else{
 <html lang="en">
 <head>
 	
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('jquery-form');
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');

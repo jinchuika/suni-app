@@ -7,8 +7,18 @@ class librerias
 	/*
 	Utilizada para averiguar la cantidad de saltos entre carpetas que debe hacerse hasta llegar a donde se encuentren las librerías.
 	*/
+	/**
+	 * @var string $nivel 	los ../ necesarios ya unidos
+	 * @var integer $nivel_entrada la cantidad de "../" necesarios para incluir
+	 */
 	var $nivel;
 	var $nivel_entrada;
+	private $lista_incluido = array();
+	
+	/**
+	 * Crea el objeto para incluir
+	 * @param integer $nivel_entrada
+	 */
 	function __construct($nivel_entrada)
 	{
 		$this->nivel_entrada = $nivel_entrada;
@@ -16,12 +26,18 @@ class librerias
 			$this->nivel .= "../";
 		}
 	}
+	
+	/**
+	 * Llama a la función de imprimir para un archivo específico
+	 * @param  string $llamada la librería a incluir
+	 * @param  string $extra 	parámetros para el archivo a incluir
+	 * @return bool|Object
+	 */
 	public function incluir($llamada, $extra=null)
 	{
 		switch ($llamada) {
 			case 'jquery':
 				$this->imprimir("js", "js/framework/jquery.js");
-				$this->imprimir("js-libs1", "general.js");
 				break;
 			case 'jquery-form':
 				$this->imprimir("js", "js/framework/jquery.form.js");
@@ -148,6 +164,7 @@ class librerias
 				break;
 		}
 	}
+	
 	public function defecto()
 	{
 		$this->incluir('cabeza');
@@ -157,51 +174,79 @@ class librerias
 		$sesion_r = sesion::getInstance();
 		$this->incluir_general($sesion_r->get('id_per'), $this->nivel);
 	}
+	
 	public function incluir_general($id_per, $rol)
 	{
 		echo '<script id="js_general" id_per="'.$id_per.'" nivel="'.$this->nivel.'" src="'.$this->nivel.'app/src/js-libs/general.js"></script>
 		';
 	}
-	private function imprimir($tipo, $archivo)
+	
+	/**
+	 * Imprime el texto HTML para incluir
+	 * @param  string $tipo    El tipo de erchivo
+	 * @param  string $archivo El archivo CON LA RUTA desde la raíz del sistema
+	 * @param  array $extra_param parámetros extra_param para el archivo
+	 */
+	private function imprimir($tipo, $archivo, $extra_param=null)
 	{
-		if ($tipo=='js') {
-			echo '<script src="'.$this->nivel.$archivo.'"></script>
-			';
-		}
-		if ($tipo=='css') {
-			echo '<link href="'.$this->nivel.$archivo.'" rel="stylesheet"/>
-			';
-		}
-		if ($tipo=='js-libs') {
-			echo '<script src="'.$this->nivel.'/app/src/js-libs/'.$archivo.'"></script>
-			';
-		}
-		
-		if ($tipo=='php') {
-			if(require_once($this->nivel.$archivo)){
-				
+		if(!in_array($archivo, $this->lista_incluido)){
+			$texto_extra = '';
+			if(is_array($extra_param)){
+			    foreach ($extra_param as $key => $param) {
+			        $texto_extra .= ' '.$key.'="'.$param.'" ';
+			    }
 			}
-		}
-		if ($tipo=='src') {
-			if(require_once($archivo)){
-				//echo "incluido ".$archivo;
+			
+			switch ($tipo) {
+				case 'js':
+					echo '<script src="'.$this->nivel.$archivo.'" '.$texto_extra.' ></script>
+					';
+					break;
+				case 'js-libs':
+					echo '<script src="'.$this->nivel.'/app/src/js-libs/'.$archivo.'"></script>
+					';
+					break;
+				case 'css':
+					echo '<link href="'.$this->nivel.$archivo.'" rel="stylesheet" '.$texto_extra.' />
+					';
+					break;
+				case 'src':
+					if(require_once($archivo)){
+						//Se incluyó el archivo
+					}
+					break;
+				case 'php':
+					if(require_once($this->nivel.$archivo)){
+						//Se incluyó el archiv
+					}
+					break;
+				case 'libs_tpe':
+					if(require_once("../libs_tpe/".$archivo)){
+						//Se incluyó el archiv
+					}
+					else{
+						echo $archivo." no pudo cargarse";
+					}
+					break;
+				case 'meta':
+					echo '<meta '.$archivo.'>
+					';
+					break;
+				default:
+					
+					break;
 			}
-			else{
-				echo $archivo." no pudo cargarse";
-			}
+			$this->agregar_lista($archivo);
 		}
-		if ($tipo=='libs_tpe') {
-			if(require_once("../libs_tpe/".$archivo)){
-				//echo "incluido ".$archivo;
-			}
-			else{
-				echo $archivo." no pudo cargarse";
-			}
-		}
-		if ($tipo=='meta') {
-			echo '<meta '.$archivo.'>
-			';
-		}
+	}
+	
+	/**
+	 * Agrega el archivo incluido a la lista de inclusiones actuales
+	 * @param  string $nombre_archivo nombre del archivo a incluir
+	 */
+	public function agregar_lista($nombre_archivo)
+	{
+	    array_push($this->lista_incluido, $nombre_archivo);
 	}
 }
 ?>

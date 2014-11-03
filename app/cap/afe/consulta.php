@@ -13,8 +13,7 @@ $bd = $libs->incluir('bd');
 <!doctype html>
 <html lang="en">
 <head>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	?>

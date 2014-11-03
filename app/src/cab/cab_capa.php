@@ -232,12 +232,12 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 
 							<li class="dropdown">
 								<a href="#" class="dropdown-toggle" data-toggle="dropdown"> 
-									<?echo "";?>
-									<i class="icon-user"></i> <?echo $nombre;?> <b class="caret"></b>
+									<?php echo "";?>
+									<i class="icon-user"></i> <?php echo $nombre;?> <b class="caret"></b>
 								</a>
 								<ul class="dropdown-menu">
 									<li>
-										<a href=<?echo "\"<?php echo $nivel_dir; ?>app/usr/perfil.php?id_per=".$id_per."\"";?> >
+										<a href=<?php echo "\"<?php echo $nivel_dir; ?>app/usr/perfil.php?id_per=".$id_per."\"";?> >
 											<span class="glyphicon glyphicon-user"></span> Mi perfil
 										</a>
 									</li>
@@ -256,6 +256,6 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 			</div>
 			
 		</div>
-		<?
+		<?php
 	}
 	?>

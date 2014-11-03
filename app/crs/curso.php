@@ -41,12 +41,11 @@ if($curso = $bd->obtener_fila($stmt, 0)){
 <head>
 	<meta charset="UTF-8">
 	<title>FUNSEPA - SUNI</title>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	?>
-	<title><? echo($curso[1]);?> </title>
+	<title><?php echo($curso[1]);?> </title>
 </head>
 <body>
 	<?php
@@ -57,10 +56,10 @@ if($curso = $bd->obtener_fila($stmt, 0)){
 		<div class="span4"></div>
 		<div class="span4">
 			<div class="well">
-				<legend><a href="#" id="nombre_curso" data-type="text"><? echo($curso[1]);?></a></legend>
-				<strong>Propósito: </strong><a href="#" id="proposito" data-type="textarea"><? echo($curso[2]);?></a><br />
-				<strong>Alias: </strong><a href="#" id="alias" data-type="text"><? echo($curso[5]);?></a><br />
-				<strong>Ver silabo: </strong> <a href= <? echo '"'.$silabo.'"' ;?>>Descargar</a><br />
+				<legend><a href="#" id="nombre_curso" data-type="text"><?php echo($curso[1]);?></a></legend>
+				<strong>Propósito: </strong><a href="#" id="proposito" data-type="textarea"><?php echo($curso[2]);?></a><br />
+				<strong>Alias: </strong><a href="#" id="alias" data-type="text"><?php echo($curso[5]);?></a><br />
+				<strong>Ver silabo: </strong> <a href= <?php echo '"'.$silabo.'"' ;?>>Descargar</a><br />
 			</div>
 			<br />
 			<br />
@@ -119,7 +118,7 @@ if($curso = $bd->obtener_fila($stmt, 0)){
 				$.ajax({
 					type: "post",
 					url: "../../app/src/libs/editar_curso_modulo.php?nuevo=1",
-					data: {punteo_max: result, id_curso: <? echo '"'.$id_curso.'"' ?> },
+					data: {punteo_max: result, id_curso: <?php echo '"'.$id_curso.'"' ?> },
 					success: function (data) {
 						var data = $.parseJSON(data);
 						if((data)=="ingresado"){
@@ -140,7 +139,7 @@ if($curso = $bd->obtener_fila($stmt, 0)){
 				$.ajax({
 					type: "post",
 					url: "../../app/src/libs/editar_curso_modulo.php?eliminar=1",
-					data: {id_curso: <? echo '"'.$id_curso.'"' ?> },
+					data: {id_curso: <?php echo '"'.$id_curso.'"' ?> },
 					success: function (data) {
 						var data = $.parseJSON(data);
 						if((data)=="eliminado"){
@@ -166,7 +165,7 @@ if($curso = $bd->obtener_fila($stmt, 0)){
 					$.ajax({
 						type: "post",
 						url: "../../app/src/libs/editar_curso_hito.php?nuevo=1",
-						data: {hito: localStorage.hito, punteo_max: result, id_curso: <? echo '"'.$id_curso.'"' ?> },
+						data: {hito: localStorage.hito, punteo_max: result, id_curso: <?php echo '"'.$id_curso.'"' ?> },
 						success: function (data) {
 							var data = $.parseJSON(data);
 							if((data)=="ingresado"){
@@ -188,7 +187,7 @@ if($curso = $bd->obtener_fila($stmt, 0)){
 				$.ajax({
 					type: "post",
 					url: "../../app/src/libs/editar_curso_hito.php?eliminar=1",
-					data: {id_curso: <? echo '"'.$id_curso.'"' ?> },
+					data: {id_curso: <?php echo '"'.$id_curso.'"' ?> },
 					success: function (data) {
 						var data = $.parseJSON(data);
 						if((data)=="eliminado"){
@@ -210,7 +209,7 @@ if($curso = $bd->obtener_fila($stmt, 0)){
 		$("#nombre_curso").editable({
 			type:  "text",
 			url: "../../app/src/libs/editar_curso.php",
-			pk: <? echo($id_curso); ?>,
+			pk: <?php echo($id_curso); ?>,
 			name: "nombre",
 			title: "Editar el nombre del curso",
 			validate: function(value) {
@@ -222,7 +221,7 @@ if($curso = $bd->obtener_fila($stmt, 0)){
 		$("#proposito").editable({
 			type:  "text",
 			url: "../../app/src/libs/editar_curso.php",
-			pk: <? echo($id_curso); ?>,
+			pk: <?php echo($id_curso); ?>,
 			name: "proposito",
 			title: "Editar el propósito del curso",
 			validate: function(value) {
@@ -234,7 +233,7 @@ if($curso = $bd->obtener_fila($stmt, 0)){
 		$("#alias").editable({
 			type:  "text",
 			url: "../../app/src/libs/editar_curso.php",
-			pk: <? echo($id_curso); ?>,
+			pk: <?php echo($id_curso); ?>,
 			name: "alias",
 			title: "Editar el alias del curso",
 			validate: function(value) {

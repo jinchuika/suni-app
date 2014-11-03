@@ -14,8 +14,7 @@ $rol = $sesion->get("rol");
 <head>
 	<meta charset="UTF-8">
 	<title>Geografía - SUNI</title>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	?>
@@ -28,8 +27,7 @@ $rol = $sesion->get("rol");
 	<script>
 	//Para carga remota
 	$(document).ready(function () {
-		var data=<?
-		$resultado = array();
+		var data=<?php 		$resultado = array();
 		$query = "SELECT * FROM gn_depto";
 		$stmt = $bd->ejecutar($query);
 		

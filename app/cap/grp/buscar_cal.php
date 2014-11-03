@@ -14,8 +14,7 @@ $bd = $libs->incluir('bd');
 <head>
 	<meta charset="UTF-8">
 	<title>Buscar grupo</title>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('jquery-ui');
 	$libs->incluir('notify');
 	?>

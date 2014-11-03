@@ -12,8 +12,7 @@ $bd = $libs->incluir('bd');
 <!doctype html>
 <html lang="en">
 <head>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	$libs->incluir('time-picker');
@@ -250,8 +249,7 @@ $bd = $libs->incluir('bd');
 					if(data["mensaje"]=="Correcto"){
 						bootbox.alert("Grupo creado exitosamente", function () {
 							validar_cal = 0;
-							<?
-							if($_GET["clonar"]){
+							<?php 							if($_GET["clonar"]){
 								echo '
 								$.ajax({
 									url: "../../src/libs/asignar_participante.php",

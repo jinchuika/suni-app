@@ -24,8 +24,8 @@ function Imprimir_cabeza($entrada,$nombre,$apellido){
 
 		          <ul class="nav nav-list">
 		            <li >
-		              <a href=<?echo "\"http://funsepa.net/suni/app/usr/perfil.php?id_per=".$sesion->get("id_per")."\"";?>>
-		                <i class="icon-user"></i> Bienvenido: <?echo $nombre; echo " ".$apellido;?>
+		              <a href=<?php echo "\"http://funsepa.net/suni/app/usr/perfil.php?id_per=".$sesion->get("id_per")."\"";?>>
+		                <i class="icon-user"></i> Bienvenido: <?php echo $nombre; echo " ".$apellido;?>
 
 		              </a>
 		            </li>
@@ -80,8 +80,8 @@ function Imprimir_cabeza($entrada,$nombre,$apellido){
 
 		          <ul class="nav nav-list">
 		            <li >
-		              <a href=<?echo "\"http://funsepa.net/suni/app/usr/perfil.php?id_per=".$sesion->get("id_per")."\"";?>>
-		                <i class="icon-user"></i> Bienvenido: <?echo $nombre; echo " ".$apellido;?>
+		              <a href=<?php echo "\"http://funsepa.net/suni/app/usr/perfil.php?id_per=".$sesion->get("id_per")."\"";?>>
+		                <i class="icon-user"></i> Bienvenido: <?php echo $nombre; echo " ".$apellido;?>
 		              </a>
 		            </li>
 
@@ -134,7 +134,7 @@ function Imprimir_cabeza($entrada,$nombre,$apellido){
 		          <ul class="nav nav-list">
 		            <li >
 		              <a href="">
-		                <i class="icon-home"></i> Bienvenido: <?echo $nombre; echo " ".$apellido;?>
+		                <i class="icon-home"></i> Bienvenido: <?php echo $nombre; echo " ".$apellido;?>
 		              </a>
 		            </li>
 

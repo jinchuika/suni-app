@@ -15,8 +15,7 @@ $bd = $libs->incluir('bd');
 <head>
 	<meta charset="UTF-8">
 	<title>Clonar grupo</title>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	?>
@@ -222,8 +221,7 @@ $(document).ready(function () {
 			var grupo = document.getElementById('id_grupo').value;
 			generar_vista_grupo(grupo);
 		});
-	<?
-	if($id_grupo = $_GET["id_grupo"]){
+	<?php 	if($id_grupo = $_GET["id_grupo"]){
 		echo "window.onload = generar_vista_grupo(".$id_grupo.");";
 	}
 	?>

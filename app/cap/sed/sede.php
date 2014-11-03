@@ -54,8 +54,7 @@ else{
 <!doctype html>
 <html lang="es">
 <head>
-	<?
-	$libs->incluir('timeline');
+	<?php 	$libs->incluir('timeline');
 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('google_chart');
@@ -74,7 +73,7 @@ else{
 	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
 	<header id="overview" class="jumbotron subhead well">
 		<div class="container">
-			<h1><a href="#" id="nombre"> <? echo $sede[2]; ?></a></h1>
+			<h1><a href="#" id="nombre"> <?php echo $sede[2]; ?></a></h1>
 			<p class="lead"></p>
 		</div>
 	</header>
@@ -98,10 +97,10 @@ else{
 							<div class="tab-content">
 								<div id="tab0" class="tab-pane">
 									<legend>Información general</legend>
-									Municipio: <a href="#" data-type="select2" id="id_muni"><? echo $municipio[2]; ?></a><br />
-									Dirección: <a href="#" id="lugar"><? echo $sede[3]; ?></a><br />
-									Capacitador: <a href="#" data-type="select"  id="capacitador"><? echo $capacitador[2]." ".$capacitador[3]; ?></a><br />
-									Observaciones: <a href="#" id="observaciones"><? echo $sede[5]; ?></a><br /><br>
+									Municipio: <a href="#" data-type="select2" id="id_muni"><?php echo $municipio[2]; ?></a><br />
+									Dirección: <a href="#" id="lugar"><?php echo $sede[3]; ?></a><br />
+									Capacitador: <a href="#" data-type="select"  id="capacitador"><?php echo $capacitador[2]." ".$capacitador[3]; ?></a><br />
+									Observaciones: <a href="#" id="observaciones"><?php echo $sede[5]; ?></a><br /><br>
 									<?php if($sesion->get('rol')<3){ echo '<button onclick="crear_informe_semanal('.$sede[0].');" class="btn">Inf. semanal</button>';} ?><br>
 								</div>
 								<div class="tab-pane" id="tab1">
@@ -275,7 +274,7 @@ else{
 		$("#nombre").editable({
 			type: "text",
 			url: "../../src/libs/editar_sede.php",
-			pk: <? echo $id_sede; ?>,
+			pk: <?php echo $id_sede; ?>,
 			name: "nombre",
 			title: "Cambiar nombre",
 			validate: function(value) {
@@ -287,7 +286,7 @@ else{
 		$("#lugar").editable({
 			type: "text",
 			url: "../../src/libs/editar_sede.php",
-			pk: <? echo $id_sede; ?>,
+			pk: <?php echo $id_sede; ?>,
 			name: "lugar",
 			title: "Cambiar lugar",
 			validate: function(value) {
@@ -299,12 +298,12 @@ else{
 		$("#observaciones").editable({
 			type: "textarea",
 			url: "../../src/libs/editar_sede.php",
-			pk: <? echo $id_sede; ?>,
+			pk: <?php echo $id_sede; ?>,
 			name: "obs",
 			title: "Cambiar observaciones"
 		});
 		$("#id_muni").editable({
-			source: [<? 
+			source: [<?php 
 			$query = "SELECT * FROM gn_municipio";
 			$stmt = $bd->ejecutar($query);
 			while($lista_muni=$bd->obtener_fila($stmt, 0)){
@@ -315,7 +314,7 @@ else{
 				placeholder: "Seleccione"
 			},
 			url: "../../src/libs/editar_sede.php",
-			pk: <? echo $id_sede; ?>,
+			pk: <?php echo $id_sede; ?>,
 			name: "id_muni",
 			title: "Cambiar municipio",
 			validate: function(value) {
@@ -326,7 +325,7 @@ else{
 		});
 		$("#capacitador").editable({
 			type: "select",
-			source: [<? 
+			source: [<?php 
 			$query = "SELECT * FROM usr WHERE rol='3'";
 			$stmt = $bd->ejecutar($query);
 			while($lista_capa=$bd->obtener_fila($stmt, 0)){
@@ -334,7 +333,7 @@ else{
 			}
 			?>],
 			url: "../../src/libs/editar_sede.php",
-			pk: <? echo $id_sede; ?>,
+			pk: <?php echo $id_sede; ?>,
 			name: "capacitador",
 			title: "Cambiar capacitador",
 			validate: function(value) {
@@ -361,8 +360,7 @@ else{
 					if(result){
 						$.ajax({
 							type: "post",
-							<?
-							if(!(empty($sede[4]))){
+							<?php 							if(!(empty($sede[4]))){
 									echo 'url: "../../../app/src/libs/editar_sede.php?mapa=1",';	//Para modificar
 								}
 								else{
@@ -390,7 +388,7 @@ else{
 		$.ajax({
 			url: "../../src/libs/editar_sede.php",
 			type: "post",
-			data: {listar_participantes: true, id_sede: <? echo $id_sede; ?>},
+			data: {listar_participantes: true, id_sede: <?php echo $id_sede; ?>},
 			success: function (data){
 				var data = $.parseJSON(data);
 				var cant_h = 0, cant_m = 0, arr_roles = new Array(), arr_escolaridad = new Array(), cant_apro = 0, cant_repro =0, cant_medio=0;

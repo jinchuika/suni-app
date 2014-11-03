@@ -16,8 +16,7 @@ if($sesion->get("rol") == 9){
 <html lang="es">
 <head>
 	<meta name="viewport" content="width=device-width">
-	<?
-	$libs->incluir('jquery');
+	<?php 	$libs->incluir('jquery');
 	$libs->incluir('bs');
 	$libs->incluir('calendario');
 	?>

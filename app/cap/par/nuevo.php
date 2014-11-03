@@ -12,8 +12,7 @@ $bd = $libs->incluir('bd');
 <!doctype html>
 <html lang="en">
 <head>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	$libs->incluir('notify');
@@ -74,8 +73,7 @@ $bd = $libs->incluir('bd');
 				<label class="control-label" for="tipo_dpi">Tipo ID:</label>
 				<div class="controls">
 					<select id="tipo_dpi" name="tipo_dpi" class="input-small">
-						<?
-						$query = "SELECT * FROM pr_tipo_dpi";
+						<?php 						$query = "SELECT * FROM pr_tipo_dpi";
 						$stmt = $bd->ejecutar($query);
 						while($tipo_dpi = $bd->obtener_fila($stmt, 0)){
 							if(($tipo_dpi[0])!=4){
@@ -113,8 +111,7 @@ $bd = $libs->incluir('bd');
 				<label class="control-label" for="genero">Genero</label>
 				<div class="controls">
 					<select id="genero" name="genero" class="input-small">
-						<?
-						$query = "SELECT * FROM pr_genero";
+						<?php 						$query = "SELECT * FROM pr_genero";
 						$stmt = $bd->ejecutar($query);
 						while($genero = $bd->obtener_fila($stmt, 0)){
 							echo '<option value="'.$genero[0].'">'.$genero[1].'</option>';
@@ -147,8 +144,7 @@ $bd = $libs->incluir('bd');
 				<label class="control-label" for="id_rol">Rol</label>
 				<div class="controls">
 					<select id="id_rol" name="id_rol" class="input-medium">
-						<?
-						$query = "SELECT * FROM usr_rol WHERE (idRol > 3) AND (idRol <9) OR (idRol = 11)";
+						<?php 						$query = "SELECT * FROM usr_rol WHERE (idRol > 3) AND (idRol <9) OR (idRol = 11)";
 						$stmt = $bd->ejecutar($query);
 						while($rol = $bd->obtener_fila($stmt, 0)){
 							echo '<option value="'.$rol[0].'">'.$rol[1].'</option>';
@@ -163,8 +159,7 @@ $bd = $libs->incluir('bd');
 				<label class="control-label" for="etnia">Etnia</label>
 				<div class="controls">
 					<select id="etnia" name="etnia" class="input-large">
-						<?
-						$query = "SELECT * FROM pr_etnia";
+						<?php 						$query = "SELECT * FROM pr_etnia";
 						$stmt = $bd->ejecutar($query);
 						while($etnia = $bd->obtener_fila($stmt, 0)){
 							echo '<option value="'.$etnia[0].'">'.$etnia[1].'</option>';
@@ -179,8 +174,7 @@ $bd = $libs->incluir('bd');
 				<label class="control-label" for="escolaridad">Escolaridad</label>
 				<div class="controls">
 					<select id="escolaridad" name="escolaridad" class="input-large">
-						<?
-						$query = "SELECT * FROM pr_escolaridad";
+						<?php 						$query = "SELECT * FROM pr_escolaridad";
 						$stmt = $bd->ejecutar($query);
 						while($escolaridad = $bd->obtener_fila($stmt, 0)){
 							echo '<option value="'.$escolaridad[0].'">'.$escolaridad[1].'</option>';
@@ -212,8 +206,7 @@ $bd = $libs->incluir('bd');
 				<th>Escuela</th>
 			</thead>
 			<tbody id="tablabody">
-				<?
-				include '../../src/libs/crear_participante_tabla.php';
+				<?php 				include '../../src/libs/crear_participante_tabla.php';
 				?>
 			</tbody>
 		</table>

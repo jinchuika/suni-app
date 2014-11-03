@@ -35,7 +35,7 @@
 	    );
 
 	    //Validación de DPI repetidos
-	    $sql = "SELECT * FROM pr_dpi;"
+	    $sql = "SELECT * FROM pr_dpi;";
 	    $stmt = $bd->ejecutar($sql);
 	    while ($x=$bd->obtener_fila($stmt,0)){
 		   	if($x[0]==$DPI){
@@ -61,7 +61,7 @@
 	    //Validación al crear el usuario
 	    if(($rol<=3)||($rol>8)){
 
-	    	$sql = "SELECT * FROM usr;"
+	    	$sql = "SELECT * FROM usr;";
 		    $stmt = $bd->ejecutar($sql);
 		    
 		    while ($x=$bd->obtener_fila($stmt,0)){

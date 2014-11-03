@@ -15,8 +15,7 @@ $bd = $libs->incluir('bd');
 	<meta charset="UTF-8">
 	<title>Informe de escuelas</title>
 	<title>Informe - Resultados por capacitador</title>
-	<?
-	$libs->defecto();
+	<?php 	$libs->defecto();
 	$libs->incluir('jquery-ui');
 	$libs->incluir_general($sesion->get('id_per'), $sesion->get('rol'));
 	?>
