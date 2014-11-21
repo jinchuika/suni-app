@@ -12,7 +12,9 @@ require_once 'src/contrib/Google_Oauth2Service.php';
 require_once 'src/contrib/Google_CalendarService.php';
 
 //start session
-session_start();
+if(!isset($_SESSION)){
+	session_start();
+}
 
 $gClient = new Google_Client();
 $gClient->setApplicationName('Login to SUNI');
@@ -133,7 +135,7 @@ else // user logged in
 	//print_r($user);
 	
 }
-if($_GET['error']){
+if(isset($_GET['error'])){
 	header('Location: ../../../');
 }
 ?>

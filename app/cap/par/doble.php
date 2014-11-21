@@ -130,7 +130,8 @@ if($sesion->has($id_area, 8)){
 		if((id_eliminar!=0) && (id_asignar!=0) && (id_asignar!=id_eliminar)){
 			bootbox.confirm('Está por eliminar a <b>'+t_eliminar+'</b> y asignar sus notas a <b>'+t_asignar+'</b>', function (result) {
 				if(result===true){
-					modal_c.mostrar();
+					console.log(id_eliminar+' - '+id_asignar);
+					//modal_c.mostrar();
 					$.ajax({
 						url: nivel_entrada+'app/src/libs_cyd/gn_participante.php',
 						data: {
@@ -138,7 +139,7 @@ if($sesion->has($id_area, 8)){
 							args: JSON.stringify({id_eliminar:id_eliminar,id_asignar:id_asignar})
 						},
 						success: function (data) {
-							modal_c.ocultar();
+							//modal_c.ocultar();
 							var resp = $.parseJSON(data);
 							if(resp.msj=="si"){
 								$.pnotify({
@@ -160,7 +161,7 @@ if($sesion->has($id_area, 8)){
 				}
 			});
 		}
-		console.log(id_eliminar+' - '+id_asignar);
+		
 	}
 	<?php
 }

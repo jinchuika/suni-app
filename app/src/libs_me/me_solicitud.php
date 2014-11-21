@@ -1,6 +1,8 @@
 <?php
 class me_solicitud
 {   
+    private $id_area = 8;
+    private $nivel_dir = 3;
     /**
      * Construye el nuevo objeto
      * @param object $bd     Objeto para la conectarse al modelo
@@ -8,17 +10,34 @@ class me_solicitud
      */
     function __construct($bd=null, $sesion=null)
     {
-        $this->id_area = 8;
-        if(empty($bd) || empty($sesion)){
+        
+        if(!isset($bd)){
             require_once('../libs/incluir.php');
-            $nivel_dir = 3;
-            $libs = new librerias($nivel_dir);
-            $this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));
+            $libs = new librerias($this->nivel_dir);
             $this->bd = $libs->incluir('bd');
         }
-        if(!empty($bd) && !empty($sesion)){
+        else{
             $this->bd = $bd;
+        }
+        if(!isset($sesion)){
+            require_once('../libs/incluir.php');
+            $libs = new librerias($this->nivel_dir);
+            $this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));
+        }
+        else{
             $this->sesion = $sesion;
+        }
+    }
+
+    private function valor_nulo($clase, $param = null)
+    {
+        if(!isset($clase)){
+            require_once('../libs/incluir.php');
+            $libs = new librerias($this->nivel_dir);
+            $this->clase = $libs->incluir($param['texto']);
+        }
+        else{
+            $this->clase = $clase;
         }
     }
 
@@ -200,20 +219,49 @@ class me_solicitud
 
     	}
     }
+    
+    /**
+     * Borra una solicitud y sus dependencias
+     * @param  Array $args {id}
+     * @return Array       {msj:si|no}
+     */
+    public function eliminar_solicitud($args)
+    {
+        $respuesta = array('msj' => 'no');
+        $query = 'call eliminarMeSolicitud('.$args['id'].')';
+        $stmt=$this->bd->ejecutar($query);
+        if($solicitud = $this->bd->obtener_fila($stmt, 0)){
+            $respuesta['msj'] = 'si';
+        }
+        return $respuesta;
+    }
 }
-$fn_nombre = !empty($_GET['fn_nombre']) ? $_GET['fn_nombre'] : $_POST['fn_nombre'];
-if($fn_nombre){
-    $args = $_GET['args'];
+
+function get_param($varname)
+{
+    if (isset($_GET[$varname])) {
+        return $_GET[$varname];
+    }
+    elseif (isset($_POST[$varname])) {
+        return $_POST[$varname];
+    }
+    else{
+        return null;
+    }
+}
+$fn_nombre = isset($_GET['fn_nombre']) ? $_GET['fn_nombre'] : $_POST['fn_nombre'];
+//$fn_nombre = arrayGet($_GET, 'fn_nombre');
+
+if(isset($fn_nombre)){
+    $me_solicitud = new me_solicitud();
+    $args = get_param('args');
+    $pk = get_param('pk');
+    $name = get_param('name');
+    $value = get_param('value');
+    
     unset($_GET['fn_nombre']);
     unset($_GET['args']);
-
-    if($_POST['pk']){
-        $pk = $_POST['pk'];
-        $name = $_POST['name'];
-        $value = $_POST['value'];
-    }
-
-    $me_solicitud = new me_solicitud();
+    
     echo json_encode($me_solicitud->$fn_nombre(json_decode($args, true),$pk,$name,$value));
 }
 ?>

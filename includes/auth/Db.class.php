@@ -83,6 +83,7 @@ private function conectar(){
 * @return mysqli_result
 */
 public function ejecutar($sql){
+	//$sql = mysqli_real_escape_string($this->link, $sql);
 	switch ($this->tipo){
 		case 'mysql':     
 		$this->stmt=mysqli_query($this->link, $sql);

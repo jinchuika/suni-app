@@ -7,20 +7,30 @@ class me_requisito
 	 */
 	function __construct($bd=null, $sesion=null)
 	{
-		if(empty($bd) || empty($sesion)){
-			require_once('../libs/incluir.php');
-			$nivel_dir = 3;
-			$libs = new librerias($nivel_dir);
-			$this->sesion = $libs->incluir('seguridad');
-			$this->bd = $libs->incluir('bd');
-		}
-		if(!empty($bd) && !empty($sesion)){
-			$this->bd = $bd;
-			$this->sesion = $sesion;
-		}
+		if(!isset($bd)){
+            require_once('../libs/incluir.php');
+            $libs = new librerias($this->nivel_dir);
+            $this->bd = $libs->incluir('bd');
+        }
+        else{
+            $this->bd = $bd;
+        }
+        if(!isset($sesion)){
+            require_once('../libs/incluir.php');
+            $libs = new librerias($this->nivel_dir);
+            $this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));
+        }
+        else{
+            $this->sesion = $sesion;
+        }
 	}
 
-	public function abrir_requisito($args)
+	/**
+     * Devuelve un registro de requisito basado en el ID
+     * @param  Array $args {$id: integer}
+     * @return Array       Registro en la DB
+     */
+    public function abrir_requisito($args)
 	{
 		$query = "select * from me_requisito where id=".$args['id_requisito'];
 		$stmt = $this->bd->ejecutar($query);
@@ -49,6 +59,27 @@ class me_requisito
     		return $query;
 
     	}
+    }
+    
+    /**
+     * Lista las columnas para saber qué requisitos se están pidiendo
+     * @param  Array $filtros [{$campo: $valor}]
+     * @param  string $campos  los campos a pedir en el resultado
+     * @return Array          Matriz con el resutlado
+     */
+    public function listar_requisito(Array $filtros=null, $campos = '*')
+    {
+        $respuesta = array();
+        $query = "SELECT `COLUMN_NAME` as requisito ";
+        $query .= "FROM `INFORMATION_SCHEMA`.`COLUMNS` ";
+        $query .= "WHERE `TABLE_NAME`='me_requisito'";
+        $stmt = $this->bd->ejecutar($query);
+        while ($requisito = $this->bd->obtener_fila($stmt)) {
+            if($requisito['requisito']!=='id'){
+                array_push($respuesta, $requisito);
+            }
+        }
+        return $respuesta;
     }
 }
 $fn_nombre = !empty($_GET['fn_nombre']) ? $_GET['fn_nombre'] : $_POST['fn_nombre'];

@@ -166,10 +166,10 @@ function informe_asistencias($id_per, $id_sede, $fecha_inicio, $fecha_fin)
     }
 }
 
-if($_GET['ejecutar']){
+if(isset($_GET['ejecutar'])){
     echo json_encode(listar_evento());
 }
-if($_GET['ejecutar_diario']){
+if(isset($_GET['ejecutar_diario'])){
     $array_respuesta = array();
     $array_horario = listar_eventos_diarios($_POST['id_persona']);
     foreach ($array_horario as $key => $evento) {
@@ -196,7 +196,7 @@ if($_GET['ejecutar_diario']){
     }
     echo json_encode($array_respuesta);
 }
-if($_GET['informe_asistencias']){
+if(isset($_GET['informe_asistencias'])){
     echo json_encode(informe_asistencias($_GET['id_per'], $_GET['id_sede'], $_GET['fecha_inicio'], $_GET['fecha_fin']));
 }
 ?>

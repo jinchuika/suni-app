@@ -8,6 +8,7 @@ class sesion {
 	private static $instance;
 	public $arr_permiso;
 	private function __construct($id_usr=null) {
+        session_set_cookie_params(4000);
 		session_start ();
 		if($id_usr){
 			$this->id_usr = $id_usr;
@@ -24,7 +25,7 @@ class sesion {
 	public function set($nombre, $valor) {
 		$_SESSION [$nombre] = $valor;
 	}
-	public function get($nombre) {
+	public static function get($nombre) {
 		if (isset ( $_SESSION [$nombre] )) {
 			return $_SESSION [$nombre];
 		} else {
@@ -122,7 +123,7 @@ class sesion {
 		}
 	}
 
-	public function sync_remote($id_fun=null, $id_usr=null){
+	public static function sync_remote($id_fun=null, $id_usr=null){
 		
 		$bd = Db::getInstance();
         /*
@@ -133,7 +134,7 @@ class sesion {
         **** retorna un array con el permiso almacenado en $key = $id_fun
         */
         if($id_usr==null || empty($id_usr) || (!$id_usr)){
-        	$id_usr = $this->get("id_per");
+        	$id_usr = self::get("id_per");
         }
         if(!empty($id_usr)){
         	

@@ -256,8 +256,10 @@ function crear_solicitud (id_proceso, callback) {
         },
         mode: 'inline'
       });
-
-
+      
+      $('#btn_eliminar_solicitud').attr('onclick', 'eliminar_solicitud('+solicitud.id_solicitud+');');
+      $('#btn_eliminar_solicitud').show();
+      
       abrir_edf(solicitud.id_edf);
       abrir_contactos_solicitud(solicitud.id_solicitud);
       abrir_poblacion(solicitud.id_poblacion);
@@ -273,7 +275,6 @@ function crear_solicitud (id_proceso, callback) {
       bootbox.alert('Error al abrir la solicitud');
     }
     modal_c.ocultar();
-    console.log('Se debió haber ocultado desde abrir_solicitud()');
   });
 
 }
@@ -482,4 +483,28 @@ function abrir_poblacion (id_poblacion) {
     }
     modal_c.ocultar();
   });
+}
+
+function eliminar_solicitud (id_solicitud) {
+  bootbox.prompt(
+    'Está a punto de eliminar permanentemente esta solicitud. Para hacerlo escriba BORRAR:',
+    function  (result) {
+      if(result==='BORRAR'){
+        $.ajax({
+          url: nivel_entrada + 'app/src/libs_me/me_solicitud.php?fn_nombre=eliminar_solicitud',
+          data: {
+            fn_nombre: 'eliminar_solicitud',
+            args: JSON.stringify({'id':id_solicitud})
+          },
+          success: function (data) {
+            var response = $.parseJSON(data);
+            if(response.msj==='si'){
+              reiniciar_solicitud();
+              alert('Eliminado correctamente');
+            }
+          }
+        });
+      }
+    }
+    );
 }

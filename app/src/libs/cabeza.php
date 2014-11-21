@@ -9,7 +9,8 @@ class encabezado
 	function __construct($id_per, $nivel_entrada, $app=null)
 	{
 		$cont = 0;
-		if(!empty($app)){
+		$otro_nivel = '';
+		if(isset($app)){
 			//para los que están fuera del /app (pe., afe)
 			$nivel_entrada = $nivel_entrada - 1;
 		}

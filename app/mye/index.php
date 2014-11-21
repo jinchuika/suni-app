@@ -18,7 +18,6 @@ $bd = $libs->incluir('bd');
     $libs->defecto();
     $libs->incluir('bs-editable');
     $libs->incluir('gn-listar');
-    
     //$libs->incluir('datepicker');
     ?>
 </head>
@@ -300,8 +299,11 @@ $bd = $libs->incluir('bd');
                         <div class="span12 tab-content well">
                             <legend>Observaciones</legend>
                             <p id="spn_obs_solicitud"></p>
-                            <button onclick="reiniciar_solicitud();" class="btn btn-danger">Cerrar</button>
+                            <button onclick="reiniciar_solicitud();" class="btn btn-danger">Cerrar</button><br>
                         </div>
+                    </div>
+                    <div class="row-fluid">
+                        <button onclick="eliminar_solicitud();" class="btn btn-danger span12 hide" id="btn_eliminar_solicitud">Eliminar solicitud</button>
                     </div>
                 </div>
             </div>

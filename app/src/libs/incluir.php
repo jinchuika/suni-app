@@ -248,5 +248,22 @@ class librerias
 	{
 	    array_push($this->lista_incluido, $nombre_archivo);
 	}
+	
+	/**
+	 * incluye el archivo PHP donde esté una clase
+	 * @param  string $archivo El nombre del archivo CON LA UBICACIÓN
+	 * @param  Array $extra   Parámetros para condiciones especiales
+	 * @return [type]          [description]
+	 */
+	public function incluir_clase($archivo='', $extra=null, $param = null)
+	{
+	    if(!in_array($archivo, $this->lista_incluido)){
+	        require_once($this->nivel.$archivo);
+	        if($extra['nombre_clase']){
+	            return new $extra['nombre_clase']();
+	        }
+	        $this->agregar_lista($archivo);
+	    }
+	}
 }
 ?>

@@ -23,7 +23,7 @@ class esc_contacto
 
     /**
      * Devuelve la lista de contactos desde la base de datos
-     * @param  [type] $args Parámetros para filtrar
+     * @param  Array $args Parámetros para filtrar
      * @return Object       Objeto con arrays
      */
     public function listar_contacto_escuela($args=null)

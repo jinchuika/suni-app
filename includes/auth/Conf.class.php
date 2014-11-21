@@ -11,7 +11,6 @@ Class Conf{
 
    private function __construct(){
       require 'config.php';
-      $this->_domain=$domain;
       $this->_userdb=$user;
       $this->_passdb=$password;
       $this->_hostdb=$host;
