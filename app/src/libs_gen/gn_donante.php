@@ -2,22 +2,31 @@
 /**
 * Control de donante, id_area = 11;
 */
-
-require_once('../libs/incluir.php');
-
-/**
-* Clase para controlar la tabla de donantes
-*/
 class gn_donante
 {
 	
-	function __construct()
+	function __construct(Db $bd=null, sesion $sesion=null)
 	{
-		$nivel_dir = 3;
+		$this->nivel_dir = 3;
 		$this->id_area = 11;
-		$libs = new librerias($nivel_dir);
-		$this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));
-		$this->bd = $libs->incluir('bd');
+
+		if(!isset($bd)){
+            require_once('../libs/incluir.php');
+            $libs = new librerias($this->nivel_dir);
+            $this->bd = $libs->incluir('bd');
+        }
+        else{
+            $this->bd = $bd;
+        }
+        if(!isset($sesion)){
+            require_once('../libs/incluir.php');
+            $libs = new librerias($this->nivel_dir);
+            $this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));
+        }
+        else{
+            $this->sesion = $sesion;
+        }
+		
 	}
 
 	/**

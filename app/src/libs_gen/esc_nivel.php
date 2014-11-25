@@ -1,7 +1,6 @@
 <?php
-class me_estado extends ConstructorModelo
+class esc_nivel extends ConstructorModelo
 {
-    
     function __construct(Db $bd=null, sesion $sesion=null)
     {
         $this->bd = $this->set_common_var($bd);
@@ -9,19 +8,19 @@ class me_estado extends ConstructorModelo
     }
 
     /**
-     * Lista los estados desde la base de datos
+     * Lista los niveles desde la base de datos
      * @param  Array $arr_filtros {campo: valor}
      * @param  string $campos     Cada campo incluye nombre de tabla
      * @return Array              Cada posición es un registro
      */
-    public function listar_estado(Array $arr_filtros=null, $campos='*')
+    public function listar_nivel(Array $arr_filtros=null, $campos='*')
     {
         $respuesta = array();
-        $query ="select ".$campos." from me_estado ".$this->crear_filtros($arr_filtros);
+        $query ="select ".$campos." from esc_nivel ".$this->crear_filtros($arr_filtros);
         echo $query;
         $stmt = $this->bd->ejecutar($query);
-        while ($estado = $this->bd->obtener_fila($stmt)) {
-            array_push($respuesta, $estado);
+        while ($nivel = $this->bd->obtener_fila($stmt)) {
+            array_push($respuesta, $nivel);
         }
         return $respuesta;
     }

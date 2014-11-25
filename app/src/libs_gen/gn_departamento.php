@@ -6,7 +6,7 @@ function listar_departamento($args=null)
 	$bd = Db::getInstance();
 	$arr_depto = array();
 	$query_depto = "SELECT id_depto as id, nombre from gn_departamento ";
-	if($args['editable']){
+	if(isset($args['editable'])){
 		$query_depto = "SELECT id_depto as value, nombre as text FROM gn_departamento";
 	}
 	$stmt_depto = $bd->ejecutar($query_depto);
@@ -16,6 +16,6 @@ function listar_departamento($args=null)
 	return $arr_depto;
 }
 if($_GET['fn_nombre']){
-	echo json_encode($_GET['fn_nombre']($_GET['args']));
+	echo json_encode($_GET['fn_nombre'](json_decode($_GET['args'], true)));
 }
 ?>

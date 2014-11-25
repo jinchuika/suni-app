@@ -1,7 +1,4 @@
 <?php
-
-//ini_set('display_errors', 'On');
-//error_reporting(E_ALL);
 /**
  * Controla las solicitudes y validaciones
  */
@@ -11,9 +8,14 @@ $id_area = 8;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $id_area));
 $bd = $libs->incluir('bd');
-$libs->incluir_clase('app/src/libs_me/me_requisito.php');
+$libs->clase();
 
+$me_estado = new me_estado($bd, $sesion);
 $me_requisito = new me_requisito($bd, $sesion);
+$esc_nivel = new esc_nivel($bd, $sesion);
+$gn_donante = new gn_donante($bd, $sesion);
+$gn_proyecto = new gn_proyecto($bd, $sesion);
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -34,11 +36,19 @@ $me_requisito = new me_requisito($bd, $sesion);
         <div class="span3 well">
             <form class="form">
                 <fieldset>
-                    <legend>Filtros</legend>
+                    <button class="btn btn-primary" onclick="cargar_tabla();">Abrir</button>
+
                     <div class="control-group">
-                        <label class="control-label" for="me_esado">Estado del proceso</label>
+                        <label class="control-label" for="me_estado">Estado del proceso</label>
                         <div class="controls">
-                            <select id="me_esado" name="me_esado" class="input-large span12">
+                            <select id="me_estado" name="me_estado" class="input-large span12">
+                                <option></option>
+                                <?php
+                                $lista_estados = $me_estado->listar_estado();
+                                foreach ($lista_estados as $estado) {
+                                    echo '<option value="'.$estado['id'].'">'.$estado['estado_proceso'].'</option>';
+                                }
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -59,7 +69,7 @@ $me_requisito = new me_requisito($bd, $sesion);
                     </div>
                     <div class="btn-group">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="icon-list"></i> Campos
+                            <i class="icon-list"></i> Requerimientos
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu dropdown-menu-form">
@@ -82,12 +92,84 @@ $me_requisito = new me_requisito($bd, $sesion);
                             </form>
                         </ul>
                     </div>
+                    <br><br>
+                    <div class="control-group">
+                        <label class="control-label" for="lab_actual">¿Laboratorio?</label>
+                        <div class="controls">
+                            <label class="radio inline" for="lab_actual-0">
+                                <input type="radio" name="lab_actual" id="lab_actual-0" value="Sí" checked="checked">
+                                Sí
+                            </label>
+                            <label class="radio inline" for="lab_actual-1">
+                                <input type="radio" name="lab_actual" id="lab_actual-1" value="No">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                    <h4>Fecha</h4>
+                    <div class="row-fluid">
+                        <div class="span3">Desde: </div>
+                        <div class="span9"><input type="text" id="fecha_inicio" class="span12"></div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span3">Hasta: </div>
+                        <div class="span9"><input type="text" id="fecha_fin" class="span12"></div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="nivel">Nivel de la escuela</label>
+                        <div class="controls">
+                            <select id="nivel" name="nivel" class="input-large span12">
+                                <option></option>
+                                <?php
+                                $lista_nivel = $esc_nivel->listar_nivel();
+                                foreach ($lista_nivel as $nivel) {
+                                    echo '<option value="'.$nivel['id_nivel'].'">'.$nivel['nivel'].'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <h4>Población</h4>
+                    <div class="row-fluid">
+                        <div class="span3">Mínimo: </div>
+                        <div class="span9"><input type="number" min="0" id="poblacion_min" class="span12"></div>
+                    </div>
+                    <div class="row-fluid">
+                        <div class="span3">Máximo: </div>
+                        <div class="span9"><input type="number" min="0" id="poblacion_max" class="span12"></div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="donante">Donante</label>
+                        <div class="controls">
+                            <select id="donante" name="donante" class="input-large span12">
+                                <option></option>
+                                <?php
+                                $lista_donantes = $gn_donante->listar_donante();
+                                foreach ($lista_donantes as $donante) {
+                                    echo '<option value="'.$donante['id'].'">'.$donante['nombre'].'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="proyecto">Proyecto</label>
+                        <div class="controls">
+                            <select id="proyecto" name="proyecto" class="input-large span12">
+                                <option></option>
+                                <?php
+                                $lista_proyectos = $gn_proyecto->listar_proyecto();
+                                foreach ($lista_proyectos as $proyecto) {
+                                    echo '<option value="'.$proyecto['id'].'">'.$donante['nombre'].'</option>';
+                                }
+                                ?>
+                            </select>
+                        </div>
+                    </div>
                 </fieldset>
             </form>
-
-            <button class="btn" onclick="cargar_tabla();">Cargar</button>
         </div>
-        <div class="span12">
+        <div class="span9">
             <table id="tabla_solicitud">
                 <thead>
                     <th>No.</th>
@@ -104,9 +186,5 @@ $me_requisito = new me_requisito($bd, $sesion);
     </div>
 </div>  
 </body>
-<script>
-    function cargar_tabla () {
-        // body...
-    }
-</script>
+<?php $libs->incluir('js-lib', 'mye_solicitud.js'); ?>
 </html>
