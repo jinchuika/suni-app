@@ -216,6 +216,7 @@ $bd = $libs->incluir('bd');
 	<br />
 <a class="btn" id="limpiar">Limpiar</a>
 	<script>
+	var evita = "", evita1="";
 	$(document).ready(function () {
 		var data_sede=<?php
 		$resultado = array();
@@ -260,7 +261,7 @@ $bd = $libs->incluir('bd');
 			}
 		});
 		$("#formulario").submit(function () {
-			if((localStorage.evita!="error")&&(localStorage.evita1!="error")){
+			if((evita!="error")&&(evita1!="error")){
 				$.ajax({
 					url: "../../src/libs/crear_participante.php",
 					type: "post",
@@ -293,11 +294,11 @@ $bd = $libs->incluir('bd');
 				success: function (data) {
 					var data = $.parseJSON(data);
 					if(data=="existe"){
-						localStorage.evita ="";
+						evita ="";
 						$("#alerta_udi").hide(100);
 					}
 					else{
-						localStorage.evita ="error";
+						evita ="error";
 						$("#alerta_udi").show(400);
 					}
 				}
@@ -312,11 +313,11 @@ $bd = $libs->incluir('bd');
 				success: function (data) {
 					var data = $.parseJSON(data);
 					if(data!="existe"){
-						localStorage.evita1 ="";
+						evita1 ="";
 						$("#alerta_dpi").hide(100);
 					}
 					else{
-						localStorage.evita1 ="error";
+						evita1 ="error";
 						$("#alerta_dpi").show(400);
 					}
 				}

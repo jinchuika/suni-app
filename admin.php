@@ -103,6 +103,7 @@
                 <div>
                 
                 <form class="form-signin" action="includes/auth/sesion.login.php" method="POST">
+                    <input type="hidden" name="redirect_url" id="redirect_url" value="<?php echo $_GET['redirect_url']; ?>">
                     <h3 class="form-signin-heading">Acceso a Sistema</h3>
                     <span class="subT">Ingresa con tu ID de FUNSEPA.</span>
 

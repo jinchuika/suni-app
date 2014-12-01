@@ -74,7 +74,11 @@ class librerias
                 break;
             case 'seguridad':
                 $this->imprimir("php", "includes/auth/login.class.php");
-                $vlog = vLog("usuario", "0",$this->nivel."admin.php");
+                
+                $solicitud = $_SERVER['PHP_SELF'];
+                $_POST['redirect_url'] = $solicitud;
+                
+                $vlog = vLog("usuario", "0",$this->nivel."admin.php?redirect_url=".$solicitud);
                 $this->imprimir("php", "includes/auth/sesion.class.php");
                 $sesion = sesion::getInstance($vlog);
                 //$sesion->set_instance($vlog);

@@ -31,7 +31,11 @@ if( isset($_POST["iniciar"]) )
 		$sesion->set("avatar", $resultado[7]);
 		$sesion->set("arr_permiso",$sesion->mostrar_permisos());
 
-		header("location: ../../principal.php");
+		if (isset($_POST['redirect_url']) && !empty($_POST['redirect_url'])) {
+			$redirect_url = $_POST['redirect_url'];
+			unset($_POST['redirect_url']);
+		}
+		header("location: ".(isset($redirect_url) ? $redirect_url : "../../principal.php"));
 					# code...
 		break;
 

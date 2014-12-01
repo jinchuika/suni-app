@@ -34,9 +34,9 @@ $gn_proyecto = new gn_proyecto($bd, $sesion);
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span3 well">
-            <form class="form">
+            <form id="form_informe_solicitud" class="form">
                 <fieldset>
-                    <button class="btn btn-primary" onclick="cargar_tabla();">Abrir</button>
+                    <input type="button" class="btn btn-primary" value="Abrir" onclick="cargar_tabla();">
 
                     <div class="control-group">
                         <label class="control-label" for="me_estado">Estado del proceso</label>
@@ -81,7 +81,7 @@ $gn_proyecto = new gn_proyecto($bd, $sesion);
                                     <li>
                                         <label class="checkbox">
                                             <?php
-                                            echo '<input type="checkbox" value="'.$requisito['requisito'].'" class="_chh" id="chk_'.$requisito['requisito'].'" name="'.$requisito['requisito'].'">';
+                                            echo '<input type="checkbox" value="'.$requisito['id'].'" class="chk_requisito" data-name="'.$requisito['requisito'].'" id="chk_'.$requisito['requisito'].'" name="'.$requisito['requisito'].'">';
                                             echo $requisito['requisito'];
                                             ?>
                                         </label>

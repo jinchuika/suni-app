@@ -193,11 +193,6 @@ class me_solicitud
         }
     }
 
-    public function listar_solicitud($args)
-    {
-    	
-    }
-
     /**
 	 * Edita la información de la solicitud
 	 * @param  array $args  Enviado sólo para aceptar el uso del método mediante ajax
@@ -232,6 +227,49 @@ class me_solicitud
         $stmt=$this->bd->ejecutar($query);
         if($solicitud = $this->bd->obtener_fila($stmt, 0)){
             $respuesta['msj'] = 'si';
+        }
+        return $respuesta;
+    }
+    
+    public function generar_informe($arr_filtros=null)
+    {
+        $query = "
+        select 
+            me_solicitud.id as id_solicitud,
+            gn_proceso.id as id_proceso,
+            gn_escuela.id as id_escuela,
+            gn_escuela.codigo as udi,
+            gn_escuela.nombre as escuela,
+            gn_municipio.id as id_municipio,
+            gn_municipio.nombre as municipio,
+            me_solicitud.id_requisito,
+            me_solicitud.id_poblacion,
+            me_solicitud.id_supervisor, me_solicitud.id_director, me_solicitud.id_responsable,
+            sum(me_poblacion.alum_mujer + me_poblacion.alum_hombre) as cant_alumno,
+            sum(me_poblacion.maestro_mujer + me_poblacion.maestro_hombre) as cant_maestro
+        from me_solicitud
+            left outer join gn_proceso on gn_proceso.id = me_solicitud.id_proceso
+            left outer join gn_escuela on gn_escuela.id = gn_proceso.id_escuela
+            left outer join gn_municipio on gn_municipio.id = gn_escuela.municipio
+            left outer join me_requisito on me_requisito.id = me_solicitud.id_requisito
+            left outer join me_poblacion on me_poblacion.id = me_solicitud.id_poblacion
+        where 
+            ".$this->filtros($arr_filtros)."
+        group by me_solicitud.id ";
+        
+        $stmt = $this->bd->ejecutar($query);
+        while ($solicitud = $this->bd->obtener_fila($stmt)) {
+            # code...
+        }
+    }
+    
+    public function filtros($arr_filtros)
+    {
+        $respuesta = '';
+        if (is_array($arr_filtros)) {
+            foreach ($arr_filtros as $key => $filtro) {
+                $respuesta .= ($key>0 ? ' and ': ' ').$filtro;
+            }
         }
         return $respuesta;
     }
