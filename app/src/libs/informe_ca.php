@@ -116,7 +116,7 @@ if (!empty($_POST['id_sede'])) {
 		if($persona["id"]==""){
 		}
 		else{
-			$query_escuela = "SELECT * FROM gn_escuela WHERE id=".$value["id_escuela"];
+			$query_escuela = "SELECT codigo FROM gn_escuela WHERE id=".$value["id_escuela"];
 			$stmt_escuela = $bd->ejecutar($query_escuela);
 			$escuela = $bd->obtener_fila($stmt_escuela, 0);
 
@@ -193,7 +193,7 @@ if (!empty($_POST['id_sede'])) {
 				$estado = "Reprobado";
 			}
 
-			array_push($respuesta, new ElementoAutocompletar($persona["nombre"], $persona["apellido"], $value[0], $value[8], $escuela[5], $value[9], $value[10], $curso[1], $genero[1], $total, $arr_desc_notas, $sumatoria, $estado, $dpi[1], $dpi[0], $persona['tel_movil'], $persona['mail']));
+			array_push($respuesta, new ElementoAutocompletar($persona["nombre"], $persona["apellido"], $value[0], $value[8], $escuela['codigo'], $value[9], $value[10], $curso[1], $genero[1], $total, $arr_desc_notas, $sumatoria, $estado, $dpi[1], $dpi[0], $persona['tel_movil'], $persona['mail']));
 		}
 		
 	}

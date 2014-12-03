@@ -229,7 +229,7 @@ $("#loading_gif").hide();
 							<th data-sort="string" class="head">Apellido <span class="glyphicon glyphicon-sort"></span></th>
 							<th data-sort="string" class="head">ID <span class="glyphicon glyphicon-sort"></span></th>
 							<th data-sort="string" class="head">Género <span class="glyphicon glyphicon-sort"></span></th>
-							<th data-sort="string" class="head">Escuela <span class="glyphicon glyphicon-sort"></span></th>
+							<th data-sort="string" class="head">UDI <span class="glyphicon glyphicon-sort"></span></th>
 							<th data-sort="string" class="head">Curso <span class="glyphicon glyphicon-sort"></span></th>
 							<th data-sort="int" class="head">Grupo <span class="glyphicon glyphicon-sort"></span></th>
 							<th data-sort="int" id="header_nota" class="head">Nota <span class="glyphicon glyphicon-sort"></span></th>
