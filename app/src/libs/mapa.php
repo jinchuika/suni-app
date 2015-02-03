@@ -16,7 +16,7 @@ function imprimir_mapa($lat, $lng, $descripcion)
 	';
 
 	echo '<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
-	<script type="text/javascript" id="mapa_js" lat_in="'.$lat.'" lng_in="'.$lng.'" descripcion="'.$descripcion.'" src="'.$GLOBALS['mapa_str'].'/app/src/js-libs/mapa.js" ></script>
+	<script type="text/javascript" id="mapa_js" lat_in="'.$lat.'" lng_in="'.$lng.'" descripcion="'.$descripcion.'" src="'.$GLOBALS['mapa_str'].'/app/src/js-libs/mapa/mapa.js" ></script>
 	<br />
 	';
 }

@@ -75,7 +75,7 @@ class librerias
             case 'seguridad':
                 $this->imprimir("php", "includes/auth/login.class.php");
                 
-                $solicitud = $_SERVER['PHP_SELF'];
+                $solicitud = $_SERVER['REQUEST_URI'];
                 $_POST['redirect_url'] = $solicitud;
                 
                 $vlog = vLog("usuario", "0",$this->nivel."admin.php?redirect_url=".$solicitud);
@@ -136,11 +136,11 @@ class librerias
                 $this->imprimir("meta", 'name="viewport" content="width=device-width"');
                 break;
             case 'listar':
-                $this->imprimir("js-libs", 'listar.js');
+                $this->imprimir("js-libs", 'gen/listar.js');
                 $this->imprimir("js", 'js/framework/filtro_lista.js');
                 break;
             case 'gn-listar':
-                $this->imprimir("js-libs", 'general_listar.js');
+                $this->imprimir("js-libs", 'gen/general_listar.js');
                 $this->imprimir("js", 'js/framework/filtro_lista.js');
                 $this->imprimir("css", 'css/lista_filtrada.css');
                 break;
@@ -182,7 +182,7 @@ class librerias
     
     public function incluir_general($id_per, $rol)
     {
-        echo '<script id="js_general" id_per="'.$id_per.'" nivel="'.$this->nivel.'" src="'.$this->nivel.'app/src/js-libs/general.js"></script>
+        echo '<script id="js_general" id_per="'.$id_per.'" nivel="'.$this->nivel.'" src="'.$this->nivel.'app/src/js-libs/gen/general.js"></script>
         ';
     }
     
@@ -280,11 +280,12 @@ class librerias
     {
         $array_paths = array(
             'app/src/libs/',
-            'app/src/libs_cyd/',
             'app/src/libs_gen/',
             'app/src/libs_me/',
             'app/src/libs_tpe/',
-            'app/src/model/'
+            'app/src/libs_cyd/',
+            'app/src/model/',
+            'app/src/ctrl/'
             );
 
         foreach($array_paths as $path)
@@ -293,6 +294,7 @@ class librerias
             if(is_file($file)) 
             {
                 include_once $file;
+                break;
             }
         }
     }
@@ -303,10 +305,10 @@ class librerias
      */
     public static function uri_relativa()
     {
-        $nivel_actual = substr_count($_SERVER['REQUEST_URI'], DIRECTORY_SEPARATOR);
+        $nivel_actual = substr_count($_SERVER['REQUEST_URI'], '/');
         $ruta = '';
         for ($i=1; $i < $nivel_actual-1; $i++) { 
-            $ruta .= '..'.DIRECTORY_SEPARATOR;
+            $ruta .= '..'.'/';
         }
         return $ruta;
     }
@@ -317,7 +319,7 @@ class librerias
      */
     public static function path_relativo()
     {
-        $nivel_actual = substr_count($_SERVER['REQUEST_URI'], DIRECTORY_SEPARATOR);
+        $nivel_actual = substr_count($_SERVER['REQUEST_URI'], '/');
         return $nivel_actual-1;
     }
 

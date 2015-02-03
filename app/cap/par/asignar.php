@@ -146,10 +146,10 @@ $bd = $libs->incluir('bd');
 	</div>
 	<?php 
 	if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
-		echo '<script type="text/javascript" id="asignar" src="http://funsepa.net/suni/app/src/js-libs/cap_par_asignar.js" ></script>';
+		echo '<script type="text/javascript" id="asignar" src="http://funsepa.net/suni/app/src/js-libs/cyd/cap_par_asignar.js" ></script>';
 	}
 	else{
-		echo '<script type="text/javascript" id="asignar" id_per="'.$sesion->get("id_per").'" src="http://funsepa.net/suni/app/src/js-libs/cap_par_asignar.js" ></script>';
+		echo '<script type="text/javascript" id="asignar" id_per="'.$sesion->get("id_per").'" src="http://funsepa.net/suni/app/src/js-libs/cyd/cap_par_asignar.js" ></script>';
 	}
 	?>
 </body>

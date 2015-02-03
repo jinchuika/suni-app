@@ -142,7 +142,7 @@ $bd = $libs->incluir('bd');
 		</div>
 	</div> -->
 	<!--Empieza sección de scripts></!-->
-	<script src="../src/js-libs/nuevo_curso.js"></script>
+	<script src="../src/js-libs/cyd/nuevo_curso.js"></script>
 	<script>
 	$("#myModal").css("z-index", "-1500");
 	$("#myModal").show(function () {

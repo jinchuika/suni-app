@@ -37,9 +37,11 @@ class esc_contacto
         gn_persona.mail,
         gn_persona.tel_movil,
         pr_genero.genero,
-        usr_rol.rol
+        usr_rol.rol,
+        gn_escuela.codigo as udi
         from esc_contacto
         inner join gn_persona ON esc_contacto.id_persona=gn_persona.id
+        inner join gn_escuela ON gn_escuela.id=esc_contacto.id_escuela
         inner join usr_rol ON esc_contacto.id_rol=usr_rol.idRol
         inner join pr_genero ON pr_genero.id=gn_persona.genero
         where esc_contacto.id_escuela='.$args['id'].' ';
@@ -105,9 +107,11 @@ class esc_contacto
         gn_persona.tel_movil,
         pr_genero.genero,
         esc_contacto.id_rol,
-        usr_rol.rol
+        usr_rol.rol,
+        gn_escuela.codigo as udi
         from esc_contacto
         inner join gn_persona ON esc_contacto.id_persona=gn_persona.id
+        inner join gn_escuela ON gn_escuela.id=esc_contacto.id_escuela
         inner join usr_rol ON esc_contacto.id_rol=usr_rol.idRol
         inner join pr_genero ON pr_genero.id=gn_persona.genero
         where esc_contacto.id='.$args['id'].' ';
@@ -120,11 +124,11 @@ class esc_contacto
 
     /**
      * Edita el registro de la base de datos
-     * @param  [null] $args  Para cubrir el espacio recibido
-     * @param  [int] $pk    El ID del registro
-     * @param  [string] $name  El campo a modificar
-     * @param  [string] $value El nuevo valor asignado
-     * @return [Array]        {msj: estado, id: cambiada}
+     * @param  array $args  Para cubrir el espacio recibido
+     * @param  int $pk    El ID del registro
+     * @param  string $name  El campo a modificar
+     * @param  string $value El nuevo valor asignado
+     * @return Array        {msj: estado, id: cambiada}
      */
     public function editar_contacto($args=null, $pk, $name, $value)
     {
@@ -158,6 +162,23 @@ class esc_contacto
         }
         else{
             $respuesta['query'] = $query;
+        }
+        return $respuesta;
+    }
+
+    public function listar_contacto_sede($id_sede)
+    {
+        $respuesta = array();
+        $query = "SELECT DISTINCT 
+        esc_contacto.id
+        FROM gn_grupo
+        LEFT JOIN gn_asignacion ON gn_asignacion.grupo=gn_grupo.id
+        RIGHT JOIN gn_participante ON gn_asignacion.participante=gn_participante.id
+        right join esc_contacto ON esc_contacto.id_escuela=gn_participante.id_escuela
+        WHERE gn_grupo.id_sede = ".$id_sede." group by esc_contacto.id";
+        $stmt = $this->bd->ejecutar($query);
+        while ($contacto = $this->bd->obtener_fila($stmt, 0)) {
+            array_push($respuesta, $this->abrir_contacto($contacto['id']));
         }
         return $respuesta;
     }

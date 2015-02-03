@@ -58,6 +58,7 @@ else{
 	$libs->defecto();
 	$libs->incluir('bs-editable');
 	$libs->incluir('google_chart');
+	$libs->incluir('js-lib', 'esc_contacto.js');
 	?>
 	<meta charset="UTF-8">
 	<script src="../../../js/framework/stupidtable.min.js"></script>
@@ -86,6 +87,7 @@ else{
 					<li><a href="#tab2" data-toggle="tab"><i class="icon-group"></i> Grupos (<?php echo count($array_grupo); ?>)</a></li>
 					<li><a href="#tab3" data-toggle="tab" name="tab_listar_par" ><i class="icon-user"></i> Participantes (<span id="cant_par"></span>)</a></li>
 					<li><a href="#tab4" data-toggle="tab" name="tab_asesoria"><i class="icon-comments"></i> Asesorías</a></li>
+					<li><a href="#seccion_contacto" data-toggle="tab"><i class="icon-phone"></i> Contactos</a></li>
 					<li><a href="#linea_tiempo" data-toggle="tab"><i class="icon-align-left"></i> Línea de tiempo</a></li>
 					<li><a href="#tab_mapa" data-toggle="tab" name="tab_mapa"><i class="icon-map-marker"></i> Mapa</a></li>
 				</ul>
@@ -149,6 +151,10 @@ else{
 									<br>
 									<button id="nueva_asesoria" onclick="crear_asesoria();" class="btn btn-primary">Añadir</button>
 									<img src="http://funsepa.net/suni/js/framework/select2/select2-spinner.gif" class="hide" id="loading_gif">
+								</div>
+								<div id="seccion_contacto" class="tab-pane">
+									<ul id="lista_contacto" class="unstyled">
+									</ul>
 								</div>
 								<div id="linea_tiempo" class="tab-pane active">
 									<legend>Línea de tiempo</legend>
@@ -378,6 +384,12 @@ else{
 			});
 		});
 	}
+
+	function listar_contacto_sede (id_escuela, callback) {
+		var barra_carga = barra_carga_inf("Buscando contactos");
+		barra_carga.mostrar();
+		listar_contacto_escuela(id_escuela, "lista_contacto", callback);
+	}
 	function listar_participantes () {
 		var barra_carga = barra_carga_inf();
 		document.getElementById("cant_par").innerHTML = "?";
@@ -450,7 +462,11 @@ $(document).ready(function () {
 	listar_asesorias(<?php echo $id_sede; ?>);
 	habilitar_edicion_info();
 	$("#ctn_principal").show()
-	google.maps.event.trigger(map, 'resize');
+	<?php
+	foreach ($array_escuelas as $escuela) {
+		echo  'listar_contacto_sede('.$escuela['id'].');';
+	}
+	?>
 });
 </script>
 </body>

@@ -92,7 +92,7 @@ function activar_edicion_fecha (id_editable, fn_nombre, pk) {
   });
   $("#"+id_editable).editable('option', 'pk', pk);
 }
-function listar_campos_select (fn_nombre, objetivo, vacio) {
+function listar_campos_select (fn_nombre, objetivo, vacio, callback) {
   $.ajax({
     url: nivel_entrada+"app/src/libs_gen/contacto.php?fn_nombre="+fn_nombre,
     success: function (data) {
@@ -104,6 +104,7 @@ function listar_campos_select (fn_nombre, objetivo, vacio) {
       $("#"+objetivo).html(resultado);
     }
   });
+  console.log('hecho');
 }
 function listar_contactos (id, contenedor, fn_nombre) {
   $("#"+contenedor).show();

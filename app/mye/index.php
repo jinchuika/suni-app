@@ -312,7 +312,7 @@ $bd = $libs->incluir('bd');
     <!-- Modal -->
 </body>
 <?php $libs->incluir('js-lib', 'esc_contacto.js'); ?>
-<?php $libs->incluir('js-lib', 'mye_index.js'); ?>
+<?php $libs->incluir('js-lib', 'mye/mye_index.js'); ?>
 <script>
 $(document).ready(function () {
     listar_remote ('inp_abrir_escuela', 'app/src/libs_gen/gn_proceso.php', 'listar_escuela', 8);

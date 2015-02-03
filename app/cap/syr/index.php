@@ -25,7 +25,7 @@ $bd = $libs->incluir('bd');
 	function crear_ca_tabla(id_par, nombre, grupo, asignacion, curso, nombre_curso) {
 		if(id_par){
 			$("#tablabody").load('../../src/libs/ca_tabla.php', {id_par: id_par, nombre_par: nombre, id_grupo: grupo, id_sede: localStorage.id_sede, nombre_curso: nombre_curso}, function () {
-				$.getScript('../../src/js-libs/ca.js');
+				$.getScript('../../src/js-libs/cyd/ca.js');
 			});
 			
 			localStorage.id_par = id_par;
@@ -35,7 +35,7 @@ $bd = $libs->incluir('bd');
 			window.location = "#nombre_legend";
 
 			/*$.ajax({
-				url: '../../src/js-libs/ca.js',
+				url: '../../src/js-libs/cyd/ca.js',
 				dataType: "script",
 				data: {id_par: id_par}
 			});*/

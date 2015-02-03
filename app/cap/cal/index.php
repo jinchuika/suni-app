@@ -15,7 +15,6 @@ $bd = $libs->incluir('bd');
 	$libs->incluir('jquery-ui');
 	$libs->incluir('notify');
 	$libs->incluir('calendario');
-	//$libs->incluir('bs-confirm');
 	
 	?>
 

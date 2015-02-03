@@ -11,30 +11,24 @@ function crear_filtro_grupo (id_objetivo) {
 }
 
 /* Clase para mostrar barra de carga en la parte inferior de la pantalla */
-function barra_carga_inf (id_html, objetivo){
+function barra_carga_inf (texto, id_html){
   if(!id_html){
     id_html = "barra_carga_inf";
   }
-  var contenido_div = '<div id="'+id_html+'" class="progress progress-striped active hide "><div class="bar" style="width: 100%"></div></div>';
-  var id_html = id_html;
+  var contenido_div = '<div id="'+id_html+'" class="progress progress-striped active hide "><div class="bar" style="width: 100%">'+(texto ? texto : '')+'</div></div>';
   this.crear = function() {
-    if(!objetivo){
-      if(document.getElementById(id_html)==null){
-        document.body.innerHTML += contenido_div;
-      }
-      document.getElementById(id_html).setAttribute("class", "progress progress-striped active hide navbar navbar-default navbar-fixed-bottom");
+    
+    if(document.getElementById(id_html)==null){
+      document.body.innerHTML += contenido_div;
     }
-    else{
-      if(document.getElementById(id_html)==null){
-        document.getElementById("").innerHTML += contenido_div;
-      }
-    }
+    document.getElementById(id_html).setAttribute("class", "progress progress-striped active hide navbar navbar-default navbar-fixed-bottom");
   }
-  this.mostrar = function() {
-    $("#"+id_html+"").toggle('show');
+
+  this.mostrar = function(duracion) {
+    $("#"+id_html+"").show(duracion);
   }
-  this.ocultar = function () {
-    $("#"+id_html+"").toggle('hide');
+  this.ocultar = function (duracion) {
+    $("#"+id_html+"").hide(duracion);
   }
   return this;
 };
@@ -63,8 +57,6 @@ function modal_carga_gn (nombre) {
   if(!nombre){
     nombre = "area_modal_carga";
   }
-  var barra_interna = barra_carga_inf("barra_carga_modal");
-  //barra_interna.crear();
   var modal_carga = bootbox.dialog("<h3>Procesando <img src='"+nivel_entrada+"js/framework/select2/select2-spinner.gif'></h3><p>Por favor espere...</p>");
   this.crear = function () {
     modal_carga.modal('hide');
@@ -160,9 +152,9 @@ function validar_mail(mail)
  * Convierte el primer caracter en mayúscula usando .capitalize
  * @return string Cadena con primer caracter en mayúscula
  */
-function cap_first(string)
-{
-    return string.charAt(0).toUpperCase() + string.slice(1);
+ function cap_first(string)
+ {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
 /**
@@ -170,7 +162,7 @@ function cap_first(string)
  * @param  {string} string el string a convertir
  * @return {string}        Valor cambiado por '' o el original
  */
-function nullToEmpty(string){
+ function nullToEmpty(string){
   if(string==='null' || string==null){
     return '';
   }
@@ -180,64 +172,44 @@ function nullToEmpty(string){
 }
 
 (function($) {
-    $.fn.goTo = function() {
-        $('html, body').animate({
-            scrollTop: $(this).offset().top + 'px'
-        }, 'fast');
+  $.fn.goTo = function() {
+    $('html, body').animate({
+      scrollTop: $(this).offset().top + 'px'
+    }, 'fast');
         return this; // for chaining...
-    }
-})(jQuery);
+      }
+    })(jQuery);
 
 /**
  * Convertir campos de un formulario a un array sociativo
  * @return object Objeto de datos asociativo
  */
-$.fn.serializeObject = function()
-{
-    var o = {};
-    var a = this.serializeArray();
-    $.each(a, function() {
-        if (o[this.name] !== undefined) {
-            if (!o[this.name].push) {
-                o[this.name] = [o[this.name]];
-            }
-            o[this.name].push(this.value || '');
-        } else {
-            o[this.name] = this.value || '';
-        }
-    });
-    return o;
+ $.fn.serializeObject = function()
+ {
+  var o = {};
+  var a = this.serializeArray();
+  $.each(a, function() {
+    if (o[this.name] !== undefined) {
+      if (!o[this.name].push) {
+        o[this.name] = [o[this.name]];
+      }
+      o[this.name].push(this.value || '');
+    } else {
+      o[this.name] = this.value || '';
+    }
+  });
+  return o;
 };
-//Sistema de notificaciones
-/*if (!!window.EventSource) {
-  var source = new EventSource(nivel_entrada+'app/src/libs/mostrar_notificacion.php?id_persona='+id_per_entrada);
-  var v_not_vista = 0;
-  source.addEventListener('message', function(e) {
-    console.log(e.data);
-    var data = JSON.parse(e.data);
-    if(data.msg && v_not_vista==0){
-      v_not_vista = 1;
-      bootbox.alert(data.msg, function () {
-        $.ajax({
-          url: nivel_entrada+'app/src/libs/mostrar_notificacion.php?dismiss=1',
-          type: 'post',
-          data: {id: data.id}
-        });
-        v_not_vista = 0;
-      });
-    }
-  }, false);
 
-  source.addEventListener('open', function(e) {
-
-  }, false);
-
-  source.addEventListener('error', function(e) {
-    if (e.readyState == EventSource.CLOSED) {
-
-    }
-  }, false);
-} else {
-
+function General() {
+  this.nivel_creado = nivel_entrada;
+  this.module = '';
+  this.ctrl = '';
 }
-*/
+
+General.prototype.makeUrl = function(action, notExecute) {
+  console.log('nivel:'+this.nivel_creado);
+  var url = this.nivel_creado+'app/src/libs'+ this.module+'/'+this.ctrl+'.php';
+  url += (notExecute ? '' : '?fn_nombre='+action);
+  return url;
+};

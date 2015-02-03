@@ -1,6 +1,6 @@
 <?php
 class me_solicitud
-{   
+{
     private $id_area = 8;
     private $nivel_dir = 3;
     /**
@@ -10,7 +10,6 @@ class me_solicitud
      */
     function __construct($bd=null, $sesion=null)
     {
-        
         if(!isset($bd)){
             require_once('../libs/incluir.php');
             $libs = new librerias($this->nivel_dir);
@@ -231,8 +230,11 @@ class me_solicitud
         return $respuesta;
     }
     
-    public function generar_informe($arr_filtros=null)
+    public function crear_informe($arr_filtros=null)
     {
+        require_once('../libs_gen/esc_contacto.php');
+        $esc_contacto = new esc_contacto($this->bd, $this->sesion);
+        $arr_respuesta = array();
         $query = "
         select 
             me_solicitud.id as id_solicitud,
@@ -246,21 +248,75 @@ class me_solicitud
             me_solicitud.id_poblacion,
             me_solicitud.id_supervisor, me_solicitud.id_director, me_solicitud.id_responsable,
             sum(me_poblacion.alum_mujer + me_poblacion.alum_hombre) as cant_alumno,
-            sum(me_poblacion.maestro_mujer + me_poblacion.maestro_hombre) as cant_maestro
-        from me_solicitud
-            left outer join gn_proceso on gn_proceso.id = me_solicitud.id_proceso
-            left outer join gn_escuela on gn_escuela.id = gn_proceso.id_escuela
-            left outer join gn_municipio on gn_municipio.id = gn_escuela.municipio
-            left outer join me_requisito on me_requisito.id = me_solicitud.id_requisito
-            left outer join me_poblacion on me_poblacion.id = me_solicitud.id_poblacion
-        where 
-            ".$this->filtros($arr_filtros)."
+            sum(me_poblacion.maestro_mujer + me_poblacion.maestro_hombre) as cant_maestro 
+        from me_solicitud 
+            left outer join gn_proceso on gn_proceso.id = me_solicitud.id_proceso 
+            left outer join gn_escuela on gn_escuela.id = gn_proceso.id_escuela 
+            left outer join gn_municipio on gn_municipio.id = gn_escuela.municipio 
+            left outer join me_requisito on me_requisito.id = me_solicitud.id_requisito 
+            left outer join me_poblacion on me_poblacion.id = me_solicitud.id_poblacion 
+         
+            ".$this->filtros_informe($arr_filtros)."
         group by me_solicitud.id ";
+        $rango_poblacion = $this->ensamblar_rango($arr_filtros['poblacion_min'], $arr_filtros['poblacion_max'], 'cant_alumno', ' >= ');
+        $query .= (!empty($rango_poblacion) ? ' having '.$rango_poblacion : '');
         
         $stmt = $this->bd->ejecutar($query);
         while ($solicitud = $this->bd->obtener_fila($stmt)) {
-            # code...
+            $solicitud['supervisor'] = (!empty($solicitud['id_supervisor']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_supervisor'])) : '');
+            $solicitud['director'] = (!empty($solicitud['id_director']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_director'])) : '');
+            $solicitud['responsable'] = (!empty($solicitud['id_responsable']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_responsable'])) : '');;
+            array_push($arr_respuesta, $solicitud);
         }
+        echo $query;
+        return $arr_respuesta;
+    }
+    
+    public function filtros_informe($arr_filtros)
+    {
+        $string_filtros = 'where 1=1 ';
+        $string_filtros .= (!empty($arr_filtros['me_estado']) ? ' and gn_proceso.id_estado='.$arr_filtros['me_estado'] : '');
+        $string_filtros .= (!empty($arr_filtros['departamento']) ? ' and gn_escuela.departamento='.$arr_filtros['departamento'] : '');
+        $string_filtros .= (!empty($arr_filtros['municipio']) ? ' and gn_escuela.municipio='.$arr_filtros['municipio'] : '');
+
+        $string_filtros .= ($arr_filtros['lab_actual']!=='no' ? ' and me_solicitud.lab_actual='.$arr_filtros['lab_actual'] : '');
+        $string_filtros .= (!empty($arr_filtros['nivel']) ? ' and gn_escuela.nivel='.$arr_filtros['nivel'] : '');
+
+        $rango_fecha = $this->ensamblar_rango($arr_filtros['fecha_inicio'], $arr_filtros['fecha_fin'], 'me_solicitud.fecha');
+        $string_filtros .= (!empty($rango_fecha) ? ' and '.$rango_fecha : '');
+
+        $string_filtros .= ' and 1=1 ';
+        
+        return $string_filtros;
+    }
+
+    public function ensamblar_rango($limite_minimo, $limite_maximo, $tabla, $between=' between ')
+    {
+        if( !empty($limite_minimo) && !empty($limite_maximo) && $limite_minimo==$limite_maximo){
+            return " ".$tabla."=".$this->convertir_fecha($limite_minimo)." ";
+        }
+        elseif(!empty($limite_minimo) && !empty($limite_maximo) && $limite_minimo!==$limite_maximo){
+            $string_filtros = $tabla.$between; //tabla between | >=
+            $string_filtros .= ($between==' between ' ? " '".$this->convertir_fecha($limite_minimo)."' " : $limite_minimo); //pone comilla si es fecha, convierte la fecha
+            $string_filtros .= ' and ';
+            $string_filtros .= ($between==' between ' ? " '".$this->convertir_fecha($limite_maximo)."' " : $tabla." <=".$limite_maximo); //pone comilla si es fecha, convierte la fecha
+
+            return $string_filtros;
+        }
+        elseif(!empty($limite_minimo) && empty($limite_maximo)){
+            return " ".$tabla." >= ".$this->convertir_fecha($limite_minimo)." ";
+        }
+        elseif(empty($limite_minimo) && !empty($limite_maximo)){
+            return " ".$tabla." <= ".$this->convertir_fecha($limite_maximo)." ";
+        }
+        elseif(empty($limite_minimo) && empty($limite_maximo)){
+            return '';
+        }
+    }
+
+    public function convertir_fecha($fecha)
+    {
+        return implode('-', array_reverse(explode('/', $fecha)));
     }
     
     public function filtros($arr_filtros)
@@ -268,7 +324,7 @@ class me_solicitud
         $respuesta = '';
         if (is_array($arr_filtros)) {
             foreach ($arr_filtros as $key => $filtro) {
-                $respuesta .= ($key>0 ? ' and ': ' ').$filtro;
+                $respuesta .= ($key>0 ? ' and ': ' where ').$filtro;
             }
         }
         return $respuesta;
@@ -288,7 +344,6 @@ function get_param($varname)
     }
 }
 $fn_nombre = isset($_GET['fn_nombre']) ? $_GET['fn_nombre'] : $_POST['fn_nombre'];
-//$fn_nombre = arrayGet($_GET, 'fn_nombre');
 
 if(isset($fn_nombre)){
     $me_solicitud = new me_solicitud();
@@ -299,7 +354,8 @@ if(isset($fn_nombre)){
     
     unset($_GET['fn_nombre']);
     unset($_GET['args']);
-    
+
+
     echo json_encode($me_solicitud->$fn_nombre(json_decode($args, true),$pk,$name,$value));
 }
 ?>

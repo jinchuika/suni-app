@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="../../../../manos/css/styles.css">
 	<script src="https://maps.googleapis.com/maps/api/js?libraries=visualization,label&v=3.exp&sensor=false"></script>
 	<script src="../../../js/framework/jquery.js"></script>
-	<script src="../../src/js-libs/inf_tpe_mapa.js"></script>
+	<script src="../../src/js-libs/mapa/inf_tpe_mapa.js"></script>
 	<style type="text/css">
 	html, body { height: 100%; }
 	#mapa_home { height: 100% }

@@ -42,7 +42,8 @@ class kr_solicitud
 			$stmt = $this->bd->ejecutar($query);
 			if ($req = $this->bd->obtener_fila($stmt, 0)) {
 				require_once('kr_solicitud_fila.php');
-				$req['arr_fila'] = kr_solicitud_fila::listar_fila(array('id_solicitud'=>$req['id']));
+				$kr_solicitud_fila = new kr_solicitud_fila($this->bd);
+				$req['arr_fila'] = $kr_solicitud_fila->listar_fila(array('id_solicitud'=>$req['id']));
 				return $req;
 			}
 		}

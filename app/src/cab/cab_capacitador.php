@@ -157,7 +157,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
                                     </a>
                                 </li>
                                 <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="<?php echo $nivel_dir; ?>app/cap/syr">
+                                    <a tabindex="-1" href="<?php echo $nivel_dir; ?>app/cap/syr/tabla.php">
                                         <i class="icon-list-ol"></i> Control académico
                                     </a>
                                     <ul class="dropdown-menu">

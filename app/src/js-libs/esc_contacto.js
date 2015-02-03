@@ -19,10 +19,17 @@ function listar_contacto_escuela (id_escuela, objetivo, callback) {
         fn_nombre: 'listar_contacto_escuela',
         args: JSON.stringify({id:id_escuela})
     })
-    .done(function (resp) {
-        $.each(resp, function (index, item) {
-            render_contacto(item, objetivo, false, callback);
-        });
+    .done(function (respuesta) {
+        if(respuesta[0]){
+            $.each(respuesta, function (index, item) {
+                render_contacto(item, objetivo, false, callback);
+            });
+        }
+        else{
+            if(callback && typeof(callback) === "function") {  
+              callback();  
+            }
+        }
     });
 }
 /**
@@ -36,9 +43,9 @@ function listar_contacto_escuela (id_escuela, objetivo, callback) {
         fn_nombre: 'abrir_contacto',
         args: JSON.stringify({id:id_contacto})
     })
-    .done(function (resp) {
+    .done(function (respuesta) {
       limpiar==true ? $('#'+objetivo).empty() : '';
-        render_contacto(resp, objetivo);
+        render_contacto(respuesta, objetivo);
     });
 }
 /**
@@ -56,8 +63,9 @@ function listar_contacto_escuela (id_escuela, objetivo, callback) {
     var string_nombre = '<small><strong>Nombre: </strong><span data-name="nombre" data-type="text" class="cnt_'+contacto.id+'">'+contacto.nombre+'</span> <span data-name="apellido" data-type="text" class="cnt_'+contacto.id+'">'+contacto.apellido+'</span> </small>';
     var string_tel = '<small><strong>Teléfono: </strong><span data-name="tel_movil" data-type="text" class="cnt_'+contacto.id+'">'+nullToEmpty(contacto.tel_movil)+'</span></small>';
     var string_mail = '<small><strong>Correo electrónico: </strong><span data-name="mail" data-type="text" class="cnt_'+contacto.id+'">'+nullToEmpty(contacto.mail)+'</span></small>';
+    var string_udi = '<small><strong>UDI: </strong>'+nullToEmpty(contacto.udi)+'</small>';
     $('#li_contacto_'+contacto.id).append(string_blockquote);
-    $('#blck_'+contacto.id).append(string_rol+string_close+string_nombre+string_tel+string_mail);
+    $('#blck_'+contacto.id).append(string_rol+string_close+string_nombre+string_tel+string_mail+string_udi);
     if(callback && typeof(callback) === "function") {  
       callback(contacto.id);  
     }
@@ -114,9 +122,9 @@ function listar_contacto_escuela (id_escuela, objetivo, callback) {
                 fn_nombre: 'eliminar_contacto',
                 args: JSON.stringify({id:id_contacto})
             })
-            .done(function (resp) {
-                if(resp.msj=='si'){
-                    $('#li_contacto_'+resp.id).remove();
+            .done(function (respuesta) {
+                if(respuesta.msj=='si'){
+                    $('#li_contacto_'+respuesta.id).remove();
                     return true;
                 }
                 else{

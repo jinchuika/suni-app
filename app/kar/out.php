@@ -138,7 +138,7 @@ while ($tipo = $bd->obtener_fila($stmt_tipo, 0)) {
                                         <input class="span12" name="dpd1" id="dpd1">
                                     </div>
                                     <div class="span6">
-                                        <label for="dpd2"><i class="icon-step-backward"></i> Fecha de inicio</label>
+                                        <label for="dpd2"><i class="icon-step-backward"></i> Fecha de fin</label>
                                         <input class="span12" name="dpd2" id="dpd2">
                                     </div>
                                 </div>
