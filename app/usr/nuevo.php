@@ -17,43 +17,26 @@ $bd = $libs->incluir('bd');
 	?>
 	
 	<script> //Script para hacer obligatoria y habilitada la parte de usuario
-        $(document).ready(function(){//
-        	$('#rol').trigger('change');
-        	$("#rol").change(function () {
-        		$("#rol option:selected").each(function () {
-        			
-        			elegido=$(this).val();
-        			if((elegido>3)&&(elegido<=8)){ //Bloquear
-        				$('#nombre_usr').attr('disabled','disabled');
-        				$('#nombre_usr').removeAttr('required');
-        				$('#nombre_usr').val('');
-        				$('#pass').attr('disabled','disabled');
-        				$('#pass').removeAttr('required');
-        				$('#pass').val('');
-        			}
-        			else{	//Habilitar
-        				$('#nombre_usr').removeAttr('disabled');
-        				$('#nombre_usr').attr('required','required');
-        				$('#pass').removeAttr('disabled');
-        				$('#pass').attr('required','required');
-        			}
+        $(document).ready(function() {
+            $('#formulario').on('submit', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    url: nivel_entrada+'app/src/libs/crear_persona.php',
+                    type: 'get',
+                    data: $(this).serialize(),
+                    dataType: 'json',
+                    success: function (data) {
+                        if(data=="si"){
+                            alert('Creado con éxito');
+                            window.location.reload();
+                        }
+                        else{
+                            alert('Error al crear '+data);
+                        }
+                    }
+                });
 
-        		});     
-        	});
-        });
-        $(document).ready(function() { 
-        	var opciones = {
-        		success:    function(data) { 
-        			var data = $.parseJSON(data);
-        			if((data)=="correcto"){
-        				window.location.reload();
-        			}
-        			else{
-        				alert("Hubo un error al procesar su archivo");
-        			}
-        		}
-        	};
-        	$('#formulario').ajaxForm(opciones); 
+            });
         });
         </script>
 
@@ -65,7 +48,7 @@ $bd = $libs->incluir('bd');
     	<div class="row">
     		<div class="span1"></div>
     		<div class="span9">
-    			<form id="formulario" name="nuevo"  action="../src/libs/crear_persona.php" method="POST" autocomplete="on" enctype= "multipart/form-data" class="form-horizontal well">
+    			<form id="formulario" name="nuevo"  autocomplete="on" enctype= "multipart/form-data" class="form-horizontal well">
     				<img src="../src/img/user_data/avatar.jpg" alt="Avatar" title="Avatar" /><br />
     				<input type="file" name="files" id="files">
 
@@ -118,8 +101,8 @@ $bd = $libs->incluir('bd');
     					<label class="control-label" for="genero">Género</label>
     					<div class="controls">
     						<select id="genero" name="genero" class="input-small">
-    							<option>Hombre</option>
-    							<option>Mujer</option>
+    							<option value="1" >Hombre</option>
+    							<option value="2"> Mujer</option>
     						</select>
     					</div>
     				</div>
@@ -187,7 +170,7 @@ $bd = $libs->incluir('bd');
     				<div class="control-group">
     					<label class="control-label" for="nombre_usr">Nombre de usuario</label>
     					<div class="controls">
-    						<input id="nombre_usr" name="nombre_usr" placeholder="" class="input-medium" type="text">
+    						<input id="nombre_usr" name="nombre_usr" required="" placeholder="" class="input-medium" type="text">
 
     					</div>
     				</div>
@@ -196,8 +179,7 @@ $bd = $libs->incluir('bd');
     				<div class="control-group">
     					<label class="control-label" for="pass">Contraseña</label>
     					<div class="controls">
-    						<input id="pass" name="pass" placeholder="****" class="input-medium" type="password">
-
+    						<input id="pass" name="pass" class="input-medium" required="" type="password">
     					</div>
     				</div>
     				<input type="submit" value="Crear" class="btn btn-primary btn-large">

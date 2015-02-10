@@ -155,7 +155,7 @@ while ($estado = $bd->obtener_fila($stmt_estado, 0)) {
                                         </div>
                                     </div>
                                 </fieldset>
-                                <button class="btn btn-primary">Guardar</button>
+                                <button class="btn btn-primary">Crear nuevo</button>
                             </form>
                         </div>
                         <div class="tab-pane" id="div_listado">

@@ -171,6 +171,29 @@ function validar_mail(mail)
   }
 }
 
+function printout_div(id_objetivo, callback) {
+  $.getScript( nivel_entrada+'js/framework/html2canvas.js', function() {
+    html2canvas($("#"+id_objetivo), {
+      onrendered: function(canvas) {
+        var img    = canvas.toDataURL("image/png");
+        var mywindow = window.open();
+        mywindow.document.write('<html><head><title>my div</title>');
+        mywindow.document.write('</head><body >');
+        mywindow.document.write('<img src="'+img+'"/>');
+        mywindow.document.write('</body></html>');
+        mywindow.document.close();
+        mywindow.focus();
+
+        mywindow.print();
+        mywindow.close();
+        if(callback && typeof(callback) === "function") {  
+          callback();
+        }
+      }
+    });
+  });
+}
+
 (function($) {
   $.fn.goTo = function() {
     $('html, body').animate({

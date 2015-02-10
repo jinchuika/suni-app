@@ -52,6 +52,7 @@ class librerias
             case 'bs':
                 $this->imprimir("css", "css/bootplus/css/bootplus.css");
                 $this->imprimir("css", "css/bootplus/css/bootplus-responsive.min.css");
+                $this->imprimir("css", "http://fonts.googleapis.com/css?family=Tangerine", null, true);
 
                 $this->imprimir("js", "js/framework/bootstrap.js");
                 $this->imprimir("js", "js/framework/bootbox.js");
@@ -192,7 +193,7 @@ class librerias
      * @param  string $archivo El archivo CON LA RUTA desde la raíz del sistema
      * @param  array $extra_param parámetros extra_param para el archivo
      */
-    private function imprimir($tipo, $archivo, $extra_param=null)
+    private function imprimir($tipo, $archivo, $extra_param=null, $externo=null)
     {
         if(!in_array($archivo, $this->lista_incluido)){
             $texto_extra = '';
@@ -212,7 +213,7 @@ class librerias
                     ';
                     break;
                 case 'css':
-                    echo '<link href="'.$this->nivel.$archivo.'" rel="stylesheet" '.$texto_extra.' />
+                    echo '<link href="'.($externo == null ? $this->nivel :'').$archivo.'" rel="stylesheet" '.$texto_extra.' />
                     ';
                     break;
                 case 'src':

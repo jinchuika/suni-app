@@ -10,21 +10,11 @@ function crear_salida($id_item, $id_per, $cantidad, $fecha, $observacion, $tipo_
 	$query_existencia = "SELECT nombre, existencia FROM kr_equipo WHERE id=".$id_item;
 	$stmt_existencia = $bd->ejecutar($query_existencia);
 	$existencia_val = $bd->obtener_fila($stmt_existencia, 0);
-	function f_id_entrada ($a){
-		if(!empty($a)){
-			return ",id_entrada";
-		}
-	}
-	function f_id_entrada2 ($b){
-		if(!empty($b)){
-			return ",'".$b."'";
-		}
-	}
+
 	if( ($existencia_val['existencia'] - $cantidad) >= 0 ){
 		
-		$query = "INSERT INTO  kr_salida (id_kr_equipo,id_tecnico,cantidad,fecha,observacion,tipo_salida".(f_id_entrada($id_entrada)).")
-		VALUES ('".$id_item."',  '".$id_per."',  '".$cantidad."',  '".$fecha."',  '".$observacion."', '".$tipo_salida."'".(f_id_entrada2($id_entrada)).")";
-		echo $query;
+		$query = "INSERT INTO  kr_salida (id_kr_equipo,id_tecnico,cantidad,fecha,observacion,tipo_salida".(!empty($id_entrada) ? ',id_entrada ' : '').")
+		VALUES ('".$id_item."',  '".$id_per."',  '".$cantidad."',  '".$fecha."',  '".$observacion."', '".$tipo_salida."'".(!empty($id_entrada) ? ', '.$id_entrada : '').")";
 		if($stmt = $bd->ejecutar($query)){
 			$respuesta['id'] = $bd->lastID();
 			$query_existencia = "UPDATE kr_equipo SET existencia = existencia - ".$cantidad." WHERE id = ".$id_item;

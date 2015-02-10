@@ -83,6 +83,7 @@ while ($tipo = $bd->obtener_fila($stmt_tipo, 0)) {
                                     </div>
                                 </fieldset>
                             </form>
+                            <button class="btn btn-info" id="btn-imprimir">Imprimir</button>
                         </div>
 
                         <div class="tab-pane active" id="div_nueva">
@@ -127,7 +128,7 @@ while ($tipo = $bd->obtener_fila($stmt_tipo, 0)) {
                                         </div>
                                     </div>
                                 </fieldset>
-                                <button class="btn btn-primary">Guardar</button>
+                                <button class="btn btn-primary">Crear nueva</button>
                             </form>
                         </div>
                         <div class="tab-pane" id="div_listado">
@@ -264,6 +265,7 @@ function abrir_salida (id_salida) {
     $("#btn_edicion").remove();
     $("#form_buscar").hide(100);
     $("#loading_gif").show();
+    $("#btn-imprimir").hide();
     $.ajax({
         url: nivel_entrada +'app/src/libs_tpe/kr_salida.php?fn_nombre=abrir_salida',
         data: {id_salida: id_salida},
@@ -280,6 +282,8 @@ function abrir_salida (id_salida) {
                 $("#div_fecha").append('<a href="#" id="fecha_editable" data-name="fecha" data-type="date" class="span11 datepicker dato_editable">'+data.fecha+'</a>');
                 $("#div_observacion").append('<a href="#" id="observacion_editable" data-name="observacion" class="span11 dato_editable">'+data.observacion+'</a>');
                 $("#loading_gif").hide();
+                $("#btn-imprimir").show();
+                $("#btn-imprimir").attr('onclick', 'imprimir_salida('+id_salida+');');
                 $("#form_buscar").show(300);
             }
             modal_c.ocultar();
@@ -291,6 +295,16 @@ function remover_campos () {
     $("#div_fecha_nueva").attr('class', 'span4');
     $("#div_tipo_salida").attr('class', 'span4');
     $("#div_entrada").remove();
+}
+
+function imprimir_salida (id_salida) {
+    $('#form_buscar').prepend('<h2 class="temp-print">Salida No.'+id_salida+'</h2>');
+    $('#form_buscar').append('<div class="thumbnail temp-print">Nombre de firma recibe<br /><br /></div>');
+    $('#form_buscar').append('<div class="thumbnail temp-print">Nombre y firma de quien autoriza<br /><br /></div>');
+    $('#form_buscar').append('<div class="thumbnail temp-print">Visto bueno<br /><br /></div>');
+    printout_div('form_buscar', function () {
+        $('.temp-print').remove();
+    });
 }
 $(document).ready( function () {
     obtener_array("id_item", 'libs_tpe/kr_equipo.php?fn_nombre=listar_equipo');
