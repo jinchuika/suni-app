@@ -175,20 +175,21 @@ function printout_div(id_objetivo, callback) {
   $.getScript( nivel_entrada+'js/framework/html2canvas.js', function() {
     html2canvas($("#"+id_objetivo), {
       onrendered: function(canvas) {
-        var img    = canvas.toDataURL("image/png");
-        var mywindow = window.open();
-        mywindow.document.write('<html><head><title>my div</title>');
-        mywindow.document.write('</head><body >');
-        mywindow.document.write('<img src="'+img+'"/>');
-        mywindow.document.write('</body></html>');
-        mywindow.document.close();
-        mywindow.focus();
-
-        mywindow.print();
-        mywindow.close();
         if(callback && typeof(callback) === "function") {  
           callback();
         }
+        var img    = canvas.toDataURL("image/png");
+        var ventana_temp = window.open();
+        ventana_temp.document.write('<html><head><title>Imprimir SUNI</title>');
+        ventana_temp.document.write('</head><body >');
+        ventana_temp.document.write('<img src="'+img+'"/>');
+        ventana_temp.document.write('</body></html>');
+        ventana_temp.document.close();
+        ventana_temp.focus();
+
+        ventana_temp.print();
+        ventana_temp.close();
+        
       }
     });
   });

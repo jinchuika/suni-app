@@ -298,8 +298,8 @@ function remover_campos () {
 }
 
 function imprimir_salida (id_salida) {
-    $('#form_buscar').prepend('<h2 class="temp-print">Salida No.'+id_salida+'</h2>');
-    $('#form_buscar').append('<div class="thumbnail temp-print">Nombre de firma recibe<br /><br /></div>');
+    $('#form_buscar').prepend('<h2 class="temp-print">Salida de bodega No. '+id_salida+'</h2>');
+    $('#form_buscar').append('<div class="thumbnail temp-print">Nombre y firma de quien recibe<br /><br /></div>');
     $('#form_buscar').append('<div class="thumbnail temp-print">Nombre y firma de quien autoriza<br /><br /></div>');
     $('#form_buscar').append('<div class="thumbnail temp-print">Visto bueno<br /><br /></div>');
     printout_div('form_buscar', function () {

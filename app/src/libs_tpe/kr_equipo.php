@@ -96,7 +96,8 @@ function exportar_datos($campos, $filtros)
 	kr_entrada.id_kr_equipo,
 	count(kr_entrada.id_kr_equipo) as conteo_entrada,
 	SUM(kr_entrada.cantidad) as cantidad_entrada,
-	kr_equipo.nombre
+	kr_equipo.nombre,
+	kr_equipo.existencia
 	FROM kr_entrada
 	inner join kr_equipo ON kr_equipo.id = kr_entrada.id_kr_equipo
 	where kr_entrada.id > 0 ";
@@ -132,7 +133,8 @@ function exportar_datos($campos, $filtros)
 	kr_salida.id_kr_equipo,
 	count(kr_salida.id_kr_equipo) as conteo_salida,
 	SUM(kr_salida.cantidad) as cantidad_salida,
-	kr_equipo.nombre
+	kr_equipo.nombre,
+	kr_equipo.existencia
 	from kr_salida 
 	inner join kr_equipo ON kr_equipo.id = kr_salida.id_kr_equipo
 	where kr_salida.id>0 ";
@@ -165,12 +167,13 @@ function exportar_datos($campos, $filtros)
 			$resultado[$entrada['id_kr_equipo']]['nombre_item'] = $entrada['nombre'];
 			$resultado[$entrada['id_kr_equipo']]['conteo_entrada'] = $entrada['conteo_entrada'];
 			$resultado[$entrada['id_kr_equipo']]['cantidad_entrada'] = $entrada['cantidad_entrada'];
-			//array_push($resultado[$entrada['id_kr_equipo']], $entrada);
+			$resultado[$entrada['id_kr_equipo']]['existencia'] = $entrada['existencia'];
 		}
 		else{
 			$resultado[$entrada['id_kr_equipo']]['nombre_item'] = $entrada['nombre'];
 			$resultado[$entrada['id_kr_equipo']]['conteo_entrada'] = $entrada['conteo_entrada'];
 			$resultado[$entrada['id_kr_equipo']]['cantidad_entrada'] = $entrada['cantidad_entrada'];
+			$resultado[$entrada['id_kr_equipo']]['existencia'] = $entrada['existencia'];
 		}
 		//array_push($array_entradas, $entrada);
 	}
@@ -184,11 +187,13 @@ function exportar_datos($campos, $filtros)
 			$resultado[$salida['id_kr_equipo']]['nombre_item'] = $salida['nombre'];
 			$resultado[$salida['id_kr_equipo']]['conteo_salida'] = $salida['conteo_salida'];
 			$resultado[$salida['id_kr_equipo']]['cantidad_salida'] = $salida['cantidad_salida'];
+			$resultado[$salida['id_kr_equipo']]['existencia'] = $salida['existencia'];
 		}
 		else{
 			$resultado[$salida['id_kr_equipo']]['nombre_item'] = $salida['nombre'];
 			$resultado[$salida['id_kr_equipo']]['conteo_salida'] = $salida['conteo_salida'];
 			$resultado[$salida['id_kr_equipo']]['cantidad_salida'] = $salida['cantidad_salida'];
+			$resultado[$salida['id_kr_equipo']]['existencia'] = $salida['existencia'];
 		}
 		//array_push($array_salida, $salida);
 	}

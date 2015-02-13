@@ -43,6 +43,7 @@ $bd = $libs->incluir('bd');
 							<div class="span12">
 								<button class="span5 btn btn-primary" id="btn-abrir">Abrir</button>
 								<button class="span5 btn btn-success" id="btn-nuevo">Nuevo</button>
+								<button class="span2 btn btn-info" onclick="imprimir_requisicion();" id="btn-imprimir"><i class="icon-print"></i></button>
 							</div>
 						</div>
 					</div>
@@ -96,13 +97,15 @@ $bd = $libs->incluir('bd');
 </body>
 <script>
 var modal_c = modal_carga_gn();
+var lista_equipo = {};
 modal_c.crear();
 function crear_fila (id_req) {
 	$("#div_nueva_fila").append('<form id="form_nueva_fila" class="form-inline"></form>');
 	$("#form_nueva_fila").append('<select id="id_item_fila"></select>');
-	listar_campos_select('app/src/libs_tpe/kr_equipo.php?fn_nombre=listar_equipo', 'id_item_fila', '');
+	//listar_campos_select('app/src/libs_tpe/kr_equipo.php?fn_nombre=listar_equipo', 'id_item_fila', '');
+	listar_equipo_select('id_item_fila');
 	$("#form_nueva_fila").append('<button id="btn_crear_fila" class="btn btn-success">Crear</button>');
-	$("#form_nueva_fila").append('<button onclick="$(\'#form_nueva_fila\').remove();" class="btn btn-danger">Cancelar</button>');
+	$("#form_nueva_fila").append('<a href="#" onclick="$(\'#form_nueva_fila\').remove();" class="btn btn-danger">Cancelar</a>');
 	$("#form_nueva_fila").submit(function (event) {
 		event.preventDefault();
 		$.ajax({
@@ -366,9 +369,35 @@ function listar_req () {
 		listar_campos_select('app/src/libs_tpe/kr_solicitud.php?fn_nombre=listar_req&args='+args, 'lista_req', '');
 	});
 }
+
+function imprimir_requisicion () {
+	$('#tbody_req').append('<tr class="temp-print"><td colspan="5"><strong>Total:</strong></td><td>Q. '+$('#total_pedido').text()+'</td><td>Q. '+$('#total_aprobado').text()+'</td></tr>');
+	printout_div('contenedor', function () {
+        $('.temp-print').remove();
+    });
+}
+
+function cargar_lista_equipo () {
+	$.ajax({
+		url: nivel_entrada + 'app/src/libs_tpe/kr_equipo.php?fn_nombre=listar_equipo',
+		success: function (respuesta) {
+			var respuesta = $.parseJSON(respuesta);
+			lista_equipo = respuesta;
+		}
+	});
+}
+
+function listar_equipo_select (id_objetivo) {
+	var select_html = '';
+	for (var i = 0; i < lista_equipo.length; i++) {
+		select_html += '<option value="'+lista_equipo[i]['id']+'">'+lista_equipo[i]['nombre']+'</option>';
+	};
+	$('#'+id_objetivo).append(select_html);
+}
 $(document).ready(function () {
 	
 	listar_req();
+	cargar_lista_equipo();
 	$("#btn-abrir").click(function () {
 		abrir_req($("#lista_req").val());
 	});

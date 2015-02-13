@@ -90,10 +90,16 @@ while ($tipo = $bd->obtener_fila($stmt_tipo, 0)) {
 									</ul>
 								</div>
 							</div>
+							<div class="row-fluid">
+								<br>
+								<div class="btn-group span12">
+									<button id="btn_imprimir" class="btn btn-info span10" onclick="imprimir_existencia();">Imprimir</button>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
-				<div class="span9">
+				<div class="span9" id="div_tabla">
 					<table id="tabla_export" class="table table-hover well">
 						<thead >
 							<tr id="thead_export">
@@ -103,7 +109,8 @@ while ($tipo = $bd->obtener_fila($stmt_tipo, 0)) {
 								<th>Cantidad de salidas</th>
 								<th>Inventario de entradas</th>
 								<th>Inventario de salidas</th>
-								<th>Total en inventario</th>
+								<th>Diferencia de inventario</th>
+								<th>Existencia actual</th>
 							</tr>
 						</thead>
 						<tbody id="tbody_export"></tbody>
@@ -156,10 +163,20 @@ while ($tipo = $bd->obtener_fila($stmt_tipo, 0)) {
 			success: function (data) {
 				var data = $.parseJSON(data);
 				$.each(data, function (index, item) {
-					$("#tabla_export").append("<tr><td>"+index+"</td><td>"+validar_undefined(item.nombre_item)+"</td><td>"+validar_undefined(item.conteo_entrada)+"</td><td>"+validar_undefined(item.conteo_salida)+"</td><td>"+validar_undefined(item.cantidad_entrada)+"</td><td>"+validar_undefined(item.cantidad_salida)+"</td><td>"+(validar_undefined(item.cantidad_entrada) - validar_undefined(item.cantidad_salida))+"</td></tr>");
+					$("#tabla_export").append("<tr><td>"+index+"</td><td>"+validar_undefined(item.nombre_item)+"</td><td>"+validar_undefined(item.conteo_entrada)+"</td><td>"+validar_undefined(item.conteo_salida)+"</td><td>"+validar_undefined(item.cantidad_entrada)+"</td><td>"+validar_undefined(item.cantidad_salida)+"</td><td>"+(validar_undefined(item.cantidad_entrada) - validar_undefined(item.cantidad_salida))+"</td><td>"+validar_undefined(item.existencia)+"</td></tr>");
 				});
 			}
 		});
+	}
+
+	function imprimir_existencia () {
+		var fecha_inicio = $('#dpd1').val();
+		var fecha_fin = $('#dpd2').val();
+		$('#div_tabla').prepend('<h4 class="temp-print">Fecha: '+(fecha_inicio ? fecha_inicio : 'Sin establecer')+' - '+(fecha_fin ? fecha_fin : 'Sin establecer')+'</h4>');
+		$('#div_tabla').prepend('<h2 class="temp-print">Informe de existencias</h2>');
+		printout_div('div_tabla', function () {
+	        $('.temp-print').remove();
+	    });
 	}
 
 	$(document).ready(function () {
