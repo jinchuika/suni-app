@@ -38,7 +38,7 @@ $bd = $libs->incluir('bd');
 					<label for="modulos">Cantidad de módulos: </label><input type="number" min="1" name="modulos" id="modulos" required="required"> <br />
 					<label for="hitos">Cantidad de hitos: </label><input type="number" min="1" id="hitos" name="hitos" required="required"> <br />
 					<label for="alias">Alias para reconocer al curso: </label><input type="text" id="alias" name="alias" required="required" onkeypress = "return delSpacio(event)"> <br />
-					<label for="silabo">Silabo: </label><input type="file" id="silabo" name="silabo" required="required"> <br />
+					<label for="silabo">Silabo: </label><input type="file" id="silabo" name="silabo"> <br />
 					<label for="nota">Nota mínima para aprobar: </label><input type="number" min="0" max="100" id="nota" name="nota" required="required"> <br />
 					<input type="submit" id="btn_crear_curso" value="Crear curso" class="btn">
 				</form>
