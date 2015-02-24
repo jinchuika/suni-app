@@ -114,7 +114,7 @@ function elegir_color($id_capacitador)
         return "#11bb88";
         break;
         case '45':
-        return "#A16C40";
+        return "#9966FF";
         break;
         case '51':
         return "#5B778C";

@@ -33,7 +33,7 @@ function elegir_color($id_capa)
 		$color = "#11bb88";
 		break;
 		case '45':
-		$color = "#A16C40";
+		$color = "#9966FF";
 		break;
 		case '51':
 		$color = "#5B778C";

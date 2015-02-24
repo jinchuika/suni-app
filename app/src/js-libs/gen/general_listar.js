@@ -83,7 +83,7 @@ function cambiar_nombre_listado (id, nombre) {
   document.getElementById("a_listado_"+id).innerHTML = nombre;
 }
 
-function listar_campos_select (src_remote, objetivo, vacio) {
+function listar_campos_select (src_remote, objetivo, vacio, callback) {
   $("#"+objetivo).find('option').remove();
   $.ajax({
     url: nivel_entrada+src_remote,
@@ -94,6 +94,9 @@ function listar_campos_select (src_remote, objetivo, vacio) {
         resultado += '<option value="'+item[0]+'">'+item[1]+'</option>';
       });
       $("#"+objetivo).html(resultado);
+      if(callback && typeof(callback) === "function") {  
+        callback();
+      }
     }
   });
 }

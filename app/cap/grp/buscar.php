@@ -143,7 +143,7 @@ $bd = $libs->incluir('bd');
 	};
 
 	function crear_fila (contador, id_par, nombre, apellido, id_grupo, id_escuela, escuela, nota, estado, udi, genero) {
-		$("#tablabody").append("<tr><td>"+contador+"<input type='checkbox' class='_check_asignar hide' value='"+id_par+"' checked></td><td><a href='http://funsepa.net/suni/app/cap/par/perfil.php?id="+id_par+"'>"+nombre+"</a></td><td>"+apellido+"</td><td>"+genero+"</td><td><a href='http://funsepa.net/suni/app/esc/escuela.php?id_escuela="+id_escuela+"'>"+escuela+"</a> <span class='label label-info'>"+udi+"</span><td>"+nota+"</td><td>"+estado+"</td></td></tr>");
+		$("#tablabody").append("<tr><td>"+contador+"<input type='checkbox' class='_check_asignar hide' value='"+id_par+"' checked></td><td><a href='"+nivel_entrada+"app/cap/par/perfil.php?id="+id_par+"'>"+nombre+"</a></td><td>"+apellido+"</td><td>"+genero+"</td><td><a href='http://funsepa.net/suni/app/esc/escuela.php?id_escuela="+id_escuela+"'>"+escuela+"</a> <span class='label label-info'>"+udi+"</span><td>"+nota+"</td><td>"+estado+"</td></td></tr>");
 	};
 
 	function crear_fila_calendario (index, id_cal, fecha, inicio, fin) {

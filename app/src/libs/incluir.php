@@ -193,7 +193,7 @@ class librerias
      * @param  string $archivo El archivo CON LA RUTA desde la raíz del sistema
      * @param  array $extra_param parámetros extra_param para el archivo
      */
-    private function imprimir($tipo, $archivo, $extra_param=null, $externo=null)
+    public function imprimir($tipo, $archivo, $extra_param=null, $externo=null)
     {
         if(!in_array($archivo, $this->lista_incluido)){
             $texto_extra = '';

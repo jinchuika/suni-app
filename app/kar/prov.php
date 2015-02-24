@@ -88,7 +88,7 @@ $tipos .= "]";
 
 	function listar_entradas (id_prov) {
 		barra_carga.mostrar();
-		$("#tabla_listado").remove();
+		$(".listado_prov").remove();
 		$.ajax({
 			url: nivel_entrada+'app/src/libs_tpe/kr_entrada.php',
 			data: {
@@ -97,12 +97,12 @@ $tipos .= "]";
 			},
 			success: function (data) {
 				var data = $.parseJSON(data);
-				$("#contenedor_tabla").append("<table id='tabla_listado' class='table table-striped table-hover'><thead><tr><th>No.</th><th>Producto</th><th>Tipo de entrada</th><th>Estado</th><th>Cantidad</th><th>Fecha</th><th>Precio</th></tr></thead></table>");
+				$("#contenedor_tabla").append("<table id='tabla_listado' class='table table-striped table-hover listado_prov'><thead><tr><th>No.</th><th>Producto</th><th>Tipo de entrada</th><th>Estado</th><th>Cantidad</th><th>Fecha</th><th>Precio</th></tr></thead></table>");
 				$.each(data, function (index, item) {
 					$("#tabla_listado").append("<tr><td>"+item.id+"</td><td>"+item.nombre_equipo+"</td><td>"+item.tipo+"</td><td>"+item.estado+"</td><td>"+item.cantidad+"</td><td>"+item.fecha+"</td><td>"+item.precio+"</td></tr>");
 				});
 				$("#tabla_listado").append("<tr><td>Total: "+data.length+"</td></tr>");
-				$("#contenedor_tabla").append('<button class="btn btn-success td_data" onclick="descargar_tabla_excel(\'tabla_listado\')">Descargar</button>');
+				$("#contenedor_tabla").append('<button class="btn btn-success listado_prov" onclick="descargar_tabla_excel(\'tabla_listado\')">Descargar</button>');
 				barra_carga.ocultar();
 			}
 		});

@@ -25,9 +25,11 @@ function barra_carga_inf (texto, id_html){
   }
 
   this.mostrar = function(duracion) {
+    duracion = duracion || 50;
     $("#"+id_html+"").show(duracion);
   }
   this.ocultar = function (duracion) {
+    duracion = duracion || 50;
     $("#"+id_html+"").hide(duracion);
   }
   return this;

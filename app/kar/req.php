@@ -96,13 +96,14 @@ $bd = $libs->incluir('bd');
 	</div>
 </body>
 <script>
-var modal_c = modal_carga_gn();
-var lista_equipo = {};
+var modal_c = new modal_carga_gn();
 modal_c.crear();
+var barra_carga = new barra_carga_inf();
+barra_carga.crear();
+var lista_equipo = {};
 function crear_fila (id_req) {
 	$("#div_nueva_fila").append('<form id="form_nueva_fila" class="form-inline"></form>');
 	$("#form_nueva_fila").append('<select id="id_item_fila"></select>');
-	//listar_campos_select('app/src/libs_tpe/kr_equipo.php?fn_nombre=listar_equipo', 'id_item_fila', '');
 	listar_equipo_select('id_item_fila');
 	$("#form_nueva_fila").append('<button id="btn_crear_fila" class="btn btn-success">Crear</button>');
 	$("#form_nueva_fila").append('<a href="#" onclick="$(\'#form_nueva_fila\').remove();" class="btn btn-danger">Cancelar</a>');
@@ -286,8 +287,6 @@ function append_fila (id, id_req, id_item, nombre_item, existencia, cant_pedida,
 	?>
 }
 function sumar_resumen () {
-	
-	//var arr_precio_pedido = document.getElementsByClassName('precio_pedido_');
 	var sum_precio_pedido = 0.00;
 	var sum_precio_aprobado = 0.00;
 	$("#tabla_req").find('.precio_pedido_').each(function (index, item) {
@@ -296,7 +295,6 @@ function sumar_resumen () {
 	$("#tabla_req").find('.precio_aprobado_').each(function (index, item) {
 		sum_precio_aprobado += parseFloat($(this).text());
 	});
-	//var arr_precio_aprobado = document.getElementsByClassName('precio_aprobado_');
 	
 	$("#total_pedido").html(sum_precio_pedido);
 	$("#total_aprobado").html(sum_precio_aprobado);
@@ -364,9 +362,10 @@ function abrir_req (id) {
 function listar_req () {
 	listar_campos_select('app/src/libs_tpe/kr_solicitud_estado.php?fn_nombre=listar_estado', 'lista_estado', '');
 	listar_campos_select('app/src/libs_tpe/kr_solicitud.php?fn_nombre=listar_req&args='+(JSON.stringify({'estado':1})), 'lista_req', '');
-	$("#lista_estado").change(function () {
+	$("#lista_estado").on('change',function () {
+		barra_carga.mostrar();
 		var args = JSON.stringify({'estado':$(this).val()});
-		listar_campos_select('app/src/libs_tpe/kr_solicitud.php?fn_nombre=listar_req&args='+args, 'lista_req', '');
+		listar_campos_select('app/src/libs_tpe/kr_solicitud.php?fn_nombre=listar_req&args='+args, 'lista_req', '', barra_carga.ocultar());
 	});
 }
 

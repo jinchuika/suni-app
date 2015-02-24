@@ -379,6 +379,9 @@ $("#habilitar_nueva").change(function () {
 					<div class="label label-info" id="nuevo_evento">Nueva asesoría</div><br>
 					<input type="checkbox" id="habilitar_nueva" checked="true"> Habilitar nueva asesoría
 				</div>
+				<div class="row well" id="div_opciones">
+					<button class="btn btn-info" onclick="printout_div('calendar')">Imprimir</button>
+				</div>
 			</div>
 			<div class="span10">
 				<div id="barra_carga" class="progress progress-striped active hide">
