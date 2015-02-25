@@ -406,4 +406,12 @@ $(document).ready(function () {
 	});
 });
 </script>
+<?php
+if($sesion->has($id_area, 1) && !empty($_GET['id_req'])){
+	$javascript = '<script>';
+	$javascript .= '$(document).ready(function () { abrir_req('.$_GET['id_req'].');});';
+	$javascript .= '</script>';
+	echo $javascript;
+}
+?>
 </html>

@@ -9,7 +9,6 @@ class MainController
     function __construct()
     {
         $this->nivel = $this->getCurrentLevel();
-        //$this->libs = new Incluir
         spl_autoload_register(array($this, 'autoloadController'));
     }
     
