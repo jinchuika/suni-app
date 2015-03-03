@@ -173,13 +173,15 @@ $gn_proyecto = new gn_proyecto($bd, $sesion);
             </form>
         </div>
         <div class="span9">
-            <table id="tabla_solicitud">
+            <table id="tabla_solicitud" class="table table-hover well">
                 <thead>
                     <th>No.</th>
                     <th>Escuela</th>
-                    <th>Departamento</th>
+                    <th>UDI</th>
                     <th>Municipio</th>
-                    <th>Req</th>
+                    <th>Director</th>
+                    <th>Población</th>
+                    <th>Fecha</th>
                 </thead>
                 <tbody id="tbody_solicitud">
                     

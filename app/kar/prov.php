@@ -102,7 +102,7 @@ $tipos .= "]";
 					$("#tabla_listado").append("<tr><td>"+item.id+"</td><td>"+item.nombre_equipo+"</td><td>"+item.tipo+"</td><td>"+item.estado+"</td><td>"+item.cantidad+"</td><td>"+item.fecha+"</td><td>"+item.precio+"</td></tr>");
 				});
 				$("#tabla_listado").append("<tr><td>Total: "+data.length+"</td></tr>");
-				$("#contenedor_tabla").append('<button class="btn btn-success listado_prov" onclick="descargar_tabla_excel(\'tabla_listado\')">Descargar</button>');
+				$("#contenedor_tabla").append('<button class="btn btn-success listado_prov td_data" onclick="descargar_tabla_excel(\'tabla_listado\')">Descargar</button>');
 				barra_carga.ocultar();
 			}
 		});

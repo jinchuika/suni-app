@@ -1,4 +1,5 @@
 <?php
+$AUTOLOAD_LVL = 2;
 function getCurrentLevel()
 {
     $dirs = array_filter(glob('*'), 'is_dir');
@@ -11,34 +12,33 @@ function getCurrentLevel()
 
 function getRuta($value='')
 {
+    global $AUTOLOAD_LVL;
     $ruta = '';
-    for ($i=0; $i < getCurrentLevel()-2; $i++) { 
+    for ($i=0; $i < getCurrentLevel()-$AUTOLOAD_LVL; $i++) { 
         $ruta .= '..'.DIRECTORY_SEPARATOR;
     }
     return $ruta;
 }
 
-function autoloadController($class_name)
+function autoload_class($class_name)
 {
     $array_paths = array(  
+        'app/bknd/',
         'app/bknd/ctrl/',
         'app/bknd/model/',
         'app/bknd/vendor/'
         );
-    
-    $dirs = array_filter(glob(getRuta().'app/src/ctrl/*'), 'is_dir');
+    $ruta = getRuta();
 
-    foreach($dirs as $key => $path)
+    foreach($array_paths as $key => $path)
     {
-        $file = $path.'/'.$class_name.'.php';
+        $file = $ruta.$path.'/'.$class_name.'.php';
         if(is_file($file)) 
         {
-            echo "Se cargó ".$file;
             include_once $file;
-        }
-        else{
-            echo "No se cargó ".$key." ".$file."\n ";
+            break;
         }
     }
 }
+spl_autoload_register('autoload_class');
 ?>

@@ -8,19 +8,41 @@ function MyeSolicitud (nivel_creado) {
 
 MyeSolicitud.prototype = new General();
 
+MyeSolicitud.prototype.checkUndef = function(texto) {
+    return texto ? texto : '';
+};
+
+
 MyeSolicitud.prototype.crearInforme = function(formulario) {
+    $("#tabla_solicitud").find("tr:gt(0)").remove();
+    
     var args = $(formulario).serializeObject();
     args.requisito = new Array();
     
     $.each($('.chk_requisito:checked'), function (index, item) {
         args.requisito[$(item).data('name')] = 1;
     });
-    console.log(this.module);
     $.ajax({
         url: this.makeUrl('crear_informe'),
         data: {
             ctrl: this.getInfo('crear_informe'),
             args: JSON.stringify(args)
+        },
+        dataType: 'json',
+        success: function (respuesta) {
+            console.log(respuesta);
+            var texto_append = '';
+            $.each(respuesta, function (index, item) {
+                texto_append += '<tr><td>'+(item['id_solicitud'] ? item['id_solicitud'] : '' )+'</td>';
+                texto_append += '<td>'+(item['escuela'] ? item['escuela'] : '' )+'</td>';
+                texto_append += '<td>'+(item['udi'] ? item['udi'] : '' )+'</td>';
+                texto_append += '<td>'+(item['municipio'] ? item['municipio'] : '' )+'</td>';
+                texto_append += '<td>'+(item['director'] ? item['director']['nombre']+' '+ item['director']['apellido'] : '');
+                texto_append += '<td>'+(item['cant_alumno'] ? item['cant_alumno'] : '' )+'</td>';
+                texto_append += '<td>'+(item['fecha'] ? item['fecha'] : '' )+'</td>';
+                texto_append += '</tr>';
+            });
+            $('#tabla_solicitud').append(texto_append);
         }
     });
 };
@@ -45,7 +67,6 @@ $(document).ready(function () {
     });
     
     $('#btn_informe_solicitud').on('click', function () {
-        console.log('si');
         mye_solicitud.crearInforme($('#form_informe_solicitud'));
     });
 });

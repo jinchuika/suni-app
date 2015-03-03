@@ -238,6 +238,7 @@ class me_solicitud
         $query = "
         select 
             me_solicitud.id as id_solicitud,
+            me_solicitud.fecha,
             gn_proceso.id as id_proceso,
             gn_escuela.id as id_escuela,
             gn_escuela.codigo as udi,
@@ -263,12 +264,14 @@ class me_solicitud
         
         $stmt = $this->bd->ejecutar($query);
         while ($solicitud = $this->bd->obtener_fila($stmt)) {
+            $fecha_temp = explode('-', $solicitud['fecha']);
+            $solicitud['fecha'] = $fecha_temp[2].'/'.$fecha_temp[1].'/'.$fecha_temp[0];
             $solicitud['supervisor'] = (!empty($solicitud['id_supervisor']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_supervisor'])) : '');
             $solicitud['director'] = (!empty($solicitud['id_director']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_director'])) : '');
             $solicitud['responsable'] = (!empty($solicitud['id_responsable']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_responsable'])) : '');;
             array_push($arr_respuesta, $solicitud);
         }
-        echo $query;
+        //echo $query;
         return $arr_respuesta;
     }
     

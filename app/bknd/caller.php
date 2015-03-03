@@ -1,18 +1,39 @@
 <?php
-//include 'autoload.php';
+include 'autoload.php';
 
-$ctrlNombre = $_GET['ctrl'];
-$accionNombre = $_GET['act'];
-$argsEntrada = $_GET['args'];
+$ctrlNombre = Caller::getParam('ctrl');
+$accionNombre = Caller::getParam('act');
+$argsEntrada = Caller::getParam('args');
 
-if(class_exists($ctrlNombre.'Controller')){
-    $ctrlNombre = $ctrlNombre.'Controller';
-    $controlador = new $ctrlNombre();
-
-    if(method_exists($controlador, $accionNombre)){
-        $args = json_decode($argsEntrada, true);
-
-        $resultado = call_user_func_array(array($controlador, $accionNombre), $args);
-    }
+/**
+ * Comprueba que el controlador exista
+ */
+if(class_exists($ctrlNombre)){
+	/**
+	 * Decodifica los parámetros del JSON
+	 * @var Array
+	 */
+	$args = array();
+    $args = json_decode($argsEntrada, true);
+    
+    /**
+     * La instancia del objeto de acción
+     * @var Caller
+     */
+    $caller = new Caller();
+    
+    $caller->setCtrl($ctrlNombre);
+    
+    /**
+     * El resultado de ejecutar la acción
+     * @var Array|null
+     */
+    $resultado = $caller->ejecutarAccion($accionNombre, $args);
+    
+    echo json_encode($resultado);
 }
+else{
+	echo json_encode(array('state'=>'error','error'=>'No se encontró el controaldor '.$ctrlNombre));
+}
+
 ?>
