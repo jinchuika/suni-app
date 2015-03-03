@@ -24,10 +24,10 @@ Class Database{
      * @uses Conf Las clases que envían la configuración
      */
     private function setConexion(){
-        $this->servidor="suni2.db.4541636.hostedresource.com";
-        $this->base_datos="suni2";
-        $this->usuario="suni2";
-        $this->password="Fun53P@!2";
+        $this->servidor="";
+        $this->base_datos="";
+        $this->usuario="";
+        $this->password="";
     }
 
     /**
