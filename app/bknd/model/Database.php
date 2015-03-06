@@ -24,10 +24,10 @@ Class Database{
      * @uses Conf Las clases que envían la configuración
      */
     private function setConexion(){
-        $this->servidor="";
-        $this->base_datos="";
-        $this->usuario="";
-        $this->password="";
+        $this->servidor=" ";
+        $this->base_datos=" ";
+        $this->usuario=" ";
+        $this->password=" ";
     }
 
     /**

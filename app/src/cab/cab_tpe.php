@@ -37,6 +37,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 						<ul class="nav pull-left">
 							<?php
 							$sesion->has(5,1) ? imprimir_kardex($nivel_dir, $sesion->has(6,1) ? 1 : 0) : null;
+							$sesion->has(7,1) ? imprimir_escuelas($nivel_dir) : null;
 							?>
 						</ul>
 
@@ -102,7 +103,9 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 		</div>
 
 	</div>
-	<?php }
+	<?php 
+}
+
 function imprimir_kardex($nivel_dir,$req = 0)
 {
 	?>
@@ -143,5 +146,31 @@ function imprimir_kardex($nivel_dir,$req = 0)
 		</ul>
 	</li>
 	<?php
+}
+
+function imprimir_escuelas($nivel_dir)
+{
+	?>
+	<!-- >Empieza el dropdown para locaciones</!-->
+	<li class="dropdown">
+		<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-map-marker"></i><span class="glyphicon glyphicon-map-marker"></span> Locaciones <b class="caret"></b></a>
+		<ul class="dropdown-menu">
+			<li>
+				<a href="<?php echo $nivel_dir; ?>app/geo">
+					<i class="icon-globe"></i><span class="glyphicon glyphicon-globe"></span> Geografía
+				</a>
+			</li>
+			<li>
+				<a href="<?php echo $nivel_dir; ?>app/esc/buscar.php">
+					<i class="icon-search icon-white"></i><span class="glyphicon glyphicon-search"></span> Buscar una escuela
+				</a>
+			</li>
+			<li>
+				<a href="<?php echo $nivel_dir; ?>app/esc/nuevo.php"><i class="icon-pencil"></i> Creación de escuela</a>
+			</li>
+		</ul>
+	</li>
+	<!-- >Termina el dropdown para locaciones</!-->
+	<?php 
 }
 ?>

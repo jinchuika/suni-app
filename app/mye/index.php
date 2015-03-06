@@ -315,12 +315,20 @@ $bd = $libs->incluir('bd');
 <?php $libs->incluir('js-lib', 'mye/mye_index.js'); ?>
 <script>
 $(document).ready(function () {
-    listar_remote ('inp_abrir_escuela', 'app/src/libs_gen/gn_proceso.php', 'listar_escuela', 8);
     activar_form_udi('form_udi', 'inp_udi_form');
     activar_form_contacto('form_contacto');
-    $('#inp_abrir_escuela').bind('change', function function_name (argument) {
-        
-    });
+    <?php
+    if ($_GET['udi']) {
+        echo "activar_form_udi('form_udi', 'inp_udi_form', true);";
+        echo 'var udi_entrada = "'.$_GET['udi'].'";';
+        ?>
+        $('#inp_udi_form').text(udi_entrada).val(udi_entrada);
+        $('#form_udi').submit();
+        <?php
+        //echo 'abrir_datos_escuela("'.$_GET['udi'].'", true);';
+            
+    };
+    ?>
 });
 </script>
 </html>

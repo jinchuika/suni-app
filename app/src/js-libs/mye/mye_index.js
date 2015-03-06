@@ -36,7 +36,7 @@ if(!modal_c){
  * @param  {string} udi_escuela el UDI para buscar
  * @return {int}             el ID de la escuela en la base de datos
  */
- function abrir_datos_escuela (udi_escuela) {
+ function abrir_datos_escuela (udi_escuela, pide_abrir_solicitud) {
   modal_c.mostrar();
   reiniciar_solicitud();
   $.getJSON(nivel_entrada+'app/src/libs_gen/gn_escuela.php', {
@@ -71,9 +71,13 @@ if(!modal_c){
     });
     $('#info_gen_escuela').show();
     $('#btn_nueva_solicitud').attr('onclick', 'buscar_proceso('+resp_escuela.id+', true,1);');
-    $('#btn_abrir_solicitud').attr('onclick', 'abrir_solicitud("","",'+resp_escuela.id+');');
+    $('#btn_abrir_solicitud').attr('onclick', 'abrir_solicitud({id_escuela:'+resp_escuela.id+'});');
+    if(pide_abrir_solicitud){
+      $('#btn_abrir_solicitud').trigger('click');
+    }
     $('#inp_id_escuela_cnt').val(resp_escuela.id);
     modal_c.ocultar();
+    
     return resp_escuela.id;
   });
 }
@@ -83,10 +87,10 @@ if(!modal_c){
  * @param  {string} objetivo     El ID del formulario
  * @param  {string} inp_udi_form El ID del buscador dentro del formulario
  */
- function activar_form_udi (objetivo, inp_udi_form) {
+ function activar_form_udi (objetivo, inp_udi_form, pide_abrir_solicitud) {
   $('#'+objetivo).submit(function (e) {
     e.preventDefault();
-    abrir_datos_escuela($('#'+inp_udi_form).val());
+    abrir_datos_escuela($('#'+inp_udi_form).val(), pide_abrir_solicitud);
   });
 };
 
@@ -121,7 +125,7 @@ if(!modal_c){
          */
          crear_proceso(id_escuela, function (id_proceso_callback) {
           crear_solicitud(id_proceso_callback, function (id_solicitud_callback) {
-            abrir_solicitud(id_solicitud_callback);
+            abrir_solicitud({id_solicitud:id_solicitud_callback});
           });
         });
        }
@@ -138,7 +142,7 @@ if(!modal_c){
              * @param  {Function} abrir_solicitud() abre una solicitud en el CALLBACK de de crear_solicitud()
              */
              crear_solicitud(data.id, function (id_solicitud_callback) {
-              abrir_solicitud(id_solicitud_callback);
+              abrir_solicitud({id_solicitud:id_solicitud_callback});
               modal_c.ocultar();
             });
            }
@@ -211,16 +215,13 @@ function crear_solicitud (id_proceso, callback) {
  * @uses  abrir_edf()
  * @return {bool}              Informa el estado
  */
- function abrir_solicitud (id_solicitud, id_proceso, id_escuela, callback) {
+ function abrir_solicitud (filtro, callback) {
   estado_solicitud_actual = 1;
+  console.log('se intento abrir'+filtro);
   modal_c.mostrar();
   $.getJSON(nivel_entrada+'app/src/libs_me/me_solicitud.php', {
     fn_nombre: 'abrir_solicitud',
-    args: JSON.stringify({
-      id_solicitud: id_solicitud,
-      id_proceso: id_proceso,
-      id_escuela: id_escuela
-    })
+    args: JSON.stringify(filtro)
   })
   .done(function (solicitud) {
     if(solicitud.id_solicitud){
