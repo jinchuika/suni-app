@@ -6,24 +6,19 @@ class me_requisito
      * @param object $sesion Objeto para verificar sesión y permisos
 	 */
 	function __construct($bd=null, $sesion=null)
-	{
-		if(!isset($bd)){
+    {
+        if(empty($bd) || empty($sesion)){
             require_once('../libs/incluir.php');
-            $libs = new librerias($this->nivel_dir);
+            $nivel_dir = 3;
+            $libs = new librerias($nivel_dir);
+            $this->sesion = $libs->incluir('seguridad');
             $this->bd = $libs->incluir('bd');
         }
-        else{
+        if(!empty($bd) && !empty($sesion)){
             $this->bd = $bd;
-        }
-        if(!isset($sesion)){
-            require_once('../libs/incluir.php');
-            $libs = new librerias($this->nivel_dir);
-            $this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));
-        }
-        else{
             $this->sesion = $sesion;
         }
-	}
+    }
 
 	/**
      * Devuelve un registro de requisito basado en el ID

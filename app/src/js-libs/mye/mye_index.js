@@ -2,7 +2,7 @@ $.fn.modal.Constructor.prototype.enforceFocus = function () {};
 /**
  * Estados para indicar si hay una solicitud abierta
  */
-var estado_solicitud_actual = 0
+var solicitud_abierta = false
 , estado_validacion_actual = 0;
 /**
  * Limpia todos los campos de la solicitud
@@ -22,8 +22,9 @@ var estado_solicitud_actual = 0
 
   $('#lista_contactos').empty();
   $('.cnt_solicitud').remove();
+  $('#btn_eliminar_solicitud').hide();
   $('#form_udi').goTo();
-  estado_solicitud_actual = 0;
+  solicitud_abierta = false;
 }
 
 if(!modal_c){
@@ -216,8 +217,7 @@ function crear_solicitud (id_proceso, callback) {
  * @return {bool}              Informa el estado
  */
  function abrir_solicitud (filtro, callback) {
-  estado_solicitud_actual = 1;
-  console.log('se intento abrir'+filtro);
+  solicitud_abierta = true;
   modal_c.mostrar();
   $.getJSON(nivel_entrada+'app/src/libs_me/me_solicitud.php', {
     fn_nombre: 'abrir_solicitud',
@@ -239,8 +239,8 @@ function crear_solicitud (id_proceso, callback) {
           fn_nombre: 'editar_solicitud'
         });
       });
-      (estado_solicitud_actual===1) ? $('#div_header_solicitud').show() : '';
-      (estado_solicitud_actual===1) ? $('#div_obs').show() : '';
+      (solicitud_abierta==true) ? $('#div_header_solicitud').show() : '';
+      (solicitud_abierta==true) ? $('#div_obs').show() : '';
       $('.dato_solicitud').editable({
         pk: solicitud.id_solicitud,
         url: nivel_entrada+'app/src/libs_me/me_solicitud.php?fn_nombre=editar_solicitud',
@@ -298,7 +298,7 @@ function crear_solicitud (id_proceso, callback) {
         $('#td_'+rol_contacto).html('<a data-type="select" data-name="id_'+rol_contacto+'" class="cnt_solicitud" href="#">'+(datos_contacto ? nullToEmpty(datos_contacto['nombre']) : '')+'</a>');
         $('#td_'+rol_contacto).append('<button data-content=" " data-idcontacto='+datos_contacto.id+' data-name="'+datos_contacto['id']+'" class="btn btn-mini btn-info btn_cnt pull-left">Ver</button>');
       });      
-      (estado_solicitud_actual===1) ? $('#div_contacto').show() : '';
+      (solicitud_abierta==true) ? $('#div_contacto').show() : '';
       $('.cnt_solicitud').editable({
         mode: 'inline',
         source: nivel_entrada+'app/src/libs_me/me_solicitud.php?fn_nombre=listar_contacto_solicitud&args='+JSON.stringify({id_solicitud:id_solicitud})+'',
@@ -354,7 +354,7 @@ function abrir_poblacion (id_poblacion) {
       $('#td_alum_hombre').html('<a class="me_poblacion" data-name="alum_hombre" href="#">'+poblacion.alum_hombre+'</a>');
       $('#td_maestro_mujer').html('<a class="me_poblacion" data-name="maestro_mujer" href="#">'+poblacion.maestro_mujer+'</a>');
       $('#td_maestro_hombre').html('<a class="me_poblacion" data-name="maestro_hombre" href="#">'+poblacion.maestro_hombre+'</a>');
-      (estado_solicitud_actual===1) ? $('#div_poblacion').show() : '';
+      (solicitud_abierta==true) ? $('#div_poblacion').show() : '';
       $('.me_poblacion').editable({
         url: nivel_entrada + 'app/src/libs_me/me_poblacion.php?fn_nombre=editar_poblacion',
         pk: poblacion.id
@@ -396,7 +396,7 @@ function abrir_poblacion (id_poblacion) {
           fn_nombre: 'editar_requisito'
         });
       });
-      (estado_solicitud_actual===1) ? $('#div_req').show() : '';
+      (solicitud_abierta==true) ? $('#div_req').show() : '';
       modal_c.ocultar();
     }
     else{
@@ -433,7 +433,7 @@ function abrir_poblacion (id_poblacion) {
           fn_nombre: 'editar_medio'
         });
       });
-      (estado_solicitud_actual===1) ? $('#div_medio').show() : '';
+      (solicitud_abierta==true) ? $('#div_medio').show() : '';
       modal_c.ocultar();
     }
     else{
@@ -475,8 +475,8 @@ function abrir_poblacion (id_poblacion) {
       $('.edf_editable').editable({
         pk: id_edf,
         url: nivel_entrada+'app/src/libs_me/me_edf.php?fn_nombre=editar_edf'
-      })
-      (estado_solicitud_actual===1) ? $('#div_edf').show() : '';
+      });
+      (solicitud_abierta==true) ? $('#div_edf').show() : '';
     }
     else{
       bootbox.alert('Error al cargar la información sobre EDF. Por favor abra de nuevo la solicitud');

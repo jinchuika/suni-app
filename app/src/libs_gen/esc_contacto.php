@@ -46,7 +46,6 @@ class esc_contacto
         inner join pr_genero ON pr_genero.id=gn_persona.genero
         where esc_contacto.id_escuela='.$args['id'].' ';
         $stmt= $this->bd->ejecutar($query);
-        //$arr_respuesta=$this->abrir_contacto(array('id'=>27));
         while ($contacto = $this->bd->obtener_fila($stmt, 0)) {
             array_push($arr_respuesta, $contacto);
         }

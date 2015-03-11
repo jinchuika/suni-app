@@ -35,11 +35,10 @@ MyeSolicitud.prototype.crearInforme = function(formulario) {
             $.each(respuesta, function (index, item) {
                 texto_append += '<tr><td>'+(item['id_solicitud'] ? item['id_solicitud'] : '' )+'</td>';
                 texto_append += '<td>'+(item['escuela'] ? item['escuela'] : '' )+'</td>';
-                texto_append += '<td>'+(item['udi'] ? item['udi'] : '' )+'</td>';
                 texto_append += '<td>'+(item['municipio'] ? item['municipio'] : '' )+'</td>';
                 texto_append += '<td>'+(item['director'] ? item['director']['nombre']+' '+ item['director']['apellido'] : '');
+                texto_append += '<td>'+(item['director']['tel_movil'] ? item['director']['tel_movil'] : '' )+'</td>';
                 texto_append += '<td>'+(item['cant_alumno'] ? item['cant_alumno'] : '' )+'</td>';
-                texto_append += '<td>'+(item['fecha'] ? item['fecha'] : '' )+'</td>';
                 texto_append += '</tr>';
             });
             $('#tabla_solicitud').append(texto_append);

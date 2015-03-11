@@ -177,11 +177,10 @@ $gn_proyecto = new gn_proyecto($bd, $sesion);
                 <thead>
                     <th>No.</th>
                     <th>Escuela</th>
-                    <th>UDI</th>
                     <th>Municipio</th>
                     <th>Director</th>
+                    <th>Teléfono</th>
                     <th>Población</th>
-                    <th>Fecha</th>
                 </thead>
                 <tbody id="tbody_solicitud">
                     

@@ -68,27 +68,29 @@ class me_solicitud
         }
     }
 
-    public function abrir_solicitud($args=null)
+    public function abrir_solicitud($args=null, $campos='')
     {
         $condicion_query = empty($args['id_escuela']) ? $condicion_query : 'gn_proceso.id_escuela='.$args['id_escuela'];
         $condicion_query = empty($args['id_proceso']) ? $condicion_query : 'me_solicitud.id_proceso='.$args['id_proceso'];
         $condicion_query = empty($args['id_solicitud']) ? $condicion_query : 'me_solicitud.id='.$args['id_solicitud'];
-        $query = "
-        select
-        me_solicitud.id as id_solicitud,
-        me_solicitud.id_proceso as id_proceso,
-        me_solicitud.id_supervisor,
-        me_solicitud.id_director,
-        me_solicitud.id_responsable,
-        me_solicitud.id_requisito as id_requisito,
-        me_solicitud.id_poblacion,
-        me_solicitud.id_medio,
-        me_solicitud.id_edf,
-        me_solicitud.fecha,
-        me_solicitud.lab_actual,
-        me_solicitud.jornadas,
-        me_solicitud.obs
-        from
+        
+        if(empty($campos)){
+            $campos = " me_solicitud.id as id_solicitud,
+            me_solicitud.id_proceso as id_proceso,
+            me_solicitud.id_supervisor,
+            me_solicitud.id_director,
+            me_solicitud.id_responsable,
+            me_solicitud.id_requisito as id_requisito,
+            me_solicitud.id_poblacion,
+            me_solicitud.id_medio,
+            me_solicitud.id_edf,
+            me_solicitud.fecha,
+            me_solicitud.lab_actual,
+            me_solicitud.jornadas,
+            me_solicitud.obs ";
+        }
+
+        $query = "select ".$campos." from
         me_solicitud
         left join gn_proceso ON gn_proceso.id=me_solicitud.id_proceso
         where
@@ -113,10 +115,12 @@ class me_solicitud
      */
     public function abrir_contactos_solicitud($args=null)
     {
-        $arr_respuesta = array();
         require_once('../libs_gen/esc_contacto.php');
-        $solicitud = $this->abrir_solicitud(array('id_solicitud'=>$args['id_solicitud']));
         $esc_contacto = new esc_contacto($this->bd, $this->sesion);
+        $arr_respuesta = array();
+
+        $solicitud = $this->abrir_solicitud(array('id_solicitud'=>$args['id_solicitud']), 'id_director, id_supervisor, id_responsable');
+        
         $arr_respuesta['supervisor'] = $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_supervisor']));
         $arr_respuesta['director'] = $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_director']));
         $arr_respuesta['responsable'] = $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_responsable']));
@@ -146,7 +150,7 @@ class me_solicitud
         left join gn_persona ON gn_persona.id=esc_contacto.id_persona
         where me_solicitud.id="'.$args['id_solicitud'].'" 
         ';
-        empty($args['id_rol']) ? '' : $query .= ' AND NOT(esc_contacto.id_rol='.$args['id_rol'].')';
+        $query .= empty($args['id_rol']) ? '' :  ' AND NOT(esc_contacto.id_rol='.$args['id_rol'].')';
         $stmt = $this->bd->ejecutar($query);
         while ($contacto = $this->bd->obtener_fila($stmt, 0)) {
             array_push($arr_respuesta, $contacto);
