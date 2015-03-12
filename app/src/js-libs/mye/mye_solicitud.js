@@ -8,10 +8,6 @@ function MyeSolicitud (nivel_creado) {
 
 MyeSolicitud.prototype = new General();
 
-MyeSolicitud.prototype.checkUndef = function(texto) {
-    return texto ? texto : '';
-};
-
 
 MyeSolicitud.prototype.crearInforme = function(formulario) {
     $("#tabla_solicitud").find("tr:gt(0)").remove();

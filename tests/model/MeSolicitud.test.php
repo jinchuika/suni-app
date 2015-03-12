@@ -17,15 +17,23 @@ class MeSolicitudTest extends PHPUnit_Framework_TestCase
     public function testRead($me_solicitud)
     {
     	$solicitud = $me_solicitud->abrirSolicitud(array('id>0'));
-        print_r($solicitud);
+        //print_r($solicitud);
     }
 
     /**
      * @depends testExiste
      */
-    public function testListar($me_solicitud)
+    public function testFiltrosInforme($me_solicitud)
     {
-        # code...
+        $informe = $me_solicitud->informeSolicitud();
+        $informe = $me_solicitud->informeSolicitud(
+            array(
+                'departamento'=>3,
+                'municipio'=>311,
+                'lab_actual'=>'0',
+                'fecha_inicio'=>'2014-01-01'
+                )
+            );
     }
 }
 

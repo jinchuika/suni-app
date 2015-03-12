@@ -275,7 +275,6 @@ class me_solicitud
             $solicitud['responsable'] = (!empty($solicitud['id_responsable']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_responsable'])) : '');;
             array_push($arr_respuesta, $solicitud);
         }
-        //echo $query;
         return $arr_respuesta;
     }
     
@@ -283,8 +282,8 @@ class me_solicitud
     {
         $string_filtros = 'where 1=1 ';
         $string_filtros .= (!empty($arr_filtros['me_estado']) ? ' and gn_proceso.id_estado='.$arr_filtros['me_estado'] : '');
-        $string_filtros .= (!empty($arr_filtros['departamento']) ? ' and gn_escuela.departamento='.$arr_filtros['departamento'] : '');
-        $string_filtros .= (!empty($arr_filtros['municipio']) ? ' and gn_escuela.municipio='.$arr_filtros['municipio'] : '');
+        $string_filtros .= (!empty($arr_filtros['id_departamento']) ? ' and gn_escuela.departamento='.$arr_filtros['departamento'] : '');
+        $string_filtros .= (!empty($arr_filtros['id_municipio']) ? ' and gn_escuela.municipio='.$arr_filtros['municipio'] : '');
 
         $string_filtros .= ($arr_filtros['lab_actual']!=='no' ? ' and me_solicitud.lab_actual='.$arr_filtros['lab_actual'] : '');
         $string_filtros .= (!empty($arr_filtros['nivel']) ? ' and gn_escuela.nivel='.$arr_filtros['nivel'] : '');

@@ -53,16 +53,16 @@ $gn_proyecto = new gn_proyecto($bd, $sesion);
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="departamento">Departamento</label>
+                        <label class="control-label" for="id_departamento">Departamento</label>
                         <div class="controls">
-                            <select id="departamento" name="departamento" class="input-xlarge span12">
+                            <select id="id_departamento" name="id_departamento" class="input-xlarge span12">
                             </select>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="municipio">Municipio</label>
+                        <label class="control-label" for="id_municipio">Municipio</label>
                         <div class="controls">
-                            <select id="municipio" name="municipio" class="input-xlarge span12">
+                            <select id="id_municipio" name="id_municipio" class="input-xlarge span12">
                             </select>
                         </div>
                     </div>

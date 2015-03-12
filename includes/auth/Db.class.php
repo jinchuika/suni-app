@@ -87,7 +87,7 @@ public function ejecutar($sql, $mostrar_error=false){
 	switch ($this->tipo){
 		case 'mysql':     
 		$this->stmt=mysqli_query($this->link, $sql);
-		if($mostrar_error){ printf(mysqli_error($this->link)) };
+		if($mostrar_error){ printf(mysqli_error($this->link)); };
 		break;
 		case 'postgress': $this->stmt=pg_Euery($this->link,$sql);
 		break;

@@ -19,5 +19,40 @@ class MeSolicitud extends Model
 		$solicitud = $this->bd->obtener_fila($stmt);
 		return $solicitud;
 	}
+
+	public function informeSolicitud($arr_filtros=null)
+	{
+		$arr_respuesta = array();
+		$filtros_informe = $this->filtros_informe($arr_filtros);
+		$query = "select * from v_informe_me_solicitud ".$filtros_informe."";
+		echo $query."\n";
+		$stmt = $this->bd->ejecutar($query, true);
+		while($fila_informe = $this->bd->obtener_fila($stmt)){
+			array_push($arr_respuesta, $fila_informe);
+		}
+		return $arr_respuesta;
+	}
+
+	public function filtros_informe($arr_filtros=null)
+    {
+    	$arr_respuesta = array();
+
+        $string_filtros = (!empty($arr_filtros) ? 'where ' : '');
+    	
+        (isset($arr_filtros['departamento']) ? array_push($arr_respuesta, 'id_departamento='.$arr_filtros['departamento']) : null);
+        (isset($arr_filtros['municipio']) ? array_push($arr_respuesta, 'id_municipio='.$arr_filtros['municipio']) : '');
+        (isset($arr_filtros['lab_actual']) ? array_push($arr_respuesta, 'lab_actual='.$arr_filtros['lab_actual']) : '');
+        (isset($arr_filtros['nivel']) ? array_push($arr_respuesta, 'nivel='.$arr_filtros['nivel']) : '');
+
+        $fecha_inicio = isset($arr_filtros['fecha_inicio']) ? $arr_filtros['fecha_inicio'] : '';
+        $fecha_fin = isset($arr_filtros['fecha_fin']) ? $arr_filtros['fecha_fin'] : '';
+        
+        $rango_fecha = $this->ensamblarRangoFechas($fecha_inicio, $fecha_fin, 'fecha');
+        
+        (!empty($rango_fecha) ? array_push($arr_respuesta, $rango_fecha) : '');
+        
+        $string_filtros .= implode(' and ', $arr_respuesta);
+        return $string_filtros;
+    }
 }
 ?>
