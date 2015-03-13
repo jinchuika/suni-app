@@ -45,7 +45,7 @@ if(isset($id_per)){
 		if(isset($estado)){
 			if(($estado==0)){
 				if($rol!=="1"){
-					header("Location: ../../principal.php");
+					header("Location: ../../app");
 				}
 			}
 			$rol = $w[5];
@@ -88,11 +88,11 @@ if(isset($id_per)){
 		$imagen = $bd->obtener_fila($stmt4,0);
 	}
 	else{
-		header("Location: ../../principal.php");
+		header("Location: ../../app");
 	}
 }
 else{
-	header("Location: ../../principal.php");
+	header("Location: ../../app");
 }
 
 ?>

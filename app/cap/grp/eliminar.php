@@ -8,7 +8,7 @@ $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
 if($sesion->get('rol')>1){
-	header("Location: http://funsepa.net/suni/principal.php");
+	header("Location: http://funsepa.net/suni/");
 }
 $bd = $libs->incluir('bd');
 ?>

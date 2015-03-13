@@ -5,10 +5,11 @@
 /*Validación de seguridad (Campo, si existe, si no)*/
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
+$id_area = 8;
 $libs = new librerias($nivel_dir);
-$sesion = $libs->incluir('seguridad');
+$sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $id_area));
 if($sesion->get('rol')>2){
-	header("Location: http://funsepa.net/suni/principal.php");
+	header("Location: http://funsepa.net/suni/");
 }
 $bd = $libs->incluir('bd');
 ?>

@@ -6,7 +6,7 @@
 	$usuario = $sesion->get("usuario");	
 	if( $usuario == false )
 	{	
-		header("Location: ../../principal.php");
+		header("Location: ../../app");
 	}
 	else 
 	{

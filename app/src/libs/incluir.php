@@ -217,8 +217,11 @@ class librerias
                     ';
                     break;
                 case 'src':
-                    if(require_once($archivo)){
-                        //Se incluyó el archivo
+                    try{
+                        require_once($archivo);
+                    }
+                    catch(Exception $error) {
+                        require_once($this->nivel.$archivo);
                     }
                     break;
                 case 'php':

@@ -1,6 +1,6 @@
 <?php
     require_once("includes/auth/login.class.php"); 
-    vLog("usuario", "principal.php","0");
+    vLog("usuario", "app","0");
     if( isset($_GET["validar"])){
         $validar=$_GET["validar"];                
     }else{

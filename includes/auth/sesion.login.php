@@ -35,7 +35,7 @@ if( isset($_POST["iniciar"]) )
 			$redirect_url = $_POST['redirect_url'];
 			unset($_POST['redirect_url']);
 		}
-		header("location: ".(isset($redirect_url) ? $redirect_url : "../../principal.php"));
+		header("location: ".(isset($redirect_url) ? $redirect_url : "../../app"));
 					# code...
 		break;
 
@@ -75,7 +75,7 @@ if($_GET["mail"]){
 			$sesion->set("id_per",$resultado[6]);
 			$sesion->set("avatar", $resultado[7]);
 
-			header("location: ../../principal.php");
+			header("location: ../../app");
 					# code...
 			break;
 

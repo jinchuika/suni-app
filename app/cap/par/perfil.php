@@ -157,11 +157,11 @@ if(isset($id)){
 		$imagen = $bd->obtener_fila($stmt4,0);
 	}
 	else{
-		header("Location: ../../principal.php");
+		header("Location: ../../app");
 	}
 }
 else{
-	header("Location: ../../principal.php");
+	header("Location: ../../app");
 }
 
 ?>

@@ -11,17 +11,8 @@ $nombre_usuario = $sesion->get("nombre");
 $usuario = $sesion->get("usuario");
 
 
-
-if($usuario == true)
-{ 
-	$rol = $sesion->get("rol");
-	if($rol==3){
-		header("Location: ../principal.php");
-
-	}
-
-}else{
-	header("Location: ../admin.php");    
+if($sesion->get("rol")==3){
+	header("Location: ../app");
 }
 ?>
 

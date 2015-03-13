@@ -13,12 +13,12 @@
   }
   
   include '../../app/cabeza.php';
-  $USR = $HTTP_GET_VARS["id_usr"];
-  $ID_usr = $HTTP_GET_VARS["usr"]; //Detecta el contenido del usuario
-  $ID_depto = $HTTP_GET_VARS["depto"]; //Detecta el contenido del departamento
-  $ID_muni = $HTTP_GET_VARS["muni"]; //Detecta el contenido del municipio
-  $ID_sede = $HTTP_GET_VARS["sede"]; //Detecta el contenido del sede
-  $ID_semana = $HTTP_GET_VARS["semana"]; //Detecta el contenido del sede  
+  $USR = $_GET["id_usr"];
+  $ID_usr = $_GET["usr"]; //Detecta el contenido del usuario
+  $ID_depto = $_GET["depto"]; //Detecta el contenido del departamento
+  $ID_muni = $_GET["muni"]; //Detecta el contenido del municipio
+  $ID_sede = $_GET["sede"]; //Detecta el contenido del sede
+  $ID_semana = $_GET["semana"]; //Detecta el contenido del sede  
   $bd=Db::getInstance();
   //validación para saber el filtro usado
   if($USR=="TODOS"){
