@@ -11,7 +11,7 @@ class CtrlMeSolicitud
 
 	public function crearInforme(Array $arr_filtros=null)
 	{
-		return $this->model->informeSolicitud();
+		return $this->model->informeSolicitud(null, 'id_solicitud, udi');
 	}
 }
 ?>

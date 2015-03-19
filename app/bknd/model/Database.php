@@ -24,10 +24,11 @@ Class Database{
      * @uses Conf Las clases que envían la configuración
      */
     private function setConexion(){
-        $this->servidor="suni2.db.4541636.hostedresource.com";
-        $this->base_datos="suni2";
-        $this->usuario="suni2";
-        $this->password="Fun53P@!2";
+        require dirname(__FILE__).'/../config/database.php';
+        $this->usuario= $dbConfig['user'];
+        $this->password= $dbConfig['password'];
+        $this->servidor= $dbConfig['host'];
+        $this->base_datos= $dbConfig['db'];
     }
 
     /**
@@ -92,6 +93,40 @@ Class Database{
     }
 
     /**
+     * Obtiene todo el dominio de un select
+     * @param  string  $query la query a ejecutar
+     * @param  boolean $debug Si se muestra el error de mysql
+     * @return Array         Todo el dominio de la consulta
+     */
+    public function getResultado($query, $debug=false)
+    {
+        $arrResultado = array();
+        $stmt = $this->ejecutar($query, $debug);
+        if($stmt!=false){
+            while ($resultado = mysqli_fetch_array($stmt, MYSQLI_ASSOC)) {
+                array_push($arrResultado, $resultado);
+            }
+        }
+        return $arrResultado;
+    }
+
+    /**
+     * Obtiene la primer fila que concuerda con una query
+     * @param  string  $query La query a ejecutar
+     * @param  boolean $debug si muestra el error de mysql
+     * @return Array         la fila encontrada
+     */
+    public function getFila($query, $debug=false)
+    {
+        $resultado = false;
+        $stmt = $this->ejecutar($query.' LIMIT 1', $debug);
+        if($stmt!=false){
+            $resultado = mysqli_fetch_array($stmt, MYSQLI_ASSOC);
+        }
+        return $resultado;
+    }
+
+    /**
      * Ejecuta un procedimiento almacenado en la DB
      * @param  mysqli_result $stmt resultado de un ejecutar()
      * @return Array       Los selects que se realicen dentro del procedimiento
@@ -129,9 +164,9 @@ Class Database{
      * @param  string $tabla la tabla a buscar
      * @param  string $campo el campo
      * @param  string $dato  el dato a buscar
-     * @return [type]        [description]
+     * @return boolean        Si existe o no
      */
-    function duplicados($tabla, $campo, $dato){
+    public function duplicados($tabla, $campo, $dato){
 
         $query = "SELECT * FROM ".$tabla." WHERE ".$campo."='".$dato."'";
         $stmt = $this->ejecutar($query);
@@ -141,6 +176,16 @@ Class Database{
         else{
             return false;
         }
+    }
+
+    /**
+     * Elimina los caracteres especiales de una orden
+     * @param  string $string La cadena a eliminar
+     * @return string         La cadena ya limpia
+     */
+    public function limpiarString($string)
+    {
+        return mysqli_real_escape_string($this->link, $string);
     }
 } 
 ?>

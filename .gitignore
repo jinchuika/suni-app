@@ -5,12 +5,46 @@ app/kar/req (luis-mac-mini's conflicted copy 2014-07-10).php
 
 ### Base de datos
 /config.php
-includes/auth/config.php
-includes/auth/Database.class.php
-app/bknd/model/Database.php
-afe/conexion.php
+/includes/auth/config.php
+/includes/auth/Database.class.php
+#/app/bknd/config/database.php
+/afe/conexion.php
 
-### OSX ###
+
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+ 
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+ 
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+ 
+# OS generated files #
+######################
 .DS_Store
-.AppleDouble
-.LSOverride
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

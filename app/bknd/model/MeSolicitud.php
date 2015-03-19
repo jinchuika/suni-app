@@ -20,12 +20,11 @@ class MeSolicitud extends Model
 		return $solicitud;
 	}
 
-	public function informeSolicitud($arr_filtros=null)
+	public function informeSolicitud($arr_filtros=null, $campos='*')
 	{
 		$arr_respuesta = array();
 		$filtros_informe = $this->filtros_informe($arr_filtros);
-		$query = "select * from v_informe_me_solicitud ".$filtros_informe."";
-		echo $query."\n";
+		$query = "select ".$campos." from v_informe_me_solicitud ".$filtros_informe."";
 		$stmt = $this->bd->ejecutar($query, true);
 		while($fila_informe = $this->bd->obtener_fila($stmt)){
 			array_push($arr_respuesta, $fila_informe);

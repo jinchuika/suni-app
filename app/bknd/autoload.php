@@ -1,44 +1,57 @@
 <?php
 $AUTOLOAD_LVL = 2;
-function getCurrentLevel()
+class Autoloader
 {
-    $dirs = array_filter(glob('*'), 'is_dir');
-    $nivel_actual = 0;
-    if(isset($_SERVER['PHP_SELF'])){
-        $nivel_actual = substr_count($_SERVER['PHP_SELF'], DIRECTORY_SEPARATOR);
-    }
-    return $nivel_actual;
-}
+    /**
+     * A cuántos directorios está EL ARCHIVO QUE LLAMÓ de la raíz del App
+     * @var integer
+     */
+    private $nivel_entrada;
+    private $ruta;
 
-function getRuta($value='')
-{
-    global $AUTOLOAD_LVL;
-    $ruta = '';
-    for ($i=0; $i < getCurrentLevel()-$AUTOLOAD_LVL; $i++) { 
-        $ruta .= '..'.DIRECTORY_SEPARATOR;
-    }
-    return $ruta;
-}
-
-function autoload_class($class_name)
-{
-    $array_paths = array(  
-        'app/bknd/',
-        'app/bknd/ctrl/',
-        'app/bknd/model/',
-        'app/bknd/vendor/'
-        );
-    $ruta = getRuta();
-
-    foreach($array_paths as $key => $path)
+    function __construct($level = 2)
     {
-        $file = $ruta.$path.'/'.$class_name.'.php';
-        if(is_file($file)) 
+        $this->nivel_entrada = $level;
+        $this->nivel_actual = $this->getCurrentLevel();
+        $this->ruta_entrada = $this->getRuta();
+        $this->directorios_clases = glob($this->ruta_entrada.'app/bknd/*' , GLOB_ONLYDIR);
+    }
+
+    /**
+     * A cuántos directorios está ESTE ARCHIVO de la raíz del Servidor
+     * @return integer
+     */
+    function getCurrentLevel()
+    {
+        $nivel_actual = 0;
+        if(isset($_SERVER['PHP_SELF'])){
+            $nivel_actual = substr_count($_SERVER['PHP_SELF'], '/');
+        }
+        return $nivel_actual;
+    }
+
+    function getRuta()
+    {
+        $ruta = '';
+        $nivel_ejecucion = $this->nivel_actual - $this->nivel_entrada;
+        for ($i=0; $i < $nivel_ejecucion; $i++) { 
+            $ruta .= '..'.'/';
+        }
+        return $ruta;
+    }
+
+    function autoload_class($class_name)
+    {
+        foreach($this->directorios_clases as $key => $path)
         {
-            include_once $file;
-            break;
+            $file = $path.'/'.$class_name.'.php';
+            if(is_file($file)){
+                include_once $file;
+                break;
+            }
         }
     }
 }
-spl_autoload_register('autoload_class');
+$autoload = new Autoloader($AUTOLOAD_LVL);
+spl_autoload_register(array($autoload, 'autoload_class'));
 ?>

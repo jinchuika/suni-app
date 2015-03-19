@@ -266,7 +266,7 @@ class me_solicitud
         $rango_poblacion = $this->ensamblar_rango($arr_filtros['poblacion_min'], $arr_filtros['poblacion_max'], 'cant_alumno', ' >= ');
         $query .= (!empty($rango_poblacion) ? ' having '.$rango_poblacion : '');
         
-        $stmt = $this->bd->ejecutar($query);
+        $stmt = $this->bd->ejecutar($query, true);
         while ($solicitud = $this->bd->obtener_fila($stmt)) {
             $fecha_temp = explode('-', $solicitud['fecha']);
             $solicitud['fecha'] = $fecha_temp[2].'/'.$fecha_temp[1].'/'.$fecha_temp[0];
@@ -282,8 +282,8 @@ class me_solicitud
     {
         $string_filtros = 'where 1=1 ';
         $string_filtros .= (!empty($arr_filtros['me_estado']) ? ' and gn_proceso.id_estado='.$arr_filtros['me_estado'] : '');
-        $string_filtros .= (!empty($arr_filtros['id_departamento']) ? ' and gn_escuela.departamento='.$arr_filtros['departamento'] : '');
-        $string_filtros .= (!empty($arr_filtros['id_municipio']) ? ' and gn_escuela.municipio='.$arr_filtros['municipio'] : '');
+        $string_filtros .= (!empty($arr_filtros['id_departamento']) ? ' and gn_escuela.departamento='.$arr_filtros['id_departamento'] : '');
+        $string_filtros .= (!empty($arr_filtros['id_municipio']) ? ' and gn_escuela.municipio='.$arr_filtros['id_municipio'] : '');
 
         $string_filtros .= ($arr_filtros['lab_actual']!=='no' ? ' and me_solicitud.lab_actual='.$arr_filtros['lab_actual'] : '');
         $string_filtros .= (!empty($arr_filtros['nivel']) ? ' and gn_escuela.nivel='.$arr_filtros['nivel'] : '');

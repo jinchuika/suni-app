@@ -6,6 +6,11 @@ function MyeSolicitud (nivel_creado) {
     this.ctrl = 'me_solicitud';
 }
 
+if(!modal_c){
+  var modal_c = modal_carga_gn();
+  modal_c.crear();
+}
+
 MyeSolicitud.prototype = new General();
 
 
@@ -18,6 +23,7 @@ MyeSolicitud.prototype.crearInforme = function(formulario) {
     $.each($('.chk_requisito:checked'), function (index, item) {
         args.requisito[$(item).data('name')] = 1;
     });
+    modal_c.mostrar();
     $.ajax({
         url: this.makeUrl('crear_informe'),
         data: {
@@ -29,8 +35,8 @@ MyeSolicitud.prototype.crearInforme = function(formulario) {
             console.log(respuesta);
             var texto_append = '';
             $.each(respuesta, function (index, item) {
-                texto_append += '<tr><td>'+(item['id_solicitud'] ? item['id_solicitud'] : '' )+'</td>';
-                texto_append += '<td>'+(item['escuela'] ? item['escuela'] : '' )+'</td>';
+                texto_append += '<tr><td>'+ crear_enlace(item['id_solicitud'], 'app/mye/?udi='+item['udi'], item['udi']) +'</td>';
+                texto_append += '<td>'+ crear_enlace(item['escuela'], 'app/esc/perfil.php?id='+item['id_escuela'], item['udi']) +'</td>';
                 texto_append += '<td>'+(item['municipio'] ? item['municipio'] : '' )+'</td>';
                 texto_append += '<td>'+(item['director'] ? item['director']['nombre']+' '+ item['director']['apellido'] : '');
                 texto_append += '<td>'+(item['director']['tel_movil'] ? item['director']['tel_movil'] : '' )+'</td>';
@@ -38,8 +44,17 @@ MyeSolicitud.prototype.crearInforme = function(formulario) {
                 texto_append += '</tr>';
             });
             $('#tabla_solicitud').append(texto_append);
+            modal_c.ocultar();
         }
     });
+};
+
+crear_enlace = function(texto, url, titulo) {
+    var texto_append = '';
+    if(texto){
+        texto_append = '<a title="'+titulo+'" href="'+nivel_entrada+url+'">'+texto+'</a>';
+    }
+    return texto_append;
 };
 
 MyeSolicitud.prototype.getInfo = function(action) {
@@ -50,10 +65,10 @@ MyeSolicitud.prototype.getInfo = function(action) {
 $(document).ready(function () {
     var mye_solicitud = new MyeSolicitud(nivel_entrada);
     
-    listar_campos_select('app/src/libs_gen/gn_departamento.php?fn_nombre=listar_departamento', 'departamento', 'vacio');
+    listar_campos_select('app/src/libs_gen/gn_departamento.php?fn_nombre=listar_departamento', 'id_departamento', 'vacio');
     $('#departamento').on('change', function () {
     var args = {'id_departamento': $(this).val()};
-    listar_campos_select('app/src/libs_gen/gn_municipio.php?fn_nombre=listar_municipio&args='+JSON.stringify(args), 'municipio', 'vacio');
+    listar_campos_select('app/src/libs_gen/gn_municipio.php?fn_nombre=listar_municipio&args='+JSON.stringify(args), 'id_municipio', 'vacio');
     })
     .trigger('change');
     

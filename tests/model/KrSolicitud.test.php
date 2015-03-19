@@ -11,7 +11,14 @@ class KrSolicitudTest extends PHPUnit_Framework_TestCase
     	return $kr_solicitud;
     }
 
-    
+    /**
+     * @depends testExiste
+     */
+    public function testAbrirSolicitud($kr_solicitud)
+    {
+    	$solicitud = $kr_solicitud->abrirSolicitud();
+    	$this->assertNotNull($solicitud);
+    }
 }
 
 ?>

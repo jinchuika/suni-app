@@ -59,7 +59,12 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
                                 <ul class="dropdown-menu">
                                     <li>
                                         <a href="<?php echo $nivel_dir; ?>app/mye">
-                                            <i class="icon-check"></i> Solicitud y Validación
+                                            <i class="icon-check"></i> Crear solicitud
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo $nivel_dir; ?>app/mye/solicitud.php">
+                                            <i class="icon-check"></i> Informe de solicitudes
                                         </a>
                                     </li>
                                 </ul>
