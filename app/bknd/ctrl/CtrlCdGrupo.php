@@ -4,6 +4,14 @@
 */
 class CtrlCdGrupo
 {
+	/**
+	 * Crea un nuevo grupo de capacitación con sus calendarios
+	 * @param  integer $idSede      id de la sede
+	 * @param  integer $idCurso     id del curso
+	 * @param  integer $numGrupo    número de grupo
+	 * @param  string $descripcion descripción del grupo
+	 * @return Array              
+	 */
 	public function crearGrupo($idSede, $idCurso, $numGrupo, $descripcion='')
 	{
 		$respuesta = array();
@@ -22,6 +30,12 @@ class CtrlCdGrupo
 		}
 		$respuesta['id'] = $nuevoGrupo;
 		return $respuesta;
+	}
+
+	public function conecta()
+	{
+		$gn_grupo = TablaFactory::build('GnGrupo');
+		return $gn_grupo;
 	}
 }
 ?>

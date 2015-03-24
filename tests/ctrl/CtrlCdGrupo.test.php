@@ -15,12 +15,14 @@ class CdGrupoTest extends PHPUnit_Framework_TestCase
     /**
      * @depends testExiste
      */
-    public function testCreaGrupo($cd_grupo)
+    public function testConecta($cd_grupo)
     {
-        $nuevoGrupo = $cd_grupo->crearGrupo(1,2,2);
+        $grupo = $cd_grupo->conecta();
+        $this->assertNotNull($grupo);
+        /*$nuevoGrupo = $cd_grupo->crearGrupo(1,2,3);
         var_dump($nuevoGrupo);
         $this->assertNotNull($nuevoGrupo);
-        $this->assertNotFalse($nuevoGrupo);
+        $this->assertNotFalse($nuevoGrupo);*/
     }
 }
 ?>

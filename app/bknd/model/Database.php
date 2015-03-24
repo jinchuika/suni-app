@@ -12,9 +12,9 @@ Class Database{
     private static $_instance;
 
     /**
-    * De forma privada para evitar la construcción de nuevos objectos mediante new
-    */
-     private function __construct(){
+     * Evita crear un nuevo objeto de forma externa al ser privado
+     */
+    private function __construct(){
         $this->setConexion();
         $this->conectar();
     }
@@ -41,7 +41,7 @@ Class Database{
     /**
      * Crea la instancia de ser necesario
      * si ya hay una instancia del objeto devuelve esa instancia
-     * @return object
+     * @return Database
      */
     public static function getInstance(){
 
@@ -64,13 +64,13 @@ Class Database{
     }
 
     /**
-    * Ejecuta una consulta de MySQL
-    * @param  string $sql   La consulta a ejecutar
-    * @return mysqli_result
-    */
-    public function ejecutar($sql, $mostrar=false){
+     * Ejecuta una consulta de MySQL
+     * @param  string $sql   La consulta a ejecutar
+     * @return mysqli_result
+     */
+    public function ejecutar($sql, $debug=false){
         $this->stmt=mysqli_query($this->link, $sql);
-        if($mostrar===true){ printf(mysqli_error($this->link)); };
+        if($debug===true){ printf(mysqli_error($this->link)); };
     	return $this->stmt;
     }
 
@@ -116,12 +116,12 @@ Class Database{
      * @param  boolean $debug si muestra el error de mysql
      * @return Array         la fila encontrada
      */
-    public function getFila($query, $debug=false)
+    public function getFila($query, $fila=0, $debug=false)
     {
         $resultado = false;
         $stmt = $this->ejecutar($query.' LIMIT 1', $debug);
         if($stmt!=false){
-            $resultado = mysqli_fetch_array($stmt, MYSQLI_ASSOC);
+            $resultado = $this->obtener_fila($stmt, $fila);
         }
         return $resultado;
     }
@@ -131,7 +131,7 @@ Class Database{
      * @param  mysqli_result $stmt resultado de un ejecutar()
      * @return Array       Los selects que se realicen dentro del procedimiento
      */
-    public function ejecutar_procedimiento($stmt)
+    public function ejecutarProcedimiento($stmt)
     {
         $this->array = mysqli_fetch_array($stmt);
         $this->free_result();
@@ -143,9 +143,8 @@ Class Database{
      */
     function free_result() {
         while (mysqli_more_results($this->link) && mysqli_next_result($this->link)) {
-
-            $dummyResult = mysqli_use_result($this->link);
-            if ($dummyResult instanceof mysqli_result) {
+            $resultadoMuerto = mysqli_use_result($this->link);
+            if ($resultadoMuerto instanceof mysqli_result) {
                 mysqli_free_result($this->link);
             }
         }

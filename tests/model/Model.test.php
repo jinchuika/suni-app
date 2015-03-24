@@ -46,7 +46,7 @@ class ModelTest extends PHPUnit_Framework_TestCase
     public function testCrearFiltros($modelo)
     {
         $arrFiltros = array('id[>]'=>1, 'nombre'=>'prueba');
-        $condicion = $modelo->crearFiltros($arrFiltros);
+        $condicion = $modelo->armarFiltros($arrFiltros);
     }
 
     /**
@@ -61,6 +61,15 @@ class ModelTest extends PHPUnit_Framework_TestCase
             ));
         $cadena = $modelo->armarInsert('tabla2', array('asd',2,'asd"asd'));
         $this->assertNotNull($cadena);
+    }
+
+    /**
+     * @depends testExiste
+     */
+    public function testArmarUpdate($modelo)
+    {
+        $query = $modelo->armarUpdate('tabla', array('campo1'=>1, 'campo2'=>'we'), array('id'=>20, 'campo1'=>'filtrado!'));
+        $this->assertNotNull($query);
     }
 }
 ?>

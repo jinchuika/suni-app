@@ -13,7 +13,7 @@ class MeSolicitud extends Model
 	 */
 	public function abrirSolicitud($arr_filtros=null, $campos='*')
 	{
-		$filtros = $this->crearFiltros($arr_filtros);
+		$filtros = $this->armarFiltros($arr_filtros);
 		$query = "select ".$campos." from me_solicitud ".$filtros;
 		$stmt = $this->bd->ejecutar($query);
 		$solicitud = $this->bd->obtener_fila($stmt);
