@@ -2,6 +2,7 @@ var js_general=document.getElementById("js_general");
 var id_per_entrada=js_general.getAttribute("id_per");
 var id_rol_entrada=js_general.getAttribute("id_rol");
 var nivel_entrada=js_general.getAttribute("nivel");
+var bknd_caller = nivel_entrada+"app/bknd/caller.php";
 function ventana_seleccion (mensaje, elemento) {
   window.prompt (mensaje, elemento);
 }

@@ -19,10 +19,10 @@ class CdGrupoTest extends PHPUnit_Framework_TestCase
     {
         $grupo = $cd_grupo->conecta();
         $this->assertNotNull($grupo);
-        /*$nuevoGrupo = $cd_grupo->crearGrupo(1,2,3);
+        $nuevoGrupo = $cd_grupo->crearGrupo(1,5,3);
         var_dump($nuevoGrupo);
         $this->assertNotNull($nuevoGrupo);
-        $this->assertNotFalse($nuevoGrupo);*/
+        $this->assertNotFalse($nuevoGrupo);
     }
 }
 ?>

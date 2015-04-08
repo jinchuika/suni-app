@@ -14,7 +14,8 @@ if(class_exists($ctrlNombre)){
 	 * @var Array
 	 */
 	$args = array();
-    $args = json_decode($argsEntrada, true);
+    $args = Caller::decodeJson($argsEntrada);
+    //$args = json_decode($argsEntrada, true);
     
     /**
      * La instancia del objeto de acción

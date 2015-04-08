@@ -21,12 +21,12 @@ class CtrlCdGrupo
 
 		$nuevoGrupo = $gn_grupo->crearGrupo($idSede, $idCurso, $numGrupo, $descripcion);
 		if(!$nuevoGrupo)
-			return array('msj'=>'no');
+			return array('msj'=>'repetido');
 		$modulos = $gn_curso->listarModulos($idCurso);
 
 		for ($i=0; $i < count($modulos); $i++) { 
 			if($gr_calendario->crearCalendario($modulos[$i]['id'], $nuevoGrupo))
-				$respuesta['msj'] = 'si';
+				$respuesta['done'] = true;
 		}
 		$respuesta['id'] = $nuevoGrupo;
 		return $respuesta;

@@ -50,7 +50,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 										<a tabindex="-1" href="#"><i class="icon-group"></i> Grupo</a>
 										<ul class="dropdown-menu">
 											<li>
-												<a href="<?php echo $_SERVER['SERVER_NAME']; ?>/suni/app/cap/grp/nuevo.php"><i class="icon-pencil"></i> Crear grupo</a>
+												<a href="<?php echo $nivel_dir; ?>app/cap/grp/nuevo.php"><i class="icon-pencil"></i> Crear grupo</a>
 											</li>
 											<li>
 												<a href="<?php echo $nivel_dir; ?>app/cap/grp/buscar.php"><i class="icon-search icon-white"></i> Buscar grupo</a>

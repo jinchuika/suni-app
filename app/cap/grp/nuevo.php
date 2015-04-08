@@ -151,7 +151,7 @@ $bd = $libs->incluir('bd');
 		var data_curso=<?php
 		$resultado = array();
 
-		$query = "SELECT * FROM gn_curso";
+		$query = "SELECT id, nombre FROM gn_curso";
 		if(($sesion->get("rol"))=="3"){
 			$query = "SELECT * FROM gn_curso";
 		}
@@ -249,7 +249,8 @@ $bd = $libs->incluir('bd');
 					if(data["mensaje"]=="Correcto"){
 						bootbox.alert("Grupo creado exitosamente", function () {
 							validar_cal = 0;
-							<?php 							if($_GET["clonar"]){
+							<?php
+							if($_GET["clonar"]){
 								echo '
 								$.ajax({
 									url: "../../src/libs/asignar_participante.php",
@@ -278,26 +279,27 @@ $bd = $libs->incluir('bd');
 $("#formulario_grupo").submit(function () {
 	if(localStorage.evita!="error"){
 		$.ajax({
-			url: "../../src/libs/crear_grupo.php",
+			url: bknd_caller,
 			type: "post",
-			data: $("#formulario_grupo").serialize(),
-			success:    function(data) { 
+			data: {
+				ctrl: 'CtrlCdGrupo',
+				act: 'crearGrupo',
+				args: {
+					id_sede: $('#sede').val(),
+					id_curso: $('#curso').val(),
+					numero: $('#numero').val(),
+					descripcion: $('#descripcion').val()
+				}
+			},
+			success: function(data) { 
 				var data = $.parseJSON(data);
-				if((data['estado'])=="Correcto"){
-					bootbox.alert("Se creó con éxito", function () {
-						localStorage.id_grupo = data['id_grupo'];
-						localStorage.cant_modulos = data['modulos'];
-						localStorage.id_modulos = data['id_modulos'];
-						crear_tabla_modulos(data['modulos']);
-						$("#paso1").toggle(100);
-						$("#paso2").toggle(20, function () {
-							$("#crear_calendario").trigger("click");
-						});
+				if(data.state && data.done ){
+					bootbox.alert('Creado exitosamente', function () {
+						window.location=nivel_entrada+"app/cap/grp/buscar.php?id_grupo="+data["id"];
 					});
-					validar_cal = 1;
 				}
 				else{
-					alert("Hubo un error al procesar su petición");
+					bootbox.alert('Ocurrió un error al crear el grupo');
 				}
 			}
 		});
