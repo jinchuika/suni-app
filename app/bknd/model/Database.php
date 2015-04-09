@@ -24,7 +24,7 @@ Class Database{
      * @uses Conf Las clases que envían la configuración
      */
     private function setConexion(){
-        require dirname(__FILE__).'/../config/database.php';
+        require dirname(__FILE__).'/../config/database_config.php';
         $this->usuario= $dbConfig['user'];
         $this->password= $dbConfig['password'];
         $this->servidor= $dbConfig['host'];
@@ -186,5 +186,5 @@ Class Database{
     {
         return mysqli_real_escape_string($this->link, $string);
     }
-} 
+}
 ?>

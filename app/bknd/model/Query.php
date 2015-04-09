@@ -35,7 +35,7 @@ abstract class Query
      */
     public static function armarSelect($tabla, $campos='*', Array $arrFiltros=null)
     {
-        $string_filtros = static::armarFiltros($arrFiltros);
+        $string_filtros = self::armarFiltros($arrFiltros);
         return 'select '.$campos.' from '.$tabla.' '.$string_filtros;
     }
 
@@ -68,8 +68,8 @@ abstract class Query
      */
     public static function armarUpdate($tabla, Array $arrDatos, Array $arrWhere)
     {
-        $campos = static::armarFiltros($arrDatos, ',', false);
-        $condiciones = static::armarFiltros($arrWhere);
+        $campos = self::armarFiltros($arrDatos, ',', false);
+        $condiciones = self::armarFiltros($arrWhere);
         $query = "UPDATE ".$tabla." SET ".$campos." ".$condiciones;
         return $query;
     }

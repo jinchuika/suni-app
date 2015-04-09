@@ -46,7 +46,7 @@ class Autoloader
         {
             $file = $path.'/'.$class_name.'.php';
             if(is_file($file)){
-                include_once $file;
+                include $file;
                 break;
             }
         }
