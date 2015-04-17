@@ -1,120 +1,105 @@
 <?php
-include '../libs/incluir.php';
-$nivel_dir = 3;
-$libs = new librerias($nivel_dir);
-$sesion = $libs->incluir('seguridad');
-$bd = $libs->incluir('bd');
-
-interface IUserPermissions
+include '../../bknd/autoload.php';
+include 'prueba2.php';
+function parseCoordenada($udi)
 {
-    const p_ver   = 1;
-    const p_crear = 2;
-    const p_editar   = 4;
-    const p_eliminar = 8;
-    const p_global = 15;
-    const a_ver    = 16;
-    const a_crear  = 32;
-    const a_editar    = 64;
-    const a_eliminar  = 128;
-    const a_global  = 192; 
-    const super_usr    = 255; 
+	$url = 'http://www.mineduc.gob.gt/ie/displayListn.asp?establecimiento=&codigoudi='.$udi;
+	$contents = file_get_contents($url);
+
+	preg_match("'<longitude>(.*?)</longitude>'", $contents, $longitude);
+	preg_match("'<latitude>(.*?)</latitude>'", $contents, $latitude);
+	return array('long'=>$longitude[1], 'lat'=>$latitude[1]);
+}
+$bd = Database::getInstance();
+
+$arraySalida = array();
+$arrayEscuelas = array_unique($arrayEscuelas);
+
+foreach ($arrayEscuelas as $udi) {
+	$mapa = parseCoordenada($udi);
+	$query = "select id, nombre, mapa from gn_escuela where codigo='".$udi."'";
+	$stmt = $bd->ejecutar($query, true);
+	if($escuela = $bd->obtener_fila($stmt)){
+		$escuela['udi'] = $udi;
+		$escuela['mapa'] = $mapa;
+
+		/*$queryProceso = "select * from gn_proceso where id_escuela='".$escuela['id']."'";
+		$stmtProceso = $bd->ejecutar($queryProceso, true);
+		if($proceso = $bd->obtener_fila($stmtProceso)){
+			$escuela['proceso'] = $proceso;
+		}*/
+		array_push($arraySalida, $escuela);
+	}
+	else{
+		array_push($arraySalida, array('udi'=>$udi, 'nombre'=>'No encontrado', 'mapa'=>$mapa));
+	}
 }
 
-class UserPermissions implements IUserPermissions
-{
-
-    private $Mask = 0;
-
-    public function __construct($Mask = 0)
-    {
-        $this->Mask = $Mask;
-    }
-
-    public function InvokePermission($Bit)
-    {
-        return $this->Mask & $Bit;
-    }
-
-    public function RevokePermission($Bit)
-    {
-        $this->Mask &= ~$Bit;
-    }
-
-    public function AssignPermission($Bit)
-    {
-        $this->Mask |= $Bit;
-    }
-
-    public function GetStorableMask()
-    {
-        return decbin($this->Mask);
-    }
-}
-$arrayName = array('PUBLIC_VIEW'    => 1,
-    'PUBLIC_CREATE' => 2,
-    'PUBLIC_EDIT'   => 4,
-    'PUBLIC_DELETE' => 8,
-    'PUBLIC_GLOBAL' => 15, 
-    'ADMIN_VIEW'    => 16,
-    'ADMIN_CREATE'  => 32,
-    'ADMIN_EDIT'    => 64,
-    'ADMIN_DELETE'  => 128,
-    'ADMIN_GLOBAL'  => 192, 
-    'SUPER_USER'    => 255 );
-
-/*$Guest = new UserPermissions(UserPermissions::PUBLIC_VIEW);
-foreach ($arrayName as $rol => $valor_dec) {
-    if($Guest->InvokePermission($valor_dec))
-    {
-        echo $rol."<br />";
-    }
-}
-
-/*for($i = 0; $i <9; $i++){
-    //echo "REPETICIÓN: ".$i."<br />";
-    $Guest ->AssignPermission(pow(2, $i));
-    echo "asignado: ".$Guest->GetStorableMask()."<br />";
-    foreach ($arrayName as $rol => $valor_dec) {
-        if($Guest->InvokePermission($valor_dec))
-        {
-            //echo $rol."<br />";
-        }
-    }
-    echo "<br />";
-    if(($i % 2) == 0){
-        $Guest ->RevokePermission(pow(2, ($i-1)));
-        echo "revocado: ".$Guest->GetStorableMask()."<br />";
-        foreach ($arrayName as $rol => $valor_dec) {
-            if($Guest->InvokePermission($valor_dec))
-            {
-                //echo $rol."<br />";
-            }
-        }
-        echo "<br /><br />";
-    }   
-}*/
-
-//$sesion = permiso::getInstance(41, Db::getInstance());
-print_r($sesion->mostrar_permisos())."<br>";
-
-echo "<br /> 8: ".($sesion->has(2, 8, 1) ? "tiene" : "No tiene");
-echo "<br />4: ".($sesion->has(2, 4, 1) ? "tiene" : "No tiene");
-$sesion->give(2, 8, 1);
-$sesion->give(2, 4, 1);
-echo "<br /> g: ".($sesion->has(2, 8) ? "tiene" : "No tiene");
-echo "<br />4: ".($sesion->has(2, 4) ? "tiene" : "No tiene");
-//$sesion->has(2, 8) ? $sesion->take(2,8) : $sesion->give(2,8);
-echo "<br /> SESION 8: ".($sesion->has(2, 8) ? "tiene" : "No tiene");
-echo "<br />SESION 4: ".($sesion->has(2, 4) ? "tiene" : "No tiene");
-$sesion->take(2, 4, 1);
-$sesion->take(2, 8, 1);
-echo "<br /> 8: ".($sesion->has(2, 8, 1) ? "tiene" : "No tiene");
-echo "<br />4: ".($sesion->has(2, 4, 1) ? "tiene" : "No tiene");
-echo "permisos actuales: ";
-print_r($sesion->mostrar_permisos());
-
-//echo $sesion->has(2, 8, 1) ? "<br /> tiene" : "<br />No tiene";
-//echo $sesion->mostrar_permisos(2, 1);
-//echo $sesion->take(2, 8, 1) ? "<br /> tiene" : "<br />No tiene";
-//print_r($sesion->mostrar_permisos())."<br>";
 ?>
+<html>
+<head>
+<title>Hue hue huehuehuehue</title>
+
+</head>
+<body>
+	<input type="search" class="light-table-filter" data-table="order-table" placeholder="Filter">
+	<table border="1" class="order-table table">
+		<thead>
+			<th>No.</th>
+			<th class="table-filterable">UDI</th>
+			<th class="table-filterable">Nombre</th>
+			<th class="table-filterable">Proceso</th>
+			<th>Longitud</th>
+			<th>Latitud</th>
+		</thead>
+		<?php
+		foreach ($arraySalida as $key => $registro) {
+			echo "<tr><td>".$key."</td><td>".$registro['udi']."</td><td>".$registro['nombre']."</td><td>".($registro['proceso'] ? 'Inciciado' : 'Sin iniciar')."</td><td>".$registro['mapa']['long']."</td><td>".$registro['mapa']['lat']."</td></tr>
+			";
+		}
+		?>
+	</table>
+</body>
+
+<script>
+	(function(document) {
+	'use strict';
+
+	var LightTableFilter = (function(Arr) {
+
+		var _input;
+
+		function _onInputEvent(e) {
+			_input = e.target;
+			var tables = document.getElementsByClassName(_input.getAttribute('data-table'));
+			Arr.forEach.call(tables, function(table) {
+				Arr.forEach.call(table.tBodies, function(tbody) {
+					Arr.forEach.call(tbody.rows, _filter);
+				});
+			});
+		}
+
+		function _filter(row) {
+			var text = row.textContent.toLowerCase(), val = _input.value.toLowerCase();
+			row.style.display = text.indexOf(val) === -1 ? 'none' : 'table-row';
+		}
+
+		return {
+			init: function() {
+				var inputs = document.getElementsByClassName('light-table-filter');
+				Arr.forEach.call(inputs, function(input) {
+					input.oninput = _onInputEvent;
+				});
+			}
+		};
+	})(Array.prototype);
+
+	document.addEventListener('readystatechange', function() {
+		if (document.readyState === 'complete') {
+			LightTableFilter.init();
+		}
+	});
+
+	})(document);
+</script>
+</html>

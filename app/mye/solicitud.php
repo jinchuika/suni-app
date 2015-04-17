@@ -41,7 +41,7 @@ $gn_proyecto = new gn_proyecto($bd, $sesion);
                     <div class="control-group">
                         <label class="control-label" for="me_estado">Estado del proceso</label>
                         <div class="controls">
-                            <select id="me_estado" name="me_estado" class="input-large span12">
+                            <select id="me_estado" name="me_estado" class="span12">
                                 <option></option>
                                 <?php
                                 $lista_estados = $me_estado->listar_estado();

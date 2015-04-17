@@ -103,7 +103,7 @@ Class Database{
         $arrResultado = array();
         $stmt = $this->ejecutar($query, $debug);
         if($stmt!=false){
-            while ($resultado = mysqli_fetch_array($stmt, MYSQLI_ASSOC)) {
+            while ($resultado = $this->obtener_fila($stmt, $fila)) {
                 array_push($arrResultado, $resultado);
             }
         }

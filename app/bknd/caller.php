@@ -31,6 +31,7 @@ if(class_exists($ctrlNombre)){
      */
     $resultado = $caller->ejecutarAccion($accionNombre, $args);
     
+
     echo json_encode($resultado);
 }
 else{

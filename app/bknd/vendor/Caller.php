@@ -42,7 +42,7 @@ class Caller
             else{
                 $resultado = $this->controlador->$accionNombre();
             }
-            $resultado['state'] = true;
+            //$resultado['state'] = true;
             return $resultado;
         }
         return array('state'=>false);        
