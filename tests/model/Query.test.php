@@ -16,7 +16,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 	public function testSelect()
 	{
-		$arrFiltros = array('id' => 2, 'nombre'=>'Juan');
+		$arrFiltros = array('id' => 2, 'nombre'=>'Juan', 'fecha[>]'=>'2015-12-12');
 		$query = Query::armarSelect('tabla', 'campo 1, campo2', $arrFiltros);
 		$this->assertNotNull($query);
 		echo $query;

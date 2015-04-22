@@ -27,6 +27,7 @@ class CtrlInfTpeMapa extends Controller
     public function crearCoordenada($id_escuela, $lat, $lng)
     {
         $gn_coordenada = new GnCoordenada();
+        $gn_escuela = new GnEscuela();
 
         $coordenada = $gn_coordenada->crearCoordenada($lat, $lng);
         if(!empty($coordenada)){
@@ -66,7 +67,7 @@ class CtrlInfTpeMapa extends Controller
 
         $equipamiento = $me_equipamiento->abrirEquipamiento(array('id_proceso'=>$id_proceso), 'id');
 
-        if($equipamiento){
+        if(!empty($equipamiento)){
             $datosNuevos = array('id_proceso'=>$id_proceso, 'fecha'=>$fecha, 'id_entrega' => $id_entrega);
             $me_equipamiento->editarEquipamiento($datosNuevos, array('id'=>$equipamiento['id']));
             return $equipamiento['id'];
@@ -117,10 +118,14 @@ class CtrlInfTpeMapa extends Controller
         return $respuesta;
     }
 
-    public function listarEscuelasEquipadas($estado=5, $campos='*')
+    public function listarEscuelasEquipadas($estado=5, $campos='*', $fecha_inicio='', $fecha_fin='')
     {
-        $gn_proceso = new GnProceso();
-        return $gn_proceso->crearInformeProceso(array('id_estado'=>$estado), $campos);
+        $me_equipamiento = new MeEquipamiento();
+        $arrFiltros = array('id_estado'=>$estado, 'me_equipamiento.fecha[>=]'=>$fecha_inicio);
+        if(!empty($fecha_fin)){
+            $arrFiltros['me_equipamiento.fecha[<=]'] = $fecha_fin;
+        }
+        return $me_equipamiento->crearInformeCapacitadas($arrFiltros, $campos);
     }
 
     public function abrirInformeProceso($id_proceso, $campos='*')

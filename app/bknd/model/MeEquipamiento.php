@@ -42,5 +42,13 @@ class MeEquipamiento extends Model
 		$equipamiento = $this->abrirFila($campos, $arr_filtros);
 		return $equipamiento ? $equipamiento : false;
 	}
+
+	public function crearInformeCapacitadas(Array $arr_filtros = null, $campos = '*')
+	{
+		$query = 'select '.$campos.' from v_informe_gn_proceso as v
+		left outer join me_equipamiento on me_equipamiento.id_proceso=v.id_proceso ';
+		$query .= $this->armarFiltros($arr_filtros);
+		return $this->bd->getResultado($query);
+	}
 }
 ?>

@@ -34,3 +34,8 @@ function input_rango_fechas (input_inicio, input_fin) {
 		input_fecha_fin.hide();
 	}).data('datepicker');
 }
+
+function formatear_fecha(time) {
+    var r = time.match(/^\s*([0-9]+)\s*\/\s*([0-9]+)\s*\/\s*([0-9]+)(.*)$/);
+    return r ? r[3]+"-"+r[2]+"-"+r[1] : '';
+}

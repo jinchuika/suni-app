@@ -12,7 +12,8 @@
 		<div class="col-md-1">
 			<button onclick="iniciarProceso();">Actualizar información!</button><br>
 			<button onclick="pruebaCtrl();">Prueba</button><br>
-			<button onclick="listarProcesos();">Listar desde DB</button>
+			<button onclick="listarProcesos();">Listar desde DB</button><br>
+			<p id="texto" value="0">0</p>/<p id="texto2"></p>
 		</div>
 		<div class="col-md-10">
 			<div  style="height: 700px; overflow-y: scroll;">
@@ -26,6 +27,7 @@
 <script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script>
+	var arrInvalid = new Array();
 	function appendEscuela (escuela, fecha) {
 		var texto = '<tr>';
 		$.each(escuela, function (index, item) {
@@ -34,6 +36,11 @@
 		texto += '<td>'+fecha+'</td>';
 		texto += '</tr>';
 		$('#tabla').append(texto);
+		if(escuela['nombre'] == 'No se encontró'){
+			arrInvalid.push(escuela.udi);
+		}
+		var value = parseInt($('#texto').html());
+		$('#texto').text(value + 1);
 	}
 	
 	function cargarDatosEscuela (udi, fecha, id_entrega) {
@@ -47,11 +54,13 @@
 			dataType: 'json',
 			success: function (respuesta) {
 				appendEscuela(respuesta, fecha);
+
 			}
 		});
 	}
 
 	function llamarEscuelas (array) {
+		$('#texto2').text(array.length);
 		$.each(array, function (index, item) {
 			cargarDatosEscuela(item.udi, item.fecha, item.id_entrega);
 		});
@@ -65,6 +74,7 @@
 		$.getJSON('mapa.json')
 		.done(function (respuesta) {
 			llamarEscuelas(respuesta)
+			console.log(arrInvalid);
 		});
 	}
 
@@ -82,6 +92,7 @@
 				appendEscuela(item);
 			});
 		});
+		console.log(arrInvalid);
 	}
 
 	function pruebaCtrl () {
