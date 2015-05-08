@@ -44,6 +44,11 @@ class CtrlInfTpeMapa extends Controller
         return 'Editado';
     }
 
+    /**
+     * Crea un nuevo proceso de equipamiento
+     * @param  string $id_escuela El ID de la escuela para el proceso
+     * @return integer             El ID del nuevo proceso
+     */
     public function crearProceso($id_escuela)
     {
         $gn_proceso = new GnProceso();
@@ -61,6 +66,13 @@ class CtrlInfTpeMapa extends Controller
         }
     }
 
+    /**
+     * Crea un nuevo registro de equipamiento
+     * @param  integer $id_proceso ID del proceso que se equipa
+     * @param  string $fecha      La fecha de la entrega
+     * @param  integer $id_entrega El número de entrega
+     * @return integer             El ID del nuevo equipamiento
+     */
     public function crearEquipamiento($id_proceso, $fecha, $id_entrega)
     {
         $me_equipamiento = new MeEquipamiento();

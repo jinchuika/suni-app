@@ -103,7 +103,7 @@ Class Database{
         $arrResultado = array();
         $stmt = $this->ejecutar($query, $debug);
         if($stmt!=false){
-            while ($resultado = $this->obtener_fila($stmt, $fila)) {
+            while ($resultado = $this->obtener_fila($stmt)) {
                 array_push($arrResultado, $resultado);
             }
         }

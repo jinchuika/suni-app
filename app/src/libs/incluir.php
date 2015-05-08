@@ -126,7 +126,7 @@ class librerias
                 break;
             case 'timeline':
                 $this->imprimir("js", "js/framework/timeline/timeline-min.js");
-                $this->imprimir("js", "js/framework/timeline/timeline-locales.js");
+                //$this->imprimir("js", "js/framework/timeline/timeline-locales.js");
                 $this->imprimir("css", "js/framework/timeline/timeline.css");
                 break;
             case 'notify':

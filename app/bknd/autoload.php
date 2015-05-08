@@ -35,7 +35,7 @@ class Autoloader
         $ruta = '';
         $nivel_ejecucion = $this->nivel_actual - $this->nivel_entrada;
         for ($i=0; $i < $nivel_ejecucion; $i++) { 
-            $ruta .= '..'.'/';
+            $ruta .= '../';
         }
         return $ruta;
     }

@@ -293,7 +293,7 @@ $("#formulario_grupo").submit(function () {
 			},
 			success: function(data) { 
 				var data = $.parseJSON(data);
-				if(data.state && data.done ){
+				if(data.done ){
 					bootbox.alert('Creado exitosamente', function () {
 						window.location=nivel_entrada+"app/cap/grp/buscar.php?id_grupo="+data["id"];
 					});

@@ -51,7 +51,7 @@ class GnGrupo extends Model
 	 * @param  string $descripcion descripción del nuevo grupo
 	 * @return integer|boolean              El ID del nuevo grupo | Si falló la creación
 	 */
-	public function crearGrupo($id_sede, $id_curso, $numero, $descripcion='')
+	public function crearGrupo($id_sede, $id_curso, $numero, $descripcion='', $id_capacitador='')
 	{
 		$existeGrupo = $this->esGrupoRepetido($id_sede, $id_curso, $numero);
 		if($existeGrupo){
@@ -61,7 +61,8 @@ class GnGrupo extends Model
 			'id_sede'=>$id_sede,
 			'id_curso'=>$id_curso,
 			'numero'=>$numero,
-			'descripcion'=>$descripcion));
+			'descripcion'=>$descripcion,
+			'id_capacitador'=>$id_capacitador));
 		$grupoNuevo = $this->bd->ejecutar($query, true);
 		if($grupoNuevo){
 			return $this->bd->lastID();

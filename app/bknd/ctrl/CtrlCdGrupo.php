@@ -18,8 +18,11 @@ class CtrlCdGrupo
 		$gn_grupo = new GnGrupo();
 		$gn_curso = new GnCurso();
 		$gr_calendario = new GrCalendario();
+		$gn_sede = new GnSede();
 
-		$nuevoGrupo = $gn_grupo->crearGrupo($idSede, $idCurso, $numGrupo, $descripcion);
+		$sede = $gn_sede->abrirSede(array('id'=>$idSede), 'capacitador');
+
+		$nuevoGrupo = $gn_grupo->crearGrupo($idSede, $idCurso, $numGrupo, $descripcion, $sede['capacitador']);
 		if(!$nuevoGrupo)
 			return array('msj'=>'repetido');
 		$modulos = $gn_curso->listarModulos($idCurso);
