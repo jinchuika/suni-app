@@ -99,7 +99,6 @@ class ExternalLibs extends Autoloader
     public function addDefault($id_per=0)
     {
         $arrGeneral = array('id'=>'js_general', 'id_per'=>$id_per, 'nivel'=>$this->ruta_entrada);
-        $this->addExternal('jquery');
         $this->addExternal('bootstrap');
         $this->addExternal('meta');
 

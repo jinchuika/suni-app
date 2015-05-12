@@ -4,8 +4,6 @@ include '../bknd/autoload.php';
 $nivel_dir = 2;
 $libs = new librerias($nivel_dir);
 
-
-
 $gn_escuela = new CtrlEscPerfil();
 $escuela = $gn_escuela->abrirDatosEscuela($_GET);
 
@@ -14,6 +12,7 @@ $libs->incluir('mapa');
 
 $external = new ExternalLibs();
 $external->addDefault($sesion->get('id'));
+$external->add('js', 'app/src/js-libs/esc_contacto.js');
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -21,8 +20,7 @@ $external->addDefault($sesion->get('id'));
     <meta charset="UTF-8">
     <?php
     echo $external->imprimir('css');
-    $libs->incluir('bs-editable');
-    
+    //$libs->incluir('bs-editable');
     ?>
     <meta charset="UTF-8">
     <title><?php echo $escuela['nombre']; ?></title>
@@ -96,7 +94,7 @@ $external->addDefault($sesion->get('id'));
                                                 <label class="control-label" for="inp_nombre_cnt">Nombre</label>
                                                 <div class="controls">
                                                     <input id="inp_nombre_cnt" name="inp_nombre_cnt" type="text" placeholder="" class="input-large" required="">
-                                                    <input id="inp_id_escuela_cnt" name="inp_id_escuela_cnt" type="hidden" value="<?php echo $escuela['id']; ?>" placeholder="" class="input-large" required="">
+                                                    <input id="inp_id_escuela_cnt" name="inp_id_escuela_cnt" type="hidden" value="<?php echo $escuela['id_escuela']; ?>" placeholder="" class="input-large" required="">
                                                 </div>
                                             </div>
                                             <div class="control-group">
@@ -135,7 +133,7 @@ $external->addDefault($sesion->get('id'));
 
                                         </fieldset>
                                     </form>
-                                    <p class="text-right"><button class="btn btn-primary" onclick="nuevo_contacto(1, 'form_contacto');">Nuevo</button> <button class="btn btn-info" onclick="listar_contacto_escuela(<?php echo $escuela['id'];?>, 'lista_contacto');"><i class="icon-refresh"></i></button></p>
+                                    <p class="text-right"><button class="btn btn-primary" onclick="nuevo_contacto(1, 'form_contacto');">Nuevo</button> <button class="btn btn-info" onclick="listar_contacto_escuela(<?php echo $escuela['id_escuela'];?>, 'lista_contacto');"><i class="icon-refresh"></i></button></p>
                                     <ul id="lista_contacto" class="unstyled">
                                     </ul>
                                 </div>
@@ -174,7 +172,7 @@ $external->addDefault($sesion->get('id'));
                                                 </td>
                                             </tr>
                                         </table>
-                                        <legend>Participante <button class="btn btn-primary" onclick="listar_participantes_escuela(<?php echo $escuela['id']; ?>,'t_participante');">Abrir</button><button class="btn btn-danger" onclick="$('#t_participante').find('tr:gt(0)').remove();">Cerrar</button></legend>
+                                        <legend>Participante <button class="btn btn-primary" onclick="listar_participantes_escuela(<?php echo $escuela['id_escuela']; ?>,'t_participante');">Abrir</button><button class="btn btn-danger" onclick="$('#t_participante').find('tr:gt(0)').remove();">Cerrar</button></legend>
                                         <table id="t_participante" class="table table-hover hide">
                                             <thead>
                                                 <tr>
@@ -207,6 +205,65 @@ $external->addDefault($sesion->get('id'));
 </body>
 <?php
 echo $external->imprimir('js');
-$libs->incluir('js-lib', 'esc_contacto.js');
 ?>
+<script>
+    var modal_c = modal_carga_gn();
+    modal_c.crear();
+    /**
+     * Crea un listado de participantes para la escuela
+     * @param  {int} id_escuela     ID de la escuela para listar
+     * @param  {string} objetivo    el ID de la TABLA donde se crea el listado
+     */
+     function listar_participantes_escuela (id_escuela, objetivo) {
+        $('#'+objetivo).hide();
+        modal_c.mostrar();
+        $("#"+objetivo).find("tr:gt(0)").remove();
+        $.getJSON( nivel_entrada+'app/src/libs_gen/gn_escuela.php', {
+            fn_nombre: 'listar_participante',
+            args: JSON.stringify({id:id_escuela})
+        })
+        .done(function (resp) {
+            $.each(resp, function (index, item) {
+                $('#'+objetivo).append('<tr><td>'+(index+1)+'</td><td>'+item.nombre+'</td><td>'+item.apellido+'</td><td>'+item.genero+'</td></tr>');
+            });
+            $('#'+objetivo).show();
+            modal_c.ocultar();
+        });
+     }
+     $(document).ready(function () {
+        $('.editable_gen').editable({
+            pk: <?php echo $escuela['id_escuela'];?>,
+            mode: 'inline'
+        });
+        listar_contacto_escuela(<?php echo $escuela['id_escuela'];?>, 'lista_contacto');
+        $('.editable_cyd').editable({
+            pk: <?php echo $escuela['id_escuela'];?>,
+            mode: 'inline'
+        });
+        activar_form_contacto('form_contacto');
+        $("#link_mapa").click(function () {
+            bootbox.prompt("Ingrese la latitud (Lat)", function(result) {
+                var temp_result = result;
+                bootbox.prompt("Ingrese la longitud (Lng)", function (result) {
+                    if(result){
+                        $.ajax({
+                            type: "post",
+                            <?php                           if($escuela["mapa"]!=="0"){
+                                echo 'url: "../../app/src/libs/editar_escuela.php?mapa=1",';    //Para modificar
+                            }
+                            else{
+                                echo 'url: "../../app/src/libs/editar_escuela.php?mapa=2",';    //Para crear uno nuevo
+                            }
+                            echo 'data: {lat: temp_result, lng: result, id_escuela: '.$escuela['id_escuela'].' },';
+                            ?>
+                            success: function () {
+                                location.reload();
+                            }
+                        });
+                    }
+                });
+            });
+        });
+     });
+</script>
 </html>
