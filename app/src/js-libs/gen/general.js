@@ -240,3 +240,31 @@ General.prototype.makeUrl = function(action, notExecute) {
   url += (notExecute ? '' : '?fn_nombre='+action);
   return url;
 };
+
+/**
+ * Devuelve un array de objetos que coinciden
+ * @param  {Object|Array} obj [description]
+ * @param  {string} key El identificador a buscar
+ * @param  {string|integer} val el valor a buscar
+ * @return {Object}     El objeto con array de respuestas
+ */
+function getObjects(obj, key, val) {
+    var objects = [];
+    for (var i in obj) {
+        if (!obj.hasOwnProperty(i)) continue;
+        if (typeof obj[i] == 'object') {
+            objects = objects.concat(getObjects(obj[i], key, val));    
+        }
+        else{
+            if (i == key && obj[i] == val || i == key && val == '') { //
+                objects.push(obj);
+            } else if (obj[i] == val && key == ''){
+                //only add if the object is not already in the array
+                if (objects.lastIndexOf(obj) == -1){
+                    objects.push(obj);
+                }
+            }
+        } 
+    }
+    return objects;
+}

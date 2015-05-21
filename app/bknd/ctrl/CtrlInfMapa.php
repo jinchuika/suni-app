@@ -78,5 +78,33 @@ class CtrlInfMapa extends Controller
 
         return $respuesta;
     }
+
+    /**
+     * Lista las escuelas usando V_InformeMapa
+     * @param  Array|null $arr_filtros Los filtros para las escuelas
+     * @return Array
+     */
+    public function listarEscuelas(Array $arr_filtros = null)
+    {
+        $v_mapa = new V_InformeMapa();
+        return $v_mapa->listarEscuelas($arr_filtros);
+    }
+
+    public function listarDepartamento()
+    {
+        $gn_departamento = new GnDepartamento();
+        return $gn_departamento->listarDepartamento();
+    }
+
+    public function listarMunicipio(Array $arr_filtros = null)
+    {
+        $gn_municipio = new GnMunicipio();
+        return $gn_municipio->listarMunicipio($arr_filtros);
+    }
+
+    public function listarGeografia()
+    {
+        return array('arr_departamento'=>$this->listarDepartamento(), 'arr_municipio'=>$this->listarMunicipio());
+    }
 }
 ?>

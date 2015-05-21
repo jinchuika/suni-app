@@ -20,12 +20,12 @@ $external->add('js', 'app/src/js-libs/esc_contacto.js');
     <meta charset="UTF-8">
     <?php
     echo $external->imprimir('css');
-    //$libs->incluir('bs-editable');
     ?>
     <meta charset="UTF-8">
     <title><?php echo $escuela['nombre']; ?></title>
 </head>
 <body>
+    <?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
     <header id="overview" class="jumbotron subhead well">
         <div class="container">
             <h1><a href="#" class="editable_gen" data-type="text" data-name="nombre" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nombre"><?php echo $escuela['nombre']; ?></a></h1>

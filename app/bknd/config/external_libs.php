@@ -3,7 +3,7 @@
 $arrExternalLibs = array(
 	'bootstrap' => array(
 		array('tipo'=>'css', 'archivo'=>'css/libs/bs.min.css', 'esExterno'=>false),
-		array('tipo'=>'css', 'archivo'=>'css/libs/font-awesome.css', 'esExterno'=>false),
+		array('tipo'=>'css', 'archivo'=>'css/font-awesome/css/font-awesome.css', 'esExterno'=>false),
 		array('tipo'=>'js', 'archivo'=>'js/libs/bs.min.js', 'esExterno'=>false)
 		),
 	'bs-editable' => array(
@@ -22,6 +22,9 @@ $arrExternalLibs = array(
 	'defecto' => array(
 		array('tipo'=>'js', 'archivo'=>'jquery', 'esExterno'=>false),
 		array('tipo'=>'js', 'archivo'=>'bootsrap', 'esExterno'=>false)
+		),
+	'google-maps' => array(
+		array('tipo'=>'js', 'archivo'=>'http://maps.googleapis.com/maps/api/js?key=AIzaSyBMJ00p08TB-mod3SUigOxIAZGu1-gJSb0&sensor=false', 'esExterno'=>true),
 		)
 	);
 ?>

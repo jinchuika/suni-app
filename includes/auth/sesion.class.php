@@ -8,7 +8,7 @@ class sesion {
 	private static $instance;
 	public $arr_permiso;
 	private function __construct($id_usr=null) {
-        session_set_cookie_params(4000);
+        session_set_cookie_params(9000);
 		session_start ();
 		if($id_usr){
 			$this->id_usr = $id_usr;

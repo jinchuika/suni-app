@@ -129,7 +129,7 @@ $bd = $libs->incluir('bd');
 	.data( "item.autocomplete", item )
 	.append( function () {
 		if(item.value!=0){	
-			return "<td width=\"80%\"><a href=\"http://funsepa.net/suni/app/esc/escuela.php?id_escuela="+item.value+"\"><strong>" + item.label + "</strong><br /><small>" + item.logo + "</small></td><td><div class=\"label label-info\">" +item.desc+ "</div> <i class='icon-copy' onclick='seleccionar_texto(\""+item.desc+"\");'></i></a></td>"; 
+			return "<td width=\"80%\"><a href=\""+nivel_entrada+"app/esc/escuela.php?id_escuela="+item.value+"\"><strong>" + item.label + "</strong><br /><small>" + item.logo + "</small></td><td><div class=\"label label-info\">" +item.desc+ "</div> <i class='icon-copy' onclick='seleccionar_texto(\""+item.desc+"\");'></i></a></td>"; 
 		}
 		else{
 			return "<td width=\"80%\"><strong>" + item.label + "</strong></td><td><div class=\"label label-info\">" +item.desc+ "</div></td>"; 
