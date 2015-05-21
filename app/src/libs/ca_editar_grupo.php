@@ -29,11 +29,11 @@ $query_calendario = "SELECT * FROM gr_calendario WHERE id_grupo= '$nuevo_id_grup
 $stmt_calendario = $bd->ejecutar($query_calendario);
 $calendario_nuevo = $bd->obtener_fila($stmt_calendario, 0);
 
-echo "\n cal: ".$calendario_nuevo[0];
 
 $query_nota = "UPDATE gn_nota SET id_gr_calendario='".$calendario_nuevo[0]."' WHERE (id_asignacion='$id_asignacion' AND id_gr_calendario='".$calendario_viejo[0]."')";
+
 if($nota = $bd->ejecutar($query_nota)){
-	echo "Funcionó!";
+	echo "ok";
 }
 else{
 	echo $calendario[0]."\n";

@@ -74,7 +74,6 @@ echo $external->imprimir('js');
 
     function listarMunicipio (id_departamento) {
         $('#control-muni').html('<option value="">Municipio</option>');
-        //var temp_arr_municipio = id_departamento ? getObjects(arr_municipio, 'id_departamento', id_departamento) : arr_municipio;
         var temp_arr_municipio = getObjects(arr_municipio, 'id_departamento', id_departamento);
         for (var i = 0; i < temp_arr_municipio.length; i++) {
             $('#control-muni').append('<option value="'+temp_arr_municipio[i]['id']+'">'+temp_arr_municipio[i]['nombre']+'</option>');
@@ -96,15 +95,13 @@ echo $external->imprimir('js');
 
     function crearMarcador (lat, lng) {
         marker = new google.maps.Marker({
-            position: new google.maps.LatLng(lat, lng),
-            map: __map,
+            position: new google.maps.LatLng(lat, lng)
         });
-        //google.maps.event.addListener(marker, 'click', function() {window.open(nivel_entrada+'app/esc/perfil.php?id='+id_escuela)});
         return marker;
     }
 
-    function crearTexto (marker, udi, t_municipio, t_departamento, id_estado, participante) {
-        var desc = udi+'<br />'+t_municipio+'<br />'+t_departamento+'<br />';
+    function crearTexto (marker, nombre, t_municipio, t_departamento, id_estado, participante) {
+        var desc = nombre+'<br />'+t_municipio+'<br />'+t_departamento+'<br />';
         desc += id_estado==5 ? '<b>Equipada</b><br />': '';
         desc += participante>0 ? '<b>Capacitada:</b> '+participante+' participantes': '';
         var info_window = new google.maps.InfoWindow({content: desc});
@@ -156,17 +153,17 @@ echo $external->imprimir('js');
                 var t_municipio = getObjects(arr_municipio, 'id', arr_escuela[i]['id_municipio']);
                 var t_departamento = getObjects(arr_departamento, 'id_depto', arr_escuela[i]['id_departamento']);
                 var marcador = crearMarcador(arr_escuela[i]['lat'], arr_escuela[i]['lng']);
-                crearTexto(marcador, arr_escuela[i]['udi'], t_municipio[0]['nombre'], t_departamento[0]['nombre'], arr_escuela[i]['id_estado'], arr_escuela[i]['participante']);
+                crearTexto(marcador, arr_escuela[i]['nombre'], t_municipio[0]['nombre'], t_departamento[0]['nombre'], arr_escuela[i]['id_estado'], arr_escuela[i]['participante']);
 
                 arr_escuela[i]['marcador'] = (marcador);
             };
+            setAllMap();
         });
     }
 
     $(document).ready(function () {
         initialize();
         cargarGeografia();
-        //cargar_escuelas();
     });
 </script>
 </html>
