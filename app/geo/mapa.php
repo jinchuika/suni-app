@@ -39,11 +39,18 @@ echo $external->imprimir('js');
     var arr_departamento = new Array();
 
     function crearFormulario () {
-        var option;
         var controlDiv = document.createElement('div');
         controlDiv.style.backgroundColor = '#fff';
         controlDiv.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
-        controlDiv.style.marginTop = '22px';
+        controlDiv.id = 'control-div';
+
+        var controlHide = document.createElement('div');
+        controlHide.style.backgroundColor = '#fff';
+        controlHide.style.border = '2px solid #fff';
+        controlHide.style.boxShadow = '0 2px 6px rgba(0,0,0,.3)';
+        controlHide.style.float = 'left';
+        controlHide.style.textAlign = 'center';
+        controlHide.innerHTML = '<i class="icon-expand"></i>';
 
         var controlDepto = document.createElement('select');
         controlDepto.id = 'control-depto';
@@ -57,7 +64,8 @@ echo $external->imprimir('js');
         controlDiv.appendChild(controlMuni);
         controlDiv.appendChild(controlLabel);
         controlDiv.index = 1;
-        __map.controls[google.maps.ControlPosition.TOP_RIGHT].push(controlDiv);
+        __map.controls[google.maps.ControlPosition.TOP_LEFT].push(controlDiv);
+        __map.controls[google.maps.ControlPosition.TOP_LEFT].push(controlHide);
         listarDepartamento();
     }
 
@@ -87,8 +95,14 @@ echo $external->imprimir('js');
     function initialize() {
         var mapOptions = {
             center: new google.maps.LatLng(15.4338069,-90.4635312),
-            zoom: 8,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
+            zoom: 7,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            disableDefaultUI: true,
+            zoomControl: true,
+            zoomControlOptions: {
+                style: google.maps.ZoomControlStyle.SMALL,
+                position: google.maps.ControlPosition.RIGHT_BOTTOM
+            }
         };
         __map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
     }
@@ -113,11 +127,15 @@ echo $external->imprimir('js');
     function setAllMap(id_departamento, id_municipio) {
         var cuenta = 0, cuenta_vacia=0;
         $.each(arr_escuela, function (index, escuela) {
-            if(!(id_departamento) || (id_departamento==escuela['id_departamento'] && (id_municipio==escuela['id_municipio'] || !(id_municipio)))){
+            if(
+                (!(id_departamento) && !(id_municipio)) ||
+                (!(id_departamento) && id_municipio==escuela['id_municipio']) ||
+                (id_departamento==escuela['id_departamento'] && !(id_municipio)) ||
+                (id_departamento==escuela['id_departamento'] && id_municipio==escuela['id_municipio'])
+                ){
                 if(escuela['marcador'].getPosition().toString()!='(0, 0)'){
                     escuela['marcador'].setMap(__map);
                     cuenta++;
-                    console.log(escuela['marcador'].getPosition().toString());
                 }
                 cuenta_vacia++;
             }
