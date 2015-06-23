@@ -1,0 +1,711 @@
+diff --git a/app/bknd/auth/Login.php b/app/bknd/auth/Login.php
+index 3928219..5954f65 100644
+--- a/app/bknd/auth/Login.php
++++ b/app/bknd/auth/Login.php
+@@ -4,11 +4,64 @@
+  */
+ class Login
+ {
+-	public function isValid($username, $password)
++	/**
++	 * Recibe los datos para iniciar sesion
++	 * @param  string
++	 * @param  string
++	 * @param  string
++	 * @return boolean
++	 */
++	public static function iniciarSesion($username, $password, $mail='')
+ 	{
+-		$usr = new Usr();
+-		$user_login = $usr->abrirUsuario(array('id_usr'=>$username, 'pass'=>$password));
++		if(self::isValid($username, $password)){
++			self::setSession(self::buscarUsuario(array('id_usr'=>$username), '*'));
++			return true;
++		}
++		else{
++			return false;
++		}
++	}
++
++	public static function isValid($username, $password)
++	{
++		$user_login = self::buscarUsuario(array('id_usr'=>$username, 'pass'=>$password));
+ 		return $user_login ? true : false;
+ 	}
++
++	public static function buscarUsuario(Array $arr_filtros, $campos='id_usr')
++	{
++		$usr = new Usr();
++		$user_login = $usr->abrirUsuario($arr_filtros, $campos);
++		return $user_login;
++	}
++
++	public static function setSession($usuario)
++	{
++		Session::crearSesion();
++		$gn_persona = new GnPersona();
++		$persona = $gn_persona->abrirPersona(array('id'=>$usuario['id_persona']));
++
++		Session::set('usuario',$usuario['id_usr']);
++		Session::set('nombre',$persona['nombre']);
++		Session::set('apellido',$persona['apellido']);
++		Session::set('mail',$persona['mail']);
++		Session::set('id_usr',$usuario['id_persona']);
++		Session::set('rol',$usuario['rol']);
++		Session::set('id_per',$usuario['id_persona']);
++		Session::set('avatar', $persona['avatar']);
++	}
++
++	public static function redirect()
++	{
++		$cadena = '';
++
++		if(isset($_SERVER['PHP_SELF'])){
++            $nivel_actual = substr_count($_SERVER['PHP_SELF'], '/');
++            for ($i=0; $i < ($nivel_actual-1); $i++) { 
++            	$cadena .= '../';
++            }
++        }
++        return $cadena;
++	}
+ }
+ ?>
+\ No newline at end of file
+diff --git a/app/bknd/autoload.php b/app/bknd/autoload.php
+index 638daff..387f9d0 100644
+--- a/app/bknd/autoload.php
++++ b/app/bknd/autoload.php
+@@ -52,6 +52,6 @@ class Autoloader
+         }
+     }
+ }
+-$autoload = new Autoloader($AUTOLOAD_LVL);
+-spl_autoload_register(array($autoload, 'autoload_class'));
++$currentLoader = new Autoloader($AUTOLOAD_LVL);
++spl_autoload_register(array($currentLoader, 'autoload_class'));
+ ?>
+\ No newline at end of file
+diff --git a/app/bknd/config/external_libs.php b/app/bknd/config/external_libs.php
+index 3cba728..2b6f368 100644
+--- a/app/bknd/config/external_libs.php
++++ b/app/bknd/config/external_libs.php
+@@ -25,6 +25,11 @@ $arrExternalLibs = array(
+ 		),
+ 	'google-maps' => array(
+ 		array('tipo'=>'js', 'archivo'=>'http://maps.googleapis.com/maps/api/js?key=AIzaSyBMJ00p08TB-mod3SUigOxIAZGu1-gJSb0&sensor=false', 'esExterno'=>true),
+-		)
++		),
++	'general-listar' => array(
++		array('tipo'=>'js', 'archivo'=>'app/src/js-libs/gen/general_listar.js', 'esExterno'=>false),
++		array('tipo'=>'js', 'archivo'=>'js/framework/filtro_lista.js', 'esExterno'=>false),
++		array('tipo'=>'css', 'archivo'=>'css/lista_filtrada.css', 'esExterno'=>false)
++		),
+ 	);
+ ?>
+\ No newline at end of file
+diff --git a/app/bknd/ctrl/CtrlEscPerfil.php b/app/bknd/ctrl/CtrlEscPerfil.php
+index 6ccd34e..ec9d6a8 100644
+--- a/app/bknd/ctrl/CtrlEscPerfil.php
++++ b/app/bknd/ctrl/CtrlEscPerfil.php
+@@ -19,6 +19,7 @@ class CtrlEscPerfil extends Controller
+             if($escuela['proceso']['id_equipamiento']){
+                 $escuela['equipamiento'] = $this->abrirEquipamientoEscuela($escuela['proceso']['id_equipamiento']);
+             }
++            $escuela['arr_supervisor'] = $this->abrirSupervisor($escuela['distrito']);
+         }
+         return $escuela ? $escuela : false;
+     }
+@@ -41,5 +42,12 @@ class CtrlEscPerfil extends Controller
+         $me_equipamiento = new MeEquipamiento();
+         return $me_equipamiento->abrirEquipamiento(array('id'=>$id_equipamiento));
+     }
++
++    public function abrirSupervisor($id_distrito)
++    {
++        $esc_supervisor = new EscSupervisor();
++        $campos = 'id, concat(nombre, " ", apellido) as nombre, mail, tel_movil, tel_casa';
++        return $esc_supervisor->listarSupervisor($id_distrito, $campos);
++    }
+ }
+ ?>
+\ No newline at end of file
+diff --git a/app/bknd/libs/ExternalLibs.php b/app/bknd/libs/ExternalLibs.php
+index 633f79b..ac15f6d 100644
+--- a/app/bknd/libs/ExternalLibs.php
++++ b/app/bknd/libs/ExternalLibs.php
+@@ -103,6 +103,7 @@ class ExternalLibs extends Autoloader
+         $this->addExternal('meta');
+ 
+         $this->add('js', 'app/src/js-libs/gen/general.js', $arrGeneral);
++        $this->addExternal('general-listar');
+     }
+ 
+     /**
+diff --git a/app/bknd/libs/StdFW.php b/app/bknd/libs/StdFW.php
+index 5302382..b62a53b 100644
+--- a/app/bknd/libs/StdFW.php
++++ b/app/bknd/libs/StdFW.php
+@@ -14,5 +14,19 @@ class StdFW
+ 		$keys = array_keys($array);
+     	return array_keys($keys) !== $keys;
+ 	}
++
++	/**
++	 * Desvuelve una de las variables globales desde bknd/config/global_vars.php
++	 */
++	public static function getGlobalVar($name, $key='')
++	{
++		include_once dirname(__FILE__).'../config/global_vars.php';
++		if(isset($arrGlobals[$name]) || isset($arrGlobals[$name[$key]])){
++			return empty($key) ? $arrGlobals[$name] : $arrGlobals[$name[$key]];
++		}
++		else{
++			return null;
++		}
++	}
+ }
+ ?>
+\ No newline at end of file
+diff --git a/app/bknd/model/GnEscuela.php b/app/bknd/model/GnEscuela.php
+index 24c2e0b..5b46c65 100644
+--- a/app/bknd/model/GnEscuela.php
++++ b/app/bknd/model/GnEscuela.php
+@@ -14,8 +14,15 @@ class GnEscuela extends Model
+      */
+     public function abrirEscuela(Array $arr_filtros = null, $campos = '*')
+     {
+-        $escuela = $this->abrirFila($campos, $arr_filtros);
+-        return $escuela ? $escuela : false;
++        $query = $this->armarSelect($this->tabla, $campos, $arr_filtros);
++        $escuela = $this->bd->getResultado($query);
++
++        if(count($escuela) == 1){
++            return $escuela[0];
++        }
++        else{
++            return $escuela ? $escuela : false;
++        }
+     }
+ 
+     /**
+@@ -63,6 +70,11 @@ class GnEscuela extends Model
+         return $this->bd->getResultado($query);
+     }
+ 
++    /**
++     * Lista los participantes de una escuela usando la vista v_escuela_partipante
++     * @param  integer $id_escuela El id de la escuela que se necesita
++     * @return Array
++     */
+     public function abrirParticipantesEscuela($id_escuela)
+     {
+         $query = $this->armarSelect('v_escuela_participante', '*', array('id_escuela'=>$id_escuela));
+diff --git a/app/bknd/model/Query.php b/app/bknd/model/Query.php
+index de2e273..36045f7 100644
+--- a/app/bknd/model/Query.php
++++ b/app/bknd/model/Query.php
+@@ -59,12 +59,11 @@ abstract class Query
+     }
+ 
+     /**
+-     * Prepara un insert para ejecutar en la base de datos
+-     * @param  [type]     $tabla    [description]
+-     * @param  [type]     $campo    [description]
+-     * @param  string     $valor    [description]
+-     * @param  Array|null $arrWhere [description]
+-     * @return [type]               [description]
++     * Crea un query de Update 
++     * @param  string $tabla    El nombre de la tabla
++     * @param  Array  $arrDatos Los datos a modificar campo=>valor
++     * @param  Array  $arrWhere la condicion en la que se basa la edición campo=>valor
++     * @return string
+      */
+     public static function armarUpdate($tabla, Array $arrDatos, Array $arrWhere)
+     {
+diff --git a/app/bknd/vendor/NavMenu.php b/app/bknd/vendor/NavMenu.php
+index 830bcd2..560331d 100644
+--- a/app/bknd/vendor/NavMenu.php
++++ b/app/bknd/vendor/NavMenu.php
+@@ -109,11 +109,14 @@ class NavMenu{
+         
+         foreach ($this->whereParent($parent_id) as $item)
+         {
++            if($item->hasChildren() && $parent_id!=null){
++                $item->attributes(array('class'=>'dropdown-submenu'));
++            }
+             $items .= "    \n<{$element} {$this->parseAttr($item->attributes())}>";
+             $items .= "<a ".($item->hasChildren() ? 'class="dropdown-toggle" data-toggle="dropdown"' : '')." href=\"{$item->link->url}\"{$this->parseAttr($item->link->attributes)}>{$item->link->text}</a>";
+ 
+             if( $item->hasChildren() ) {
+-                $items .= "<{$type} class='dropdown-menu' data-role='menu'>";
++                $items .= "<{$type} class='dropdown-menu' id='".$parent_id."' >";
+                 $items .= $this->render($type, $item->get_id());
+                 $items .= "</{$type}>";
+             }
+@@ -219,27 +222,47 @@ class NavMenu{
+     {
+         return "<div class='element-menu' {$this->parseAttr($attributes)}>{$this->render('div')}</div>";
+     }
++
++    public function addArray($item, Array $data)
++    {
++        foreach ($this->isArray($data) as $datos) {
++            $newItem = $item->add($datos['text'], $datos['url']);
++            if($datos['sub'] && is_array($datos['sub'])){
++                $this->addArray($newItem, $datos['sub']);
++            }
++        }
++    }
++
++    public function isArray($array)
++    {
++        $arr_resp = array();
++        foreach ($array as $key) {
++                if(is_array($key)){
++                array_push($arr_resp, $key);
++            }
++        }
++        return $arr_resp;
++    }
+     
+     public function imprimir($tipo='asUl')
+     {
+         $string = '
+-        <nav class="navbar navbar-default navbar-inverse" role="navigation">
+-          <div class="container-fluid">
+-            <div class="navbar-header">
+-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+-                <span class="sr-only">Cambiar navegación</span>
+-                <span class="icon-bar"></span>
+-                <span class="icon-bar"></span>
+-                <span class="icon-bar"></span>
+-              </button>
+-              <a class="navbar-brand" href="'.$this->nivel_dir.'">FUNSEPA</a>
++        <nav class="navbar navbar-fixed-top navbar-custom" role="navigation">
++          <div class="navbar-inner">
++            <div class="">
++              <a class="btn btn-navbar " data-toggle="collapse" data-target=".nav-collapse" id="">
++                    <span class="icon-bar"></span>
++                    <span class="icon-bar"></span>
++                    <span class="icon-bar"></span>
++                </a>
++              <a class="brand" href="'.$this->nivel_dir.'">FUNSEPA</a>
+             </div>
+ 
+-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
++            <div class="nav-collapse collapse" id="bs-example-navbar-collapse-1">
+               <ul class="nav navbar-nav">
+                 '.$this->$tipo(array('class'=>'nav navbar-nav')).'
+               </ul>
+-                <ul class="nav navbar-nav navbar-right">
++                <ul class="nav pull-right">
+                     <li><a href="#" onclick="activar_ayuda()">Ayuda</a></li>
+                 </ul>
+             </div>
+diff --git a/app/esc/pra.php b/app/esc/pra.php
+index 0180782..ab7c131 100755
+--- a/app/esc/pra.php
++++ b/app/esc/pra.php
+@@ -20,6 +20,7 @@ $external->add('js', 'app/src/js-libs/esc_contacto.js');
+     <meta charset="UTF-8">
+     <?php
+     echo $external->imprimir('css');
++    $libs->incluir('cabeza.php');
+     ?>
+     <meta charset="UTF-8">
+     <title><?php echo $escuela['nombre']; ?></title>
+@@ -41,6 +42,7 @@ $external->add('js', 'app/src/js-libs/esc_contacto.js');
+                     <li><a href="#tpe" data-toggle="tab"><i class="icon-building"></i> Equipamiento</a></li>
+                     <li><a href="#mye" data-toggle="tab"><i class="icon-search"></i> Monitoreo</a></li>
+                     <li><a href="#seccion_contacto" data-toggle="tab"><i class="icon-phone"></i> Contactos</a></li>
++                    <li><a href="#seccion_supervisor" data-toggle="tab"><i class="icon-phone"></i> Supervisores</a></li>
+                 </ul>
+             </div>
+             <div class="span9">
+@@ -137,64 +139,89 @@ $external->add('js', 'app/src/js-libs/esc_contacto.js');
+                                     <ul id="lista_contacto" class="unstyled">
+                                     </ul>
+                                 </div>
+-                                    <div class="tab-pane" id="cyd">
+-                                        <legend>Capacitación</legend>
+-                                        
+-                                        <table class="table table-hover">
+-                                            <tr>
+-                                                <td>Distrito:</td><td><a href="#" class="editable_cyd" data-type="text" data-name="distrito" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="distrito"><?php echo $escuela['distrito']; ?></a></td>
+-                                            </tr>
+-                                            <tr>
+-                                                <td>Nivel:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="nivel" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=nivel" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nivel"><?php echo $escuela['nivel']; ?></a></td>
+-                                            </tr>
+-                                            <tr>
+-                                                <td>Sector:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="sector" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=sector" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="sector"><?php echo $escuela['sector']; ?></a></td>
+-                                            </tr>
+-                                            <tr>
+-                                                <td>Área:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="area" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=area" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="area"><?php echo $escuela['area']; ?></a></td>
+-                                            </tr>
+-                                            <tr>
+-                                                <td>Modalidad:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="modalidad" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=modalidad" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="modalidad"><?php echo $escuela['modalidad']; ?></a></td>
+-                                            </tr>
++                                <div class="tab-pane" id="cyd">
++                                    <legend>Capacitación</legend>
++
++                                    <table class="table table-hover">
++                                        <tr>
++                                            <td>Distrito:</td><td><a href="#" class="editable_cyd" data-type="text" data-name="distrito" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="distrito"><?php echo $escuela['distrito']; ?></a></td>
++                                        </tr>
++                                        <tr>
++                                            <td>Nivel:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="nivel" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=nivel" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nivel"><?php echo $escuela['nivel']; ?></a></td>
++                                        </tr>
++                                        <tr>
++                                            <td>Sector:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="sector" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=sector" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="sector"><?php echo $escuela['sector']; ?></a></td>
++                                        </tr>
++                                        <tr>
++                                            <td>Área:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="area" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=area" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="area"><?php echo $escuela['area']; ?></a></td>
++                                        </tr>
++                                        <tr>
++                                            <td>Modalidad:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="modalidad" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=modalidad" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="modalidad"><?php echo $escuela['modalidad']; ?></a></td>
++                                        </tr>
++                                        <tr>
++                                            <td>Plan:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="plan" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=plan" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="plan"><?php echo $escuela['plan']; ?></a></td>
++                                        </tr>
++                                        <tr>
++                                            <td>Sedes:</td>
++                                            <td>
++                                                <ul>
++                                                    <?php
++                                                    foreach ($escuela['arr_sede'] as $key => $sede) {
++                                                        echo '<li><a href="../cap/sed/sede.php?id='.$sede['id_sede'].'">'.$sede['nombre_sede'].'</a> por '.$sede['nombre_capacitador'].'</li>';
++                                                    }
++                                                    ?>
++                                                </ul>
++                                            </td>
++                                        </tr>
++                                    </table>
++                                    <legend>Participante <button class="btn btn-primary" onclick="listar_participantes_escuela(<?php echo $escuela['id_escuela']; ?>,'t_participante');">Abrir</button><button class="btn btn-danger" onclick="$('#t_participante').find('tr:gt(0)').remove();">Cerrar</button></legend>
++                                    <table id="t_participante" class="table table-hover hide">
++                                        <thead>
+                                             <tr>
+-                                                <td>Plan:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="plan" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=plan" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="plan"><?php echo $escuela['plan']; ?></a></td>
++                                                <th>No.</th>
++                                                <th>Nombre</th>
++                                                <th>Apellido</th>
++                                                <th>Género</th>
+                                             </tr>
++                                        </thead>
++                                    </table>
++                                </div>
++                                <div class="tab-pane" id="tpe">
++                                    <legend>Equipamiento</legend>
++                                    Donante: <br>
++                                    Estado de equipación: <br>
++                                    Fecha en que se equipó: <br>
++                                </div>
++
++                                <div class="tab-pane" id="mye">
++                                    <legend>Monitoreo y evaluación</legend>
++                                    Estado de proceso: <br>
++                                </div>
++                                <div class="tab-pane" id="seccion_supervisor">
++                                    <legend>Supervisores departamentales</legend>
++                                    <table class="table table-hover">
++                                        <?php
++                                        foreach ($escuela['arr_supervisor'] as  $supervisor) {
++                                            ?>
+                                             <tr>
+-                                                <td>Sedes:</td>
+                                                 <td>
+-                                                    <ul>
+-                                                        <?php
+-                                                        foreach ($escuela['arr_sede'] as $key => $sede) {
+-                                                            echo '<li><a href="../cap/sed/sede.php?id='.$sede['id_sede'].'">'.$sede['nombre_sede'].'</a> por '.$sede['nombre_capacitador'].'</li>';
+-                                                        }
+-                                                        ?>
+-                                                    </ul>
++                                                    Nombre: <?php echo $supervisor['nombre']; ?><br>
++                                                    Correo: <?php echo $supervisor['mail']; ?><br>
++                                                    Móvil: <?php echo $supervisor['tel_movil']; ?><br>
++                                                    Teléfono fijo: <?php echo $supervisor['tel_casa']; ?><br>
++                                                    Dirección: <?php echo $supervisor['direccion']; ?><br>
++                                                    <a class="btn btn-mini" href="../../app/esc/supervisor.php?id_supervisor=<?php echo $supervisor['id']; ?>">
++                                                        Ver
++                                                    </a>
+                                                 </td>
+                                             </tr>
+-                                        </table>
+-                                        <legend>Participante <button class="btn btn-primary" onclick="listar_participantes_escuela(<?php echo $escuela['id_escuela']; ?>,'t_participante');">Abrir</button><button class="btn btn-danger" onclick="$('#t_participante').find('tr:gt(0)').remove();">Cerrar</button></legend>
+-                                        <table id="t_participante" class="table table-hover hide">
+-                                            <thead>
+-                                                <tr>
+-                                                    <th>No.</th>
+-                                                    <th>Nombre</th>
+-                                                    <th>Apellido</th>
+-                                                    <th>Género</th>
+-                                                </tr>
+-                                            </thead>
+-                                        </table>
+-                                    </div>
+-                                    <div class="tab-pane" id="tpe">
+-                                        <legend>Equipamiento</legend>
+-                                        Donante: <br>
+-                                        Estado de equipación: <br>
+-                                        Fecha en que se equipó: <br>
+-                                    </div>
+-                                    
+-                                    <div class="tab-pane" id="mye">
+-                                        <legend>Monitoreo y evaluación</legend>
+-                                        Estado de proceso: <br>
+-                                    </div>
++                                            <?php
++                                        }
++                                        ?>
++                                    </table>
++                                    <ul>
++                                    </ul>
++                                </div>
+                             </div>
+                         </div>
+                     </div>
+diff --git a/app/src/js-libs/gen/general_listar.js b/app/src/js-libs/gen/general_listar.js
+index 29e62ca..ea9bafe 100755
+--- a/app/src/js-libs/gen/general_listar.js
++++ b/app/src/js-libs/gen/general_listar.js
+@@ -46,11 +46,12 @@
+         /* Cada item que regresa debe ser un array de modo
+         array(_id, _texto)*/
+         var entry = document.createElement('li');
+-        entry.innerHTML = "<a id='a_"+plantilla_id+"_"+item[0]+"' href='#' onclick='"+onclick_accion+"("+item[0]+(p_accion ? p_accion : '')+");'>"+(campo_mostrado ? f_campo_mostrado(item) : item[1])+"</a>";
+-        entry.id = 'li_listado_'+item[0];
++        var actual_id = item['id'] ? item['id'] : item[0];
++        entry.innerHTML = "<a id='a_"+plantilla_id+"_"+actual_id+"' href='#' onclick='"+onclick_accion+"("+actual_id+(p_accion ? p_accion : '')+");'>"+(campo_mostrado ? f_campo_mostrado(item) : item[1])+"</a>";
++        entry.id = 'li_listado_'+actual_id;
+         document.getElementById(lista_objetivo).appendChild(entry);
+-        $('#barra_carga_'+lista_objetivo).remove();
+       });
++      $('#barra_carga_'+lista_objetivo).remove();
+       /**
+        * Asigna al input designado en input_buscador como buscador para la lista
+        */
+diff --git a/app/src/libs/cabeza.php b/app/src/libs/cabeza.php
+index 3767d42..4bc5292 100755
+--- a/app/src/libs/cabeza.php
++++ b/app/src/libs/cabeza.php
+@@ -6,7 +6,7 @@ class encabezado
+ {
+ 	var $nombre, $apellido, $id_per, $nivel;
+ 	
+-	function __construct($id_per, $nivel_entrada, $app=null)
++	function __construct($id_per, $nivel_entrada, $app=null, $bd=null)
+ 	{
+ 		$cont = 0;
+ 		$otro_nivel = '';
+@@ -25,9 +25,9 @@ class encabezado
+ 			//para los que están fuera del /app
+ 			$otro_nivel .= '../app/';
+ 		}
+-		//require_once($this->nivel.'includes/auth/Db.class.php');
+-		//require_once($this->nivel.'includes/auth/Conf.class.php');
+-		$bd = Db::getInstance();
++		if($bd==null){
++			$bd = Db::getInstance();
++		}
+ 
+ 		$query_persona = "SELECT * FROM gn_persona WHERE id=".$id_per;
+ 		$stmt_persona = $bd->ejecutar($query_persona);
+diff --git a/app/src/libs/incluir.php b/app/src/libs/incluir.php
+index 7a2e343..b43fd8f 100755
+--- a/app/src/libs/incluir.php
++++ b/app/src/libs/incluir.php
+@@ -178,14 +178,20 @@ class librerias
+         $this->incluir('bs');
+         $this->incluir('meta');
+         $sesion_r = sesion::getInstance();
+-        $this->incluir_general($sesion_r->get('id_per'), $this->nivel);
++        $this->incluir_general($sesion_r->get('id_per'));
+     }
+     
+-    public function incluir_general($id_per, $rol)
++    public function incluir_general($id_per)
+     {
+         echo '<script id="js_general" id_per="'.$id_per.'" nivel="'.$this->nivel.'" src="'.$this->nivel.'app/src/js-libs/gen/general.js"></script>
+         ';
+     }
++
++    public function incluir_informe_error($id_per)
++    {
++        echo '<script type="text/javascript" id="informe_error_js" id_per="'.$id_per.'" src="'.$this->nivel.'app/src/js-libs/crear_informe_error.js" ></script>
++        ';
++    }
+     
+     /**
+      * Imprime el texto HTML para incluir
+diff --git a/app/src/test/procesos.php b/app/src/test/procesos.php
+index 8e55e7c..fec94e5 100644
+--- a/app/src/test/procesos.php
++++ b/app/src/test/procesos.php
+@@ -241,18 +241,20 @@ $arr_udi = array(
+ );
+ 
+ $arr_salida = array();
+-foreach ($arr_udi as $escuela) {
+-	$query = "select id, codigo, mapa from gn_escuela where codigo='".$escuela."'";
+-	$resultado = $bd->getFila($query);
+-	$query_delete = "DELETE FROM gn_coordenada WHERE id='".$resultado['mapa']."'";
+-	if($bd->ejecutar($query_delete)){
+-		$query_update = "UPDATE gn_escuela SET mapa='0' WHERE id='".$resultado['id']."'";
+-		$bd->ejecutar($query_update);
++if(isset($_GET['exec'])){
++	foreach ($arr_udi as $escuela) {
++		$query = "select id, codigo, mapa from gn_escuela where codigo='".$escuela."'";
++		$resultado = $bd->getFila($query);
++		$query_delete = "DELETE FROM gn_coordenada WHERE id='".$resultado['mapa']."'";
++		if($bd->ejecutar($query_delete)){
++			$query_update = "UPDATE gn_escuela SET mapa='0' WHERE id='".$resultado['id']."'";
++			$bd->ejecutar($query_update);
++		}
++		$resultado = $bd->getFila($query);
++		array_push($arr_salida, $resultado);
+ 	}
+-	$resultado = $bd->getFila($query);
+-	array_push($arr_salida, $resultado);
++	print "<pre>";
++	print_r($arr_salida);
++	print "</pre>";
+ }
+-print "<pre>";
+-print_r($arr_salida);
+-print "</pre>";
+ ?>
+\ No newline at end of file
+diff --git a/app/src/test/prueba2.php b/app/src/test/prueba2.php
+index 49170d5..243b031 100755
+--- a/app/src/test/prueba2.php
++++ b/app/src/test/prueba2.php
+@@ -1,6 +1,55 @@
+ <?php
+ include '../../bknd/autoload.php';
+-$menu = new NavMenu();
+-$menu->add('Wiiii', 'waaaa');
+-echo $menu->imprimir();
+-?>
+\ No newline at end of file
++
++if(!Session::isActive()){
++	Login::iniciarSesion('lcontreras', 'passw2');
++}
++
++//Session::terminarSesion();
++
++//echo Login::redirect();
++
++
++$encabezado = array(
++    array(
++        'text'=>'Menú 1',
++        'url'=>array('url'=>'#', 'externo'=>true),
++        'sub'=>array(
++        	array('text'=>'SubMenú - Prueba 1', 'url'=>'app/prueba/index1.php', 'ext'=>false),
++        	array('text'=>'SubMenú - Prueba B', 'url'=>'#', 'ext'=>true,
++        		'sub'=> array(
++        			array('text'=>'Sub-SubMenu - Prueba 2.1', 'url'=>'app/prueba/index2-1.php', 'ext'=>false)
++        			)
++        		),
++        	array('text'=>'SubMenú - Prueba 3', 'url'=>'app/prueba/index3.php', 'ext'=>false)
++        	)
++        ),
++    array(
++        'text'=>'Menú 2',
++        'url'=>array('url'=>'#', 'externo'=>true, 'class'=>'nav pull-right'),
++        'ext'=>false
++        )
++    );
++
++phpinfo();
++//$menu = new MenuWrapper(3);
++
++$external = new ExternalLibs();
++$external->addDefault();
++?>
++
++<!DOCTYPE html>
++<html lang="en">
++<head>
++    <meta charset="UTF-8">
++    <title>Document</title>
++    <?php echo $external->imprimir('css'); ?>
++</head>
++<body>
++    
++<pre>
++<?php echo Session::get('id_per'); ?>
++</pre>
++</body>
++<?php echo $external->imprimir('js'); ?>
++</html>
+\ No newline at end of file
+diff --git a/includes/auth/login.class.php b/includes/auth/login.class.php
+index 3193c59..006c800 100755
+--- a/includes/auth/login.class.php
++++ b/includes/auth/login.class.php
+@@ -5,7 +5,7 @@ require_once("sesion.class.php");
+ 	function vLog($campo, $existe, $noExiste){
+ 		$sesion = sesion::getInstance();
+ 		$usuario = $sesion->get($campo);
+-		if( $usuario == true )
++		if( !empty($usuario))
+ 		{	
+ 			if($existe!=="0"){
+ 				header("Location: ".$existe."");		
+diff --git a/tests/libs/Session.test.php b/tests/libs/Session.test.php
+index 928395c..6936278 100644
+--- a/tests/libs/Session.test.php
++++ b/tests/libs/Session.test.php
+@@ -5,9 +5,17 @@ require_once dirname(__FILE__) . '/../../app/bknd/autoload.php';
+  */
+ class SessionTest extends PHPUnit_Framework_TestCase
+ {
++	public function setUp()
++	{
++		$prev = error_reporting(0);
++		session_start();
++		error_reporting($prev);
++	}
++	
+ 	public function testCrearSesion()
+ 	{
+-		# code...
++		Session::sessionStart();
++		//$this->assterNotNull(Session::isValid());
+ 	}
+ }
+ ?>
+\ No newline at end of file
+diff --git a/tests/model/ModeGnMunicipio.test.php b/tests/model/ModeGnMunicipio.test.php
+deleted file mode 100644
+index 5cc0a98..0000000
+--- a/tests/model/ModeGnMunicipio.test.php
++++ /dev/null
+@@ -1,24 +0,0 @@
+-<?php
+-require_once dirname(__FILE__) . '/../../app/bknd/autoload.php';
+-$AUTOLOAD_LVL = 2;
+-
+-class GnMunicipioTest extends PHPUnit_Framework_TestCase{
+-	
+-	public function testExiste()
+-	{
+-		$gn_municipio = new GnMunicipio();
+-		$this->assertNotNull($gn_municipio);
+-		return $gn_municipio;
+-	}
+-
+-	/**
+-	 * @depends testExiste
+-	 */
+-	public function testListaMunicipio($gn_municipio)
+-	{
+-		$lista = $gn_municipio->listarMunicipio(array('id_departamento'=>1));
+-		$this->assertNotNull($lista);
+-		print_r($lista);
+-	}
+-}
+-?>
+\ No newline at end of file

@@ -5,7 +5,7 @@ require_once("sesion.class.php");
 	function vLog($campo, $existe, $noExiste){
 		$sesion = sesion::getInstance();
 		$usuario = $sesion->get($campo);
-		if( $usuario == true )
+		if( !empty($usuario))
 		{	
 			if($existe!=="0"){
 				header("Location: ".$existe."");		

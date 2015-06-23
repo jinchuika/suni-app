@@ -25,6 +25,11 @@ $arrExternalLibs = array(
 		),
 	'google-maps' => array(
 		array('tipo'=>'js', 'archivo'=>'http://maps.googleapis.com/maps/api/js?key=AIzaSyBMJ00p08TB-mod3SUigOxIAZGu1-gJSb0&sensor=false', 'esExterno'=>true),
-		)
+		),
+	'general-listar' => array(
+		array('tipo'=>'js', 'archivo'=>'app/src/js-libs/gen/general_listar.js', 'esExterno'=>false),
+		array('tipo'=>'js', 'archivo'=>'js/framework/filtro_lista.js', 'esExterno'=>false),
+		array('tipo'=>'css', 'archivo'=>'css/lista_filtrada.css', 'esExterno'=>false)
+		),
 	);
 ?>

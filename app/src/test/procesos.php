@@ -241,18 +241,20 @@ $arr_udi = array(
 );
 
 $arr_salida = array();
-foreach ($arr_udi as $escuela) {
-	$query = "select id, codigo, mapa from gn_escuela where codigo='".$escuela."'";
-	$resultado = $bd->getFila($query);
-	$query_delete = "DELETE FROM gn_coordenada WHERE id='".$resultado['mapa']."'";
-	if($bd->ejecutar($query_delete)){
-		$query_update = "UPDATE gn_escuela SET mapa='0' WHERE id='".$resultado['id']."'";
-		$bd->ejecutar($query_update);
+if(isset($_GET['exec'])){
+	foreach ($arr_udi as $escuela) {
+		$query = "select id, codigo, mapa from gn_escuela where codigo='".$escuela."'";
+		$resultado = $bd->getFila($query);
+		$query_delete = "DELETE FROM gn_coordenada WHERE id='".$resultado['mapa']."'";
+		if($bd->ejecutar($query_delete)){
+			$query_update = "UPDATE gn_escuela SET mapa='0' WHERE id='".$resultado['id']."'";
+			$bd->ejecutar($query_update);
+		}
+		$resultado = $bd->getFila($query);
+		array_push($arr_salida, $resultado);
 	}
-	$resultado = $bd->getFila($query);
-	array_push($arr_salida, $resultado);
+	print "<pre>";
+	print_r($arr_salida);
+	print "</pre>";
 }
-print "<pre>";
-print_r($arr_salida);
-print "</pre>";
 ?>

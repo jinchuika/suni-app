@@ -5,9 +5,17 @@ require_once dirname(__FILE__) . '/../../app/bknd/autoload.php';
  */
 class SessionTest extends PHPUnit_Framework_TestCase
 {
+	public function setUp()
+	{
+		$prev = error_reporting(0);
+		session_start();
+		error_reporting($prev);
+	}
+	
 	public function testCrearSesion()
 	{
-		# code...
+		Session::sessionStart();
+		//$this->assterNotNull(Session::isValid());
 	}
 }
 ?>

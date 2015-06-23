@@ -52,6 +52,6 @@ class Autoloader
         }
     }
 }
-$autoload = new Autoloader($AUTOLOAD_LVL);
-spl_autoload_register(array($autoload, 'autoload_class'));
+$currentLoader = new Autoloader($AUTOLOAD_LVL);
+spl_autoload_register(array($currentLoader, 'autoload_class'));
 ?>

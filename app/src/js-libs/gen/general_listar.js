@@ -46,11 +46,12 @@
         /* Cada item que regresa debe ser un array de modo
         array(_id, _texto)*/
         var entry = document.createElement('li');
-        entry.innerHTML = "<a id='a_"+plantilla_id+"_"+item[0]+"' href='#' onclick='"+onclick_accion+"("+item[0]+(p_accion ? p_accion : '')+");'>"+(campo_mostrado ? f_campo_mostrado(item) : item[1])+"</a>";
-        entry.id = 'li_listado_'+item[0];
+        var actual_id = item['id'] ? item['id'] : item[0];
+        entry.innerHTML = "<a id='a_"+plantilla_id+"_"+actual_id+"' href='#' onclick='"+onclick_accion+"("+actual_id+(p_accion ? p_accion : '')+");'>"+(campo_mostrado ? f_campo_mostrado(item) : item[1])+"</a>";
+        entry.id = 'li_listado_'+actual_id;
         document.getElementById(lista_objetivo).appendChild(entry);
-        $('#barra_carga_'+lista_objetivo).remove();
       });
+      $('#barra_carga_'+lista_objetivo).remove();
       /**
        * Asigna al input designado en input_buscador como buscador para la lista
        */

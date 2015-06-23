@@ -14,8 +14,15 @@ class GnEscuela extends Model
      */
     public function abrirEscuela(Array $arr_filtros = null, $campos = '*')
     {
-        $escuela = $this->abrirFila($campos, $arr_filtros);
-        return $escuela ? $escuela : false;
+        $query = $this->armarSelect($this->tabla, $campos, $arr_filtros);
+        $escuela = $this->bd->getResultado($query);
+
+        if(count($escuela) == 1){
+            return $escuela[0];
+        }
+        else{
+            return $escuela ? $escuela : false;
+        }
     }
 
     /**
@@ -63,6 +70,11 @@ class GnEscuela extends Model
         return $this->bd->getResultado($query);
     }
 
+    /**
+     * Lista los participantes de una escuela usando la vista v_escuela_partipante
+     * @param  integer $id_escuela El id de la escuela que se necesita
+     * @return Array
+     */
     public function abrirParticipantesEscuela($id_escuela)
     {
         $query = $this->armarSelect('v_escuela_participante', '*', array('id_escuela'=>$id_escuela));

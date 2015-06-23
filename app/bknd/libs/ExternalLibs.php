@@ -103,6 +103,7 @@ class ExternalLibs extends Autoloader
         $this->addExternal('meta');
 
         $this->add('js', 'app/src/js-libs/gen/general.js', $arrGeneral);
+        $this->addExternal('general-listar');
     }
 
     /**

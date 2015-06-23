@@ -59,12 +59,11 @@ abstract class Query
     }
 
     /**
-     * Prepara un insert para ejecutar en la base de datos
-     * @param  [type]     $tabla    [description]
-     * @param  [type]     $campo    [description]
-     * @param  string     $valor    [description]
-     * @param  Array|null $arrWhere [description]
-     * @return [type]               [description]
+     * Crea un query de Update 
+     * @param  string $tabla    El nombre de la tabla
+     * @param  Array  $arrDatos Los datos a modificar campo=>valor
+     * @param  Array  $arrWhere la condicion en la que se basa la edición campo=>valor
+     * @return string
      */
     public static function armarUpdate($tabla, Array $arrDatos, Array $arrWhere)
     {

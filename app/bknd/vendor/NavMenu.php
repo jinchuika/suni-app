@@ -109,11 +109,14 @@ class NavMenu{
         
         foreach ($this->whereParent($parent_id) as $item)
         {
+            if($item->hasChildren() && $parent_id!=null){
+                $item->attributes(array('class'=>'dropdown-submenu'));
+            }
             $items .= "    \n<{$element} {$this->parseAttr($item->attributes())}>";
             $items .= "<a ".($item->hasChildren() ? 'class="dropdown-toggle" data-toggle="dropdown"' : '')." href=\"{$item->link->url}\"{$this->parseAttr($item->link->attributes)}>{$item->link->text}</a>";
 
             if( $item->hasChildren() ) {
-                $items .= "<{$type} class='dropdown-menu' data-role='menu'>";
+                $items .= "<{$type} class='dropdown-menu' id='".$parent_id."' >";
                 $items .= $this->render($type, $item->get_id());
                 $items .= "</{$type}>";
             }
@@ -219,27 +222,47 @@ class NavMenu{
     {
         return "<div class='element-menu' {$this->parseAttr($attributes)}>{$this->render('div')}</div>";
     }
+
+    public function addArray($item, Array $data)
+    {
+        foreach ($this->isArray($data) as $datos) {
+            $newItem = $item->add($datos['text'], $datos['url']);
+            if($datos['sub'] && is_array($datos['sub'])){
+                $this->addArray($newItem, $datos['sub']);
+            }
+        }
+    }
+
+    public function isArray($array)
+    {
+        $arr_resp = array();
+        foreach ($array as $key) {
+                if(is_array($key)){
+                array_push($arr_resp, $key);
+            }
+        }
+        return $arr_resp;
+    }
     
     public function imprimir($tipo='asUl')
     {
         $string = '
-        <nav class="navbar navbar-default navbar-inverse" role="navigation">
-          <div class="container-fluid">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Cambiar navegación</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="'.$this->nivel_dir.'">FUNSEPA</a>
+        <nav class="navbar navbar-fixed-top navbar-custom" role="navigation">
+          <div class="navbar-inner">
+            <div class="">
+              <a class="btn btn-navbar " data-toggle="collapse" data-target=".nav-collapse" id="">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+              <a class="brand" href="'.$this->nivel_dir.'">FUNSEPA</a>
             </div>
 
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <div class="nav-collapse collapse" id="bs-example-navbar-collapse-1">
               <ul class="nav navbar-nav">
                 '.$this->$tipo(array('class'=>'nav navbar-nav')).'
               </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav pull-right">
                     <li><a href="#" onclick="activar_ayuda()">Ayuda</a></li>
                 </ul>
             </div>

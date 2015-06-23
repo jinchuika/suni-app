@@ -19,6 +19,7 @@ class CtrlEscPerfil extends Controller
             if($escuela['proceso']['id_equipamiento']){
                 $escuela['equipamiento'] = $this->abrirEquipamientoEscuela($escuela['proceso']['id_equipamiento']);
             }
+            $escuela['arr_supervisor'] = $this->abrirSupervisor($escuela['distrito']);
         }
         return $escuela ? $escuela : false;
     }
@@ -40,6 +41,13 @@ class CtrlEscPerfil extends Controller
     {
         $me_equipamiento = new MeEquipamiento();
         return $me_equipamiento->abrirEquipamiento(array('id'=>$id_equipamiento));
+    }
+
+    public function abrirSupervisor($id_distrito)
+    {
+        $esc_supervisor = new EscSupervisor();
+        $campos = 'id, concat(nombre, " ", apellido) as nombre, mail, tel_movil, tel_casa';
+        return $esc_supervisor->listarSupervisor($id_distrito, $campos);
     }
 }
 ?>

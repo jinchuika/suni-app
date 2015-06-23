@@ -178,12 +178,18 @@ class librerias
         $this->incluir('bs');
         $this->incluir('meta');
         $sesion_r = sesion::getInstance();
-        $this->incluir_general($sesion_r->get('id_per'), $this->nivel);
+        $this->incluir_general($sesion_r->get('id_per'));
     }
     
-    public function incluir_general($id_per, $rol)
+    public function incluir_general($id_per)
     {
         echo '<script id="js_general" id_per="'.$id_per.'" nivel="'.$this->nivel.'" src="'.$this->nivel.'app/src/js-libs/gen/general.js"></script>
+        ';
+    }
+
+    public function incluir_informe_error($id_per)
+    {
+        echo '<script type="text/javascript" id="informe_error_js" id_per="'.$id_per.'" src="'.$this->nivel.'app/src/js-libs/crear_informe_error.js" ></script>
         ';
     }
     

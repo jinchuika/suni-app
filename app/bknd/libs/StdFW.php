@@ -14,5 +14,19 @@ class StdFW
 		$keys = array_keys($array);
     	return array_keys($keys) !== $keys;
 	}
+
+	/**
+	 * Desvuelve una de las variables globales desde bknd/config/global_vars.php
+	 */
+	public static function getGlobalVar($name, $key='')
+	{
+		include_once dirname(__FILE__).'../config/global_vars.php';
+		if(isset($arrGlobals[$name]) || isset($arrGlobals[$name[$key]])){
+			return empty($key) ? $arrGlobals[$name] : $arrGlobals[$name[$key]];
+		}
+		else{
+			return null;
+		}
+	}
 }
 ?>

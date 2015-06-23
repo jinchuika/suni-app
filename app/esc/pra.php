@@ -20,12 +20,13 @@ $external->add('js', 'app/src/js-libs/esc_contacto.js');
     <meta charset="UTF-8">
     <?php
     echo $external->imprimir('css');
+    $libs->incluir('cabeza.php');
     ?>
     <meta charset="UTF-8">
     <title><?php echo $escuela['nombre']; ?></title>
 </head>
 <body>
-    <?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
+    
     <header id="overview" class="jumbotron subhead well">
         <div class="container">
             <h1><a href="#" class="editable_gen" data-type="text" data-name="nombre" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nombre"><?php echo $escuela['nombre']; ?></a></h1>
@@ -41,6 +42,7 @@ $external->add('js', 'app/src/js-libs/esc_contacto.js');
                     <li><a href="#tpe" data-toggle="tab"><i class="icon-building"></i> Equipamiento</a></li>
                     <li><a href="#mye" data-toggle="tab"><i class="icon-search"></i> Monitoreo</a></li>
                     <li><a href="#seccion_contacto" data-toggle="tab"><i class="icon-phone"></i> Contactos</a></li>
+                    <li><a href="#seccion_supervisor" data-toggle="tab"><i class="icon-phone"></i> Supervisores</a></li>
                 </ul>
             </div>
             <div class="span9">
@@ -137,64 +139,89 @@ $external->add('js', 'app/src/js-libs/esc_contacto.js');
                                     <ul id="lista_contacto" class="unstyled">
                                     </ul>
                                 </div>
-                                    <div class="tab-pane" id="cyd">
-                                        <legend>Capacitación</legend>
-                                        
-                                        <table class="table table-hover">
+                                <div class="tab-pane" id="cyd">
+                                    <legend>Capacitación</legend>
+
+                                    <table class="table table-hover">
+                                        <tr>
+                                            <td>Distrito:</td><td><a href="#" class="editable_cyd" data-type="text" data-name="distrito" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="distrito"><?php echo $escuela['distrito']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Nivel:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="nivel" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=nivel" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nivel"><?php echo $escuela['nivel']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sector:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="sector" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=sector" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="sector"><?php echo $escuela['sector']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Área:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="area" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=area" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="area"><?php echo $escuela['area']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Modalidad:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="modalidad" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=modalidad" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="modalidad"><?php echo $escuela['modalidad']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Plan:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="plan" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=plan" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="plan"><?php echo $escuela['plan']; ?></a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Sedes:</td>
+                                            <td>
+                                                <ul>
+                                                    <?php
+                                                    foreach ($escuela['arr_sede'] as $key => $sede) {
+                                                        echo '<li><a href="../cap/sed/sede.php?id='.$sede['id_sede'].'">'.$sede['nombre_sede'].'</a> por '.$sede['nombre_capacitador'].'</li>';
+                                                    }
+                                                    ?>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <legend>Participante <button class="btn btn-primary" onclick="listar_participantes_escuela(<?php echo $escuela['id_escuela']; ?>,'t_participante');">Abrir</button><button class="btn btn-danger" onclick="$('#t_participante').find('tr:gt(0)').remove();">Cerrar</button></legend>
+                                    <table id="t_participante" class="table table-hover hide">
+                                        <thead>
                                             <tr>
-                                                <td>Distrito:</td><td><a href="#" class="editable_cyd" data-type="text" data-name="distrito" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="distrito"><?php echo $escuela['distrito']; ?></a></td>
+                                                <th>No.</th>
+                                                <th>Nombre</th>
+                                                <th>Apellido</th>
+                                                <th>Género</th>
                                             </tr>
+                                        </thead>
+                                    </table>
+                                </div>
+                                <div class="tab-pane" id="tpe">
+                                    <legend>Equipamiento</legend>
+                                    Donante: <br>
+                                    Estado de equipación: <br>
+                                    Fecha en que se equipó: <br>
+                                </div>
+
+                                <div class="tab-pane" id="mye">
+                                    <legend>Monitoreo y evaluación</legend>
+                                    Estado de proceso: <br>
+                                </div>
+                                <div class="tab-pane" id="seccion_supervisor">
+                                    <legend>Supervisores departamentales</legend>
+                                    <table class="table table-hover">
+                                        <?php
+                                        foreach ($escuela['arr_supervisor'] as  $supervisor) {
+                                            ?>
                                             <tr>
-                                                <td>Nivel:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="nivel" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=nivel" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nivel"><?php echo $escuela['nivel']; ?></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Sector:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="sector" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=sector" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="sector"><?php echo $escuela['sector']; ?></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Área:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="area" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=area" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="area"><?php echo $escuela['area']; ?></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Modalidad:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="modalidad" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=modalidad" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="modalidad"><?php echo $escuela['modalidad']; ?></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Plan:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="plan" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=plan" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="plan"><?php echo $escuela['plan']; ?></a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Sedes:</td>
                                                 <td>
-                                                    <ul>
-                                                        <?php
-                                                        foreach ($escuela['arr_sede'] as $key => $sede) {
-                                                            echo '<li><a href="../cap/sed/sede.php?id='.$sede['id_sede'].'">'.$sede['nombre_sede'].'</a> por '.$sede['nombre_capacitador'].'</li>';
-                                                        }
-                                                        ?>
-                                                    </ul>
+                                                    Nombre: <?php echo $supervisor['nombre']; ?><br>
+                                                    Correo: <?php echo $supervisor['mail']; ?><br>
+                                                    Móvil: <?php echo $supervisor['tel_movil']; ?><br>
+                                                    Teléfono fijo: <?php echo $supervisor['tel_casa']; ?><br>
+                                                    Dirección: <?php echo $supervisor['direccion']; ?><br>
+                                                    <a class="btn btn-mini" href="../../app/esc/supervisor.php?id_supervisor=<?php echo $supervisor['id']; ?>">
+                                                        Ver
+                                                    </a>
                                                 </td>
                                             </tr>
-                                        </table>
-                                        <legend>Participante <button class="btn btn-primary" onclick="listar_participantes_escuela(<?php echo $escuela['id_escuela']; ?>,'t_participante');">Abrir</button><button class="btn btn-danger" onclick="$('#t_participante').find('tr:gt(0)').remove();">Cerrar</button></legend>
-                                        <table id="t_participante" class="table table-hover hide">
-                                            <thead>
-                                                <tr>
-                                                    <th>No.</th>
-                                                    <th>Nombre</th>
-                                                    <th>Apellido</th>
-                                                    <th>Género</th>
-                                                </tr>
-                                            </thead>
-                                        </table>
-                                    </div>
-                                    <div class="tab-pane" id="tpe">
-                                        <legend>Equipamiento</legend>
-                                        Donante: <br>
-                                        Estado de equipación: <br>
-                                        Fecha en que se equipó: <br>
-                                    </div>
-                                    
-                                    <div class="tab-pane" id="mye">
-                                        <legend>Monitoreo y evaluación</legend>
-                                        Estado de proceso: <br>
-                                    </div>
+                                            <?php
+                                        }
+                                        ?>
+                                    </table>
+                                    <ul>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
