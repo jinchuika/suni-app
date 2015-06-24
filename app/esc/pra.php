@@ -3,16 +3,17 @@ include '../src/libs/incluir.php';
 include '../bknd/autoload.php';
 $nivel_dir = 2;
 $libs = new librerias($nivel_dir);
-
-$gn_escuela = new CtrlEscPerfil();
-$escuela = $gn_escuela->abrirDatosEscuela($_GET);
-
 $sesion = $libs->incluir('seguridad');
 $libs->incluir('mapa');
 
 $external = new ExternalLibs();
 $external->addDefault($sesion->get('id'));
 $external->add('js', 'app/src/js-libs/esc_contacto.js');
+
+$gn_escuela = new CtrlEscPerfil();
+$escuela = $gn_escuela->abrirDatosEscuela($_GET);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -20,13 +21,16 @@ $external->add('js', 'app/src/js-libs/esc_contacto.js');
     <meta charset="UTF-8">
     <?php
     echo $external->imprimir('css');
-    $libs->incluir('cabeza.php');
+    echo $external->imprimir('js');
+    $libs->incluir_general($sesion->get('id_per'));
+    $libs->incluir('cabeza');
+    
     ?>
     <meta charset="UTF-8">
     <title><?php echo $escuela['nombre']; ?></title>
 </head>
 <body>
-    
+    <?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
     <header id="overview" class="jumbotron subhead well">
         <div class="container">
             <h1><a href="#" class="editable_gen" data-type="text" data-name="nombre" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nombre"><?php echo $escuela['nombre']; ?></a></h1>
@@ -231,7 +235,7 @@ $external->add('js', 'app/src/js-libs/esc_contacto.js');
     </div>
 </body>
 <?php
-echo $external->imprimir('js');
+
 ?>
 <script>
     var modal_c = modal_carga_gn();

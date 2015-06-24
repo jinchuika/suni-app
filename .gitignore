@@ -2,6 +2,8 @@
 app/kar/req (luis-mac-mini's conflicted copy 2014-07-10).php
 ###FTP
 /sftp-config.json
+.remote-sync.json
+/.remote-sync.json
 
 ### Base de datos
 /config.php
@@ -19,7 +21,7 @@ app/kar/req (luis-mac-mini's conflicted copy 2014-07-10).php
 *.exe
 *.o
 *.so
- 
+
 # Packages #
 ############
 # it's better to unpack these files and commit the raw source
@@ -32,13 +34,13 @@ app/kar/req (luis-mac-mini's conflicted copy 2014-07-10).php
 *.rar
 *.tar
 *.zip
- 
+
 # Logs and databases #
 ######################
 *.log
 *.sql
 *.sqlite
- 
+
 # OS generated files #
 ######################
 .DS_Store

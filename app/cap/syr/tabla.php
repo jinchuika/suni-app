@@ -70,6 +70,7 @@ $bd = $libs->incluir('bd');
 	}
 
 	function crear_tabla (datos) {
+		$("#dataTable").handsontable('destroy');
 		var greenRenderer = function (instance, td, row, col, prop, value, cellProperties) {
 			Handsontable.TextCell.renderer.apply(this, arguments);
 			if(value>0){
@@ -91,7 +92,7 @@ $bd = $libs->incluir('bd');
 				temp.push(item.nombre);
 				temp.push(item.apellido);
 				l_datos[index] = temp;
-				
+
 				registro = this;
 				var salida = {
 					nombre: registro.nombre,
@@ -310,7 +311,6 @@ $(document).ready(function () {
 					$('#barra_carga').attr("style","width: " + inc + "%");
 					document.getElementById('porcentaje').innerHTML = inc.toFixed(2) + "%";
 					if( (inc>=100) || (ocultar==cant_filas)){
-						console.log("cant:",cant_filas);
 						inc=0;
 						setTimeout(function(){
 							$('#area_modal').modal('hide');
@@ -318,7 +318,7 @@ $(document).ready(function () {
 						},300);
 					}
 					validar_salida = 0;
-					
+
 					var respuesta = $.parseJSON(data);
 					if(respuesta){
 						if(respuesta.mensaje===""){
@@ -348,7 +348,7 @@ $(document).ready(function () {
 				}
 			});
 		}
-		
+
 });
 $("#crear_excel").click(function(event) {
 	if(crear_tabla_excel()==true){
@@ -514,7 +514,9 @@ function f_sumatoria_notas () {
 	while(fila = $('#dataTable').handsontable('getDataAtRow', cont)){
 		var total = 0;
 		$.each(fila['detalle_notas'], function (index, item) {
-			total = total + Number(item);
+			if(!isNaN(item)){
+				total = Number(total) + Number(item);
+			}
 		});
 		$('#dataTable').handsontable('setDataAtCell', cont, 3, total);
 		cont++;
@@ -576,7 +578,7 @@ function f_sumatoria_notas () {
 					<button class="btn" id="boton_cancelar">Cancelar</button>
 				</section>
 			</div>
-			
+
 		</div>
 	</div>
 
