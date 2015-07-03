@@ -51,7 +51,7 @@ $bd = $libs->incluir('bd');
 					<div class="control-group">
 						<label class="control-label" for="numero">Grupo</label>
 						<div class="controls">
-							<input id="numero" name="numero" type="number" placeholder="No." class="input-mini" required="required">
+							<input id="numero" name="numero" min="1" type="number" placeholder="No." class="input-mini" required="required">
 
 						</div>
 					</div>

@@ -52,6 +52,11 @@ class GnEscuela extends Model
         return $escuela ? $escuela : false;
     }
 
+    /**
+     * Abre las sedes de una escuela
+     * @param  string $id_escuela el ID de la escuela
+     * @return Array
+     */
     public function abrirSedeEscuela($id_escuela)
     {
         $query = 'SELECT DISTINCT 

@@ -6,7 +6,7 @@ class CtrlEscPerfilTest extends PHPUnit_Framework_TestCase
 	public function testExiste()
     {
     	$gn_escuela = new CtrlEscPerfil();
-        $this->assertNotNull($gn_escuela);
+        $this->assertInstanceOf('CtrlEscPerfil', $gn_escuela);
     	return $gn_escuela;
     }
 
@@ -15,9 +15,28 @@ class CtrlEscPerfilTest extends PHPUnit_Framework_TestCase
      */
     public function testAbreDatos($gn_escuela)
     {
-    	$escuela = $gn_escuela->abrirDatosEscuela(array('id_escuela'=>19245));
-        $this->assertNotNull($escuela);
-        print_r($escuela);
+    	//$escuela = $gn_escuela->abrirDatosEscuela(array('id_escuela'=>'26867'));
+        //$this->assertNotNull($escuela);
+        //print_r($escuela);
+    }
+
+	/**
+	 * @depends testExiste
+	 */
+	public function testCreaEquipamiento($gn_escuela)
+	{
+		//$id_equipamiento = $gn_escuela->crearEquipamiento('6', '1500', '2015-01-01');
+		//echo $id_equipamiento;
+		//$this->assertNotFalse($id_equipamiento);
+	}
+
+    /**
+     * @depends testExiste
+     */
+    public function testEditaCoordenada($gn_escuela)
+    {
+        $edicion = $gn_escuela->editarCoordenada('15', '-91', 2);
+        $this->assertTrue($edicion);
     }
 }
 ?>

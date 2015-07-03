@@ -21,5 +21,17 @@ class GnCoordenada extends Model
 	{
 		return $this->actualizarCampo($datosNuevos, $filtros, $this->tabla);
 	}
+
+	/**
+	 * Abre los datos de coordenadas desde la base de datos
+	 * @param  Array  $arrFiltros Los filtros para abrir las coordenadas
+	 * @return Array|boolean
+	 */
+	public function abrirCoordenada(Array $arrFiltros, $campos='*')
+	{
+		$query = $this->armarSelect($this->tabla, $campos, $arrFiltros);
+		$coordenada = $this->bd->getFila($query, true);
+		return $coordenada ? $coordenada : false;
+	}
 }
 ?>

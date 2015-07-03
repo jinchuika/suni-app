@@ -24,7 +24,7 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
     echo $external->imprimir('js');
     $libs->incluir_general($sesion->get('id_per'));
     $libs->incluir('cabeza');
-    
+
     ?>
     <meta charset="UTF-8">
     <title><?php echo $escuela['nombre']; ?></title>
@@ -33,7 +33,7 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
     <?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
     <header id="overview" class="jumbotron subhead well">
         <div class="container">
-            <h1><a href="#" class="editable_gen" data-type="text" data-name="nombre" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nombre"><?php echo $escuela['nombre']; ?></a></h1>
+            <h1><a href="#" class="editable_gen" data-type="text" data-name="nombre" id="nombre"><?php echo $escuela['nombre']; ?></a></h1>
             <p class="lead"></p>
         </div>
     </header>
@@ -67,30 +67,39 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
                                             <td>Municipio:</td><td><?php echo $escuela['municipio']; ?></td>
                                         </tr>
                                         <tr>
-                                            <td>Dirección:</td><td><a href="#" class="editable_gen" data-type="text" data-name="direccion" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="direccion"><?php echo $escuela['direccion']; ?></a></td>
+                                            <td>Dirección:</td><td><a href="#" class="editable_gen" data-type="text" data-name="direccion" id="direccion"><?php echo $escuela['direccion']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Jornada:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="jornada" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=jornada" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="jornada"><?php echo $escuela['jornada']; ?></a></td>
+                                            <td>Distrito:</td><td><a href="#" class="editable_gen" data-type="text" data-name="distrito" id="distrito"><?php echo $escuela['distrito']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Comunidad étnica:</td><td><a href="#" class="editable_gen" data-type="select" data-name="id_etnia" data-source="../../app/src/libs_gen/pr_etnia.php?fn_nombre=listar_etnia&args='{editable:1}'" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="id_etnia"><?php echo $escuela['etnia']; ?></a></td>
+                                            <td>Jornada:</td><td><a href="#" class="editable_gen" data-type="select" data-name="jornada" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=jornada" id="jornada"><?php echo $escuela['jornada']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Teléfono:</td><td><a href="#" class="editable_gen" data-type="text" data-name="telefono" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="telefono"><?php echo $escuela['telefono']; ?></a></td>
+                                            <td>Comunidad étnica:</td><td><a href="#" class="editable_gen" data-type="select" data-name="id_etnia" data-source="../../app/src/libs_gen/pr_etnia.php?fn_nombre=listar_etnia&args='{editable:1}'" id="id_etnia"><?php echo $escuela['etnia']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Correo electrónico:</td><td><a href="#" class="editable_gen" data-type="text" data-name="mail" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="mail"><?php echo $escuela['mail']; ?></a></td>
+                                            <td>Teléfono:</td><td><a href="#" class="editable_gen" data-type="text" data-name="telefono" id="telefono"><?php echo $escuela['telefono']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Supervisor:</td><td><a href="#" class="editable_gen" data-type="text" data-name="supervisor" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="supervisor"><?php echo $escuela['supervisor']; ?></a></td>
+                                            <td>Correo electrónico:</td><td><a href="#" class="editable_gen" data-type="text" data-name="mail" id="mail"><?php echo $escuela['mail']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Facebook:</td><td><a href="#" class="editable_gen" data-type="text" data-name="facebook" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="facebook"><?php echo $escuela['facebook']; ?></a></td>
+                                            <td>Facebook:</td><td><a href="#" class="editable_gen" data-type="text" data-name="facebook" id="facebook"><?php echo $escuela['facebook']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Observaciones:</td><td><a href="#" class="editable_gen" data-type="text" data-name="obs" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="obs"><?php echo $escuela['obs']; ?></a></td>
+                                            <td>Observaciones:</td><td><a href="#" class="editable_gen" data-type="text" data-name="obs" id="obs"><?php echo $escuela['obs']; ?></a></td>
                                         </tr>
                                     </table>
+                                    <?php
+                                    if(!empty($escuela['id_coordenada'])){
+                                        imprimir_mapa($escuela['lat'], $escuela['lng'], $escuela['nombre']);
+                                        echo '<br /> <input type="button" id="link_mapa" class="btn" value="Modificar mapa">';
+                                    }
+                                    else{
+                                        echo '<a id="link_mapa" class="btn">Añadir mapa</a>';
+                                    }
+                                    ?>
                                 </div>
                                 <div id="seccion_contacto" class="tab-pane">
                                     <form class="form-horizontal hide" id="form_contacto">
@@ -113,7 +122,7 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
                                                 <label class="control-label" for="inp_rol_cnt">Rol</label>
                                                 <div class="controls">
                                                     <select id="inp_rol_cnt" name="inp_rol_cnt" class="input-medium">
-                                                        
+
                                                     </select>
                                                 </div>
                                             </div>
@@ -148,22 +157,19 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
 
                                     <table class="table table-hover">
                                         <tr>
-                                            <td>Distrito:</td><td><a href="#" class="editable_cyd" data-type="text" data-name="distrito" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="distrito"><?php echo $escuela['distrito']; ?></a></td>
+                                            <td>Nivel:</td><td><a href="#" class="editable_gen" data-type="select" data-name="nivel" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=nivel" id="nivel"><?php echo $escuela['nivel']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Nivel:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="nivel" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=nivel" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="nivel"><?php echo $escuela['nivel']; ?></a></td>
+                                            <td>Sector:</td><td><a href="#" class="editable_gen" data-type="select" data-name="sector" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=sector" id="sector"><?php echo $escuela['sector']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Sector:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="sector" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=sector" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="sector"><?php echo $escuela['sector']; ?></a></td>
+                                            <td>Área:</td><td><a href="#" class="editable_gen" data-type="select" data-name="area" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=area" id="area"><?php echo $escuela['area']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Área:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="area" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=area" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="area"><?php echo $escuela['area']; ?></a></td>
+                                            <td>Modalidad:</td><td><a href="#" class="editable_gen" data-type="select" data-name="modalidad" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=modalidad" id="modalidad"><?php echo $escuela['modalidad']; ?></a></td>
                                         </tr>
                                         <tr>
-                                            <td>Modalidad:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="modalidad" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=modalidad" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="modalidad"><?php echo $escuela['modalidad']; ?></a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Plan:</td><td><a href="#" class="editable_cyd" data-type="select" data-name="plan" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=plan" data-url="../../app/src/libs_gen/gn_escuela.php?fn_nombre=editar_escuela" id="plan"><?php echo $escuela['plan']; ?></a></td>
+                                            <td>Plan:</td><td><a href="#" class="editable_gen" data-type="select" data-name="plan" data-source="../../app/src/libs_gen/gn_escuela.php?fn_nombre=listar_option&pk=plan" id="plan"><?php echo $escuela['plan']; ?></a></td>
                                         </tr>
                                         <tr>
                                             <td>Sedes:</td>
@@ -192,14 +198,44 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
                                 </div>
                                 <div class="tab-pane" id="tpe">
                                     <legend>Equipamiento</legend>
-                                    Donante: <br>
-                                    Estado de equipación: <br>
-                                    Fecha en que se equipó: <br>
+                                    <p class="lead">
+                                        Estado actual: <a href="#"><?php echo $escuela['proceso']['estado']; ?></a>
+                                    </p>
+                                    <?php
+                                    if(!empty($escuela['equipamiento'])){
+                                        ?>
+                                        <p class="lead">
+                                            Número de entrega: <strong><?php echo $escuela['equipamiento']['id_entrega']; ?></strong>
+                                        </p>
+                                        <p class="lead">
+                                            Fecha de equipamiento: <?php echo $escuela['equipamiento']['fecha']; ?>
+                                        </p>
+                                        <?php
+                                    }
+                                    else{
+                                        ?>
+                                        <a href="#" class="btn btn-info" id="btn_equipamiento">Indicar equipamiento</a>
+                                        <form class="form hide" id="form_equipamiento">
+                                            <table class="table">
+                                                <tr>
+                                                    <td>Número de entrega</td>
+                                                    <td><input type="number" min="1" id="id_entrega" name="id_entrega" required="required"></td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Fecha</td>
+                                                    <td><input type="text" name="fecha" id="fecha_entrega" placeholder="AAAA-MM-DD" required="required"></td>
+                                                </tr>
+                                            </table>
+                                            <button class="btn btn-primary" id="btn_equipamiento">Crear equipamiento</button>
+                                        </form>
+                                        <?php
+                                    }
+                                    ?>
                                 </div>
 
                                 <div class="tab-pane" id="mye">
                                     <legend>Monitoreo y evaluación</legend>
-                                    Estado de proceso: <br>
+                                    Estado actual: <a href="#"><?php echo $escuela['proceso']['estado']; ?></a>
                                 </div>
                                 <div class="tab-pane" id="seccion_supervisor">
                                     <legend>Supervisores departamentales</legend>
@@ -261,39 +297,76 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
             modal_c.ocultar();
         });
      }
+
+     function crearEquipamiento() {
+        $.getJSON(nivel_entrada+'app/bknd/caller.php',{
+            ctrl: 'CtrlEscPerfil',
+            act: 'crearEquipamiento',
+            args: {
+                id_escuela: <?php echo $escuela['id_escuela']; ?>,
+                id_entrega: $('#id_entrega').val(),
+                fecha: $('#fecha_entrega').val()
+            }
+        }, function (respuesta) {
+            if(respuesta){
+                location.reload();
+            }
+        });
+     }
+
      $(document).ready(function () {
         $('.editable_gen').editable({
-            pk: <?php echo $escuela['id_escuela'];?>,
-            mode: 'inline'
+            url: nivel_entrada+'app/bknd/caller.php',
+            pk: 1,
+            mode: 'inline',
+            params: function (params) {
+                params.ctrl = 'CtrlEscPerfil';
+                params.act = 'editarDato';
+                params.args = {
+                    id_escuela: <?php echo $escuela['id_escuela'];?>,
+                    campo: params.name,
+                    value: params.value
+                };
+                return params;
+            }
         });
+
         listar_contacto_escuela(<?php echo $escuela['id_escuela'];?>, 'lista_contacto');
-        $('.editable_cyd').editable({
-            pk: <?php echo $escuela['id_escuela'];?>,
-            mode: 'inline'
-        });
+
         activar_form_contacto('form_contacto');
         $("#link_mapa").click(function () {
             bootbox.prompt("Ingrese la latitud (Lat)", function(result) {
                 var temp_result = result;
                 bootbox.prompt("Ingrese la longitud (Lng)", function (result) {
                     if(result){
-                        $.ajax({
-                            type: "post",
-                            <?php                           if($escuela["mapa"]!=="0"){
-                                echo 'url: "../../app/src/libs/editar_escuela.php?mapa=1",';    //Para modificar
+                        $.getJSON(nivel_entrada+'app/bknd/caller.php',{
+                            ctrl: 'CtrlEscPerfil',
+                            act: 'editarCoordenada',
+                            args: {
+                                lat: temp_result,
+                                lng: result,
+                                id_escuela: <?php echo $escuela['id_escuela']; ?>
                             }
-                            else{
-                                echo 'url: "../../app/src/libs/editar_escuela.php?mapa=2",';    //Para crear uno nuevo
-                            }
-                            echo 'data: {lat: temp_result, lng: result, id_escuela: '.$escuela['id_escuela'].' },';
-                            ?>
-                            success: function () {
-                                location.reload();
-                            }
+                        }, function (respuesta) {
+                            location.reload();
                         });
                     }
                 });
             });
+        });
+
+        $('#btn_equipamiento').click(function () {
+            $('#form_equipamiento').toggle();
+        });
+        $('#form_equipamiento').submit(function (e) {
+            e.preventDefault();
+            var fecha_entrega = $('#fecha_entrega').val();
+            if(fecha_entrega.match(/^(\d{4})-(\d{1,2})-(\d{1,2})$/)){
+                crearEquipamiento();
+            }
+            else{
+                console.log('no');
+            }
         });
      });
 </script>

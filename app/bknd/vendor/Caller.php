@@ -45,7 +45,7 @@ class Caller
             //$resultado['state'] = true;
             return $resultado;
         }
-        return array('state'=>false);        
+        return array('state'=>'error','error'=>'act no encontrado');
     }
 
     /**
