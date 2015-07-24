@@ -2,6 +2,7 @@
 /**
 * -> Control académico (vista de tabla)
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -386,11 +387,11 @@ $("#id_sede").select2({
 	width: 200,
 	minimumInputLength: 0,
 	ajax: {
-		<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+		<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 			echo "url: '../../src/libs/listar_sede.php',\n";
 		}
 		else{
-			echo "url: '../../src/libs/listar_sede.php?id_per=".$sesion->get("id_per")."',\n";
+			echo "url: '../../src/libs/listar_sede.php?id_per=".Session::get("id_per")."',\n";
 		}
 		?>
 		dataType: 'json',
@@ -424,11 +425,11 @@ $("#id_curso").select2({
 	allowClear: true,
 	ajax: {
 
-		<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+		<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 			echo "url: '../../src/libs/listar_curso.php',\n";
 		}
 		else{
-			echo "url: '../../src/libs/listar_curso.php?id_per=".$sesion->get("id_per")."',\n";
+			echo "url: '../../src/libs/listar_curso.php?id_per=".Session::get("id_per")."',\n";
 		}
 		?>
 		dataType: 'json',
@@ -498,7 +499,7 @@ $("#boton_cancelar").click(function () {
 <?php
 if(($id_grupo = $_GET['id_grupo'])&&($rand = $_GET['rand'])){
 	$id_per = ($_GET['id_per']/$rand);
-	if(($sesion->get('id_per') == $id_per)||($sesion->get('rol')<3)){
+	if((Session::get('id_per') == $id_per)||(Session::get('rol')<3)){
 		echo "
 		abrir_ca(".$id_grupo/$rand.",'".$_GET['no']."');
 		";
@@ -526,7 +527,7 @@ function f_sumatoria_notas () {
 </script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="row-fluid">
 		<div class="span1"></div>
 		<div class="span11 well">

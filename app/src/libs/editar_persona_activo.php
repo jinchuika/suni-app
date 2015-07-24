@@ -1,12 +1,13 @@
 <?php
 
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
 
-if(($sesion->get("rol"))==1){	//Valida que sólo un administrador pueda hacerlo
+if((Session::get("rol"))==1){	//Valida que sólo un administrador pueda hacerlo
 	$bd = Db::getInstance();
 	$id_per = $_GET['id_per'];
 	

@@ -1,6 +1,10 @@
 <?php
-    require_once("includes/auth/login.class.php"); 
-    vLog("usuario", "app","0");
+    include_once 'app/bknd/autoload.php';
+    if(Session::isActive()){
+        header('Location: app');
+    }
+    //require_once("includes/auth/login.class.php"); 
+    //vLog("usuario", "app","0");
     if( isset($_GET["validar"])){
         $validar=$_GET["validar"];                
     }else{
@@ -102,7 +106,7 @@
                 </div>
                 <div>
                 
-                <form class="form-signin" action="includes/auth/sesion.login.php" method="POST">
+                <form class="form-signin" action="includes/auth/login.action.php" method="POST">
                     <input type="hidden" name="redirect_url" id="redirect_url" value="<?php echo $_GET['redirect_url']; ?>">
                     <h3 class="form-signin-heading">Acceso a Sistema</h3>
                     <span class="subT">Ingresa con tu ID de FUNSEPA.</span>
@@ -111,15 +115,15 @@
                     <?php 
                         switch ($validar) {
                             case '1':
-                                echo "<input type=\"text\" name = \"usuario\" class=\"input-block-level\" value=\"USUARIO NO EXISTE\" onfocus=\"replaceUsr(this)\"  style=\"color:#E17575; font-weight:bold\"/>";
+                                echo "<input type=\"text\" name = \"username\" class=\"input-block-level\" value=\"USUARIO NO EXISTE\" onfocus=\"replaceUsr(this)\"  style=\"color:#E17575; font-weight:bold\"/>";
                                 break;
 
                             case '4':
-                                echo "<input type=\"text\" name = \"usuario\" class=\"input-block-level\" value=\"EL USUARIO INGRESADO \" onfocus=\"replaceUsr(this)\"  style=\"color:#E17575; font-weight:bold\"/>";
+                                echo "<input type=\"text\" name = \"username\" class=\"input-block-level\" value=\"EL USUARIO INGRESADO \" onfocus=\"replaceUsr(this)\"  style=\"color:#E17575; font-weight:bold\"/>";
                                 break;
                                 
                             default:
-                                echo "<input type=\"text\" name = \"usuario\" class=\"input-block-level\" value=\"FUNSEPA ID\" onfocus=\"this.value=''\" />";                            
+                                echo "<input type=\"text\" name = \"username\" class=\"input-block-level\" value=\"FUNSEPA ID\" onfocus=\"this.value=''\" />";                            
                                 break;
                         }
                     ?>

@@ -9,12 +9,13 @@ if(empty($id)){
 		header("Location: perfil.php?id=".$id."");
 	}
 }
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
-$id_per_cookie = $sesion->get("id_per");
+$id_per_cookie = Session::get("id_per");
 
 
 //Se si está arbiendo desde la base de datos de personas
@@ -205,7 +206,7 @@ else{
 	?>
 	</script>
 	<?php
-	if((($sesion->get("rol"))<3)||($id_per_cookie==$id_per)){
+	if(((Session::get("rol"))<3)||($id_per_cookie==$id_per)){
 		echo '<script type="text/javascript">
 		$(document).ready(function() {
 			$("#cambio_avatar").click(function() {
@@ -244,7 +245,7 @@ $(document).ready(function() {
 
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	
 	<div class="row">
 		<div class="span1"></div>

@@ -25,7 +25,7 @@ $bd = $libs->incluir('bd');
     
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir); ?>
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span3">

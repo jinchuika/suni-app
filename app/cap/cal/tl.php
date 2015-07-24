@@ -2,6 +2,7 @@
 /**
 * -> Time line de capacitación
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -53,13 +54,13 @@ $bd = $libs->incluir('bd');
 
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="row row-fluid">
 		<div class="span5"></div>
 		<div class="span2">
 			<select onchange="obtener_datos(this.value);" name="lista_per" id="lista_per">
 				<?php
-				if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+				if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 					$query_capa = "SELECT * FROM usr where rol=3";
 					$stmt_capa = $bd->ejecutar($query_capa);
 					echo '<option value="">Todos</option>';
@@ -68,7 +69,7 @@ $bd = $libs->incluir('bd');
 					}
 				}
 				else{
-					echo '<option value="'.$sesion->get('id_per').'"></option>';
+					echo '<option value="'.Session::get('id_per').'"></option>';
 				}
 				?>
 			</select>

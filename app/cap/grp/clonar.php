@@ -2,6 +2,7 @@
 /**
 * -> Clonador de grupos
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -143,11 +144,11 @@ $(document).ready(function () {
 	$("#id_sede").select2({
 		minimumInputLength: 0,
 		ajax: {
-			<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+			<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 				echo "url: '../../src/libs/listar_sede.php',\n";
 			}
 			else{
-				echo "url: '../../src/libs/listar_sede.php?id_per=".$sesion->get("id_per")."',\n";
+				echo "url: '../../src/libs/listar_sede.php?id_per=".Session::get("id_per")."',\n";
 			}
 			?>
 			dataType: 'json',
@@ -186,11 +187,11 @@ $(document).ready(function () {
 	$("#id_curso").select2({
 		minimumInputLength: 0,
 		ajax: {
-			<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+			<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 				echo "url: '../../src/libs/listar_curso.php',\n";
 			}
 			else{
-				echo "url: '../../src/libs/listar_curso.php?id_per=".$sesion->get("id_per")."',\n";
+				echo "url: '../../src/libs/listar_curso.php?id_per=".Session::get("id_per")."',\n";
 			}
 			?>
 			dataType: 'json',
@@ -229,7 +230,7 @@ $(document).ready(function () {
 </script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span3">

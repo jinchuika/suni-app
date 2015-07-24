@@ -2,6 +2,7 @@
 /**
 * -> Requisición de compra, id_area = 6;
 */
+require_once('../../bknd/autoload.php');
 require_once('../libs/incluir.php');
 
 /**
@@ -21,7 +22,7 @@ class kr_solicitud_fila
 
 	public function crear_fila($args)
 	{
-		if($this->sesion->has($this->id_area,2)){
+		if(Session::has($this->id_area,2)){
 			$query_item = "SELECT id, existencia FROM kr_equipo where id=".$args['id_item'];
 			$stmt_item  = $this->bd->ejecutar($query_item);
 			if($item = $this->bd->obtener_fila($stmt_item, 0)){
@@ -38,7 +39,7 @@ class kr_solicitud_fila
 	
 	public function abrir_fila($args = null)
 	{
-		if($this->sesion->has($this->id_area,1)){
+		if(Session::has($this->id_area,1)){
 			/*Comprobar que tenga permisos para ver*/
 			$query = "SELECT
 			kr_solicitud_fila.id,
@@ -68,7 +69,7 @@ class kr_solicitud_fila
 	}
 	public function listar_fila($args = null)
 	{
-		if($this->sesion->has($this->id_area,1)){
+		if(Session::has($this->id_area,1)){
 			$arr_fila = array();
 			$query = "SELECT
 			kr_solicitud_fila.id,
@@ -101,7 +102,7 @@ class kr_solicitud_fila
 	}
 	public function editar_fila($args=null,$pk=null,$name=null,$value=null)
 	{
-		if($this->sesion->has($this->id_area,4)){
+		if(Session::has($this->id_area,4)){
 			if($args==null){
 				$arr_req = array();
 				$existencia = 'flag';

@@ -1,4 +1,5 @@
 <?php  
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -9,7 +10,7 @@ $id_per = $_GET['id_per'];
 $viejo_pass = $_POST['viejo-pass'];
 $nuevo_pass = $_POST['nuevo-pass1'];
 
-if(($sesion->get("id_per"))==($id_per)){	//Valida que el único usuario habilitado sea el mismo que tiene la sesión abierta
+if((Session::get("id_per"))==($id_per)){	//Valida que el único usuario habilitado sea el mismo que tiene la sesión abierta
 	$bd = Db::getInstance();
 	
 	$query = "SELECT * FROM usr where id_persona=".$id_per;

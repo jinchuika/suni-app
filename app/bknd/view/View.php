@@ -5,9 +5,23 @@
 class View
 {
 	var $title = '';
+	var $head = '';
+	var $menu = array('js'=>'', 'css'=>'');
+	var $javascript = '';
+
 	public function render($value='')
 	{
-		# code...
+		
+	}
+
+	public function setHead($libs)
+	{
+		
+	}
+
+	public function setMenu($default)
+	{
+		
 	}
 }
 ?>

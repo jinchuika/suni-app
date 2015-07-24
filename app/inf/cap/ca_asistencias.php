@@ -2,6 +2,7 @@
 /**
 * -> Informe de control académico sobre asistencias a los grupos
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -33,11 +34,11 @@ $bd = $libs->incluir('bd');
 			lista_curso.options.remove(lista_curso.options.length - 1);
 		}
 		$.ajax({
-			<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+			<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 				echo "url: '../../src/libs/listar_curso.php',\n";
 			}
 			else{
-				echo "url: '../../src/libs/listar_curso.php?id_per=".$sesion->get("id_per")."',\n";
+				echo "url: '../../src/libs/listar_curso.php?id_per=".Session::get("id_per")."',\n";
 			}
 			?>
 			data: {
@@ -73,11 +74,11 @@ $bd = $libs->incluir('bd');
 			minimumInputLength: 0,
 			allowClear: true,
 			ajax: {
-				<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+				<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 					echo "url: '../../src/libs/listar_sede.php',\n";
 				}
 				else{
-					echo "url: '../../src/libs/listar_sede.php?id_per=".$sesion->get("id_per")."',\n";
+					echo "url: '../../src/libs/listar_sede.php?id_per=".Session::get("id_per")."',\n";
 				}
 				?>
 				dataType: 'json',
@@ -114,11 +115,11 @@ $bd = $libs->incluir('bd');
 			allowClear: true,
 			ajax: {
 
-				<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+				<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 					echo "url: '../../src/libs/listar_curso.php',\n";
 				}
 				else{
-					echo "url: '../../src/libs/listar_curso.php?id_per=".$sesion->get("id_per")."',\n";
+					echo "url: '../../src/libs/listar_curso.php?id_per=".Session::get("id_per")."',\n";
 				}
 				?>
 				dataType: 'json',
@@ -212,7 +213,7 @@ $bd = $libs->incluir('bd');
 </script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="row row-fluid">
 		<div class="span1"></div>
 		<div class="span10">

@@ -14,7 +14,7 @@ function listar_permiso($libs, $id_usr=null, $id_fun=null)
 {
 	$sesion = $libs->incluir('seguridad');
 	$bd = $libs->incluir('bd');
-	if($sesion->has(4,1)){	
+	if(Session::has(4,1)){	
 		$query = "SELECT
 		aut_permiso.id,
 		aut_permiso.id_usr,
@@ -42,7 +42,7 @@ function editar_permiso($libs, $id_permiso, $valor, $accion)
 {
 	$sesion = $libs->incluir('seguridad');
 	$bd = $libs->incluir('bd');
-	if($sesion->has(4,4)){	
+	if(Session::has(4,4)){	
 		$query = "SELECT
 		id_usr,
 		id_area,
@@ -73,7 +73,7 @@ function crear_permiso($libs, $id_usr, $id_area)
 {
 	$sesion = $libs->incluir('seguridad');
 	$bd = $libs->incluir('bd');
-	if($sesion->has(4, 2)){
+	if(Session::has(4, 2)){
 		$query_sel = "SELECT id from aut_permiso WHERE id_usr=".$id_usr." AND id_area=".$id_area;
 		$stmt_sel = $bd->ejecutar($query_sel);
 		$sel = $bd->obtener_fila($stmt_sel, 0);

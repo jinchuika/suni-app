@@ -2,6 +2,7 @@
 /**
 * -> Gestión de seguridad, id_area = 4;
 */
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 $nivel_dir = 2;
 $id_area = 4;
@@ -23,7 +24,7 @@ $bd = $libs->incluir('bd');
 	?>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir); ?>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span3 well" id="contenedor_lista">
@@ -72,16 +73,16 @@ $bd = $libs->incluir('bd');
     }
 
     <?php
-    if($sesion->has($id_area, 2)){
+    if(Session::has($id_area, 2)){
     ?>
     function crear_permiso (id_usr) {
-    	document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML) + <?php echo $sesion->has($id_area, 2) ? "  \"<button class='btn btn-mini btn-primary' onclick='crear_permiso(\"+id_usr+\")'>Agregar</button>\"" : '';?>;
+    	document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML) + <?php echo Session::has($id_area, 2) ? "  \"<button class='btn btn-mini btn-primary' onclick='crear_permiso(\"+id_usr+\")'>Agregar</button>\"" : '';?>;
     	$("#nombre_usuario").append('<select name="listado_area" id="listado_area" class="nuevo_permiso"></select>');
     	$("#nombre_usuario").append(' <button class="btn btn-primary" id="btn_nuevo" class="nuevo_permiso">Ok</button>');
     	$("#nombre_usuario").append('<button class="btn btn-danger" id="btn_nuevo_cancel" class="nuevo_permiso">Cancelar</button>');
     	listar_campos_select('app/src/libs_gen/aut_area.php?fn_nombre=listar_area', 'listado_area', '');
     	$("#btn_nuevo_cancel").click(function () {
-    		document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML) + <?php echo $sesion->has($id_area, 2) ? "  \"<button class='btn btn-mini btn-primary' onclick='crear_permiso(\"+id_usr+\")'>Agregar</button>\"" : '';?>;
+    		document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML) + <?php echo Session::has($id_area, 2) ? "  \"<button class='btn btn-mini btn-primary' onclick='crear_permiso(\"+id_usr+\")'>Agregar</button>\"" : '';?>;
     	});
     	$("#btn_nuevo").click(function () {
     		$.ajax({
@@ -113,7 +114,7 @@ $bd = $libs->incluir('bd');
 
         function abrir_usuario (id_usr) {
             $("#tabla_datos").find("tr:gt(0)").remove();
-            document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML) + <?php echo $sesion->has($id_area, 2) ? "  \"<button class='btn btn-mini btn-primary' onclick='crear_permiso(\"+id_usr+\")'>Agregar</button>\"" : '';?>;
+            document.getElementById('nombre_usuario').innerHTML = (document.getElementById("a_listado_"+id_usr).innerHTML) + <?php echo Session::has($id_area, 2) ? "  \"<button class='btn btn-mini btn-primary' onclick='crear_permiso(\"+id_usr+\")'>Agregar</button>\"" : '';?>;
             if(id_usr){
                 $.ajax({
                     url: nivel_entrada+"app/src/libs_gen/aut_permiso.php",

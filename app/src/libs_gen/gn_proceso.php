@@ -10,6 +10,7 @@ class gn_proceso
     {
         $this->id_area = 8;
         if(empty($bd) || empty($sesion)){
+            include_once('../../bknd/autoload.php');
             require_once('../libs/incluir.php');
             $nivel_dir = 3;
             $libs = new librerias($nivel_dir);
@@ -108,7 +109,7 @@ class gn_proceso
         	$id_proceso = $this->bd->lastID();
             define('__ROOT__', dirname(dirname(__FILE__)));
             require_once(__ROOT__.'/libs_me/me_log.php');
-            $log = new me_log($this->bd, $this->sesion);
+            $log = new me_log($this->bd);
             $log->crear_registro(array(
                 'id_proceso'=>$id_proceso,
                 'id_tipo_log'=> 1,

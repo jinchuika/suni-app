@@ -2,6 +2,7 @@
 /**
 * -> Gráfico del Kárdex
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -89,7 +90,7 @@ $bd = $libs->incluir('bd');
 	</script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span3">

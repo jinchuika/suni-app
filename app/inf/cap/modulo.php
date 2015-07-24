@@ -2,6 +2,7 @@
 /**
 * -> Informe de módulo
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -76,11 +77,11 @@ $bd = $libs->incluir('bd');
 		}
 	}
 	$(document).ready(function() {
-		<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+		<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 			echo "var url_sede = 'suni/app/src/libs/listar_sede.php';\n";
 		}
 		else{
-			echo "var url_sede = 'suni/app/src/libs/listar_sede.php?id_per=".$sesion->get("id_per")."';\n";
+			echo "var url_sede = 'suni/app/src/libs/listar_sede.php?id_per=".Session::get("id_per")."';\n";
 		}
 		?>
 		llenar_select2("id_sede", nivel_entrada+url_sede, 'nombre');
@@ -100,7 +101,7 @@ $bd = $libs->incluir('bd');
 	</script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span2">

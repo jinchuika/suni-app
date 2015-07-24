@@ -24,12 +24,22 @@ class CtrlEscPerfil extends Controller
         return $escuela ? $escuela : false;
     }
 
+    /**
+     * Lista los participantes de la escuela
+     * @param  integer $id_escuela el ID de la escuela
+     * @return Array
+     */
     public function abrirParticipantes($id_escuela)
     {
         $gn_escuela = new GnEscuela();
         return $gn_escuela->abrirParticipantesEscuela($id_escuela);
     }
 
+    /**
+     * Abre el proceso que tenga abierto la escuela
+     * @param  integer $id_escuela ID de la escuela
+     * @return Array|boolean
+     */
     public function abrirProcesoEscuela($id_escuela)
     {
         $gn_proceso = new GnProceso();
@@ -37,12 +47,22 @@ class CtrlEscPerfil extends Controller
         return is_array($proceso) ? $proceso[0] : false;
     }
 
+    /**
+     * Muestra los datos del equipamiento
+     * @param  integer $id_equipamiento ID de me_equipamiento
+     * @return Array
+     */
     public function abrirEquipamientoEscuela($id_equipamiento)
     {
         $me_equipamiento = new MeEquipamiento();
         return $me_equipamiento->abrirEquipamiento(array('id'=>$id_equipamiento));
     }
 
+    /**
+     * Abre el supermisor desde me_supervisor
+     * @param  string $id_distrito Distrito de la escuela
+     * @return Array
+     */
     public function abrirSupervisor($id_distrito)
     {
         $esc_supervisor = new EscSupervisor();
@@ -50,6 +70,14 @@ class CtrlEscPerfil extends Controller
         return $esc_supervisor->listarSupervisor($id_distrito, $campos);
     }
 
+    /**
+     * Indica que una escuela haya sido equipada
+     * @param  integer $id_escuela ID de la escuela
+     * @param  integer $id_entrega Numero de entrega
+     * @param  string $fecha      Fecha del equipamiento
+     * @uses GnProceso Para crear un proceso en que caso de que no exista
+     * @return Array|boolean             El id del equipamiento|false
+     */
     public function crearEquipamiento($id_escuela, $id_entrega, $fecha)
     {
         $gn_proceso = new GnProceso();

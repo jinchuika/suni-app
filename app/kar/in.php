@@ -2,6 +2,7 @@
 /**
 * -> Listado de equiposs
 */
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 $nivel_dir = 2;
 $libs = new librerias($nivel_dir);
@@ -37,7 +38,7 @@ while ($estado = $bd->obtener_fila($stmt_estado, 0)) {
     ?>
 </head>
 <body>
-    <?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
+    <?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir); ?>
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span7 ">

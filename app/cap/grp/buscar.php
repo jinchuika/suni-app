@@ -2,10 +2,12 @@
 /**
 * -> Buscador de grupos
 */
+include '../../../app/bknd/autoload.php';
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
-$sesion = $libs->incluir('seguridad');
+//$sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
 
 ?>
@@ -20,7 +22,7 @@ $bd = $libs->incluir('bd');
 	$libs->incluir('notify');
 	$libs->incluir('google_chart');
 	//$libs->incluir('timeline');
-	$libs->incluir_general($sesion->get('id_per'), $nivel_dir);
+	$libs->incluir_general(Session::get('id_per'), $nivel_dir);
 	?>
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<script type="text/javascript">
@@ -186,7 +188,7 @@ $bd = $libs->incluir('bd');
 				var contador = 0;
 				/* Crea la tabla con los datos del grupo */
 				document.getElementById('enlace').innerHTML = "<i class='icon-copy' onclick='ventana_seleccion(\"Enlace a este grupo\",\"http://funsepa.net/suni/app/cap/grp/buscar.php?id_grupo="+data[0].id_grupo+"\");'></i>";
-				<?php if($sesion->get('rol')<3){ ?> document.getElementById('enlace').innerHTML += "<button onclick='crear_informe_semana("+data[0].id_grupo+");'>Inf. Semanal</button>"; <?php } ?>
+				<?php if(Session::get('rol')<3){ ?> document.getElementById('enlace').innerHTML += "<button onclick='crear_informe_semana("+data[0].id_grupo+");'>Inf. Semanal</button>"; <?php } ?>
 				crear_datos(data[0].numero_grupo, data[0].desc_grupo, data[0].capacitador, data[0].sede, data[0].nombre_curso, data[0].cant_hombre, data[0].cant_mujer, data[0].id_grupo, data[0].id_sede);
 				var grafico1 = [
 				["Hombres", data[0].cant_hombre],
@@ -263,11 +265,11 @@ $(document).ready(function () {
 	$("#id_sede").select2({
 		minimumInputLength: 0,
 		ajax: {
-			<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+			<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 				echo "url: '../../src/libs/listar_sede.php',\n";
 			}
 			else{
-				echo "url: '../../src/libs/listar_sede.php?id_per=".$sesion->get("id_per")."',\n";
+				echo "url: '../../src/libs/listar_sede.php?id_per=".Session::get("id_per")."',\n";
 			}
 			?>
 			dataType: 'json',
@@ -307,11 +309,11 @@ $(document).ready(function () {
 		allowClear: true,
 		minimumInputLength: 0,
 		ajax: {
-			<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+			<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 				echo "url: '../../src/libs/listar_curso.php',\n";
 			}
 			else{
-				echo "url: '../../src/libs/listar_curso.php?id_per=".$sesion->get("id_per")."',\n";
+				echo "url: '../../src/libs/listar_curso.php?id_per=".Session::get("id_per")."',\n";
 			}
 			?>
 			dataType: 'json',
@@ -384,7 +386,7 @@ $(document).ready(function () {
 </script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span3">

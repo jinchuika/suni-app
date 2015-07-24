@@ -1,17 +1,18 @@
 <?php
 
 
+include_once '../app/bknd/autoload.php';
 include '../app/src/libs/incluir.php';
 $nivel_dir = 1;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
 require_once '../app/src/libs/cabeza.php';
-$nombre_usuario = $sesion->get("nombre");
-$usuario = $sesion->get("usuario");
+$nombre_usuario = Session::get("nombre");
+$usuario = Session::get("usuario");
 
 
-if($sesion->get("rol")==3){
+if(Session::get("rol")==3){
 	header("Location: ../app");
 }
 ?>
@@ -24,7 +25,7 @@ if($sesion->get("rol")==3){
 	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
 	<meta charset="utf-8">
 </head>
-<?php $cabeza = new encabezado($sesion->get("id_per"), 2, 'app');	?>
+<?php $cabeza = new encabezado(Session::get("id_per"), 2, 'app');	?>
 <script> 
 google.load('visualization', 1, {packages:['corechart']});
 google.setOnLoadCallback(drawChart);

@@ -2,6 +2,7 @@
 /**
 * -> Asignación de participante a un grupo (No crea al participante)
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -21,7 +22,7 @@ $bd = $libs->incluir('bd');
 	?>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="row row-fluid">
 		<div class="span1"></div>
 		<div class="span4">
@@ -145,11 +146,11 @@ $bd = $libs->incluir('bd');
 		</div>
 	</div>
 	<?php 
-	if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+	if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 		echo '<script type="text/javascript" id="asignar" src="http://funsepa.net/suni/app/src/js-libs/cyd/cap_par_asignar.js" ></script>';
 	}
 	else{
-		echo '<script type="text/javascript" id="asignar" id_per="'.$sesion->get("id_per").'" src="http://funsepa.net/suni/app/src/js-libs/cyd/cap_par_asignar.js" ></script>';
+		echo '<script type="text/javascript" id="asignar" id_per="'.Session::get("id_per").'" src="http://funsepa.net/suni/app/src/js-libs/cyd/cap_par_asignar.js" ></script>';
 	}
 	?>
 </body>

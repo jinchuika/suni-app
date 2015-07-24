@@ -1,4 +1,5 @@
 <?php
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -16,7 +17,7 @@ $bd = $libs->incluir('bd');
 	<title>Nueva sede</title>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<br>
 	<div class="row">
 		<div class="span1"></div>
@@ -85,8 +86,8 @@ $bd = $libs->incluir('bd');
 						<label class="control-label" for="capacitador">Capacitador</label>
 						<div class="controls">
 							<select id="capacitador" name="capacitador" class="input-medium">
-								<?php 								if(($sesion->get("rol"))=="3"){
-									echo "<option value=\"".$sesion->get("id_per")."\">".$sesion->get("nombre")."</option>";
+								<?php 								if((Session::get("rol"))=="3"){
+									echo "<option value=\"".Session::get("id_per")."\">".Session::get("nombre")."</option>";
 								}
 								else{
 									$query_capa = "SELECT * FROM usr WHERE rol=3";
@@ -147,9 +148,9 @@ $bd = $libs->incluir('bd');
 					data: $("#formulario").serialize(),
 					success:    function(data) { 
 						var data = $.parseJSON(data);
-						if((data)=="Correcto"){
+						if((data.done)==true){
 							bootbox.alert("Se creó con éxito", function () {
-								window.location="http://funsepa.net/suni";
+								window.location='sede.php?id='+data.id;
 							});
 						}
 						else{

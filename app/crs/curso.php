@@ -1,5 +1,6 @@
 <?php
 /*Validación de seguridad (Campo, si existe, si no)*/
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 $nivel_dir = 2;
 $libs = new librerias($nivel_dir);
@@ -49,7 +50,7 @@ if($curso = $bd->obtener_fila($stmt, 0)){
 </head>
 <body>
 	<?php
-	$cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);
+	$cabeza = new encabezado(Session::get("id_per"), $nivel_dir);
 	?>
 	<br><br>
 	<div class="row">

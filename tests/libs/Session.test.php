@@ -1,4 +1,5 @@
 <?php
+if ( !isset( $_SESSION ) ) $_SESSION = array(  );
 require_once dirname(__FILE__) . '/../../app/bknd/autoload.php';
 /**
  * Test para la clase de sesion Session
@@ -7,15 +8,12 @@ class SessionTest extends PHPUnit_Framework_TestCase
 {
 	public function setUp()
 	{
-		$prev = error_reporting(0);
-		session_start();
-		error_reporting($prev);
+		Login::iniciarSesion('lcontreras', 'passw2');
 	}
 	
 	public function testCrearSesion()
 	{
-		Session::sessionStart();
-		//$this->assterNotNull(Session::isValid());
+		//Session::sessionStart();
 	}
 }
 ?>

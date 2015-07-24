@@ -2,7 +2,6 @@
 /* Coordinador de capacitación (p. ej. pedagoga) */
 function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 {
-	$sesion = sesion::getInstance($id_per);
 	?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<div class="modal hide fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -211,7 +210,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 										</a>
 										<ul class="dropdown-menu">
 											<?php
-											if($sesion->has(1,8)){
+											if(Session::has(1,8)){
 												?>
 												<li>
 													<a href="<?php echo $nivel_dir; ?>app/cap/par/eliminar.php">
@@ -230,7 +229,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 												</li>
 												<?php 
 											} 
-											if($sesion->has(4,1)){
+											if(Session::has(4,1)){
 												?>
 												<li>
 													<a href="<?php echo $nivel_dir; ?>app/gen/permiso.php"><i class="icon-unlock-alt"></i> Gestionar permisos</a>
@@ -241,7 +240,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 										</ul>
 									</li>
 									<li>
-										<a href="<?php echo $nivel_dir; ?>cerrarsesion.php">
+										<a href="<?php echo $nivel_dir; ?>includes/auth/logout.action.php">
 											<i class="icon-off"></i> Cerrar sesión
 										</a>
 									</li>

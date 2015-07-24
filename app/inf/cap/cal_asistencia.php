@@ -2,6 +2,7 @@
 /**
 * -> Calendario de capacitación
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -30,11 +31,11 @@ $bd = $libs->incluir('bd');
 			width: 'element',
 			minimumInputLength: 0,
 			ajax: {
-				<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+				<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 					echo "url: '../../src/libs/listar_sede.php',\n";
 				}
 				else{
-					echo "url: '../../src/libs/listar_sede.php?id_per=".$sesion->get("id_per")."',\n";
+					echo "url: '../../src/libs/listar_sede.php?id_per=".Session::get("id_per")."',\n";
 				}
 				?>
 				dataType: 'json',
@@ -119,7 +120,7 @@ $bd = $libs->incluir('bd');
 </script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span2">
@@ -127,7 +128,7 @@ $bd = $libs->incluir('bd');
 					Capacitador: <br>
 					<select class="span11" name="lista_per" id="lista_per">
 						<?php
-						if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+						if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 							$query_capa = "SELECT * FROM usr where rol=3";
 							$stmt_capa = $bd->ejecutar($query_capa);
 							echo '<option value="">Todos</option>';
@@ -136,14 +137,14 @@ $bd = $libs->incluir('bd');
 							}
 						}
 						else{
-							echo '<option value="'.$sesion->get('id_per').'"></option>';
+							echo '<option value="'.Session::get('id_per').'"></option>';
 						}
 						?>
 					</select>
 					Sede: <br>
 					<select class="span11" name="lista_sed" id="lista_sed">
 						<?php
-						if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+						if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 							$query_sede = "SELECT * FROM gn_sede";
 							$stmt_sede = $bd->ejecutar($query_sede);
 							echo '<option value="">Todos</option>';
@@ -152,7 +153,7 @@ $bd = $libs->incluir('bd');
 							}
 						}
 						else{
-							$query_sede = "SELECT * FROM gn_sede where capacitador=".$sesion->get('id_per');
+							$query_sede = "SELECT * FROM gn_sede where capacitador=".Session::get('id_per');
 							$stmt_sede = $bd->ejecutar($query_sede);
 							echo '<option value="">Todos</option>';
 							while ($sede = $bd->obtener_fila($stmt_sede, 0)) {

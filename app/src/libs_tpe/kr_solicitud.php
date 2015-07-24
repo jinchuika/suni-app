@@ -2,6 +2,7 @@
 /**
 * -> Requisición de compra, id_area = 6;
 */
+require_once('../../bknd/autoload.php');
 require_once('../libs/incluir.php');
 
 /**
@@ -21,7 +22,7 @@ class kr_solicitud
 
     public function crear_req($args)
     {
-        if($this->sesion->has($this->id_area,2)){
+        if(Session::has($this->id_area,2)){
             $query = "INSERT INTO kr_solicitud (fecha, estado, observacion) VALUES ('".$args['fecha']."', 1, '')";
             if($stmt = $this->bd->ejecutar($query)){
                 return array('msj' => 'si', 'id' =>$this->bd->lastID(), 'fecha' => $args['fecha']);
@@ -34,7 +35,7 @@ class kr_solicitud
 
     public function abrir_req($args = null)
     {
-        if($this->sesion->has($this->id_area,1)){
+        if(Session::has($this->id_area,1)){
             $query = "SELECT * FROM kr_solicitud where id>0 ";
             foreach ($args as $campo => $valor) {
                 $query .= " AND ".$campo."='".$valor."' ";
@@ -51,7 +52,7 @@ class kr_solicitud
 
     public function listar_req($args = null)
     {
-        if($this->sesion->has($this->id_area,1)){
+        if(Session::has($this->id_area,1)){
             $arr_req = array();
             $query = "SELECT * FROM kr_solicitud where id>0 ";
             if(is_array($args)){
@@ -68,7 +69,7 @@ class kr_solicitud
     }
     public function editar_req($args=null,$pk=null,$name=null,$value=null)
     {
-        if($this->sesion->has($this->id_area,4)){
+        if(Session::has($this->id_area,4)){
             if($args==null){
                 $query = "UPDATE kr_solicitud SET ".$name."='".$value."' WHERE id=".$pk;
             }
@@ -85,7 +86,7 @@ class kr_solicitud
     }
     public function guardar_req($args=null)
     {
-        if($this->sesion->has($this->id_area,4)){
+        if(Session::has($this->id_area,4)){
             $query_fila = "UPDATE kr_solicitud_fila SET estado=".$args['id_estado']." where id_solicitud=".$args['id']." and estado<".$args['id_estado'];
             if($stmt_fila = $this->bd->ejecutar($query_fila)){
                 $query = "UPDATE kr_solicitud SET estado=".$args['id_estado']." where id=".$args['id'];
@@ -109,9 +110,9 @@ class kr_solicitud
         $phpmailer = new PHPMailer;
         $phpmailer->IsHTML(true);
         $phpmailer->CharSet = 'UTF-8';
-        $phpmailer->From = $this->sesion->get('mail');
-        $phpmailer->addReplyTo = $this->sesion->get('mail');
-        $phpmailer->FromName = $this->sesion->get('nombre').' '.$this->sesion->get('apellido');
+        $phpmailer->From = Session::get('mail');
+        $phpmailer->addReplyTo = Session::get('mail');
+        $phpmailer->FromName = Session::get('nombre').' '.Session::get('apellido');
         $mensaje = ($args['id_estado']==2 ? $this->texto_notificar_nueva($args['id_req']) : $this->texto_notificar_aprobada($args['id_req']));
         $phpmailer->Subject = $mensaje['asunto'];
         $phpmailer->Body = $mensaje['cuerpo'];

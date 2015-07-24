@@ -2,6 +2,7 @@
 /**
 * -> Gestión de seguridad, id_area = 4;
 */
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 $nivel_dir = 2;
 $id_area = 6;
@@ -23,7 +24,7 @@ $bd = $libs->incluir('bd');
 	?>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir); ?>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span3">
@@ -202,7 +203,7 @@ function guardar_req (id_req, id_estado) {
 }
 
 function append_btn (id_estado, id_fila) {
-	var validado = <?php echo $sesion->get("rol")==50 ? "1" : "2"; ?>;
+	var validado = <?php echo Session::get("rol")==50 ? "1" : "2"; ?>;
 	if(id_estado<3 && validado==1){
 		return '<td id="td_btn_'+id_fila+'"><button class="btn btn-success" onclick="guardar_fila('+id_fila+',3);">Guardar</button></td>';
 	}
@@ -221,7 +222,7 @@ function append_btn (id_estado, id_fila) {
 }
 function append_btn_req (id_req, id_estado) {
 	$("#btn_guardar_req").remove();
-	var validado = <?php echo $sesion->get("rol")==50 ? "1" : "2"; ?>;
+	var validado = <?php echo Session::get("rol")==50 ? "1" : "2"; ?>;
 	if(id_estado<3 && validado==1){
 		$("#div_guardar_req").append('<button onclick="guardar_req('+id_req+',3)" id="btn_guardar_req" class="btn btn-success span12">Guardar</button>');
 	}
@@ -239,7 +240,7 @@ function append_fila (id, id_req, id_item, nombre_item, existencia, cant_pedida,
 	}
 	<?php
 	/* Valida que sólo el coordinador NO pueda editar cantidad los objetos solicitados */
-	if($sesion->get("rol")!=50){
+	if(Session::get("rol")!=50){
 		?>
 		if(estado==1){
 			$("#id_item_"+id).editable({
@@ -327,7 +328,7 @@ function abrir_req (id) {
 			}
 			<?php
 			/* Valida que sólo el coordinador pueda editar cantidad aprobada */
-			if($sesion->get("rol")==50){
+			if(Session::get("rol")==50){
 				?>
 				$(".precio_a_fila").editable({
 					url: nivel_entrada+'app/src/libs_tpe/kr_solicitud_fila.php?fn_nombre=editar_fila',
@@ -407,7 +408,7 @@ $(document).ready(function () {
 });
 </script>
 <?php
-if($sesion->has($id_area, 1) && !empty($_GET['id_req'])){
+if(Session::has($id_area, 1) && !empty($_GET['id_req'])){
 	$javascript = '<script>';
 	$javascript .= '$(document).ready(function () { abrir_req('.$_GET['id_req'].');});';
 	$javascript .= '</script>';

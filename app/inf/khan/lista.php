@@ -2,6 +2,7 @@
 /**
 * -> Informe de sedes por capacitador
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -30,7 +31,7 @@ while ($escuela=$bd->obtener_fila($stmt, 0)) {
 	$libs->incluir('bs-editable');
 	$libs->incluir('jquery-ui');
 	$libs->incluir('handson');
-	$libs->incluir_general($sesion->get('id_per'), $sesion->get('rol'));
+	$libs->incluir_general(Session::get('id_per'), Session::get('rol'));
 	?>
 	
 	<script>
@@ -44,7 +45,7 @@ while ($escuela=$bd->obtener_fila($stmt, 0)) {
 	</script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	
 	<div class="row-fluid">
 		<div class="span1"></div>

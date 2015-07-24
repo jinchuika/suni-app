@@ -14,7 +14,7 @@ function listar_area($libs, $args=null)
 {
 	$sesion = $libs->incluir('seguridad');
 	$bd = $libs->incluir('bd');
-	if($sesion->has(4,1)){	
+	if(Session::has(4,1)){	
 		$query = "SELECT
 			aut_area.id as id,
 			aut_area.area as nombre

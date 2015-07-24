@@ -2,6 +2,7 @@
 /**
 * -> Informe de listado de escuelas
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -24,7 +25,7 @@ $bd = $libs->incluir('bd');
 	?>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span3">
@@ -168,14 +169,14 @@ $(document).ready(function () {
 	listar_campos_select('app/src/libs_gen/gn_departamento.php?fn_nombre=listar_departamento', 'id_depto', 'vacio');
 	listar_campos_select('app/src/libs_gen/gn_municipio.php?fn_nombre=listar_municipio', 'id_muni', 'vacio');
 	<?php
-	if($sesion->get('rol')<3){
+	if(Session::get('rol')<3){
 		?>
 		listar_campos_select('app/src/libs_gen/usr.php?fn=listar_usuario&filtros={"rol":"3"}', 'id_per', 'vacio');
 		<?php
 	}
 	else{
 		?>
-		$('#id_per').append('<option value="<?php echo $sesion->get('id_per'); ?>"><?php echo $sesion->get('nombre'); ?></option>');
+		$('#id_per').append('<option value="<?php echo Session::get('id_per'); ?>"><?php echo Session::get('nombre'); ?></option>');
 		<?php
 	}
 	?>	

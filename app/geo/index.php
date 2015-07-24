@@ -1,11 +1,12 @@
 <?php
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 $nivel_dir = 2;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
-$id_per = $sesion->get("id_per");
-$rol = $sesion->get("rol");
+$id_per = Session::get("id_per");
+$rol = Session::get("rol");
 
 ?>
 
@@ -67,14 +68,14 @@ $rol = $sesion->get("rol");
 </script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="span6">
 		<input type="text" name="lugar" id="lugar" style="width: 80%;">
 
 		<br /><br />
 		<a class="btn btn-info" id="boton_selec">Seleccionar</a>
 		<br /><br />
-		<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+		<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 			echo '<a class="btn btn-info" id="nuevo">Crear municpio</a>';
 		}
 		?>

@@ -1,11 +1,12 @@
 <?php
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 $nivel_dir = 2;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
-$id_per = $sesion->get("id_per");
-$rol = $sesion->get("rol");
+$id_per = Session::get("id_per");
+$rol = Session::get("rol");
 
 ?>
 
@@ -25,7 +26,7 @@ $rol = $sesion->get("rol");
 	</style>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="row-fluid">
 		<div class="span1"></div>
 		<div class="span8">

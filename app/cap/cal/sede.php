@@ -2,6 +2,7 @@
 /**
 * -> Calendario de por sede
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -92,13 +93,13 @@ $bd = $libs->incluir('bd');
 	</script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="row row-fluid">
 		<div class="span1"></div>
 		<div class="span10">
 			<select name="lista_per" id="lista_per">
 				<?php
-				if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+				if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 					$query_capa = "SELECT * FROM usr where rol=3";
 					$stmt_capa = $bd->ejecutar($query_capa);
 					echo '<option value="">Todos</option>';
@@ -107,13 +108,13 @@ $bd = $libs->incluir('bd');
 					}
 				}
 				else{
-					echo '<option value="'.$sesion->get('id_per').'"></option>';
+					echo '<option value="'.Session::get('id_per').'"></option>';
 				}
 				?>
 			</select>
 			<select name="lista_sed" id="lista_sed">
 				<?php
-				if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+				if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 					$query_sede = "SELECT * FROM gn_sede";
 					$stmt_sede = $bd->ejecutar($query_sede);
 					echo '<option value="">Todos</option>';
@@ -122,7 +123,7 @@ $bd = $libs->incluir('bd');
 					}
 				}
 				else{
-					echo '<option value="'.$sesion->get('id_per').'"></option>';
+					echo '<option value="'.Session::get('id_per').'"></option>';
 				}
 				?>
 			</select>

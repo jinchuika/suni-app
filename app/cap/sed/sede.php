@@ -1,4 +1,5 @@
 <?php
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -71,7 +72,7 @@ else{
 	</style>
 </head>
 <body style="position:relative;">
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<header id="overview" class="jumbotron subhead well">
 		<div class="container">
 			<h1><a href="#" id="nombre"> <?php echo $sede[2]; ?></a></h1>
@@ -103,7 +104,7 @@ else{
 									Dirección: <a href="#" id="lugar"><?php echo $sede[3]; ?></a><br />
 									Capacitador: <a href="#" data-type="select"  id="capacitador"><?php echo $capacitador[2]." ".$capacitador[3]; ?></a><br />
 									Observaciones: <a href="#" id="observaciones"><?php echo $sede[5]; ?></a><br /><br>
-									<?php if($sesion->get('rol')<3){ echo '<button onclick="crear_informe_semanal('.$sede[0].');" class="btn">Inf. semanal</button>';} ?><br>
+									<?php if(Session::get('rol')<3){ echo '<button onclick="crear_informe_semanal('.$sede[0].');" class="btn">Inf. semanal</button>';} ?><br>
 								</div>
 								<div class="tab-pane" id="tab1">
 									<legend>Escuelas en esta sede</legend>

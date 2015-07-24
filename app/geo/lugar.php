@@ -1,4 +1,5 @@
 <?php
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 $nivel_dir = 2;
 $libs = new librerias($nivel_dir);
@@ -48,12 +49,12 @@ if(isset($id_lugar)){
 			<br />';
 			if($lugar[3]!=="0"){
 				echo '<iframe id="frame" width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'.$mapa[1].'&output=embed"></iframe><br />';
-				if((($sesion->get("rol"))=="1")||(($sesion->get("rol"))=="2")){
+				if(((Session::get("rol"))=="1")||((Session::get("rol"))=="2")){
 					echo '<a id="link" class="badge badge-info">Cambiar mapa</a>';
 				}
 			}
 			else{
-				if((($sesion->get("rol"))=="1")||(($sesion->get("rol"))=="2")){
+				if(((Session::get("rol"))=="1")||((Session::get("rol"))=="2")){
 					echo '<a id="link" class="badge badge-warning">Añadir mapa</a>';
 				}
 			}
@@ -61,7 +62,7 @@ if(isset($id_lugar)){
 		<!-- algo -->
 		<script>
 		$(document).ready(function () {';
-				if((($sesion->get("rol"))=="1")||(($sesion->get("rol"))=="2")){
+				if(((Session::get("rol"))=="1")||((Session::get("rol"))=="2")){
 					echo '
 					$("#link").click(function () {
 						bootbox.prompt("Ingrese la nueva dirección", function(result) {
@@ -119,12 +120,12 @@ if(isset($id_lugar)){
 			';
 			if($lugar[4]!=="0"){
 				echo '<br /><iframe id="frame" width="425" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="'.$mapa[1].'&output=embed"></iframe><br />	';
-				if($sesion->get("rol")<3){
+				if(Session::get("rol")<3){
 					echo '<a id="link" class="badge badge-info">Cambiar mapa</a>';
 				}
 			}
 			else{
-				if($sesion->get("rol")<3){
+				if(Session::get("rol")<3){
 					echo '
 					<br /><br />	
 					<a id="link" class="badge badge-warning">Añadir mapa</a>';
@@ -134,7 +135,7 @@ if(isset($id_lugar)){
 		
 		<script>
 		$(document).ready(function () {';
-			if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+			if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 				echo '
 			$("#link").click(function () {
 				bootbox.prompt("Ingrese la nueva dirección", function(result) {                

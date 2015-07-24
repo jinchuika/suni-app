@@ -2,12 +2,14 @@
 /**
 * -> Página de inicio
 */
+include 'bknd/autoload.php';
+include_once 'bknd/autoload.php';
 include 'src/libs/incluir.php';
 $nivel_dir = 1;
 $libs = new librerias($nivel_dir);
-$sesion = $libs->incluir('seguridad');
+//$sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
-if($sesion->get("rol") == 9){
+if(Session::get("rol") == 9){
     /* Redireccionar FundRaising */
     header("Location: dir");
 }
@@ -34,14 +36,14 @@ if($sesion->get("rol") == 9){
 <body>
     <?php
     include 'src/libs/cabeza.php';
-    $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);
+    $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);
     ?>
     <div class="row">
         <div class="span1"></div>
         <div class="span8">
             <div class="well">
                 
-                <?php if($sesion->get("rol") < 3){ ?>
+                <?php if(Session::get("rol") < 3){ ?>
                 <h1> En estos momentos</h1>
 
                 <table class="table hide" id="tabla_home">
@@ -59,8 +61,8 @@ if($sesion->get("rol") == 9){
         </div>
     </div>
     <?php
-    $id_rol = $sesion->get('rol');
-    $id_per = $sesion->get("id_per");
+    $id_rol = Session::get('rol');
+    $id_per = Session::get("id_per");
     $extras = array('id'=>'id_view_'.$id_rol, 'id_per'=>$id_per);
     $libs->imprimir('js', 'app/src/js-libs/home/view-'.$id_rol.'.js', $extras);
     ?>

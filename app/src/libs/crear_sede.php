@@ -24,9 +24,9 @@ if((!empty($lat))&&(!empty($lng))){
 $query = "INSERT INTO gn_sede (id_muni, nombre, lugar, mapa, obs, capacitador) VALUES ('".$municipio."', '".$nombre."', '".$lugar."', '".$mapa."', '".$obs."', '".$capacitador."')";
 
 if($stmt = $bd->ejecutar($query)){
-	echo json_encode("Correcto");
+	echo json_encode(array('done'=>true, 'id'=>$bd->lastID()));
 }
 else{
-	echo json_encode("No se creó");
+	echo json_encode(array('done'=>false));
 }
 ?>

@@ -3,15 +3,15 @@
 	require_once("../../../suni/includes/auth/sesion.class.php"); 
 	
 	$sesion = new sesion();
-	$usuario = $sesion->get("usuario");	
+	$usuario = Session::get("usuario");	
 	if( $usuario == false )
 	{	
 		header("Location: ../../app");
 	}
 	else 
 	{
-		$usuario = $sesion->get("usuario");	
-		$sesion->termina_sesion();	
+		$usuario = Session::get("usuario");	
+		Session::termina_sesion();	
 		header("Location: ../../default.php");
 	}
 ?>

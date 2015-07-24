@@ -2,6 +2,7 @@
 /**
 * -> Buscador de tipos de inventario
 */
+include_once '../../../bknd/autoload.php';
 include '../../../src/libs/incluir.php';
 $nivel_dir = 4;
 $libs = new librerias($nivel_dir);
@@ -87,7 +88,7 @@ $bd = $libs->incluir('bd');
 </script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="row-fluid">
 		<div class="row-fluid">
 			<div class="span2"></div>

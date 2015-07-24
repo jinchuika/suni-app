@@ -1,5 +1,6 @@
 <?php
 /*Validación de seguridad (Campo, si existe, si no)*/
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 $nivel_dir = 2;
 $libs = new librerias($nivel_dir);
@@ -72,61 +73,45 @@ $bd = $libs->incluir('bd');
 		var depto = document.getElementById("departamento").value;
 		var muni = document.getElementById("municipio").value;
 
-		$("#buscador").bind("keydown", function(event) {
-			if (jQuery.inArray($(this).value, reservadas)!=-1) {
-				alert("hola");
-			} else {
-				$(this).tooltip("hide");
-			}
-		})
-		.autocomplete({
+		$("#buscador").autocomplete({
 			source: function (request, response) {
 				$("#progress").show();
-				var x = request.term.split("@");
-				if ( request.term in cache ) {		/*Verificar si el término de búsqueda está en caché */
+				var busqueda = request.term.split("@");
+				/*
+				Busca en cache
+				 */
+				if ( request.term in cache ) {
 					response( cache[ request.term ] );
 					$("#progress").hide();
 					return;
 				}
-				else{		/*Hace la petición ajax sólo si se encuentra en caché */
-					$.ajax({
-						url: "../src/libs/buscar_escuela.php",
-						type: "get",
-						dataType: "json",
-						data: {
-							depto: depto,
-							muni: muni,
-							term: x[0],
-							direccion: x[1]
-						},
-						success: function (data) {
-							response(data);
-							cache[request.term] = data;
-							$("#progress").hide();
-						},
-						error: function() {
-							$("#progress").hide();
-						}
+				/*Hace la petición ajax sólo si se encuentra en caché */
+				else{
+					$.getJSON('../src/libs/buscar_escuela.php', {
+						depto: depto,
+						muni: muni,
+						term: busqueda[0],
+						direccion: busqueda[1]
+					}, function (data) {
+						response(data);
+						cache[request.term] = data;
+						$("#progress").hide();
 					});
 				}
 			},
 			width: 300,
-			delay: 100,
+			delay: 0,
 			selectFirst: false,
 			minLength: 3,
-			/*Para que muestre el nombre en lugar de la id o user */
-			focus: function( event, ui ) {
-				$( "#buscador" ).val( ui.item.label );
-				return false;
-			},
+			
 			/*Para enviar al perfil al hacer enter */
 			select: function(event,ui){
-				$( "#buscador" ).val( ui.item.value );
+				$("#buscador" ).val( ui.item.value );
 			}
-		}).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-	var tabla = document.getElementById("tabla");
+		}).data("ui-autocomplete")._renderItem = function( ul, item ) {
+	
 	return $( "<tr>" )
-	.data( "item.autocomplete", item )
+	
 	.append( function () {
 		if(item.value!=0){	
 			return "<td width=\"80%\"><a href=\""+nivel_entrada+"app/esc/escuela.php?id_escuela="+item.value+"\"><strong>" + item.label + "</strong><br /><small>" + item.logo + "</small></td><td><div class=\"label label-info\">" +item.desc+ "</div> <i class='icon-copy' onclick='seleccionar_texto(\""+item.desc+"\");'></i></a></td>"; 
@@ -135,19 +120,10 @@ $bd = $libs->incluir('bd');
 			return "<td width=\"80%\"><strong>" + item.label + "</strong></td><td><div class=\"label label-info\">" +item.desc+ "</div></td>"; 
 		}
 	})
-	.appendTo( tabla );
+	.appendTo( $('#tabla') );
 };
 $("#buscador").keypress(function () {
 	$("#tabla").find("tr:gt(0)").remove();
-});
-$("#tabla").dataTable({
-	"sScrollY": "500px",
-	"bPaginate": false,
-	"bLengthChange": false,
-	"bFilter": false,
-	"bSort": false,
-	"bInfo": false,
-	"bAutoWidth": false
 });
 
 });
@@ -156,7 +132,7 @@ $("#tabla").dataTable({
 <title>SUNI</title>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="row">
 		<div class="span1"></div>
 		<div class="span5">

@@ -2,6 +2,7 @@
 /**
 * -> Gestión de seguridad, id_area = 4;
 */
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 $nivel_dir = 2;
 $id_area = 6;
@@ -23,7 +24,7 @@ $bd = $libs->incluir('bd');
 	?>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir); ?>
 	
 </body>
 <script>

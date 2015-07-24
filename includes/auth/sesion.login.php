@@ -21,15 +21,15 @@ if( isset($_POST["iniciar"]) )
 		case '3':
 		$ala = $resultado[6];
 		$sesion = sesion::getInstance($ala);
-		$sesion->set("usuario",$usuario);
-		$sesion->set("nombre",$resultado[1]);
-		$sesion->set("apellido",$resultado[2]);
-		$sesion->set("mail",$resultado[3]);
-		$sesion->set("id_usr",$resultado[4]);
-		$sesion->set("rol",$resultado[5]);
-		$sesion->set("id_per",$resultado[6]);
-		$sesion->set("avatar", $resultado[7]);
-		$sesion->set("arr_permiso",$sesion->mostrar_permisos());
+		Session::set("usuario",$usuario);
+		Session::set("nombre",$resultado[1]);
+		Session::set("apellido",$resultado[2]);
+		Session::set("mail",$resultado[3]);
+		Session::set("id_usr",$resultado[4]);
+		Session::set("rol",$resultado[5]);
+		Session::set("id_per",$resultado[6]);
+		Session::set("avatar", $resultado[7]);
+		Session::set("arr_permiso",Session::mostrar_permisos());
 
 		if (isset($_POST['redirect_url']) && !empty($_POST['redirect_url'])) {
 			$redirect_url = $_POST['redirect_url'];
@@ -66,14 +66,14 @@ if($_GET["mail"]){
 			header("location: ../../admin.php?validar=4");
 			break;
 			case '3':
-			$sesion->set("usuario",$usuario);
-			$sesion->set("nombre",$resultado[1]);
-			$sesion->set("apellido",$resultado[2]);
-			$sesion->set("mail",$resultado[3]);
-			$sesion->set("id_usr",$resultado[4]);
-			$sesion->set("rol",$resultado[5]);
-			$sesion->set("id_per",$resultado[6]);
-			$sesion->set("avatar", $resultado[7]);
+			Session::set("usuario",$usuario);
+			Session::set("nombre",$resultado[1]);
+			Session::set("apellido",$resultado[2]);
+			Session::set("mail",$resultado[3]);
+			Session::set("id_usr",$resultado[4]);
+			Session::set("rol",$resultado[5]);
+			Session::set("id_per",$resultado[6]);
+			Session::set("avatar", $resultado[7]);
 
 			header("location: ../../app");
 					# code...

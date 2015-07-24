@@ -46,7 +46,7 @@ else{
 			$sql = "SELECT * FROM gn_archivo WHERE id=".$id_archivo;
 			$stmt = $bd->ejecutar($sql);
 			$x = $bd->obtener_fila($stmt, 0);
-			$sesion->set("avatar", "http://funsepa.net/suni/app/src/img/user_data/".$x[2]);
+			Session::set("avatar", "http://funsepa.net/suni/app/src/img/user_data/".$x[2]);
 
 			$query = "UPDATE gn_persona SET avatar ='".$id_archivo."' WHERE id=".$id_per;
 			$stmt = $bd->ejecutar($query);

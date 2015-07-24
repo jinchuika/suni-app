@@ -1,4 +1,5 @@
 <?php
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 include '../bknd/autoload.php';
 $nivel_dir = 2;
@@ -16,12 +17,12 @@ $external->addDefault();
     <?php
     echo $external->imprimir('css');
     echo $external->imprimir('js');
-    $libs->incluir_general($sesion->get('id_per'));
+    $libs->incluir_general(Session::get('id_per'));
     $libs->incluir('cabeza');
     ?>
 </head>
 <body>
-    <?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
+    <?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir); ?>
     <div class="container-fluid">
         <div class="row-fluid">
             <div class="span3">

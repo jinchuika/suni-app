@@ -2,6 +2,7 @@
 /**
 * -> Creación de Participantes
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $id_area = 1;
@@ -22,7 +23,7 @@ $bd = $libs->incluir('bd');
 	?>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="container-fluid">
 		<div class="row-fluid">
 			<div class="span4 well">
@@ -56,7 +57,7 @@ $bd = $libs->incluir('bd');
 					</blockquote>
 				</div>
 				<?php 
-				if($sesion->has($id_area, 8)){
+				if(Session::has($id_area, 8)){
 					?>
 					<div class="row-fluid">
 						<button class="btn btn-primary span6" onclick="eliminar_par(1);">Eliminar este participante</button>
@@ -111,7 +112,7 @@ function abrir_par (id_par, objetivo) {
 	});
 }
 <?php
-if($sesion->has($id_area, 8)){
+if(Session::has($id_area, 8)){
 	?>
 	function eliminar_par (objetivo) {
 		var id_eliminar, id_asignar;

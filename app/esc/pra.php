@@ -1,4 +1,5 @@
 <?php
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 include '../bknd/autoload.php';
 $nivel_dir = 2;
@@ -7,7 +8,7 @@ $sesion = $libs->incluir('seguridad');
 $libs->incluir('mapa');
 
 $external = new ExternalLibs();
-$external->addDefault($sesion->get('id'));
+$external->addDefault(Session::get('id'));
 $external->add('js', 'app/src/js-libs/esc_contacto.js');
 
 $gn_escuela = new CtrlEscPerfil();
@@ -22,7 +23,7 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
     <?php
     echo $external->imprimir('css');
     echo $external->imprimir('js');
-    $libs->incluir_general($sesion->get('id_per'));
+    $libs->incluir_general(Session::get('id_per'));
     $libs->incluir('cabeza');
 
     ?>
@@ -30,7 +31,7 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
     <title><?php echo $escuela['nombre']; ?></title>
 </head>
 <body>
-    <?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir); ?>
+    <?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir); ?>
     <header id="overview" class="jumbotron subhead well">
         <div class="container">
             <h1><a href="#" class="editable_gen" data-type="text" data-name="nombre" id="nombre"><?php echo $escuela['nombre']; ?></a></h1>

@@ -2,6 +2,7 @@
 /**
 * -> Seguimiento y resultados
 */
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -70,8 +71,8 @@ $bd = $libs->incluir('bd');
 		$resultado = array();
 
 		$query2 = "SELECT * FROM gn_sede";
-		if(($sesion->get("rol"))=="3"){
-			$query2 = "SELECT * FROM gn_sede WHERE capacitador=".$sesion->get("id_per");
+		if((Session::get("rol"))=="3"){
+			$query2 = "SELECT * FROM gn_sede WHERE capacitador=".Session::get("id_per");
 		}
 		$stmt2 = $bd->ejecutar($query2);
 		while ($option_sede=$bd->obtener_fila($stmt2, 0)) {
@@ -97,11 +98,11 @@ $bd = $libs->incluir('bd');
 			allowClear: true,
 			minimumInputLength: 0,
 			ajax: {
-				<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+				<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 					echo "url: '../../src/libs/listar_curso.php',\n";
 				}
 				else{
-					echo "url: '../../src/libs/listar_curso.php?id_per=".$sesion->get("id_per")."',\n";
+					echo "url: '../../src/libs/listar_curso.php?id_per=".Session::get("id_per")."',\n";
 				}
 				?>
 				dataType: 'json',
@@ -244,7 +245,7 @@ $bd = $libs->incluir('bd');
 </script>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="span1"></div>
 	<div class="span10">
 	<div id="parte_buscador">

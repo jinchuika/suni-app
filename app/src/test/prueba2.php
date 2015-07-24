@@ -1,13 +1,20 @@
 <?php
 include '../../bknd/autoload.php';
 
-if(!Session::isActive()){
-	Login::iniciarSesion('lcontreras', 'passw2');
-}
+//Login::iniciarSesion('lcontreras', 'passw2');
+Login::validarActivo();
+print_r($_SESSION);
+echo Session::get('id_usr');
 
+echo "<br>Has: ".(Session::has(7,2) ? 'si' : 'no');
+Session::give(7, 2);
+echo "<br>Dar: ".(Session::has(7,2) ? 'si' : 'no');
+Session::take(7, 2);
+echo "<br>Quitar: ".(Session::has(7,2) ? 'si' : 'no');
+Session::give(7, 8);
+echo "<br>Dar: ".(Session::has(7,8) ? 'si' : 'no');
 //Session::terminarSesion();
 
-//echo Login::redirect();
 
 
 $encabezado = array(
@@ -31,7 +38,7 @@ $encabezado = array(
         )
     );
 
-phpinfo();
+//phpinfo();
 //$menu = new MenuWrapper(3);
 
 $external = new ExternalLibs();

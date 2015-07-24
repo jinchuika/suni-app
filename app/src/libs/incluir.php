@@ -74,23 +74,13 @@ class librerias
                 $this->imprimir("js", "js/framework/jquery-ui-timepicker.js");
                 break;
             case 'seguridad':
-                $this->imprimir("php", "includes/auth/login.class.php");
-                
-                $solicitud = $_SERVER['REQUEST_URI'];
-                $_POST['redirect_url'] = $solicitud;
-                
-                $vlog = vLog("usuario", "0",$this->nivel."admin.php?redirect_url=".$solicitud);
-                $this->imprimir("php", "includes/auth/sesion.class.php");
-                $sesion = sesion::getInstance($vlog);
-                //$sesion->set_instance($vlog);
-                if(is_array($extra)){
-                    if($extra['tipo']=='validar'){
-                        $sesion->validar_acceso($extra['id_area'], $this->nivel_entrada);
-                    }
-                }
-                return $sesion;
+                Login::validarActivo();
+                return null;
                 break;
             case 'cabeza':
+                if(!class_exists('Db')){
+                    $this->incluir('bd');
+                }
                 $this->imprimir("src", "cabeza.php");
                 break;
             case 'mapa':
@@ -177,8 +167,9 @@ class librerias
         $this->incluir('jquery');
         $this->incluir('bs');
         $this->incluir('meta');
-        $sesion_r = sesion::getInstance();
-        $this->incluir_general($sesion_r->get('id_per'));
+        //$sesion_r = sesion::getInstance();
+        Login::validarActivo();
+        $this->incluir_general(Session::get('id_per'));
     }
     
     public function incluir_general($id_per)

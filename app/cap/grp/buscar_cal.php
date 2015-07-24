@@ -3,6 +3,7 @@
 * -> Eliminar un grupo
 */
 /*Validación de seguridad (Campo, si existe, si no)*/
+include_once '../../bknd/autoload.php';
 include '../../src/libs/incluir.php';
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
@@ -20,7 +21,7 @@ $bd = $libs->incluir('bd');
 	?>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	<div class="row">
 		<div class="span1"></div>
 		<div class="span10">
@@ -44,11 +45,11 @@ $(document).ready(function () {
 		width: 200,
 		minimumInputLength: 0,
 		ajax: {
-			<?php if((($sesion->get("rol"))==1)||(($sesion->get("rol"))==2)){
+			<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
 				echo "url: '../../src/libs/listar_sede.php',\n";
 			}
 			else{
-				echo "url: '../../src/libs/listar_sede.php?id_per=".$sesion->get("id_per")."',\n";
+				echo "url: '../../src/libs/listar_sede.php?id_per=".Session::get("id_per")."',\n";
 			}
 			?>
 			dataType: 'json',

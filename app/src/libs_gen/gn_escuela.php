@@ -16,16 +16,16 @@ class gn_escuela
 	function __construct($bd=null, $sesion=null)
 	{
 		$this->id_area = 7;
-		if(empty($bd) || empty($sesion)){
+		if(empty($bd)){
+			include_once('../../bknd/autoload.php');
 			require_once('../libs/incluir.php');
 			$nivel_dir = 3;
 			$libs = new librerias($nivel_dir);
-			$this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));
+			//$this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));
 			$this->bd = $libs->incluir('bd');
 		}
-		if(!empty($bd) && !empty($sesion)){
+		else{
 			$this->bd = $bd;
-			$this->sesion = $sesion;
 		}
 	}
 	/**
@@ -40,7 +40,7 @@ class gn_escuela
 	 */
 	public function editar_escuela($args=null, $pk=null, $name=null, $value=null)
 	{
-		if($this->sesion->has($this->id_area,4)){
+		if(Session::has($this->id_area,4)){
 			$query = "UPDATE gn_escuela SET ".$name."='".$value."' WHERE id='".$pk."'";
 			if($this->bd->ejecutar($query)){
 				return array('msj'=>'si');
@@ -75,7 +75,7 @@ class gn_escuela
 		!empty($args['id']) ? $id_escuela = 'gn_escuela.id='.$args['id'].' ' : $id_escuela=$id_escuela;
 		!empty($args['udi']) ? $id_escuela = 'gn_escuela.codigo="'.$args['udi'].'" ' : $id_escuela=$id_escuela;
 		$arr_sede = array();
-		if($this->sesion->has(1, 1) && $args['cyd']!==false){
+		if(Session::has(1, 1) && $args['cyd']!==false){
 			/* Si el usuario tiene acceso a CyD */
 			$campos .= 'distrito,
 			 esc_plan.plan as plan,

@@ -2,6 +2,7 @@
 /**
 * -> Perfiles de participante, id_area = 1 (CyD);
 */
+include_once('../../bknd/autoload.php');
 require_once('../libs/incluir.php');
 
 /**
@@ -32,7 +33,7 @@ class gn_participante
 	public function eliminar_par_duplicado($args)
 	{
 		$respuesta = array();
-		if($this->sesion->has($this->id_area, 8)){
+		if(Session::has($this->id_area, 8)){
 			$cont = 0;
 			$id_eliminar = $args['id_eliminar'];
 			$id_asignar = $args['id_asignar'];
@@ -74,7 +75,7 @@ class gn_participante
 		$id_eliminar = $args['id'];
 		$respuesta = array();
 
-		if(($this->sesion->has($this->id_area, 8)) && !empty($id_eliminar)){
+		if((Session::has($this->id_area, 8)) && !empty($id_eliminar)){
 			$query_participante = "select id, id_persona from gn_participante where id=".$id_eliminar;
 			$stmt_participante = $this->bd->ejecutar($query_participante);
 			if($participante = $this->bd->obtener_fila($stmt_participante, 0)){

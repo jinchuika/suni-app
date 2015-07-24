@@ -36,8 +36,8 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 
 						<ul class="nav pull-left">
 							<?php
-							$sesion->has(5,1) ? imprimir_kardex($nivel_dir, $sesion->has(6,1) ? 1 : 0) : null;
-							$sesion->has(7,1) ? imprimir_escuelas($nivel_dir) : null;
+							Session::has(5,1) ? imprimir_kardex($nivel_dir, Session::has(6,1) ? 1 : 0) : null;
+							Session::has(7,1) ? imprimir_escuelas($nivel_dir) : null;
 							?>
 						</ul>
 
@@ -77,7 +77,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 										<ul class="dropdown-menu">
 											<?php
 											//Gestión de permisos
-											if($sesion->has(4,1)){
+											if(Session::has(4,1)){
 												?>
 												<li>
 													<a href="<?php echo $nivel_dir; ?>app/gen/permiso.php"><i class="icon-unlock-alt"></i> Gestionar permisos</a>
@@ -87,7 +87,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 										</ul>
 
 										<li>
-											<a href="<?php echo $nivel_dir; ?>/cerrarsesion.php">
+											<a href="<?php echo $nivel_dir; ?>/includes/auth/logout.action.php">
 												<i class="icon-off"></i> Cerrar sesión
 											</a>
 										</li>

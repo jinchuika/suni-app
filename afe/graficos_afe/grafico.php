@@ -1,14 +1,15 @@
 <?php
+include_once '../../app/bknd/autoload.php';
   include '../../app/src/libs/incluir.php';
 	$nivel_dir = 2;
 	$libs = new librerias($nivel_dir);
 	$sesion = $libs->incluir('seguridad');
 	$bd = $libs->incluir('bd');
 	require_once '../../app/src/libs/cabeza.php';
-  $usuario = $sesion->get("usuario");
+  $usuario = Session::get("usuario");
   if( $usuario == true )
   { 
-    $nombre_usuario = $sesion->get("nombre");
+    $nombre_usuario = Session::get("nombre");
     
   }
   

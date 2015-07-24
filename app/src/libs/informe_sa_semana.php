@@ -8,7 +8,7 @@ function crear_informe_ca_semana($id_grupo)
 	include 'informe_catabla.php';
 	contar_asistencias($id_grupo);
 	$sesion = new sesion();
-	$query_semana = "INSERT INTO log_cyd_semanal (id_grupo, fecha, hora, id_persona) VALUES ('1', CURDATE(), ADDTIME( curtime( ) , '01:00:00'), '".$sesion->get('id_per')."')";
+	$query_semana = "INSERT INTO log_cyd_semanal (id_grupo, fecha, hora, id_persona) VALUES ('1', CURDATE(), ADDTIME( curtime( ) , '01:00:00'), '".Session::get('id_per')."')";
 	$stmt_semana = $bd->ejecutar($query_semana);
 
 }

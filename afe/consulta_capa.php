@@ -1,13 +1,14 @@
 <?php
 //Include de Sesión (david)
+include_once '../app/bknd/autoload.php';
 include '../app/src/libs/incluir.php';
 $nivel_dir = 1;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
 
-$nombre_usuario = $sesion->get("nombre");
-$ID = $sesion->get("usuario");
+$nombre_usuario = Session::get("nombre");
+$ID = Session::get("usuario");
 
 ?>
 <!DOCTYPE html>
@@ -22,7 +23,7 @@ $ID = $sesion->get("usuario");
 </head>
 <body>
     <?php
-    $cabeza = new encabezado($sesion->get("id_per"), 2, 'app');
+    $cabeza = new encabezado(Session::get("id_per"), 2, 'app');
     ?>
     <div class="container" >
         <div class="row-fluid well">

@@ -9,6 +9,7 @@ class me_log
     function __construct($bd=null, $sesion=null)
     {
         if(empty($bd) || empty($sesion)){
+            include_once('../../bknd/autoload.php');
             require_once('../libs/incluir.php');
             $nivel_dir = 3;
             $libs = new librerias($nivel_dir);
@@ -23,7 +24,7 @@ class me_log
 
     public function crear_registro($args)
     {
-    	empty($args['id_usr']) ? $args['id_usr'] = $this->sesion->get('id_per') : $args['id_usr'] = $args['id_usr'];
+    	empty($args['id_usr']) ? $args['id_usr'] = Session::get('id_per') : $args['id_usr'] = $args['id_usr'];
     	empty($args['fecha']) ? $args['fecha'] = 'now()' : $args['fecha'] = "'".$args['fecha']."'";
     	$query = "insert into me_log (id_proceso, id_tipo_log, id_usr, fecha, obs) values ('".$args['id_proceso']."', '".$args['id_tipo_log']."', '".$args['id_usr']."', ".$args['fecha'].", '".$args['obs']."')";
     	//echo $query;

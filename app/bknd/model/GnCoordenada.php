@@ -1,6 +1,6 @@
 <?php
 /**
-* g
+* Controla las coordenadas en la base de datos
 */
 class GnCoordenada extends Model
 {

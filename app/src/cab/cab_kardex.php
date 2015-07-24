@@ -94,7 +94,7 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo $nivel_dir; ?>/cerrarsesion.php">
+                                        <a href="<?php echo $nivel_dir; ?>/includes/auth/logout.action.php">
                                             <i class="icon-off"></i> Cerrar sesión
                                         </a>
                                     </li>

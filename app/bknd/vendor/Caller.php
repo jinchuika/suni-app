@@ -63,6 +63,11 @@ class Caller
         }
     }
 
+    /**
+     * Convierte los parámetros recibidos en JSON a variables de PHP
+     * @param  string $varname la cadena del JSON
+     * @return Array
+     */
     public static function decodeJson($varname='')
     {
         if(is_string($varname)){
@@ -73,5 +78,4 @@ class Caller
         }
     }
 }
-
 ?>

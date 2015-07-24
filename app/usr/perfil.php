@@ -7,14 +7,15 @@ if(empty($id_per)){
 		header("Location: perfil.php?id_per=".$id_per."");
 	}
 }
+include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
 $nivel_dir = 2;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
 
-$id_per_cookie = $sesion->get("id_per");
-$rol = $sesion->get("rol");
+$id_per_cookie = Session::get("id_per");
+$rol = Session::get("rol");
 
 //Se si está arbiendo desde la base de datos de personas
 if(isset($id_per)){
@@ -107,7 +108,7 @@ else{
 	$libs->incluir('jquery-ui');
 	?>
       <?php
-	      if((($sesion->get("rol"))<3)||($id_per_cookie==$id_per)){
+	      if(((Session::get("rol"))<3)||($id_per_cookie==$id_per)){
 	      	echo '<script type="text/javascript">
 	      		$(document).ready(function() {
 	      			$("#cambio_avatar").click(function() {
@@ -154,7 +155,7 @@ else{
 	</style>
 </head>
 <body>
-	<?php $cabeza = new encabezado($sesion->get("id_per"), $nivel_dir);	?>
+	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir);	?>
 	
 		
 		<div class="span5">
@@ -172,7 +173,7 @@ else{
 			
 		</div>";
 		
-		if((($sesion->get("rol"))<3)||($id_per_cookie==$id_per)){
+		if(((Session::get("rol"))<3)||($id_per_cookie==$id_per)){
 			echo '<a class="btn btn-mini" id="cambio_avatar">Cambiar imagen de perfil</a></br>
 			<form class="hide" name="form_avatar" id="form_avatar" action='; echo "\"../src/libs/editar_persona_avatar.php?id_per=".$id_per."\""; echo 'onsubmit="return Validate(this);">
 					<input type="file" id="archivo" name="archivo">
@@ -202,7 +203,7 @@ else{
 	/**
 	 * Para activar o desactivar al usuario
 	 */
-	if(($sesion->get("rol"))==1){
+	if((Session::get("rol"))==1){
 		echo '<br />
 		<a id="desactivar" name="desactivar" class="btn btn-danger btn-mini" href="#">'; 
 		if($estado==1){
@@ -301,7 +302,7 @@ else{
 
     </div>
 </body>
-<?php if((($sesion->get("rol"))<3)||($id_per_cookie==$id_per)){
+<?php if(((Session::get("rol"))<3)||($id_per_cookie==$id_per)){
 	echo "
 	<script type=\"text/javascript\">
 		/**
@@ -364,7 +365,7 @@ else{
 		 			}
 		 		}
 		 	});";
-			if(($sesion->get("rol"))==1){
+			if((Session::get("rol"))==1){
 			echo "
 			$('#rol').editable({
 		 		type: 'select',
