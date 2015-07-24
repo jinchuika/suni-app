@@ -2,7 +2,6 @@
 
 function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 {
-	$sesion = sesion::getInstance($id_per);
 	?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 	<div class="modal hide fade" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

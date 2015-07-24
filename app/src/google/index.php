@@ -80,10 +80,10 @@ if(isset($authUrl)) //user is not logged in, show login button
 } 
 else // user logged in 
 {
-	//$cal = new Google_CalendarService($gClient);
+	
 	$patron = "/^[a-z|A-Z|\.]+@(funsepa)+\.(org)$/";
 	if(preg_match($patron, $user["email"])){
-		header('Location: ../../../includes/auth/sesion.login.php?mail='.$user["email"]);
+		header('Location: ../../../includes/auth/login.action.php?act=login&mail='.$user["email"]);
 	}
 	else{
 		unset($_SESSION['token']);
@@ -91,48 +91,7 @@ else // user logged in
 		//header('Location: http://funsepa.net/suni/cerrarsesion.php');
 		return;
 	}
-	/*require_once('../../../includes/auth/Conf.class.php');
-	require_once('../../../includes/auth/Db.class.php');
-	$bd = Db::getInstance();
-	$consulta = "select * from gn_persona where mail='".$user["email"]."'";
-	$stmt=$bd->ejecutar($consulta);
-	if($result=$bd->obtener_fila($stmt,0)){
-		require_once('../../../includes/auth/validar.php');
-		validarUsuario($result["id_usr"],$user["pass"],"");
-	}
-	else{
-		echo "no1";
-	}*/
-
 	
-	//google_login();
-   /* connect to mysql 
-    $connecDB = mysql_connect($hostname, $db_username, $db_password)or die("Unable to connect to MySQL");
-    mysql_select_db($db_name,$connecDB);
-	
-    //compare user id in our database
-    $result = mysql_query("SELECT COUNT(google_id) FROM google_users WHERE google_id=$user_id");
-	if($result === false) { 
-		die(mysql_error()); //result is false show db error and exit.
-	}
-	
-	$UserCount = mysql_fetch_array($result);
- 
-    if($UserCount[0]) //user id exist in database
-    {
-		echo 'Welcome back '.$user_name.'!';
-    }else{ //user is new
-		echo 'Hi '.$user_name.', Thanks for Registering!';
-		@mysql_query("INSERT INTO google_users (google_id, google_name, google_email, google_link, google_picture_link) VALUES ($user_id, '$user_name','$email','$profile_url','$profile_image_url')");
-	}
-*/
-	
-	//echo '<br /><a href="'.$profile_url.'" target="_blank"><img src="'.$profile_image_url.'?sz=50" /></a>';
-	//echo '<br /><a class="logout" href="?reset=1">Logout</a>';
-	
-	//list all user details
-	
-	//print_r($user);
 	
 }
 if(isset($_GET['error'])){

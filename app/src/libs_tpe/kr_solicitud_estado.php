@@ -10,13 +10,19 @@ require_once('../libs/incluir.php');
 class kr_solicitud_estado
 {
 	
-	function __construct()
+	function __construct($bd=null, $sesion=null)
 	{
-		$nivel_dir = 3;
-		$id_area = 6;
-		$libs = new librerias($nivel_dir);
-		$this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $id_area));
-		$this->bd = $libs->incluir('bd');
+		$this->id_area = 6;
+		if(empty($bd)){
+			include_once('../../bknd/autoload.php');
+			require_once('../libs/incluir.php');
+			$nivel_dir = 3;
+			$libs = new librerias($nivel_dir);
+			$this->bd = $libs->incluir('bd');
+		}
+		else{
+			$this->bd = $bd;
+		}
 	}
 
 	public function crear_estado($args)
