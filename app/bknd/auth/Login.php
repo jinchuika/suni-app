@@ -103,7 +103,7 @@ class Login
 	public static function validarActivo()
 	{
 		if(!Session::isActive()){
-		    Self::redirect();
+		    self::redirect();
 		    return false;
 		}
 		else{

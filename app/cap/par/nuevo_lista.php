@@ -9,6 +9,11 @@ $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
 
+$ctrl_participante = new CtrlCdParticipante();
+
+$datos_participante = $ctrl_participante->listarDatos();
+$arr_sede = $ctrl_participante->listarSede(Session::get('rol'), Session::get('id_per'));
+
 ?>
 
 <!doctype html>
@@ -38,8 +43,7 @@ $bd = $libs->incluir('bd');
 					<div class="control-group">
 						<label class="control-label" for="sede">Sede</label>
 						<div class="controls">
-							<input id="sede" name="sede" type="text" placeholder="Elija una sede" class="input-xlarge" required="">
-
+							<input id="sede" name="sede" type="text" placeholder="Elija una sede" class="input-xlarge" required="required">
 						</div>
 					</div>
 
@@ -56,8 +60,9 @@ $bd = $libs->incluir('bd');
 					<div class="control-group">
 						<label class="control-label" for="id_escuela">Escuela</label>
 						<div class="controls">
-							<input id="id_escuela" name="id_escuela" placeholder="00-00-0000-00" class="input-medium" required="" type="text">
-							<div class="alert alert-error hide span1" id="alerta_udi">No se encontró la escuela</div>
+							<input id="id_escuela" name="id_escuela" placeholder="00-00-0000-00" class="input-medium" required="required" type="text">
+							<img src="../../../js/framework/select2/select2-spinner.gif" id="gif_loading" class="hide">
+							<p class="text-error" id="alerta_udi">Ingresar UDI válido y confirmar que existe</p>
 						</div>
 					</div>
 
@@ -68,7 +73,7 @@ $bd = $libs->incluir('bd');
 					<div class="progress progress-striped active hide" id="barra_carga">
 						<div class="bar" style="width: 100%;"></div>
 					</div>
-					<span id="boton_guardar" class="btn btn-primary">Crear</span>
+					<button id="boton_guardar" disabled="true" class="btn btn-primary">Crear</button>
 				</fieldset>
 			</form>
 		</div>
@@ -120,88 +125,48 @@ $bd = $libs->incluir('bd');
 			});
 		}, 100);
 	};
+
 	/* Listado de roles */
-	var roles = <?php 	$query_rol = "SELECT * FROM usr_rol WHERE (idRol > 3) AND (idRol<9)";
-	$stmt_rol = $bd->ejecutar($query_rol);
-	echo "[";
-	while ($resp_rol=$bd->obtener_fila($stmt_rol, 0)) {
-		echo "'".$resp_rol[1]."',";
+	var rolData = [];
+	<?php
+	foreach ($datos_participante['rol'] as $rol) {
+		echo 'rolData.push([["'.$rol['rol'].'"]]);
+		';
 	}
-	echo "];";
 	?>
-	var rolesData = [];
-	var rol;
-	while (rol = roles.shift()) {
-		rolesData.push([
-			[rol]
-			]);
-	}
 
 	/* Listado de géneros */
-	var generos = <?php 	$query_genero = "SELECT * FROM pr_genero";
-	$stmt_genero = $bd->ejecutar($query_genero);
-	echo "[";
-	while ($resp_genero=$bd->obtener_fila($stmt_genero, 0)) {
-		echo "'".$resp_genero[1]."',";
+	var generoData = [];
+	<?php
+	foreach ($datos_participante['genero'] as $genero) {
+		echo 'generoData.push([["'.$genero['genero'].'"]]);
+		';
 	}
-	echo "];";
 	?>
-	var generosData = [];
-	var genero;
-	while (genero = generos.shift()) {
-		generosData.push([
-			[genero]
-			]);
-	}
 
 	/* Listado de etnias */
-	var etnias = <?php 	$query_etnia = "SELECT * FROM pr_etnia";
-	$stmt_etnia = $bd->ejecutar($query_etnia);
-	echo "[";
-	while ($resp_etnia=$bd->obtener_fila($stmt_etnia, 0)) {
-		echo "'".$resp_etnia[1]."',";
+	var etniaData = [];
+	<?php
+	foreach ($datos_participante['etnia'] as $etnia) {
+		echo 'etniaData.push([["'.$etnia['etnia'].'"]]);
+		';
 	}
-	echo "];";
 	?>
-	var etniasData = [];
-	var etnia;
-	while (etnia = etnias.shift()) {
-		etniasData.push([
-			[etnia]
-			]);
-	}
 
 	/* Listado de escolaridades */
-	var escolaridades = <?php 	$query_escolaridad = "SELECT * FROM pr_escolaridad";
-	$stmt_escolaridad = $bd->ejecutar($query_escolaridad);
-	echo "[";
-	while ($resp_escolaridad=$bd->obtener_fila($stmt_escolaridad, 0)) {
-		echo "'".$resp_escolaridad[1]."',";
-	}
-	echo "];";
-	?>
 	var escolaridadData = [];
-	var escolaridad;
-	while (escolaridad = escolaridades.shift()) {
-		escolaridadData.push([
-			[escolaridad]
-			]);
+	<?php
+	foreach ($datos_participante['escolaridad'] as $escolaridad) {
+		echo 'escolaridadData.push([["'.$escolaridad['escolaridad'].'"]]);
+		';
 	}
+	?>
 
+	var data_sede=<?php echo json_encode($arr_sede) ?>;
+
+	var request_validar_escuela = $.ajax();
+	
 	$(document).ready(function () {
-		var data_sede=<?php
-		$resultado = array();
-
-		$query2 = "SELECT * FROM gn_sede";
-		if((Session::get("rol"))=="3"){
-			$query2 = "SELECT * FROM gn_sede WHERE capacitador=".Session::get("id_per");
-		}
-		$stmt2 = $bd->ejecutar($query2);
-		while ($option_sede=$bd->obtener_fila($stmt2, 0)) {
-			$sede_temp = array("id" => $option_sede[0], "tag" => $option_sede[2]);
-			array_push($resultado, $sede_temp);
-		}
-		echo json_encode($resultado);?>;//Termina la escritura del Array de sedes
 		function format(item) {
 			return item.tag;
 		};
@@ -223,8 +188,6 @@ $bd = $libs->incluir('bd');
 				var cambios = $.map(changes, function(value, index) {
 					return [value];
 				});
-				console.log((cambios));
-				console.log((changes));
 				for (var i = cambios.length - 1; i >= 0; i--) {
 					if ((cambios[i][1] === 'Nombre' || cambios[i][1] === 'Apellido') && cambios[i][3].charAt(0)) {
 						cambios[i][3] = cambios[i][3].charAt(0).toUpperCase() + cambios[i][3].slice(1); 
@@ -242,21 +205,21 @@ $bd = $libs->incluir('bd');
 				type: 'handsontable',
 				handsontable: {
 					colHeaders: false,
-					data: generosData
+					data: generoData
 				}
 			},
 			{
 				type: 'handsontable',
 				handsontable: {
 					colHeaders: false,
-					data: rolesData
+					data: rolData
 				}
 			},
 			{
 				type: 'handsontable',
 				handsontable: {
 					colHeaders: false,
-					data: etniasData
+					data: etniaData
 				}
 			},
 			{
@@ -274,81 +237,39 @@ $bd = $libs->incluir('bd');
 			],
 			colHeaders: ["ID", "Nombre", "Apellido", "Género", "Rol", "Etnia", "Escolaridad", "Correo electrónico", "Teléfono" ]
 		});
-		
-		$("#tipo_dpi").change(function () {
-			if(($(this).val())!=4){
-				$("#id_persona").removeAttr('disabled');
-				$("#id_persona").attr('required','required');
-			}
-			else{
-				$("#id_persona").attr('disabled', 'disabled');
-				$("#id_persona").removeAttr('required');
-				$("#id_persona").val('');
-			}
-		});
-		$("#formulario").submit(function () {
-			if((localStorage.evita!="error")&&(localStorage.evita1!="error")){
-				$.ajax({
-					url: "../../src/libs/crear_participante.php",
-					type: "post",
-					data: $("#formulario").serialize(),
-					success:    function(data) { 
-						var data = $.parseJSON(data);
-						if((data['mensaje'])=="correcto"){
-							bootbox.alert("Se creó con éxito", function () {
-								limpiar();
-							});
-						}
-						else{
-							alert("Hubo un error al procesar su petición");
-						}
-					}
-				});
-			}
-			else{
-				$("#id_escuela").focus();
-			}
-			return false;
-		});
+
 		$("#id_escuela").keyup(function () {
-			var id_escuela = document.getElementById('id_escuela');
-			$.ajax({
-				url: "../../src/libs/crear_participante.php?validar=udi",
-				type: "post",
-				data: {id_escuela: id_escuela.value},
-				success: function (data) {
-					var data = $.parseJSON(data);
-					if(data=="existe"){
-						localStorage.evita ="";
-						$("#alerta_udi").hide(100);
+			request_validar_escuela.abort();
+			$('#gif_loading').show();
+			$('#boton_guardar').prop('disabled', true);
+
+			//Hace la llamada para validar
+			request_validar_escuela = $.ajax({
+				url: nivel_entrada+'app/bknd/caller.php',
+				data: {
+					ctrl: 'CtrlCdParticipante',
+					act: 'validarEscuela',
+					args: {
+						udi: $('#id_escuela').val()
+					}
+				},
+				success: function (respuesta) {
+					$('#gif_loading').hide();
+					if(respuesta=="true"){
+						$('#boton_guardar').prop('disabled', false);
+						$("#alerta_udi").hide();
 					}
 					else{
-						localStorage.evita ="error";
+						$('#boton_guardar').prop('disabled', true);
 						$("#alerta_udi").show(400);
 					}
 				}
 			});
+
 		});
-		$("#id_persona").focusout(function () {
-			var id_persona = document.getElementById('id_persona');
-			$.ajax({
-				url: "../../src/libs/crear_participante.php?validar=id_per",
-				type: "post",
-				data: {id_persona: id_persona.value},
-				success: function (data) {
-					var data = $.parseJSON(data);
-					if(data!="existe"){
-						localStorage.evita1 ="";
-						$("#alerta_dpi").hide(100);
-					}
-					else{
-						localStorage.evita1 ="error";
-						$("#alerta_dpi").show(400);
-					}
-				}
-			});
-		});
-		$("#boton_guardar").click(function () {
+
+		$('#formulario').submit(function (e) {
+			e.preventDefault();
 			$("#barra_carga").show(100);
 			$.ajax({
 				url: "../../src/libs/crear_participante_lista.php",
@@ -360,7 +281,6 @@ $bd = $libs->incluir('bd');
 				},
 				success: function (data) {
 					$("#barra_carga").hide(50);
-					//$('#area_modal').modal('hide');
 					var respuesta = $.parseJSON(data);
 					if(respuesta.mensaje==="correcto"){
 						notificacion_success('Participantes ingresados');
@@ -375,19 +295,7 @@ $bd = $libs->incluir('bd');
 				}
 			});
 		});
-		function limpiar() { /* Para limpiar el formulario tras enviarlo */
-			$("#id_persona").val('');
-			$("#tipo_id").val('4');
-			$("#nombre").val('');
-			$("#apellido").val('');
-			$("#genero").val('1');
-			$("#mail").val('');
-			$("#telefono").val('');
-			$("#id_rol").val('4');
-			$("#etnia").val('1');
-			$("#escolaridad").val('1');
-			$("#nombre").focus();
-		};
+
 	});
 </script>
 </body>

@@ -8,6 +8,11 @@ $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
+
+$ctrl_academico = new CtrlCdControl();
+
+$arr_sede = $ctrl_academico->listarSede(Session::get('rol'), Session::get('id_per'));
+
 ?>
 
 <!doctype html>
@@ -72,7 +77,7 @@ $bd = $libs->incluir('bd');
 
 	function crear_tabla (datos) {
 		$("#dataTable").handsontable('destroy');
-		var greenRenderer = function (instance, td, row, col, prop, value, cellProperties) {
+		var celdaLlenaRenderer = function (instance, td, row, col, prop, value, cellProperties) {
 			Handsontable.TextCell.renderer.apply(this, arguments);
 			if(value>0){
 				td.style.fontWeight = 'bold';
@@ -142,12 +147,8 @@ $bd = $libs->incluir('bd');
 					if (col < 4) {
 						cellProperties.readOnly = true;
 					}
-					if (col ==1) {
-						this.renderer = descriptionRenderer;
-						cellProperties.readOnly = true;
-					}
 					if (col >= 4) {
-						cellProperties.renderer = greenRenderer;
+						cellProperties.renderer = celdaLlenaRenderer;
 						cellProperties.type = "numeric";
 					}
 					return cellProperties;
@@ -240,15 +241,16 @@ function contar_asistencias (id_grupo) {
 function crear_tabla_excel () {
 	$("#loading_gif").show();
 	$("#tabla_excel").show();
-	var id_sede = $("#id_sede").val();
 	var id_curso = $("#id_curso").val();
 	var id_grupo = $("#id_grupo").val();
+	
 	$("#tabla_reporte_excel").find("tr:gt(0)").remove();
+	
 	$.ajax({
 		url: "../../src/libs/informe_ca.php",
 		type: "post",
 		datatype: "json",
-		data: {id_sede: id_sede, id_curso: id_curso, id_grupo: id_grupo},
+		data: {id_sede: $("#id_sede").val(), id_curso: id_curso, id_grupo: id_grupo},
 		success: function (data) {
 			var data = $.parseJSON(data);
 			var cont = 0;
@@ -384,39 +386,9 @@ $("#enviar_mail").click(function(event) {
 
 /* Para la búsqueda de sedes */
 $("#id_sede").select2({
-	width: 200,
-	minimumInputLength: 0,
-	ajax: {
-		<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
-			echo "url: '../../src/libs/listar_sede.php',\n";
-		}
-		else{
-			echo "url: '../../src/libs/listar_sede.php?id_per=".Session::get("id_per")."',\n";
-		}
-		?>
-		dataType: 'json',
-		data: function(term, page) {
-			return {
-				nombre: term,
-			};
-		},
-		results: function(data) {
-			var results = [];
-			$.each(data, function(index, item){
-				results.push({
-					id: item.id,
-					text: item.nombre
-				});
-			});
-			return {
-				results: results
-			};
-		}
-	}
-});
-
-$("#id_sede").on("select2-selecting", function (e) {
-	id_sede = e.val;
+	width: 200
+}).change(function function_name (argument) {
+	listar_grupo();
 });
 
 $("#id_curso").select2({
@@ -424,19 +396,12 @@ $("#id_curso").select2({
 	minimumInputLength: 0,
 	allowClear: true,
 	ajax: {
-
-		<?php if(((Session::get("rol"))==1)||((Session::get("rol"))==2)){
-			echo "url: '../../src/libs/listar_curso.php',\n";
-		}
-		else{
-			echo "url: '../../src/libs/listar_curso.php?id_per=".Session::get("id_per")."',\n";
-		}
-		?>
+		url: '../../src/libs/listar_curso.php',
 		dataType: 'json',
 		data: function(term, page) {
 			return {
 				nombre: term,
-				id_sede: id_sede
+				id_sede: $('#id_sede').val()
 			};
 		},
 		results: function(data) {
@@ -458,11 +423,9 @@ $("#id_curso").select2({
 });
 function listar_grupo () {
 	$("#id_grupo").find("option").remove();
-	var id_sede = document.getElementById("id_sede").value;
-	var id_curso = document.getElementById("id_curso").value;
 	$.ajax({
 		url: '../../src/libs/listar_grupo.php',
-		data: {id_sede: id_sede, id_curso: id_curso},
+		data: {id_sede: $('#id_sede').val(), id_curso: $('#id_curso').val()},
 		type: "get",
 		success: function (data) {
 			var array_grupo = $.parseJSON(data);
@@ -473,9 +436,6 @@ function listar_grupo () {
 	});
 }
 
-$("#id_sede").change(function () {
-	listar_grupo();
-});
 
 
 $("#boton_busqueda").click(function () {
@@ -531,8 +491,16 @@ function f_sumatoria_notas () {
 	<div class="row-fluid">
 		<div class="span1"></div>
 		<div class="span11 well">
-			<form class="form-inline" method="post" target="_blank" id="form_exportar">
-				<label for="id_sede">Sede: </label><input id="id_sede">
+			<form class="form form-inline" method="post" target="_blank" id="form_exportar">
+				<label for="id_sede">Sede: </label>
+				<select name="id_sede" id="id_sede">
+					<?php
+					foreach ($arr_sede as $sede) {
+						echo '<option value="'.$sede['id'].'">'.$sede['nombre'].'</option>
+						';
+					}
+					?>
+				</select>
 				<label for="id_curso">Curso: </label><input id="id_curso">
 				<label for="id_grupo">Grupo: </label><select id="id_grupo"></select>
 				<input type="button" id="boton_busqueda" value="Seleccionar" class="btn btn-primary">

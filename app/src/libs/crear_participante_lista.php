@@ -31,7 +31,6 @@ if(empty($validar) && (!empty($grupo)) && (!empty($id_escuela))){	/* Para el fun
 		}
 		$telefono = $nuevo_participante[8];
 
-
 		if($nombre!=="" && $nombre!=="null" && $apellido!=="" && $apellido!=="null" && $nombre_genero!=="" && $nombre_genero!=="null" && $nombre_rol!=="" && $nombre_rol!=="null"){
 			$query_fila_grupo = "SELECT * FROM gn_grupo WHERE id=".$grupo;
 			$stmt_fila_grupo = $bd->ejecutar($query_fila_grupo);

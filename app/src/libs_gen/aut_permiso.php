@@ -2,6 +2,7 @@
 /**
 * -> Gestión de seguridad, id_area = 4;
 */
+include_once('../../bknd/autoload.php');
 require_once('../libs/incluir.php');
 
 $nivel_dir = 3;

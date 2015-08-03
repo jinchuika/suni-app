@@ -38,5 +38,16 @@ class GnPersona extends Model
 			return false;
 		}
 	}
+
+	/**
+	 * Lista los géneros para las personas
+	 * @param  Array|null $arrFiltros Filtros
+	 * @return Array
+	 */
+	public function listarGenero(Array $arrFiltros=null)
+	{
+		$query = $this->armarSelect('pr_genero', '*', $arrFiltros);
+		return $this->bd->getResultado($query);
+	}
 }
 ?>

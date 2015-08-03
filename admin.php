@@ -145,10 +145,11 @@
                                 break;
                         }
                     ?>
-
-                    <label class="checkbox">
-                        <input type="checkbox" value="Remember me"> Recordar mis Datos
-                    </label>
+                    <?php
+                    if($_GET['redirect_url']){
+                        echo '<input type="hidden" id="redirect_url" name="redirect_url" value="'.$_GET['redirect_url'].'">';
+                    }
+                    ?>
                     <button class="btn btn-medium btn-info" id="entrar" name="iniciar">Entrar</button>
 
                     

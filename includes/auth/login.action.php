@@ -23,6 +23,7 @@ if(Login::iniciarSesion($_POST['username'], $_POST['password'])===false){
 	Login::redirect(false);
 }
 else{
-	header('Location: ../../app');
+	$redirect_url = $_POST['redirect_url'] ? $_POST['redirect_url'] : '../../app';
+	header('Location: '.$redirect_url);
 }
 ?>

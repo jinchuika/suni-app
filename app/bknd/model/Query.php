@@ -14,12 +14,22 @@ abstract class Query
     {
         $texto = '';
         if(!empty($arrFiltros) && is_array($arrFiltros)){
+            
             $arrFiltrosSalida = array();
+            
             foreach ($arrFiltros as $campo => $valor) {
+                //Si el usuario no definio un igual, para mayor o menor que
                 $filtro = explode("[" , rtrim($campo, "]"));
+                
                 $filtroCompuesto = isset($filtro[1]) ? $filtro[0].$filtro[1] : $filtro[0].'=';
-                array_push($arrFiltrosSalida, $filtroCompuesto."'".$valor."'");
+                
+                //Para encerrar en comillas si es string
+                $comilla = is_string($valor) ? "'" : '';
+                
+                //Une el campo, operador logico, comillas y valor
+                array_push($arrFiltrosSalida, $filtroCompuesto.$comilla.$valor.$comilla);
             }
+            
             $texto = $usaWhere ? ' where ' : '';
             $texto .= implode(' '.$conector.' ', $arrFiltrosSalida);
         }
@@ -33,9 +43,9 @@ abstract class Query
      * @param  Array $arrFiltros Los filtros que apliquen
      * @return string             La query armada
      */
-    public static function armarSelect($tabla, $campos='*', Array $arrFiltros=null)
+    public static function armarSelect($tabla, $campos='*', Array $arrFiltros=null, $conector='AND')
     {
-        $string_filtros = self::armarFiltros($arrFiltros);
+        $string_filtros = self::armarFiltros($arrFiltros, $conector);
         return 'select '.$campos.' from '.$tabla.' '.$string_filtros;
     }
 
