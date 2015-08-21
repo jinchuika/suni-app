@@ -2,6 +2,7 @@
 /**
  * Controla las solicitudes y validaciones
  */
+include_once '../bknd/autoload.php';
 require_once('../src/libs/incluir.php');
 $nivel_dir = 2;
 $id_area = 8;

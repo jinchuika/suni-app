@@ -19,6 +19,18 @@ class GnCursoTest extends PHPUnit_Framework_TestCase
     {
         $modulos = $gn_curso->listarModulos('3');
         $this->assertNotNull($modulos);
+        print_r($modulos);
+    }
+
+    /**
+     * @depends testExiste
+     */
+    public function testAbreNota($gn_curso)
+    {
+        $nota = $gn_curso->obtenerNotaMax(1, 7);
+        echo($nota);
+        $nota = $gn_curso->obtenerNotaMax(2, 1);
+        echo($nota);
     }
 }
 ?>

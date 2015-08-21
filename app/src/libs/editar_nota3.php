@@ -40,12 +40,6 @@ if(!empty($id_asignacion)){
 						$query_cambiar = "UPDATE gn_nota SET nota=".$array_notas[$keys[$contador_nota]]." WHERE (id_asignacion=".$registro["asignacion"].") AND id_gr_calendario=".$calendario[0];
 						$query_nota .= "WHEN (id_asignacion=".$registro["asignacion"]." AND id_gr_calendario=".$calendario[0].") THEN ".$array_notas[$keys[$contador_nota]]."
 						";
-						/*if($stmt_cambiar=$bd->ejecutar($query_cambiar)){
-						}
-						else{
-							$respuesta["mensaje"] = "Error al registrar las notas";
-							$respuesta["estado"] = 1;
-						}*/
 					}
 					else{
 						$respuesta["mensaje"] = "El punteo es demasiado alto";

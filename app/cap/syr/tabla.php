@@ -389,7 +389,7 @@ $("#id_sede").select2({
 	width: 200
 }).change(function function_name (argument) {
 	listar_grupo();
-});
+}).trigger('change');
 
 $("#id_curso").select2({
 	width: 200,

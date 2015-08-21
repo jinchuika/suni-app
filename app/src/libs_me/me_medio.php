@@ -8,6 +8,7 @@ class me_medio
 	function __construct($bd=null, $sesion=null)
 	{
 		if(empty($bd) || empty($sesion)){
+			include_once '../../bknd/autoload.php';
 			require_once('../libs/incluir.php');
 			$nivel_dir = 3;
 			$libs = new librerias($nivel_dir);

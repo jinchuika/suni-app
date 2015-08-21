@@ -11,6 +11,7 @@ class me_solicitud
     function __construct($bd=null, $sesion=null)
     {
         if(!isset($bd)){
+            include_once '../../bknd/autoload.php';
             require_once('../libs/incluir.php');
             $libs = new librerias($this->nivel_dir);
             $this->bd = $libs->incluir('bd');
@@ -19,6 +20,7 @@ class me_solicitud
             $this->bd = $bd;
         }
         if(!isset($sesion)){
+            include_once '../../bknd/autoload.php';
             require_once('../libs/incluir.php');
             $libs = new librerias($this->nivel_dir);
             $this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));

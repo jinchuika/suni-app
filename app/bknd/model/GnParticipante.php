@@ -31,5 +31,17 @@ class GnParticipante extends Model
 		$query = $this->armarSelect('usr_rol', '*', $arrFiltros);
 		return $this->bd->getResultado($query);
 	}
+
+	public function abrirParticipante(Array $arrFiltros, $campos='*')
+	{
+		$participante = $this->abrirFila($campos, $arrFiltros, 'v_cd_asignacion');
+		return $participante;
+	}
+
+	public function listarParticipante(Array $arrFiltros, $campos='*')
+	{
+		$query = $this->armarSelect('v_cd_asignacion', $campos, $arrFiltros);
+		return $this->bd->getResultado($query);
+	}
 }
 ?>
