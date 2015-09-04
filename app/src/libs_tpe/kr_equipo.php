@@ -40,7 +40,7 @@ function editar_equipo($id, $campo, $valor)
 	}
 }
 
-function listar_movimiento($id_item, $tipo)
+function listar_movimiento($id_item, $tipo, $fecha_inicio=null, $fecha_fin=null)
 {
 	$bd = Db::getInstance();
 	$respuesta = array();
@@ -48,6 +48,8 @@ function listar_movimiento($id_item, $tipo)
 	if($tipo=='in'){
 		include ('../../src/libs_tpe/kr_entrada.php');
 		$query = "select id from kr_entrada where id_kr_equipo=".$id_item;
+		$query .= ensamblar_fecha(implode("-", array_reverse(explode("/", $fecha_inicio))), implode("-", array_reverse(explode("/", $fecha_fin))));
+		
 		$stmt = $bd->ejecutar($query);
 		while ($registro = $bd->obtener_fila($stmt, 0)) {
 			array_push($respuesta, abrir_entrada($registro['id']));
@@ -56,6 +58,9 @@ function listar_movimiento($id_item, $tipo)
 	if($tipo=='out'){
 		include ('../../src/libs_tpe/kr_salida.php');
 		$query = "select id from kr_salida where id_kr_equipo=".$id_item;
+
+		$query .= ensamblar_fecha(implode("-", array_reverse(explode("/", $fecha_inicio))), implode("-", array_reverse(explode("/", $fecha_fin))));
+
 		$stmt = $bd->ejecutar($query);
 		while ($registro = $bd->obtener_fila($stmt, 0)) {
 			array_push($respuesta, abrir_salida($registro['id']));
@@ -70,6 +75,27 @@ function listar_movimiento($id_item, $tipo)
 		}
 	}
 	return $respuesta;
+}
+
+if(!function_exists('ensamblar_fecha')){
+	function ensamblar_fecha($fecha_inicio, $fecha_fin)
+	{
+		if( !empty($fecha_inicio) && !empty($fecha_fin) && $fecha_inicio==$fecha_fin){
+			return " and fecha='".$fecha_inicio."' ";
+		}
+		elseif(!empty($fecha_inicio) && !empty($fecha_fin) && $fecha_inicio!==$fecha_fin){
+			return " and fecha between '".$fecha_inicio."' and '".$fecha_fin."' ";
+		}
+		elseif(!empty($fecha_inicio) && empty($fecha_fin)){
+			return " and fecha > '".$fecha_inicio."' ";
+		}
+		elseif(empty($fecha_inicio) && !empty($fecha_fin)){
+			return " and fecha < '".$fecha_fin."' ";
+		}
+		elseif(empty($fecha_inicio) && empty($fecha_fin)){
+			return " ";
+		}
+	}
 }
 
 function crear_equipo($nombre)
@@ -297,7 +323,7 @@ switch ($_GET['fn_nombre']) {
 	echo json_encode(crear_equipo($_GET['nombre']));
 	break;
 	case 'listar_movimiento':
-	echo json_encode(listar_movimiento($_GET['id_item'], $_GET['tipo']));
+	echo json_encode(listar_movimiento($_GET['id_item'], $_GET['tipo'], $_GET['fecha_inicio'], $_GET['fecha_fin']));
 	break;
 	case 'listar_movimiento_usr':
 	echo json_encode(listar_movimiento($_GET['id_per'], $_GET['tipo']));

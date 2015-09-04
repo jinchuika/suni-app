@@ -34,12 +34,25 @@ $bd = $libs->incluir('bd');
 				</ul>
 				<small id="contador_lista"></small>
 			</div>
+			<br>
 			<div class="span7 well" id="contenedor_tabla">
 				<table class='table table-bordered' id="tabla_datos">
 					<tr id="tr_nombre_equipo">
 						<td>Nombre</td>
 					</tr>
 				</table>
+				<!-->Rango de fechas</!-->
+				<div class="row-fluid">
+                    <div class="span6">
+                        <label for="fecha_inicio"><i class="icon-step-forward"></i> Fecha de inicio</label>
+                        <input class="span12" name="fecha_inicio" id="fecha_inicio">
+                    </div>
+                    <div class="span6">
+                        <label for="fecha_fin"><i class="icon-step-backward"></i> Fecha de fin</label>
+                        <input class="span12" name="fecha_fin" id="fecha_fin">
+                    </div>
+                </div>
+                <br>
 			</div>
 		</div>
 	</div>
@@ -67,23 +80,28 @@ $bd = $libs->incluir('bd');
 
 	function listar_entradas (id_item) {
 		barra_carga.mostrar();
+		var fecha_inicio = $('#fecha_inicio').val();
+		var fecha_fin = $('#fecha_fin').val();
 		$("#tabla_listado").remove();
 		$.ajax({
 			url: nivel_entrada+'app/src/libs_tpe/kr_equipo.php',
 			data: {
 				fn_nombre: 'listar_movimiento',
 				tipo: 'in',
-				id_item: id_item
+				id_item: id_item,
+				fecha_inicio: fecha_inicio,
+				fecha_fin: fecha_fin
 			},
 			success: function (data) {
 				var data = $.parseJSON(data), sumatoria_cant=0, sumatoria_precio=0;
-				$("#contenedor_tabla").append("<table id='tabla_listado' class='table table-striped table-hover'><thead><tr><th>No.</th><th>Proveedor</th><th>Tipo de entrada</th><th>Estado</th><th>Cantidad</th><th>Fecha</th><th>Precio</th></tr></thead></table>");
+				$("#contenedor_tabla").append("<table id='tabla_listado' class='table table-striped table-hover tabla_listado'><thead><tr><th>No.</th><th>Proveedor</th><th>Tipo de entrada</th><th>Estado</th><th>Cantidad</th><th>Fecha</th><th>Precio</th></tr></thead></table>");
 				$.each(data, function (index, item) {
 					$("#tabla_listado").append("<tr><td>"+item.id+"</td><td>"+item.nombre_prov+"</td><td>"+item.tipo+"</td><td>"+item.estado+"</td><td>"+item.cantidad+"</td><td>"+item.fecha+"</td><td>"+item.precio+"</td></tr>");
 					sumatoria_cant = sumatoria_cant + parseInt(item.cantidad);
 					sumatoria_precio = sumatoria_precio + parseFloat(item.precio);
 				});
 				$("#tabla_listado").append("<tr><td colspan='2'>Total de entradas: "+data.length+"</td><td colspan='3'>Total de inventario ingresado: "+sumatoria_cant+"</td><td colspan='2'>Total de compras: Q."+sumatoria_precio+"</td></tr>");
+				$('#tabla_listado').after('<button class="btn btn-info" id="btn-imprimir" onclick="imprimir_tabla();">Imprimir</button>');
 				barra_carga.ocultar();
 			}
 		});
@@ -91,13 +109,17 @@ $bd = $libs->incluir('bd');
 
 	function listar_salidas (id_item) {
 		barra_carga.mostrar();
+		var fecha_inicio = $('#fecha_inicio').val();
+		var fecha_fin = $('#fecha_fin').val();
 		$("#tabla_listado").remove();
 		$.ajax({
 			url: nivel_entrada+'app/src/libs_tpe/kr_equipo.php',
 			data: {
 				fn_nombre: 'listar_movimiento',
 				tipo: 'out',
-				id_item: id_item
+				id_item: id_item,
+				fecha_inicio: fecha_inicio,
+				fecha_fin: fecha_fin
 			},
 			success: function (data) {
 				var data = $.parseJSON(data), sumatoria_cant=0;
@@ -107,6 +129,7 @@ $bd = $libs->incluir('bd');
 					sumatoria_cant = sumatoria_cant + parseInt(item.cantidad);
 				});
 				$("#tabla_listado").append("<tr><td colspan='2'>Total de salidas: "+data.length+"</td><td colspan='3'>Total de inventario egresado: "+sumatoria_cant+"</td></tr>");
+				$('#tabla_listado').after('<button class="btn btn-info" id="btn-imprimir" onclick="imprimir_tabla();">Imprimir</button>');
 				barra_carga.ocultar();
 			}
 		});
@@ -117,6 +140,7 @@ $bd = $libs->incluir('bd');
 		$(".td_form").remove();
 		$(".btn_listar").remove();
 		$("#tabla_listado").remove();
+		$("#btn-imprimir").remove();
 	}
 
 	function enviar_formulario () {
@@ -156,6 +180,14 @@ $bd = $libs->incluir('bd');
 			}
 		})
 	}
+
+	function imprimir_tabla () {
+		//$('#tabla_listado').prepend('<h1 id="titulo_equipo">Equipo: '+$('#nombre_equipo').text()+'</h1>');
+		printout_div('tabla_listado', function () {
+			//$('#titulo_equipo').remove();
+		});
+	}
+
 	$(document).ready(function () {
 		fn_listar('lista_equipo','buscador','app/src/libs_tpe/kr_equipo.php?fn_nombre=listar_equipo', 'abrir_equipo');
 		<?php
@@ -163,6 +195,9 @@ $bd = $libs->incluir('bd');
 			echo "abrir_equipo(".$_GET['id'].");";
 		}
 		?>
+		$.getScript(nivel_entrada+'app/src/js-libs/general_datetime.js', function () {
+	        input_rango_fechas('fecha_inicio','fecha_fin');
+	    });
 	});
 	</script>
 </body>
