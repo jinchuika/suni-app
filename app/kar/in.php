@@ -100,6 +100,7 @@ while ($estado = $bd->obtener_fila($stmt_estado, 0)) {
                                     </div>
                                 </fieldset>
                             </form>
+                            <button class="btn btn-info" id="btn-imprimir">Imprimir</button>
                         </div>
 
                         <div class="tab-pane active" id="div_nueva">
@@ -279,6 +280,7 @@ function abrir_entrada (id_entrada) {
     $("#btn_edicion").remove();
     $("#form_buscar").hide(100);
     $("#loading_gif").show();
+    $("#btn-imprimir").hide();
     $.ajax({
         url: nivel_entrada +'app/src/libs_tpe/kr_entrada.php?fn_nombre=abrir_entrada',
         data: {id_entrada: id_entrada},
@@ -312,6 +314,8 @@ function abrir_entrada (id_entrada) {
                     $("#loading_gif").hide();
                     $("#form_buscar").show(300);
                 }
+                $("#btn-imprimir").show();
+                $("#btn-imprimir").attr('onclick', 'imprimir_entrada('+id_entrada+');');
                 modal_c.ocultar();
             }
         });
@@ -362,6 +366,12 @@ function quitar_campos () {
     $("#estado_nuevo").attr('class', 'span4');
     $("#div_tipo").attr('class', 'span4');
     $("#precio_nuevo").attr('class', 'span4');
+}
+function imprimir_entrada (id_entrada) {
+    $('#form_buscar').prepend('<h2 class="temp-print">Entrada a bodega No. '+id_entrada+'</h2>');
+    printout_div('form_buscar', function () {
+        $('.temp-print').remove();
+    });
 }
 $(document).ready( function () {
     obtener_array("id_item", 'libs_tpe/kr_equipo.php?fn_nombre=listar_equipo');
