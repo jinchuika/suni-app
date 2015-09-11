@@ -2,7 +2,7 @@
 require_once('../../../includes/auth/Db.class.php');
 require_once('../../../includes/auth/Conf.class.php');
 
-function crear_entrada($id_item, $cantidad, $id_prov, $fecha, $estado, $tipo_entrada, $precio, $id_salida, $no_factura)
+function crear_entrada($id_item, $cantidad, $id_prov, $fecha, $estado, $tipo_entrada, $precio, $id_salida, $no_factura, $observacion)
 {
 	$bd = Db::getInstance();
 	$respuesta = array();
@@ -16,7 +16,7 @@ function crear_entrada($id_item, $cantidad, $id_prov, $fecha, $estado, $tipo_ent
 			return ",'".$id_salida."'";
 		}
 	}
-	$query = "INSERT INTO kr_entrada (id_kr_equipo, id_proveedor, id_tipo_entrada, id_estado, cantidad, fecha, precio, no_factura".(f_id_salida($id_salida,1)).") VALUES ('".$id_item."', '".$id_prov."', '".$tipo_entrada."', '".$estado."', '".$cantidad."', '".$fecha."', '".$precio."', '".$no_factura."'".(f_id_salida($id_salida,2)).")";
+	$query = "INSERT INTO kr_entrada (id_kr_equipo, id_proveedor, id_tipo_entrada, id_estado, cantidad, fecha, observacion, precio, no_factura".(f_id_salida($id_salida,1)).") VALUES ('".$id_item."', '".$id_prov."', '".$tipo_entrada."', '".$estado."', '".$cantidad."', '".$fecha."', '".$observacion."', '".$precio."', '".$no_factura."'".(f_id_salida($id_salida,2)).")";
 	if($stmt = $bd->ejecutar($query)){
 		$respuesta['id'] = $bd->lastID();
 		$query_existencia = "UPDATE kr_equipo SET existencia = existencia + ".$cantidad." WHERE id = ".$id_item;
@@ -45,7 +45,8 @@ function abrir_entrada($id_entrada)
 	kr_equipo_estado.estado_equipo as estado,
 	kr_entrada.cantidad,
 	kr_entrada.fecha,
-	kr_entrada.precio
+	kr_entrada.precio,
+	kr_entrada.observacion
 	FROM kr_entrada
 	inner join kr_equipo on kr_entrada.id_kr_equipo=kr_equipo.id
 	inner join kr_proveedor on kr_entrada.id_proveedor =kr_proveedor.id
@@ -118,7 +119,7 @@ if(!function_exists('ensamblar_fecha')){
 }
 switch ($_GET['fn_nombre']) {
 	case 'crear_entrada':
-	echo json_encode(crear_entrada($_GET['id_item'], $_GET['cantidad'], $_GET['id_prov'], implode("-", array_reverse(explode("/", $_GET['fecha_nueva']))), $_GET['id_estado'], $_GET['id_tipo_entrada'], $_GET['precio'], $_GET['id_salida'], $_GET['no_factura'] ));
+	echo json_encode(crear_entrada($_GET['id_item'], $_GET['cantidad'], $_GET['id_prov'], implode("-", array_reverse(explode("/", $_GET['fecha_nueva']))), $_GET['id_estado'], $_GET['id_tipo_entrada'], $_GET['precio'], $_GET['id_salida'], $_GET['no_factura'], $_GET['observacion'] ));
 	break;
 	case 'abrir_entrada':
 	echo json_encode(abrir_entrada($_GET['id_entrada']));

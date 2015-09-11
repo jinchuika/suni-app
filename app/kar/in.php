@@ -93,9 +93,15 @@ while ($estado = $bd->obtener_fila($stmt_estado, 0)) {
                                         </div>
                                     </div>
                                     <div class="row-fluid">
+
+                                        <div class="span12" id="div_observacion">
+                                            <label>Observación:</label>
+                                        </div>
+                                    </div>
+                                    <div class="row-fluid">
                                         <div class="span11"></div>
                                         <div class="span1" id="div_edicion">
-                                            
+
                                         </div>
                                     </div>
                                 </fieldset>
@@ -156,6 +162,12 @@ while ($estado = $bd->obtener_fila($stmt_estado, 0)) {
                                             <input id="precio" name="precio" type="number" step="any" class="span12">
                                         </div>
                                     </div>
+                                    <div class="row-fluid">
+                                        <div class="span12">
+                                            <label>Observación:</label>
+                                            <textarea id="observacion" name="observacion" type="number" class="span12"></textarea>
+                                        </div>
+                                    </div>
                                 </fieldset>
                                 <button class="btn btn-primary">Crear nuevo</button>
                             </form>
@@ -175,15 +187,15 @@ while ($estado = $bd->obtener_fila($stmt_estado, 0)) {
                                 <div class="row-fluid">
                                     <div class="span5">
                                         <label>Tipo de entrada:</label>
-                                            <select id="id_tipo_entrada_lista" name="id_tipo_entrada_lista" class="span12">
-                                                <option value=""></option>
-                                                <?php
-                                                foreach ($arr_tipo as $key => $value) {
-                                                    echo "<option value='".$value['id']."'>".$value['entrada_tipo']."</option>
-                                                    ";
-                                                }
-                                                ?>
-                                            </select>
+                                        <select id="id_tipo_entrada_lista" name="id_tipo_entrada_lista" class="span12">
+                                            <option value=""></option>
+                                            <?php
+                                            foreach ($arr_tipo as $key => $value) {
+                                                echo "<option value='".$value['id']."'>".$value['entrada_tipo']."</option>
+                                                ";
+                                            }
+                                            ?>
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="row-fluid">
@@ -218,99 +230,99 @@ while ($estado = $bd->obtener_fila($stmt_estado, 0)) {
     </div>
 </body>
 <script>
-var modal_c = modal_carga_gn();
-modal_c.crear();
-var listado_equipos = new Array();
-function format(item) { 
-    return item.nombre;
-}
+    var modal_c = modal_carga_gn();
+    modal_c.crear();
+    var listado_equipos = new Array();
+    function format(item) { 
+        return item.nombre;
+    }
 
-function obtener_array (objetivo, src_remote) {
-    $.ajax({
-        url: nivel_entrada+'app/src/'+src_remote,
-        success: function (datos) {
-            var datos = $.parseJSON(datos);
-            $("#"+objetivo).select2({
-                data:{ results: datos, text: 'nombre'},
-                formatSelection: format,
-                formatResult: format
-            });
-        }
-    });
-}
-
-function cerrar_nuevo () {
-    $("#id_item").select2('data', null);
-    $("#id_prov").select2('data', null);
-    document.getElementById('form_entrada').reset();
-}
-
-function habilitar_edicion (id_item, cond) {
-    if(cond==true){
-        $(".dato_editable").editable({
-            url: nivel_entrada+'app/src/libs_tpe/kr_entrada.php?fn_nombre=editar_entrada',
-            pk: id_item
-        });
-        var datos1;
+    function obtener_array (objetivo, src_remote) {
         $.ajax({
-            url: nivel_entrada+'app/src/libs_tpe/kr_equipo.php?fn_nombre=listar_equipo',
+            url: nivel_entrada+'app/src/'+src_remote,
+            success: function (datos) {
+                var datos = $.parseJSON(datos);
+                $("#"+objetivo).select2({
+                    data:{ results: datos, text: 'nombre'},
+                    formatSelection: format,
+                    formatResult: format
+                });
+            }
+        });
+    }
+
+    function cerrar_nuevo () {
+        $("#id_item").select2('data', null);
+        $("#id_prov").select2('data', null);
+        document.getElementById('form_entrada').reset();
+    }
+
+    function habilitar_edicion (id_item, cond) {
+        if(cond==true){
+            $(".dato_editable").editable({
+                url: nivel_entrada+'app/src/libs_tpe/kr_entrada.php?fn_nombre=editar_entrada',
+                pk: id_item
+            });
+            var datos1;
+            $.ajax({
+                url: nivel_entrada+'app/src/libs_tpe/kr_equipo.php?fn_nombre=listar_equipo',
+                success: function (data) {
+                    var data = $.parseJSON(data);
+                    datos1 = data;
+                }
+            });
+            $("#id_item_editable").editable({
+                url: nivel_entrada+'app/src/libs_tpe/kr_entrada.php?fn_nombre=editar_entrada',
+                pk: id_item,
+                source: datos1
+            });
+            $("#btn_edicion").attr('onclick', 'habilitar_edicion(id_item, false);');
+            document.getElementById('btn_edicion').innerHTML = '<i class="icon-unlock-alt"></i>';
+        }
+        else{
+            $(".dato_editable").editable('destroy');
+            $("#btn_edicion").attr('onclick', 'habilitar_edicion(id_item, true);');
+            document.getElementById('btn_edicion').innerHTML = '<i class="icon-lock"></i>';
+        }
+    }
+
+    function abrir_entrada (id_entrada) {
+        modal_c.mostrar();
+        $(".dato_editable").remove();
+        $("#btn_edicion").remove();
+        $("#form_buscar").hide(100);
+        $("#loading_gif").show();
+        $("#btn-imprimir").hide();
+        $.ajax({
+            url: nivel_entrada +'app/src/libs_tpe/kr_entrada.php?fn_nombre=abrir_entrada',
+            data: {id_entrada: id_entrada},
             success: function (data) {
                 var data = $.parseJSON(data);
-                datos1 = data;
-            }
-        });
-        $("#id_item_editable").editable({
-            url: nivel_entrada+'app/src/libs_tpe/kr_entrada.php?fn_nombre=editar_entrada',
-            pk: id_item,
-            source: datos1
-        });
-        $("#btn_edicion").attr('onclick', 'habilitar_edicion(id_item, false);');
-        document.getElementById('btn_edicion').innerHTML = '<i class="icon-unlock-alt"></i>';
-    }
-    else{
-        $(".dato_editable").editable('destroy');
-        $("#btn_edicion").attr('onclick', 'habilitar_edicion(id_item, true);');
-        document.getElementById('btn_edicion').innerHTML = '<i class="icon-lock"></i>';
-    }
-}
-
-function abrir_entrada (id_entrada) {
-    modal_c.mostrar();
-    $(".dato_editable").remove();
-    $("#btn_edicion").remove();
-    $("#form_buscar").hide(100);
-    $("#loading_gif").show();
-    $("#btn-imprimir").hide();
-    $.ajax({
-        url: nivel_entrada +'app/src/libs_tpe/kr_entrada.php?fn_nombre=abrir_entrada',
-        data: {id_entrada: id_entrada},
-        success: function (data) {
-            var data = $.parseJSON(data);
-            if(data.msj=="no"){
-                $("#loading_gif").hide();
-                $("#tab1").append('<div class="dato_editable">No se encontró la entrada</div>');
-            }
-            else{
-                $("#div_item").append('<a href="#" id="id_item_editable" data-name="id_kr_equipo" data-type="select" class="span11 dato_editable">'+data.nombre_equipo+'</a>');
-                $("#div_cantidad").append('<a href="#" id="cantidad_editable" data-name="cantidad" class="span11 dato_editable">'+data.cantidad+'</a>');
-                $("#div_prov").append('<a href="#" id="id_prov_editable" data-name="id_proveedor" class="span11 dato_editable">'+data.nombre_prov+'</a>');
-                $("#div_fecha").append('<a href="#" id="fecha_editable" data-name="fecha" data-type="date" class="span11 datepicker dato_editable">'+data.fecha+'</a>');
-                $("#div_estado").append('<a href="#" id="id_estado_editable" data-name="id_estado" data-type="select" data-source="<?php
-                    echo "[";
-                    foreach ($arr_estado as $key => $value) {
-                        echo "{value:\'".$value['id']."\', text: \'".$value['estado_equipo']."\'},";
-                    }
-                    echo "]";
-                    ?>" class="span11 dato_editable">'+data.estado+'</a>');
-                $("#div_tipo").append('<a href="#" id="tipo_entrada_editable" data-name="id_tipo_entrada" data-type="select" data-source="<?php
-                    echo "[";
-                    foreach ($arr_tipo as $key => $value) {
-                        echo "{value:\'".$value['id']."\', text: \'".$value['entrada_tipo']."\'},";
-                    }
-                    echo "]";
-                    ?>" class="span11 dato_editable">'+data.tipo+'</a>');
-                $("#div_precio").append('<a href="#" id="precio_editable" data-name="precio" class="span11 dato_editable">'+data.precio+'</a>');
-                    //$("#div_edicion").append('<a id="btn_edicion" onclick="habilitar_edicion('+data.id+', 1);" class="btn btn-primary"><i class="icon-lock"></i></a>');
+                if(data.msj=="no"){
+                    $("#loading_gif").hide();
+                    $("#tab1").append('<div class="dato_editable">No se encontró la entrada</div>');
+                }
+                else{
+                    $("#div_item").append('<a href="#" id="id_item_editable" data-name="id_kr_equipo" data-type="select" class="span11 dato_editable">'+data.nombre_equipo+'</a>');
+                    $("#div_cantidad").append('<a href="#" id="cantidad_editable" data-name="cantidad" class="span11 dato_editable">'+data.cantidad+'</a>');
+                    $("#div_prov").append('<a href="#" id="id_prov_editable" data-name="id_proveedor" class="span11 dato_editable">'+data.nombre_prov+'</a>');
+                    $("#div_fecha").append('<a href="#" id="fecha_editable" data-name="fecha" data-type="date" class="span11 datepicker dato_editable">'+data.fecha+'</a>');
+                    $("#div_estado").append('<a href="#" id="id_estado_editable" data-name="id_estado" data-type="select" data-source="<?php
+                        echo "[";
+                        foreach ($arr_estado as $key => $value) {
+                            echo "{value:\'".$value['id']."\', text: \'".$value['estado_equipo']."\'},";
+                        }
+                        echo "]";
+                        ?>" class="span11 dato_editable">'+data.estado+'</a>');
+                    $("#div_tipo").append('<a href="#" id="tipo_entrada_editable" data-name="id_tipo_entrada" data-type="select" data-source="<?php
+                        echo "[";
+                        foreach ($arr_tipo as $key => $value) {
+                            echo "{value:\'".$value['id']."\', text: \'".$value['entrada_tipo']."\'},";
+                        }
+                        echo "]";
+                        ?>" class="span11 dato_editable">'+data.tipo+'</a>');
+                    $("#div_precio").append('<a href="#" id="precio_editable" data-name="precio" class="span11 dato_editable">'+data.precio+'</a>');
+                    $("#div_observacion").append('<a href="#" id="observacion_editable" data-name="observacion" class="span11 dato_editable">'+nullToEmpty(data.observacion)+'</a>');
                     $("#loading_gif").hide();
                     $("#form_buscar").show(300);
                 }
