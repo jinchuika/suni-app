@@ -199,44 +199,44 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
                                 </div>
                                 <div class="tab-pane" id="tpe">
                                     <legend>Equipamiento</legend>
-                                    <p class="lead">
-                                        Estado actual: <a href="#"><?php echo $escuela['proceso']['estado']; ?></a>
-                                    </p>
                                     <?php
+                                    //Si la escuela ya fue equipada
                                     if(!empty($escuela['equipamiento'])){
+                                        foreach ($escuela['equipamiento'] as $equipamiento) {
                                         ?>
                                         <p class="lead">
-                                            Número de entrega: <strong><?php echo $escuela['equipamiento']['id_entrega']; ?></strong>
+                                            <a>Equipada</a>
                                         </p>
                                         <p class="lead">
-                                            Fecha de equipamiento: <?php echo $escuela['equipamiento']['fecha']; ?>
+                                            Número de entrega: <strong><?php echo $equipamiento['id_entrega']; ?></strong>
                                         </p>
+                                        <p class="lead">
+                                            Fecha de equipamiento: <?php echo $equipamiento['fecha']; ?>
+                                        </p>
+                                        <hr>
                                         <?php
-                                    }
-                                    else{
-                                        ?>
-                                        <a href="#" class="btn btn-info" id="btn_equipamiento">Indicar equipamiento</a>
-                                        <form class="form hide" id="form_equipamiento">
-                                            <table class="table">
-                                                <tr>
-                                                    <td>Número de entrega</td>
-                                                    <td><input type="number" min="1" id="id_entrega" name="id_entrega" required="required"></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Fecha</td>
-                                                    <td><input type="text" name="fecha" id="fecha_entrega" placeholder="AAAA-MM-DD" required="required"></td>
-                                                </tr>
-                                            </table>
-                                            <button class="btn btn-primary" id="btn_equipamiento">Crear equipamiento</button>
-                                        </form>
-                                        <?php
+                                        }
                                     }
                                     ?>
+                                    <a href="#" class="btn btn-info" id="btn_equipamiento">Indicar equipamiento</a>
+                                    <form class="form hide" id="form_equipamiento">
+                                        <table class="table">
+                                            <tr>
+                                                <td>Número de entrega</td>
+                                                <td><input type="number" min="1" id="id_entrega" name="id_entrega" required="required"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Fecha</td>
+                                                <td><input type="text" name="fecha" id="fecha_entrega" placeholder="AAAA-MM-DD" required="required"></td>
+                                            </tr>
+                                        </table>
+                                        <button class="btn btn-primary" id="btn_equipamiento">Crear equipamiento</button>
+                                    </form>
                                 </div>
 
                                 <div class="tab-pane" id="mye">
                                     <legend>Monitoreo y evaluación</legend>
-                                    Estado actual: <a href="#"><?php echo $escuela['proceso']['estado']; ?></a>
+                                    Estado actual: <a href="#"><?php echo $escuela['equipamiento'] ? 'Equipada' : 'No Equipada'; ?></a>
                                 </div>
                                 <div class="tab-pane" id="seccion_supervisor">
                                     <legend>Supervisores departamentales</legend>

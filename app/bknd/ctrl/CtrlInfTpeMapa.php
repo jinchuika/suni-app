@@ -130,14 +130,14 @@ class CtrlInfTpeMapa extends Controller
         return $respuesta;
     }
 
-    public function listarEscuelasEquipadas($estado=5, $campos='*', $fecha_inicio='', $fecha_fin='')
+    public function listarEscuelasEquipadas($campos='*', $fecha_inicio='', $fecha_fin='')
     {
         $me_equipamiento = new MeEquipamiento();
-        $arrFiltros = array('id_estado'=>$estado, 'me_equipamiento.fecha[>=]'=>$fecha_inicio);
+        $arrFiltros = array('me_equipamiento.fecha[>=]'=>$fecha_inicio);
         if(!empty($fecha_fin)){
             $arrFiltros['me_equipamiento.fecha[<=]'] = $fecha_fin;
         }
-        return $me_equipamiento->crearInformeCapacitadas($arrFiltros, $campos);
+        return $me_equipamiento->crearInformeEquipadas($arrFiltros, $campos);
     }
 
     public function abrirInformeProceso($id_proceso, $campos='*')

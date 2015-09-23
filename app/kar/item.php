@@ -41,8 +41,8 @@ $bd = $libs->incluir('bd');
 						<td>Nombre</td>
 					</tr>
 				</table>
+				<div class="row-fluid rango_fechas hide">
 				<!-->Rango de fechas</!-->
-				<div class="row-fluid">
                     <div class="span6">
                         <label for="fecha_inicio"><i class="icon-step-forward"></i> Fecha de inicio</label>
                         <input class="span12" name="fecha_inicio" id="fecha_inicio">
@@ -70,6 +70,7 @@ $bd = $libs->incluir('bd');
 			success: function (data) {
 				var data = $.parseJSON(data);
 				cerrar_vistas();
+				$('#rango_fechas').show();
 				$("#tr_nombre_equipo").append("<td class='td_data'><a href='#' data-pk="+data.id+" data-type='text' data-name='nombre' class='data_edicion' id='nombre_equipo'>"+data.nombre+"</a></td>");
 				$("#tabla_datos").append("<tr class='td_data'><td>Existencia</td><td>"+data.existencia+"</td></tr>");
 				$("#contenedor_tabla").append("<button class='btn btn-primary span3 btn_listar' onclick='listar_entradas("+data.id+");'>Ver entradas</button><button class='btn btn-primary span3 btn_listar' onclick='listar_salidas("+data.id+");'>Ver salidas</button>");
@@ -83,6 +84,7 @@ $bd = $libs->incluir('bd');
 		var fecha_inicio = $('#fecha_inicio').val();
 		var fecha_fin = $('#fecha_fin').val();
 		$("#tabla_listado").remove();
+		$('#btn-imprimir').remove();
 		$.ajax({
 			url: nivel_entrada+'app/src/libs_tpe/kr_equipo.php',
 			data: {
@@ -112,6 +114,7 @@ $bd = $libs->incluir('bd');
 		var fecha_inicio = $('#fecha_inicio').val();
 		var fecha_fin = $('#fecha_fin').val();
 		$("#tabla_listado").remove();
+		$('#btn-imprimir').remove();
 		$.ajax({
 			url: nivel_entrada+'app/src/libs_tpe/kr_equipo.php',
 			data: {
@@ -139,6 +142,7 @@ $bd = $libs->incluir('bd');
 		$(".td_data").remove();
 		$(".td_form").remove();
 		$(".btn_listar").remove();
+		$('#rango_fechas').hide();
 		$("#tabla_listado").remove();
 		$("#btn-imprimir").remove();
 	}

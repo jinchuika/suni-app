@@ -15,9 +15,9 @@ class CtrlEscPerfilTest extends PHPUnit_Framework_TestCase
      */
     public function testAbreDatos($gn_escuela)
     {
-    	//$escuela = $gn_escuela->abrirDatosEscuela(array('id_escuela'=>'26867'));
-        //$this->assertNotNull($escuela);
-        //print_r($escuela);
+    	$escuela = $gn_escuela->abrirDatosEscuela(array('id_escuela'=>'9166'));
+        $this->assertNotNull($escuela);
+        print_r($escuela);
     }
 
 	/**
@@ -35,8 +35,8 @@ class CtrlEscPerfilTest extends PHPUnit_Framework_TestCase
      */
     public function testEditaCoordenada($gn_escuela)
     {
-        $edicion = $gn_escuela->editarCoordenada('15', '-91', 2);
-        $this->assertTrue($edicion);
+        //$edicion = $gn_escuela->editarCoordenada('15', '-91', 2);
+        //$this->assertTrue($edicion);
     }
 }
 ?>

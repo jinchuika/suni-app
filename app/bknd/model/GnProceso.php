@@ -6,7 +6,7 @@ class GnProceso extends Model
 {
 	var $tabla = 'gn_proceso';
 
-	public function crearProceso($id_escuela, $id_estado, $observacion='')
+	public function crearProceso($id_escuela, $id_estado=1, $observacion='')
 	{
 		$datosNuevos = array('id_escuela' => $id_escuela, 'id_estado'=>$id_estado, 'observacion' => $observacion);
 		$query = $this->armarInsert($this->tabla, $datosNuevos);

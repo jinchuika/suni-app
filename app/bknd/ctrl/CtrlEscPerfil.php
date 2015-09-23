@@ -17,7 +17,7 @@ class CtrlEscPerfil extends Controller
             $escuela['arr_sede'] = $gn_escuela->abrirSedeEscuela($escuela['id_escuela']);
             $escuela['proceso'] = $this->abrirProcesoEscuela($escuela['id_escuela']);
             if($escuela['proceso']['id_equipamiento']){
-                $escuela['equipamiento'] = $this->abrirEquipamientoEscuela($escuela['proceso']['id_equipamiento']);
+                $escuela['equipamiento'] = $this->abrirEquipamientoEscuela($escuela['proceso']['id_proceso']);
             }
             $escuela['arr_supervisor'] = $this->abrirSupervisor($escuela['distrito']);
         }
@@ -43,7 +43,7 @@ class CtrlEscPerfil extends Controller
     public function abrirProcesoEscuela($id_escuela)
     {
         $gn_proceso = new GnProceso();
-        $proceso = $gn_proceso->crearInformeProceso(array('id_escuela'=>$id_escuela), 'id_proceso, id_equipamiento, estado');
+        $proceso = $gn_proceso->crearInformeProceso(array('id_escuela'=>$id_escuela), 'id_proceso, id_equipamiento');
         return is_array($proceso) ? $proceso[0] : false;
     }
 
@@ -52,10 +52,10 @@ class CtrlEscPerfil extends Controller
      * @param  integer $id_equipamiento ID de me_equipamiento
      * @return Array
      */
-    public function abrirEquipamientoEscuela($id_equipamiento)
+    public function abrirEquipamientoEscuela($id_proceso)
     {
         $me_equipamiento = new MeEquipamiento();
-        return $me_equipamiento->abrirEquipamiento(array('id'=>$id_equipamiento));
+        return $me_equipamiento->abrirEquipamiento(array('id_proceso'=>$id_proceso));
     }
 
     /**
