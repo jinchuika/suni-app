@@ -6,6 +6,8 @@ class CtrlCdControl extends Controller
 {
 	/**
 	 * Lista las sedes del capacitador
+	 * @param string $rol rol de la persona que abre el control
+	 * @param string $id_per id del capacitador que mira la sede
 	 * @return Array
 	 */
 	public function listarSede($rol=null, $id_per=null)
@@ -22,6 +24,11 @@ class CtrlCdControl extends Controller
 		return $arr_sede;
 	}
 
+	/**
+	 * Abre el control académico de un grupo
+	 * @param  integer $id_grupo ID del grupo
+	 * @return Array           Las notas
+	 */
 	public function abrirControl($id_grupo)
 	{
 
@@ -63,6 +70,11 @@ class CtrlCdControl extends Controller
 		return $arr_participante;
 	}
 
+	/**
+	 * Abre la información del curso que recibe un grupo
+	 * @param  integer $id_grupo ID del grupo
+	 * @return Array           Listado
+	 */
 	public function listarCurso($id_grupo)
 	{
 		$gn_grupo = new GnGrupo();
@@ -78,6 +90,11 @@ class CtrlCdControl extends Controller
 		return array_merge($arr_modulo, $arr_hito);
 	}
 
+	/**
+	 * Guarda las notas para un registro de estudiante desde el control académico
+	 * @param  Array  $filaControl [description]
+	 * @return [type]              [description]
+	 */
 	public function guardarNota(Array $filaControl)
 	{
 		$gn_nota = new GnNota();

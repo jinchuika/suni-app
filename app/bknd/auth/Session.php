@@ -1,4 +1,7 @@
 <?php
+/**
+ * Clase abstracta para controlar la sesión actual. TODOS los métodos son estáticos
+ */
 class Session
 {
     /**

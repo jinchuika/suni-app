@@ -4,14 +4,12 @@
 */
 class GnGrupo extends Model
 {
+	/**
+	 * tabla a la que se conecta principalmente
+	 * @var string
+	 */
 	protected $tabla = 'gn_grupo';
-	protected $conectado = false;
-	public $id;
-	public $id_sede;
-	public $descripcion;
-	public $id_curso;
-	public $numero;
-	
+
 	/**
 	 * Abre un grupo de capacitación
 	 * @param  Array|null $arrFiltros Los filtros para buscar el grupo
@@ -49,6 +47,7 @@ class GnGrupo extends Model
 	 * @param  integer $id_curso  ID del curso
 	 * @param  integer $numero número de grupo
 	 * @param  string $descripcion descripción del nuevo grupo
+	 * @param string $id_capacitador id del capacitador del grupo
 	 * @return integer|boolean              El ID del nuevo grupo | Si falló la creación
 	 */
 	public function crearGrupo($id_sede, $id_curso, $numero, $descripcion='', $id_capacitador='')
@@ -66,51 +65,6 @@ class GnGrupo extends Model
 		$grupoNuevo = $this->bd->ejecutar($query, true);
 		if($grupoNuevo){
 			return $this->bd->lastID();
-		}
-		else{
-			return false;
-		}
-	}
-
-	/**
-	 * Conecta el objeto actual con un registro desde la DB
-	 * @param  Array  $arrFiltros Los filtros para buscar el registro
-	 * @return boolean             Si se pudo conectar o no
-	 */
-	public function abrir(Array $arrFiltros)
-	{
-		$respuesta = $this->abrirFila($arrFiltros);
-		if($respuesta){
-			$this->id = $respuesta['id'];
-			$this->id_sede = $respuesta['id_sede'];
-			$this->id_curso = $respuesta['id_curso'];
-			$this->descripcion = $respuesta['descripcion'];
-			$this->conectado = true;
-			return true;
-		}
-		else{
-			return false;
-		}
-	}
-
-	/**
-	 * Crea un nuevo grupo de capacitación en base a las propiedades del objeto actual
-	 * @return integer|boolean              El ID del nuevo grupo | Si falló la creación
-	 */
-	public function guardar()
-	{
-		$arrDatos = array('id_sede'=>$this->id_sede,'id_curso'=>$this->id_curso,'numero'=>$this->numero,'descripcion'=>$this->descripcion);
-		if($this->conectado){
-			$query = $this->armarUpdate('gn_grupo', $arrDatos, array('id'=>$this->id));
-		}
-		else{
-			$query = $this->armarInsert('gn_grupo', $arrDatos);
-		}
-		$grupoGuardado = $this->bd->ejecutar($query, true);
-		if($grupoGuardado){
-			$this->conectado = true;
-			$this->id = $this->bd->lastID();
-			return true;
 		}
 		else{
 			return false;

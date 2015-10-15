@@ -20,6 +20,12 @@ class MeSolicitud extends Model
 		return $solicitud;
 	}
 
+	/**
+	 * Lista los registros de la vista v_informe_me_solicitud
+	 * @param  Array $arr_filtros filtros para buscar en la DB
+	 * @param  string $campos      campos a pedir para cada registro
+	 * @return Array              La lista de solicitudes
+	 */
 	public function informeSolicitud($arr_filtros=null, $campos='*')
 	{
 		$arr_respuesta = array();
@@ -32,6 +38,11 @@ class MeSolicitud extends Model
 		return $arr_respuesta;
 	}
 
+	/**
+	 * Ensambla los filtros del informe dependiendo
+	 * @param  Array $arr_filtros filtros para ensamblar
+	 * @return string              los filtros
+	 */
 	public function filtros_informe($arr_filtros=null)
     {
     	$arr_respuesta = array();

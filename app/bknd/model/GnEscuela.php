@@ -4,6 +4,10 @@
 */
 class GnEscuela extends Model
 {
+    /**
+     * La tabla a la que se conecta principalmente
+     * @var string
+     */
     var $tabla = 'gn_escuela';
 
     /**
@@ -23,6 +27,19 @@ class GnEscuela extends Model
         else{
             return $escuela ? $escuela : false;
         }
+    }
+
+    /**
+     * Abre los datos de las tablas relacionadas a la escuela
+     * @param  string     $tabla       el nombre de la tabla
+     * @param  Array|null $arr_filtros filtros para buscar en la tabla
+     * @param  string     $campos      campos de la tabla a buscar
+     * @return Array                  lista de datos
+     */
+    public function abrirDatosExternos($tabla, Array $arr_filtros=null, $campos='*')
+    {
+        $query = $this->armarSelect($tabla, $campos, $arr_filtros);
+        return $this->bd->getResultado($query);
     }
 
     /**
@@ -84,6 +101,31 @@ class GnEscuela extends Model
     {
         $query = $this->armarSelect('v_escuela_participante', '*', array('id_escuela'=>$id_escuela));
         return $this->bd->getResultado($query);
+    }
+
+    /**
+     * Busca una escuela en la DB en base al nombre o dirección
+     * @param  string $string          La cadena a buscar
+     * @param  Array|null $id_departamento el ID del departamento
+     * @param integer $equipada 0 para no importa, 1 para no equipada, 2 para equipada
+     * @param string $campos los campos a buscar
+     * @return Array                  El listado de escuelas
+     */
+    public function buscarEscuela($nombre, Array $arr_filtros=null, $equipada=0, $campos='*')
+    {
+        $query = 'select '.$campos.' from v_escuela 
+        where
+        (nombre LIKE "%'.$nombre.'%" OR direccion LIKE "%'.$nombre.'%") ';
+        $filtrosQuery = $this->armarFiltros($arr_filtros, 'AND', false);
+        $query .= $filtrosQuery ? ' AND '.$filtrosQuery : '';
+        
+        if($equipada==1){
+            $query .= ' AND id_equipamiento IS NULL';
+        }
+        if($equipada==2){
+            $query .= ' AND id_equipamiento';
+        }
+        return $this->bd->getResultado($query, true);
     }
 }
 ?>

@@ -4,6 +4,10 @@
 */
 class MeEquipamiento extends Model
 {
+	/**
+	 * la tabla a la que se conecta principalmente
+	 * @var string
+	 */
 	var $tabla = 'me_equipamiento';
 
 	/**
@@ -37,6 +41,12 @@ class MeEquipamiento extends Model
 		return $this->actualizarCampo($datosNuevos, $filtros, $this->tabla);
 	}
 
+	/**
+	 * Abre los datos de un equipamiento
+	 * @param  Array|null $arr_filtros Filtros para abrir el registro
+	 * @param  string     $campos      Campos del registro a obtener
+	 * @return Array                  El registro del equipamiento (campo => valor)
+	 */
 	public function abrirEquipamiento(Array $arr_filtros = null, $campos = '*')
 	{
 		$query = $this->armarSelect($this->tabla, $campos, $arr_filtros);
@@ -44,6 +54,12 @@ class MeEquipamiento extends Model
 		return $equipamiento ? $equipamiento : false;
 	}
 
+	/**
+	 * Crea un informe de todas las escuelas equipadas a partir del proceso
+	 * @param  Array|null $arr_filtros Filtros para obtener las escuelas
+	 * @param  string     $campos      Campos del registro de escuelas
+	 * @return Array                  Lista de escuelas
+	 */
 	public function crearInformeEquipadas(Array $arr_filtros = null, $campos = '*')
 	{
 		$query = 'select '.$campos.' from v_informe_gn_proceso as v

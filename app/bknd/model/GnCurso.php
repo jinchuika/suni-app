@@ -4,10 +4,15 @@
 */
 class GnCurso extends Model
 {
+	/**
+	 * La tabla a la que se conecta principalmente
+	 * @var string
+	 */
 	public $tabla = 'gn_curso';
 	/**
 	 * Lista los módulos de un curso
 	 * @param  integet $idCurso el id del curso
+	 * @param string $campos los campos a obtener del curso
 	 * @return Array
 	 */
 	public function listarModulos($idCurso, $campos='id')
@@ -16,6 +21,12 @@ class GnCurso extends Model
 		return $modulos;
 	}
 
+	/**
+	 * Lista los hitos del curso
+	 * @param  integer $idCurso ID del curso
+	 * @param  string $campos  campos a obtener de los registros
+	 * @return Array          Listado de hitos
+	 */
 	public function listarHitos($idCurso, $campos='*')
 	{
 		$hitos = $this->listar($campos, array('id_curso'=>$idCurso), 'cr_hito');

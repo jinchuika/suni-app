@@ -1,7 +1,7 @@
 <?php
 /**
-* 
-*/
+ * Clase para control de los usuarios del sistemas
+ */
 class Usr extends Model
 {
 	/**

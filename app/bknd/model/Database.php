@@ -1,14 +1,49 @@
-<?php 
+<?php
+/**
+ * Clase para conectar a la base de datos y realizar operaciones en ella
+ */
 Class Database{
+    /**
+     * Dirección del servidor remoto a conectar
+     * @var string
+     */
     private $servidor;
+    /**
+     * Usuario de la DB
+     * @var string
+     */
     private $usuario;
+    /**
+     * Password para la DB
+     * @var string
+     */
     private $password;
+    /**
+     * Nombre de la DB
+     * @var string
+     */
     private $base_datos;
     
+    /**
+     * Objeto que establece la conexión
+     * @var MySQL Connection
+     */
     private $link;
+    /**
+     * Cada consulta realizada a la DB
+     * @var MySQL Query
+     */
     private $stmt;
+    /**
+     * El resultado de las consultas
+     * @var Array
+     */
     private $array;
 
+    /**
+     * La instancia actual, para usar singleton
+     * @var self
+     */
     private static $_instance;
 
     /**
@@ -36,6 +71,9 @@ Class Database{
      */
     private function __clone(){ }
 
+    /**
+     * Para evitar clonacion y usar singleton
+     */
     private function __wakeup(){ }
 
     /**
@@ -66,6 +104,7 @@ Class Database{
     /**
      * Ejecuta una consulta de MySQL
      * @param  string $sql   La consulta a ejecutar
+     * @param boolead $debug Si muestra o no los errores
      * @return mysqli_result
      */
     public function ejecutar($sql, $debug=false){
@@ -113,6 +152,7 @@ Class Database{
     /**
      * Obtiene la primer fila que concuerda con una query
      * @param  string  $query La query a ejecutar
+     * @param  string $fila el número de fila del dominio obtenido
      * @param  boolean $debug si muestra el error de mysql
      * @return Array         la fila encontrada
      */

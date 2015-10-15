@@ -1,5 +1,12 @@
 <?php
+/**
+ * El nivel por defecto en el que se espera que trabaje
+ * @var integer
+ */
 $AUTOLOAD_LVL = 2;
+/**
+ * Clase para incluir el resto de clases de forma automática
+ */
 class Autoloader
 {
     /**
@@ -7,8 +14,29 @@ class Autoloader
      * @var integer
      */
     private $nivel_entrada;
-    private $ruta;
 
+    /**
+     * Obtiene el nivel actual respecto a la direccion donde se ejecuta
+     * @var integer
+     */
+    private $nivel_actual;
+
+    /**
+     * La ruta relativa respecto a donde se ejecuta, tipo ../../
+     * @var string
+     */
+    protected $ruta_entrada;
+
+    /**
+     * La carpeta donde estan las clases (puede ser recursiva)
+     * @var Array
+     */
+    private $directorios_clases;
+
+    /**
+     * Crea el objeto que va a llamar al resto de clases
+     * @param integer $level el nivel al que se encuentra respecto de la raíz
+     */
     function __construct($level = 2)
     {
         $this->nivel_entrada = $level;
@@ -30,6 +58,10 @@ class Autoloader
         return $nivel_actual;
     }
 
+    /**
+     * Obtiene los saltos hacia arriba de carpeta para tener la ruta relativa (../)
+     * @return string los saltos para la ruta relativa
+     */
     function getRuta()
     {
         $ruta = '';
@@ -40,6 +72,10 @@ class Autoloader
         return $ruta;
     }
 
+    /**
+     * Incluye las clases si existe el archivo que las define
+     * @param  string $class_name el nombre de la clase a incluir
+     */
     function autoload_class($class_name)
     {
         foreach($this->directorios_clases as $key => $path)

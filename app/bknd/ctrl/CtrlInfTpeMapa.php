@@ -37,6 +37,13 @@ class CtrlInfTpeMapa extends Controller
         return 'Error';
     }
 
+    /**
+     * Actualiza las coordenadas de las escuelas
+     * @param  integer $id_coordenada el ID del registro de las coordenadas
+     * @param  string $lat           latitud de la coordenada
+     * @param  string $lng           longitud de la coordenada
+     * @return string                'Editado' para indicar que se pudo
+     */
     public function actualizarCoordenada($id_coordenada, $lat, $lng)
     {
         $gn_coordenada = new GnCoordenada();
@@ -90,6 +97,13 @@ class CtrlInfTpeMapa extends Controller
         }
     }
 
+    /**
+     * Actualiza la información de la escuela
+     * @param  strung $udi        el UDI de la escuela
+     * @param  string $fecha      la fecha de la entrega
+     * @param  string $id_entrega el ID de la entrega
+     * @return Array             la nueva información de la escuela
+     */
     public function actualizarInfoEscuela($udi, $fecha, $id_entrega)
     {
         $gn_escuela = new GnEscuela();
@@ -130,6 +144,13 @@ class CtrlInfTpeMapa extends Controller
         return $respuesta;
     }
 
+    /**
+     * Lista las escuelas equipadas
+     * @param  string $campos       los campos de la información de la escuela
+     * @param  string $fecha_inicio fecha de inicio para el informe
+     * @param  string $fecha_fin    fecha de fin para el informe
+     * @return Array               la lista de escuelas
+     */
     public function listarEscuelasEquipadas($campos='*', $fecha_inicio='', $fecha_fin='')
     {
         $me_equipamiento = new MeEquipamiento();
@@ -140,6 +161,12 @@ class CtrlInfTpeMapa extends Controller
         return $me_equipamiento->crearInformeEquipadas($arrFiltros, $campos);
     }
 
+    /**
+     * Abre un registro sobre el proceso de equipamiento de la escuela
+     * @param  integer $id_proceso el ID del proceso
+     * @param  string $campos     los campos del proceso que se necesitan
+     * @return Array             el registro del proceso
+     */
     public function abrirInformeProceso($id_proceso, $campos='*')
     {
         $gn_proceso = new GnProceso();

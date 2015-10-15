@@ -4,8 +4,18 @@
 */
 class GnSede extends Model
 {
+	/**
+	 * La tabla a la que se conecta principalmente
+	 * @var string
+	 */
 	var $tabla = 'gn_sede';
 
+	/**
+	 * Abre un registro de sede
+	 * @param  Array|null $arrFiltros Los filtros para buscar la sede
+	 * @param  string     $campos     Los campos de la sede a obtener
+	 * @return Array                 El registro para la sede
+	 */
 	public function abrirSede(Array $arrFiltros = null, $campos = '*')
 	{
 		$sede = $this->abrirFila($campos, $arrFiltros);

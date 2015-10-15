@@ -4,6 +4,10 @@
 */
 class GnNota extends Model
 {
+	/**
+	 * La tabla a la que se conecta principalmente
+	 * @var string
+	 */
 	var $tabla = 'gn_nota';
 
 	/**
@@ -42,6 +46,11 @@ class GnNota extends Model
 		return $query_when;
 	}
 
+	/**
+	 * Guarda un registro de control académico
+	 * @param  Array  $arrCambios filtros para saber qué registro se está editando
+	 * @return string             la query indicada
+	 */
 	public function guardarFilaControl(Array $arrCambios)
 	{
 		$query_nota = 'UPDATE gn_nota SET nota = ';

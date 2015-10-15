@@ -38,7 +38,7 @@ $bd = $libs->incluir('bd');
 						sumatoria_grupo = sumatoria_grupo + Number(item.grupo);
 						sumatoria_asignacion = sumatoria_asignacion + Number(item.asignacion);
 						sumatoria_participante = sumatoria_participante + Number(item.participante);
-						$("#tabla_body").append("<tr><td>"+ (index+1) +"</td><td>"+item.nombre+"</td><td>"+item.grupo+"</td><td>"+item.curso+"</td><td>"+item.asignacion+"</td><td>"+item.participante+"</td></tr>");
+						$("#tabla_body").append("<tr><td>"+ (index+1) +"</td><td><a href='"+nivel_entrada+'app/cap/sed/sede.php?id='+item.id_sede+"'>"+item.nombre+"</a></td><td>"+item.grupo+"</td><td>"+item.curso+"</td><td>"+item.asignacion+"</td><td>"+item.participante+"</td></tr>");
 					});
 					$("#tabla_body").append("<tr class='info'><td>TOTAL</td><td>--</td><td>"+sumatoria_grupo+"</td><td>--</td><td>"+sumatoria_asignacion+"</td><td>"+sumatoria_participante+"</td></tr>");
 					$("#barra_carga").hide();

@@ -4,6 +4,10 @@
  */
 class GnPersona extends Model
 {
+	/**
+	 * La tabla a la que se conecta principalmente
+	 * @var string
+	 */
 	var $tabla = 'gn_persona';
 
 	/**
@@ -18,6 +22,12 @@ class GnPersona extends Model
 		return $persona ? $persona : false;
 	}
 
+	/**
+	 * Edita la información de la persona
+	 * @param  Array  $arrDatos   Array de los datos nuevos (campo => valor)
+	 * @param  Array  $arrFiltros Filtros para saber a quién editar
+	 * @return boolean             si se pudo o no
+	 */
 	public function editarPersona(Array $arrDatos, Array $arrFiltros)
 	{
 		return $this->actualizarCampo($arrDatos, $arrFiltros, $this->tabla);

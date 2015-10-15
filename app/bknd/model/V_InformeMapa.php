@@ -4,6 +4,10 @@
 */
 class V_InformeMapa extends Model
 {
+	/**
+	 * La vista de la DB a la que se conecta
+	 * @var string
+	 */
 	var $tabla = 'v_informe_mapa';
 	/**
 	 * Lista las escuelas de v_informe_mapa

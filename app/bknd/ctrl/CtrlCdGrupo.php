@@ -34,11 +34,5 @@ class CtrlCdGrupo
 		$respuesta['id'] = $nuevoGrupo;
 		return $respuesta;
 	}
-
-	public function conecta()
-	{
-		$gn_grupo = TablaFactory::build('GnGrupo');
-		return $gn_grupo;
-	}
 }
 ?>

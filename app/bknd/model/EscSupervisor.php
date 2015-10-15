@@ -1,9 +1,13 @@
 <?php
 /**
- * 
+ * Controla los supervisores de las escuelas
  */
 class EscSupervisor extends Model
 {
+    /**
+     * tabla a la que se conecta principalmente
+     * @var string
+     */
     var $tabla = 'esc_supervisor';
     /**
      * Lista los distritos de las escuelas
@@ -42,6 +46,12 @@ class EscSupervisor extends Model
         return $this->bd->getFila($query);
     }
 
+    /**
+     * Crea un nuevo supervisor para un distrito específico
+     * @param  string $id_distrito ID del distrito
+     * @param  integer $id_persona  ID de la persona creada para que sea supervisor
+     * @return integer|boolean              ID del supervisor|false si hubo error
+     */
     public function crearSupervisor($id_distrito, $id_persona)
     {
         $arrDatos = array('id_distrito'=>$id_distrito, 'id_persona'=>$id_persona);

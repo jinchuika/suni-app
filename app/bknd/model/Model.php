@@ -38,6 +38,13 @@ class Model extends Query
         return $registro ? $registro : false;
     }
 
+    /**
+     * Obtiene un listado a partir de una tabla en la bd
+     * @param  string     $campos     los campos de la tabla
+     * @param  Array|null $arrFiltros los filtros para buscar la información
+     * @param  string     $tabla      el nombre de la tabla
+     * @return Array|null                 La lista|false si hubo error
+     */
     public function listar($campos='*', Array $arrFiltros=null, $tabla=null)
     {
         if(!$tabla)
@@ -93,6 +100,12 @@ class Model extends Query
         return $string_filtros;
     }
 
+    /**
+     * Actualiza un valor en un campo de un registro específico
+     * @param string  $campo  el nombre del campo a modificar
+     * @param string  $valor  el nuevo valor del campo
+     * @param boolean $online DEPRECATED pensando en modelos que funcionen offline
+     */
     public function set($campo, $valor='', $online=true)
     {
         $this->$campo = $valor;

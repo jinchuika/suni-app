@@ -8,6 +8,8 @@ abstract class Query
     /**
      * Crea el texto para hacer filtros en una consulta MySQL
      * @param  Array  $arrFiltros Cada elemento en forma {condición}
+     * @param string $conector el conector entre condiciones, OR o AND
+     * @param boolean $usaWhere para saber si lleva la palabra WHERE o no
      * @return string              El texto para el filtro
      */
     public static function armarFiltros(Array $arrFiltros=null, $conector='AND', $usaWhere=true)
@@ -41,6 +43,7 @@ abstract class Query
      * @param  string $tabla      El nombre de la tabla o vista
      * @param  string $campos     Los campos a buscar
      * @param  Array $arrFiltros Los filtros que apliquen
+     * @param Array $conector el conector entre condiciones, si es OR o AND
      * @return string             La query armada
      */
     public static function armarSelect($tabla, $campos='*', Array $arrFiltros=null, $conector='AND')

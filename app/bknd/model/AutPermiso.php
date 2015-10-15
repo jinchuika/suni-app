@@ -4,6 +4,10 @@
 */
 class AutPermiso extends Model
 {
+	/**
+	 * La tabla a la que se conecta principalmente
+	 * @var string
+	 */
 	var $tabla = 'aut_permiso';
 
 	/**

@@ -17,6 +17,8 @@ class StdFW
 
 	/**
 	 * Desvuelve una de las variables globales desde bknd/config/global_vars.php
+	 * @param string $name El nombre de la variable
+	 * @param string $key Llave del array
 	 */
 	public static function getGlobalVar($name, $key='')
 	{

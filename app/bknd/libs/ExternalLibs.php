@@ -4,8 +4,20 @@
 */
 class ExternalLibs extends Autoloader
 {
+    /**
+     * El string para incluir las librerías de JavaScript
+     * @var string
+     */
     var $js_string = '';
+    /**
+     * El string para incluir los archivos de CSS
+     * @var string
+     */
     var $css_string = '';
+    /**
+     * Las listas actuales de las librerías
+     * @var array
+     */
     var $lista_actual = array();
 
     /**
@@ -71,11 +83,21 @@ class ExternalLibs extends Autoloader
         ';
     }
 
+    /**
+     * Agrega un archivo a la lista que se especifique
+     * @param  string $archivo agrega un archivo en especial
+     * @return [type]          [description]
+     */
     public function pushLista($archivo)
     {
         array_push($this->lista_actual, $archivo);
     }
 
+    /**
+     * Imprime una de las listas formateadas en HTML
+     * @param  string $cadena si es el js o el css
+     * @return string         Las librerías en 
+     */
     public function imprimir($cadena)
     {
         if($cadena=='js'){
@@ -86,6 +108,10 @@ class ExternalLibs extends Autoloader
         }
     }
 
+    /**
+     * Agrega una librería en base a las librerias en /config
+     * @param string $lib el nombre de la librería
+     */
     public function addExternal($lib)
     {
         include $this->ruta_entrada.'app/bknd/config/external_libs.php';
@@ -96,6 +122,10 @@ class ExternalLibs extends Autoloader
         }
     }
 
+    /**
+     * Agrega la librería Default para el general y el encabezado
+     * @param integer $id_per [description]
+     */
     public function addDefault($id_per=0)
     {
         $arrGeneral = array('id'=>'js_general', 'id_per'=>$id_per, 'nivel'=>$this->ruta_entrada);

@@ -1,6 +1,6 @@
 <?php
 /**
- * 
+ * Controlador para los participantes
  */
 class CtrlCdParticipante extends Controller
 {
@@ -27,7 +27,9 @@ class CtrlCdParticipante extends Controller
 
 	/**
 	 * Lista las sedes del capacitador
-	 * @return Array
+	 * @param  integer $rol    el rol de los usuarios de las sedes
+	 * @param  integer $id_per el ID del capacitador
+	 * @return Array         el listado de sedes
 	 */
 	public function listarSede($rol=null, $id_per=null)
 	{
@@ -43,6 +45,11 @@ class CtrlCdParticipante extends Controller
 		return $arr_sede;
 	}
 
+	/**
+	 * Valida que exista el UDI del participante
+	 * @param  string $udi UDI de la escuela
+	 * @return boolean      Si existe o no
+	 */
 	public function validarEscuela($udi)
 	{
 		$gn_escuela = new GnEscuela();

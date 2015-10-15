@@ -41,8 +41,7 @@ $bd = $libs->incluir('bd');
 						<td>Nombre</td>
 					</tr>
 				</table>
-				<div class="row-fluid rango_fechas hide">
-				<!-->Rango de fechas</!-->
+				<div class="row-fluid rango_fechas hide" id="rango_fechas">
                     <div class="span6">
                         <label for="fecha_inicio"><i class="icon-step-forward"></i> Fecha de inicio</label>
                         <input class="span12" name="fecha_inicio" id="fecha_inicio">

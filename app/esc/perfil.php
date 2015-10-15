@@ -204,6 +204,7 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
                                     if(!empty($escuela['equipamiento'])){
                                         foreach ($escuela['equipamiento'] as $equipamiento) {
                                         ?>
+                                        <div class="well">
                                         <p class="lead">
                                             <a>Equipada</a>
                                         </p>
@@ -214,6 +215,7 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
                                             Fecha de equipamiento: <?php echo $equipamiento['fecha']; ?>
                                         </p>
                                         <hr>
+                                        </div>
                                         <?php
                                         }
                                     }
