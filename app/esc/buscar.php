@@ -90,6 +90,9 @@ $ctrl_escuela = new CtrlEscBuscar();
                             equipamiento: $('#equipamiento').val()
                         }
                     },
+                    beforeSend: function () {
+                        $("#progress").show();
+                    },
                     complete: function(respuesta) {
                         $this.removeData('jqXHR');
                         console.log(respuesta);

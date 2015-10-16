@@ -79,4 +79,10 @@ function calcRoute() {
 		}
 	});
 }
-google.maps.event.addDomListener(window, "load", initialize);
+function initialize_map () {
+	$('#map-canvas').show();
+	$('.map-control').show();
+	initialize();
+	$('#btn-show-map').hide();
+}
+//google.maps.event.addDomListener(document.getElementById('btn-show-map'), "click", initialize);
