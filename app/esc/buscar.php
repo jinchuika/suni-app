@@ -15,7 +15,6 @@ $ctrl_escuela = new CtrlEscBuscar();
 <head>
     <?php
     $libs->defecto();
-    $libs->incluir('bs-editable');
     $libs->incluir('gn-listar');
     $libs->incluir('jquery-ui');
     ?>
@@ -63,12 +62,14 @@ $ctrl_escuela = new CtrlEscBuscar();
             $('#tabla tbody').empty();
         });
 
-        $('#municipio,#jornada,#nivel,#equipamiento').change(function () {
+        $('#municipio,#jornada,#nivel,#equipamiento,#capacitacion').change(function () {
             $('#tabla tbody').empty();
             $('#buscador').autocomplete('search');
         });
 
-        $("#buscador").autocomplete({
+        $("#buscador").keypress(function () {
+            $("#tabla").find("tr:gt(0)").remove();
+        }).autocomplete({
             source: function (request, response) {
                 $("#progress").show();
                 var $this = $(this);
@@ -87,7 +88,8 @@ $ctrl_escuela = new CtrlEscBuscar();
                             id_municipio: $('#municipio').val(),
                             id_jornada: $('#jornada').val(),
                             id_nivel: $('#nivel').val(),
-                            equipamiento: $('#equipamiento').val()
+                            equipamiento: $('#equipamiento').val(),
+                            capacitacion: $('#capacitacion').val()
                         }
                     },
                     beforeSend: function () {
@@ -95,7 +97,6 @@ $ctrl_escuela = new CtrlEscBuscar();
                     },
                     complete: function(respuesta) {
                         $this.removeData('jqXHR');
-                        console.log(respuesta);
                         response($.parseJSON(respuesta.responseText));
                         $("#progress").hide();
                     }
@@ -104,12 +105,7 @@ $ctrl_escuela = new CtrlEscBuscar();
             width: 300,
             delay: 0,
             selectFirst: false,
-            minLength: 3,
-            
-            /*Para enviar al perfil al hacer enter */
-            select: function(event,ui){
-                $("#buscador" ).val( ui.item.value );
-            }
+            minLength: 3
         }).data("ui-autocomplete"
         )._renderItem = function( ul, item ) {
             return $("<tr>").append(function () {
@@ -119,16 +115,7 @@ $ctrl_escuela = new CtrlEscBuscar();
                 return "<td width=\"80%\">"+nombre_completo+"<br />"+direccion_completa+ "</td><td><div class=\"label label-info\">" +item.udi+ "</div> <i class='icon-copy' onclick='seleccionar_texto(\""+item.udi+"\");'></i></a></td>"; 
             }).appendTo($('#tabla'));
         };
-$("#buscador").keypress(function () {
-    $("#tabla").find("tr:gt(0)").remove();
-});
-$('#buscador').blur(function() {
-    var $this = $(this);
-    var jqXHR = $(this).data('jqXHR');
-    if(jqXHR)
-        jqXHR.abort();
-    $this.removeData('jqXHR');
-});
+
 });
 </script>
 
@@ -174,7 +161,6 @@ $('#buscador').blur(function() {
                             <select id="municipio" name="municipio" class="input-large">
                                 <option value="">TODOS</option>
                             </select>
-
                         </div>
                     </div>
                 </div>
@@ -204,7 +190,6 @@ $('#buscador').blur(function() {
                         </div>
                     </div>
                     <div class="control-group">
-                        
                         <div class="controls">
                             <select id="equipamiento" name="equipamiento" class="input-large">
                                 <option value="0">EQUIPAMIENTO</option>
@@ -213,10 +198,18 @@ $('#buscador').blur(function() {
                             </select>
                         </div>
                     </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <select id="capacitacion" name="capacitacion" class="input-large">
+                                <option value="0">CAPACITACIÓN</option>
+                                <option value="1">No capacitada</option>
+                                <option value="2">Capacitada</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-        
     </div>
     <div class="row">
         <div class="span1"></div>

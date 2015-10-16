@@ -37,7 +37,7 @@ class GnEscuelaTest extends PHPUnit_Framework_TestCase
     public function testBuscaEscuela($gn_escuela)
     {
         $arrFiltros = array('id_departamento'=>'04', 'id_municipio'=>'0401');
-        $arr_escuelas = $gn_escuela->buscarEscuela('Normal', $arrFiltros, 2, 'nombre, id_equipamiento');
+        $arr_escuelas = $gn_escuela->buscarEscuela('Normal', $arrFiltros, 0, 'nombre, id_equipamiento');
         print_r($arr_escuelas);
         $this->assertNotNull($arr_escuelas);
     }

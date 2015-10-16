@@ -12,9 +12,10 @@ class CtrlEscBuscar extends Controller
 	 * @param  string  $id_jornada      jornada de la escuela
 	 * @param  string  $id_nivel        nivel de la escuela
 	 * @param  integer $equipamiento    0 si no importa, 1 si no es equipada, 2 si es equipada
+	 * @param integer $capacitacion 0 si no importa, 1 si no está capacitada, 2 si está capacitada
 	 * @return Array                   resultado de la consulta
 	 */
-	public function buscarEscuela($nombre, $id_departamento='',$id_municipio='',$id_jornada='',$id_nivel='', $equipamiento=0)
+	public function buscarEscuela($nombre, $id_departamento='',$id_municipio='',$id_jornada='',$id_nivel='', $equipamiento=0, $capacitacion=0)
 	{
 		$gn_escuela = new GnEscuela();
 
@@ -23,10 +24,11 @@ class CtrlEscBuscar extends Controller
 		if($id_municipio){ $arrFiltros['id_municipio'] = $id_municipio; };
 		if($id_jornada){ $arrFiltros['id_jornada'] = $id_jornada; };
 		if($id_nivel){ $arrFiltros['id_nivel'] = $id_nivel; };
+		//$arrFiltros['participante'] = 0;
 
 		$campos = 'id_escuela, udi, nombre, direccion, departamento, municipio, id_equipamiento';
 
-		return $gn_escuela->buscarEscuela($nombre, $arrFiltros, $equipamiento, $campos);
+		return $gn_escuela->buscarEscuela($nombre, $arrFiltros, $equipamiento, $capacitacion, $campos);
 		
 	}
 

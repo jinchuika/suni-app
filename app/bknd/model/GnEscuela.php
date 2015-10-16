@@ -108,10 +108,11 @@ class GnEscuela extends Model
      * @param  string $string          La cadena a buscar
      * @param  Array|null $id_departamento el ID del departamento
      * @param integer $equipada 0 para no importa, 1 para no equipada, 2 para equipada
+     * @param integer $capacitada 0 para no importa, 1 para no capacitada, 2 para capacitada
      * @param string $campos los campos a buscar
      * @return Array                  El listado de escuelas
      */
-    public function buscarEscuela($nombre, Array $arr_filtros=null, $equipada=0, $campos='*')
+    public function buscarEscuela($nombre, Array $arr_filtros=null, $equipada=0, $capacitada=0, $campos='*')
     {
         $query = 'select '.$campos.' from v_escuela 
         where
@@ -124,6 +125,12 @@ class GnEscuela extends Model
         }
         if($equipada==2){
             $query .= ' AND id_equipamiento';
+        }
+        if($capacitada==1){
+            $query .= ' AND participante=0';
+        }
+        if($capacitada==2){
+            $query .= ' AND participante>0';
         }
         return $this->bd->getResultado($query, true);
     }
