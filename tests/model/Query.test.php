@@ -16,7 +16,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 	public function testSelect()
 	{
-		$arrFiltros = array('id' => 2, 'nombre'=>'Juan', 'fecha[>]'=>'2015-12-12');
+		$arrFiltros = array('id' => 2, 'nombre'=>'Ju"\'an', 'fecha[>]'=>'2015-12-12');
 		$query = Query::armarSelect('tabla', 'campo 1, campo2', $arrFiltros);
 		$this->assertNotNull($query);
 		echo $query;
@@ -24,10 +24,10 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 	public function testInsert()
 	{
-		$arrFiltros = array('id' => 2, 'nombre'=>"Juan'Perez");
+		$arrFiltros = array('id' => 2, 'nombre'=>"Juan\"'Perez");
 		$query = Query::armarInsert('tabla', $arrFiltros);
 		$this->assertNotNull($query);
-		echo $query;
+		//echo $query;
 	}
 
 	public function testUpdate()
@@ -36,7 +36,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 		$arrWhere = array('id' => 10);
 		$query = Query::armarUpdate('tabla', $arrDatos, $arrWhere);
 		$this->assertNotNull($query);
-		echo $query;
+		//echo $query;
 	}
 }
 ?>

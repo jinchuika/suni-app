@@ -18,7 +18,7 @@ abstract class Query
         if(!empty($arrFiltros) && is_array($arrFiltros)){
             
             $arrFiltrosSalida = array();
-            
+
             foreach ($arrFiltros as $campo => $valor) {
                 //Si el usuario no definio un igual, para mayor o menor que
                 $filtro = explode("[" , rtrim($campo, "]"));
@@ -26,12 +26,13 @@ abstract class Query
                 $filtroCompuesto = isset($filtro[1]) ? $filtro[0].$filtro[1] : $filtro[0].'=';
                 
                 //Para encerrar en comillas si es string
-                $comilla = is_string($valor) ? "'" : '';
+                $valor = is_string($valor) ? "'".addslashes($valor)."'" : $valor;
+                //$comilla = is_string($valor) ? "'" : '';
                 
                 //Une el campo, operador logico, comillas y valor
-                array_push($arrFiltrosSalida, $filtroCompuesto.$comilla.$valor.$comilla);
+                array_push($arrFiltrosSalida, $filtroCompuesto.$valor);
             }
-            
+
             $texto = $usaWhere ? ' where ' : '';
             $texto .= implode(' '.$conector.' ', $arrFiltrosSalida);
         }
@@ -61,13 +62,17 @@ abstract class Query
     public static function armarInsert($tabla, Array $arrDatos)
     {
         $campos = '';
+        //Para obtener el nombre de los campos
         if(StdFW::isAssoc($arrDatos)){
             $campos = '('.implode(',' ,array_keys($arrDatos)).')';
         }
+        //Para quitar los caracteres especiales y agregar comillas a los textos
         foreach ($arrDatos as &$dato) {
-            $dato = addslashes($dato);
+            $comilla = is_string($dato) ? "'" : '';
+            $dato = $comilla.addslashes($dato).$comilla;
         }
-        $query = "INSERT INTO ".$tabla." ".$campos." VALUES ('".implode("','", $arrDatos)."')";
+
+        $query = "INSERT INTO ".$tabla." ".$campos." VALUES (".implode(",", $arrDatos).")";
         return $query;
     }
 

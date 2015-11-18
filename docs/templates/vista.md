@@ -1,7 +1,26 @@
-#Vista básica para manipular datos
+# Vista básica para manipular datos
 
+La vista pretende estar alojada en algún directorio tipo:
 ```
+suni
+└── app
+    └── dir
+        ├── vista_1.php
+        └── vista_2.php
+```
+## Código
+
+```php
 <?php
+/**
+ * Descripción de la página
+ * Ubicación app/dir/vista.php
+ * Si requiere permisos de área, el número de área
+ *
+ * Descripción de preferencia
+ */
+
+
 //El autoloader del NBF
 include_once '../bknd/autoload.php';
 //El auntiguo autoloader
