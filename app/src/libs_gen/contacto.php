@@ -118,7 +118,7 @@ switch ($nombre_funcion) {
 	case 'crear_contacto_lista':
 		require_once('gn_contacto.php');
 		if(!empty($_POST['nombre_contacto']) && !empty($_POST['apellido_contacto']) && !empty($_POST['etiqueta_contacto']) && !empty($_POST['mail_contacto']) && ($_POST['nombre_contacto']!=="null") && ($_POST['apellido_contacto']!=="null") && ($_POST['etiqueta_contacto']!=="null") && ($_POST['mail_contacto']!=="null") ){
-			echo json_encode(crear_contacto_lista($_POST['nombre_contacto'],$_POST['apellido_contacto'],$_POST['mail_contacto'],$_POST['telelono_contacto'],$_POST['etiqueta_contacto'],$_POST['evento_contacto']));
+			echo json_encode(crear_contacto_lista($_POST['nombre_contacto'],$_POST['apellido_contacto'],$_POST['mail_contacto'],$_POST['telefono_contacto'],$_POST['etiqueta_contacto'],$_POST['evento_contacto']));
 		}
 		else{
 			if($_POST['nombre_contacto']!=="null" && $_POST['apellido_contacto']!=="null"){
