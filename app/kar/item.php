@@ -70,7 +70,7 @@ $bd = $libs->incluir('bd');
 				var data = $.parseJSON(data);
 				cerrar_vistas();
 				$('#rango_fechas').show();
-				$("#tr_nombre_equipo").append("<td class='td_data'><a href='#' data-pk="+data.id+" data-type='text' data-name='nombre' class='data_edicion' id='nombre_equipo'>"+data.nombre+"</a></td>");
+				$("#tr_nombre_equipo").append("<td class='td_data'><a href='#' data-pk="+data.id+" data-type='text' data-name='nombre' class='data_edicion' id='nombre_equipo'>"+data.nombre+"</a> (ID: "+data.id+")</td>");
 				$("#tabla_datos").append("<tr class='td_data'><td>Existencia</td><td>"+data.existencia+"</td></tr>");
 				$("#contenedor_tabla").append("<button class='btn btn-primary span3 btn_listar' onclick='listar_entradas("+data.id+");'>Ver entradas</button><button class='btn btn-primary span3 btn_listar' onclick='listar_salidas("+data.id+");'>Ver salidas</button>");
 				habilitar_edicion();
