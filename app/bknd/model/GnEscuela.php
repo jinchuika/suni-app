@@ -116,7 +116,7 @@ class GnEscuela extends Model
     {
         $query = 'select '.$campos.' from v_escuela 
         where
-        (nombre LIKE "%'.$nombre.'%" OR direccion LIKE "%'.$nombre.'%") ';
+        (nombre LIKE "%'.$nombre.'%" OR direccion LIKE "%'.$nombre.'%" OR udi="'.$nombre.'") ';
         $filtrosQuery = $this->armarFiltros($arr_filtros, 'AND', false);
         $query .= $filtrosQuery ? ' AND '.$filtrosQuery : '';
         
