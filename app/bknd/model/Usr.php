@@ -26,5 +26,11 @@ class Usr extends Model
 		$query = $this->armarSelect('usrRol', '*', $arrFiltros);
 		return $this->bd->getResultado($query);
 	}
+
+	public function listarUsuario(Array $arrFiltros, $campos='*')
+	{
+		$query = $this->armarSelect('usr', $campos, $arrFiltros);
+		return $this->bd->getResultado($query);
+	}
 }
 ?>
