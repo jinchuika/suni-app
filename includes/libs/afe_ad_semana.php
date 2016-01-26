@@ -8,45 +8,45 @@
 
     /* usr=XXX, depto = XXX, muni=XXX, sede = XXX */
     if(($ID_usr!=="TODOS")&&($ID_depto!=="TODOS")&&($ID_muni!=="TODOS")&&($ID_sede!=="TODOS")){
-        $sql="SELECT * FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.sede='$ID_sede')";
+        $sql="SELECT (semana) FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.sede='$ID_sede')";
     }
     /* usr=XXX, depto = XXX, muni=XXX, sede = TODOS */
     if(($ID_usr!=="TODOS")&&($ID_depto!=="TODOS")&&($ID_muni!=="TODOS")&&($ID_sede=="TODOS")){
-        $sql="SELECT * FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.depto='$ID_depto') AND (afe_ev_encabezado.municipio='$ID_muni')";
+        $sql="SELECT (semana) FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.depto='$ID_depto') AND (afe_ev_encabezado.municipio='$ID_muni')";
     }
     /* usr=XXX, depto = XXX, muni=TODOS, sede = TODOS */
     if(($ID_usr!=="TODOS")&&($ID_depto!=="TODOS")&&($ID_muni=="TODOS")&&($ID_sede=="TODOS")){
-        $sql="SELECT * FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr')  AND (afe_ev_encabezado.depto='$ID_depto')";
+        $sql="SELECT (semana) FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr')  AND (afe_ev_encabezado.depto='$ID_depto')";
     }
     /* usr=XXX, depto = TODOS, muni=XXX, sede = TODOS */
     if(($ID_usr!=="TODOS")&&($ID_depto=="TODOS")&&($ID_muni!=="TODOS")&&($ID_sede=="TODOS")){
-        $sql="SELECT * FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.municipio='$ID_muni')";
+        $sql="SELECT (semana) FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.municipio='$ID_muni')";
     }
     /* usr=XXX, depto = TODOS, muni=TODOS, sede = TODOS */
     if(($ID_usr!=="TODOS")&&($ID_depto=="TODOS")&&($ID_muni=="TODOS")&&($ID_sede=="TODOS")){
-        $sql="SELECT * FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr')";
+        $sql="SELECT (semana) FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr')";
     }
     /* usr=XXX, depto = TODOS, muni=TODOS, sede = XXX */
     if(($ID_usr!=="TODOS")&&($ID_depto=="TODOS")&&($ID_muni=="TODOS")&&($ID_sede!=="TODOS")){
-        $sql="SELECT * FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.sede='$ID_sede')";
+        $sql="SELECT (semana) FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.sede='$ID_sede')";
     }
     /* usr=XXX, depto = TODOS, muni=XXX, sede = XXX */
     if(($ID_usr!=="TODOS")&&($ID_depto=="TODOS")&&($ID_muni!=="TODOS")&&($ID_sede!=="TODOS")){
-        $sql="SELECT * FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.sede='$ID_sede') AND (afe_ev_encabezado.municipio='$ID_muni')";
+        $sql="SELECT (semana) FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.sede='$ID_sede') AND (afe_ev_encabezado.municipio='$ID_muni')";
     }
     /* usr=XXX, depto = XXX, muni=TODOS, sede = XXX */
     if(($ID_usr!=="TODOS")&&($ID_depto!=="TODOS")&&($ID_muni=="TODOS")&&($ID_sede!=="TODOS")){
-        $sql="SELECT * FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.sede='$ID_sede') AND (afe_ev_encabezado.depto='$ID_depto')";
+        $sql="SELECT (semana) FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.sede='$ID_sede') AND (afe_ev_encabezado.depto='$ID_depto')";
     }
     if($ID_usr=="TODOS"){
-    	$sql="SELECT * FROM afe_ev_encabezado";
+    	$sql="SELECT (semana) FROM afe_ev_encabezado";
     }
     $stmt=$bd->ejecutar($sql);
     $array = array();
     array_push($array, "<option value=\"TODOS\">TODOS</option>");
     $c = 0;
     while($x=$bd->obtener_fila($stmt,0)){
-    	array_push($array, "<option value=\"".$x[3]."\">".$x[3]."</option>");
+    	array_push($array, "<option value=\"".$x[0]."\">".$x[0]."</option>");
     }
     $array2 = array_unique($array);
     $rpta = "";

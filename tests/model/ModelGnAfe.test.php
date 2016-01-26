@@ -21,48 +21,59 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 	/**
 	 * @depends testExiste
 	 */
+	public function testAbreEncabezado($gn_afe)
+	{
+		$encabezado = $gn_afe->abrirEncabezado(10, 2, 2);
+		print_r($encabezado);
+	}
+
+	/**
+	 * @depends testExiste
+	 */
+	public function testCreaEncabezado($gn_afe)
+	{
+		$id_encabezado = $gn_afe->crearEncabezado(10, 2, 1);
+		$this->assertNotFalse($id_encabezado);
+		echo 'id_encabezado: '.$id_encabezado;
+		return $id_encabezado;
+	}
+
+	/**
+	 * @depends testExiste
+	 */
+	public function testCreaCuerpo($gn_afe)
+	{
+		$respuestas = array(
+			'u1'=>1, 'u2'=>2, 'u3'=>3,
+            'c1'=>1, 'c2'=>2, 'c3'=>3, 'c4'=>4,
+            's1'=>1, 's2'=>2, 's3'=>3, 's4'=>4,
+            'p1'=>1, 'p2'=>2, 'p3'=>3, 'p4'=>4, 'p5'=>5,
+            't1'=>1, 't2'=>2, 't3'=>3,
+            'comentario'=> 'prueba!'
+			);
+		$id_cuerpo = $gn_afe->crearCuerpo(1, $respuestas);
+		$this->assertNotFalse($id_cuerpo);
+		echo 'id_cuerpo: '.$id_cuerpo;
+		return $id_cuerpo;
+	}
+
+	/**
+	 * @depends testExiste
+	 */
+	public function testCuentaForm($gn_afe)
+	{
+		$total = $gn_afe->contarForm(10, 2, 2);
+		echo 'total: '.$total['total'];
+		$this->assertNotFalse($total);
+	}
+
+	/**
+	 * @depends testExiste
+	 */
 	public function testListaSede($gn_afe)
 	{
-		//$lista_sede = $gn_afe->listarSede(array('id_depto'=>01));
-		//print_r($lista_sede);
-	}
-
-	/**
-	 * @depends testExiste
-	 */
-	public function testListaGrupo($gn_afe)
-	{
-		$filtros = array('id_depto'=>01, 'id_muni'=>108);
-		//$lista_grupo = $gn_afe->listarGrupo($filtros);
-		//print_r($lista_grupo);
-	}
-
-	/**
-	 * @depends testExiste
-	 */
-	public function testListaSemana($gn_afe)
-	{
-		$filtros = array('id_depto'=>01, 'id_muni'=>108, 'grupo'=>1);
-		//$lista_semana = $gn_afe->listarSemana($filtros);
-		//print_r($lista_semana);
-	}
-
-	/**
-	 * @depends testExiste
-	 */
-	public function testListaDepartamento($gn_afe)
-	{
-		$lista_departamento = $gn_afe->listarDepartamento('grosales');
-		print_r($lista_departamento);
-	}
-
-	/**
-	 * @depends testExiste
-	 */
-	public function testListaMunicipio($gn_afe)
-	{
-		$lista_municipio = $gn_afe->listarMunicipio('grosales',7);
-		print_r($lista_municipio);
+		$arr_sede = $gn_afe->listarSedeConsulta(49);
+		print_r($arr_sede);
 	}
 }
 ?>

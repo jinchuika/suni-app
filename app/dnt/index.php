@@ -2,11 +2,12 @@
 /**
  * Archivo utilizado para las vistas del control de donantes
  */
+include_once '../bknd/autoload.php';
 require_once('../src/libs/incluir.php');
 $nivel_dir = 2;
 $id_area = 11;
 $libs = new librerias($nivel_dir);
-$sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $id_area));
+$sesion = $libs->incluir('seguridad');
 $bd = $libs->incluir('bd');
 ?>
 <!DOCTYPE html>

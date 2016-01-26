@@ -89,6 +89,14 @@ $ID = Session::get("usuario");
 
                             <div class="row-fluid">
                                 <div class="span6" >
+                                    <label>Semana</label>
+                                    <select name="semana" id="semana" tabindex="5">
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row-fluid">
+                                <div class="span6" >
                                     <p>
                                         <input class="btn btn-large btn-primary" type="submit" name="envio" id="envio" value="Realizar consulta">
                                     </p>
@@ -176,9 +184,31 @@ $ID = Session::get("usuario");
                 elegido4=$(this).val();
                 $.post("../includes/libs/afe_ad_grupo.php", {elegido4: elegido4, elegido3: elegido3, elegido2: elegido2, elegido: elegido }, function(data){
                     $("#grupo").html(data);
-                });     
+                    habilitar_semana();
+                });
             });
         });
+
+        $('#grupo').change(function () {
+            habilitar_semana();
+        });
+
+        function habilitar_semana () {
+            if( ($('#sede').val()=='TODOS') ){
+                $('#semana').prop('disabled', true);
+                $('#semana').find('option').remove();
+            }
+            else{
+                $.post("../includes/libs/afe_ad_semana_capa.php",{
+                    sede: $("#sede").val(),
+                    grupo: $("#grupo").val()
+                },
+                function(data){
+                    $("#semana").html(data);
+                    $('#semana').prop('disabled', false);
+                });
+            }
+        }
 
     });
     </script>

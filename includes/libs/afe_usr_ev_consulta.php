@@ -8,6 +8,8 @@ $bd=Db::getInstance();
     $ID_muni = $_POST['muni']; //Detecta el contenido del municipio
     $ID_sede = $_POST['sede']; //Detecta el contenido del sede
     $ID_grupo = $_POST['grupo'];
+    $ID_semana =$_POST['semana'];
+
     /* IF para saber si filtró por sede */
     if($ID_sede=="TODOS"){ 
       /*IF para saber que filtros utilizó que no sean SEDE */
@@ -35,7 +37,11 @@ $bd=Db::getInstance();
         $sql="SELECT * FROM afe_ev_encabezado WHERE (afe_ev_encabezado.capacitador='$ID_usr') AND (afe_ev_encabezado.sede='$ID_sede') AND (afe_ev_encabezado.grupo='$ID_grupo')";
       }
     }
-    //echo $sql;
+
+    if($ID_semana!="TODOS"){
+      $sql .= " AND afe_ev_encabezado.semana = '".$ID_semana."'";
+    }
+    
     $stmt=$bd->ejecutar($sql);
 
     $array = array();
