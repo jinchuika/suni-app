@@ -55,7 +55,14 @@ class CtrlEscPerfil extends Controller
     public function abrirEquipamientoEscuela($id_proceso)
     {
         $me_equipamiento = new MeEquipamiento();
-        return $me_equipamiento->abrirEquipamiento(array('id_proceso'=>$id_proceso));
+        $gn_cooperante = new GnCooperante();
+        $gn_proyecto = new GnProyecto();
+        $arr_equipamiento = $me_equipamiento->abrirEquipamiento(array('id_proceso'=>$id_proceso));
+        foreach ($arr_equipamiento as &$equipamiento) {
+            $equipamiento['arr_cooperante'] = $gn_cooperante->listarAsignacion(array('id_equipamiento' => $equipamiento['id']));
+            $equipamiento['arr_proyecto'] = $gn_proyecto->listarAsignacion(array('id_equipamiento' => $equipamiento['id']));
+        }
+        return $arr_equipamiento;
     }
 
     /**

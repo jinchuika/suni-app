@@ -38,5 +38,13 @@ class QueryTest extends PHPUnit_Framework_TestCase
 		$this->assertNotNull($query);
 		//echo $query;
 	}
+
+	public function testDelete()
+	{
+		$arrWhere = array('id' => 10);
+		$query = Query::armarDelete('tabla', $arrWhere);
+		$this->assertNotNull($query);
+		//echo $query;
+	}
 }
 ?>

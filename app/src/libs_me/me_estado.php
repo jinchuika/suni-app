@@ -1,11 +1,23 @@
 <?php
-class me_estado extends ConstructorModelo
+class me_estado
 {
     
-    function __construct(Db $bd=null, sesion $sesion=null)
+    /**
+     * @param object $bd     Objeto para la conectarse al modelo
+     * @param object $sesion Objeto para verificar sesión y permisos
+     */
+    function __construct($bd=null, $sesion=null)
     {
-        $this->bd = $this->set_common_var($bd);
-        $this->sesion = $this->set_common_var($sesion);
+        if(empty($bd) || empty($sesion)){
+            $nivel_dir = 2;
+            $libs = new librerias($nivel_dir);
+            $this->sesion = $libs->incluir('seguridad');
+            $this->bd = $libs->incluir('bd');
+        }
+        if(!empty($bd) && !empty($sesion)){
+            $this->bd = $bd;
+            $this->sesion = $sesion;
+        }
     }
 
     /**
@@ -24,6 +36,18 @@ class me_estado extends ConstructorModelo
             array_push($respuesta, $estado);
         }
         return $respuesta;
+    }
+
+    /**
+     * Crea los filtros para una consulta de MySQL
+     * @param  Array $arr_filtro [description]
+     * @return string
+     */
+    public function crear_filtros(Array $arr_filtro=null)
+    {
+        if (is_array($arr_filtro)) {
+            return "where ".implode(" AND ",$arr_filtro);
+        }
     }
 }
 ?>

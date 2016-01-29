@@ -90,5 +90,18 @@ abstract class Query
         $query = "UPDATE ".$tabla." SET ".$campos." ".$condiciones;
         return $query;
     }
+
+    /**
+     * Crea un query para eliminar
+     * @param  string $tabla    el nombre de la tabla
+     * @param  Array  $arrWhere las condiciones para saber el registro a borrar
+     * @return string           La query
+     */
+    public function armarDelete($tabla, Array $arrWhere)
+    {
+        $condiciones = self::armarFiltros($arrWhere);
+        $query = "DELETE FROM ".$tabla." ".$condiciones;
+        return $query;
+    }
 }
 ?>

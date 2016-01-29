@@ -256,7 +256,7 @@ $bd = $libs->incluir('bd');
                                 <tr>
                                     <td><label class="checkbox" for="chk_requisito_balcon">Balcones  <input type="checkbox" id="chk_requisito_balcon" data-name="balcon" class="chk_requisito"></label></td>
                                     <td><label class="checkbox" for="chk_requisito_tierra">Tierra física  <input type="checkbox" id="chk_requisito_tierra" data-name="tierra" class="chk_requisito"></label></td>
-                                    <td><label class="checkbox" for="chk_requisito_ups">UPS 500V/A  <input type="checkbox" id="chk_requisito_ups" data-name="ups" class="chk_requisito"></label></td>
+                                    <td><label class="checkbox" for="chk_requisito_ups">UPS 750V/A  <input type="checkbox" id="chk_requisito_ups" data-name="ups" class="chk_requisito"></label></td>
                                 </tr>
                                 <tr>
                                     <td><label class="checkbox" for="chk_requisito_piso">Piso de cemento  <input type="checkbox" id="chk_requisito_piso" data-name="piso" class="chk_requisito"></label></td>

@@ -2,7 +2,8 @@
 /**
  * Controla las solicitudes y validaciones
  */
-require_once('../src/libs/incluir.php');
+include_once '../bknd/autoload.php';
+include_once('../src/libs/incluir.php');
 $nivel_dir = 2;
 $id_area = 8;
 $libs = new librerias($nivel_dir);

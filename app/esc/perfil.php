@@ -214,6 +214,24 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
                                         <p class="lead">
                                             Fecha de equipamiento: <?php echo $equipamiento['fecha']; ?>
                                         </p>
+                                        <table class="table table-hover">
+                                        <tr><th>Cooperante</th></tr>
+                                        <?php
+                                        foreach ($equipamiento['arr_cooperante'] as $cooperante) {
+                                            ?>
+                                            <tr><td><?php echo $cooperante['nombre']; ?></td></tr>
+                                            <?php
+                                        }
+                                        ?>
+                                            <tr><th>Proyectos</th></tr>
+                                        <?php
+                                        foreach ($equipamiento['arr_proyecto'] as $proyecto) {
+                                            ?>
+                                            <tr><td><?php echo $proyecto['nombre']; ?></td></tr>
+                                            <?php
+                                        }
+                                        ?>
+                                        </table>
                                         <hr>
                                         </div>
                                         <?php

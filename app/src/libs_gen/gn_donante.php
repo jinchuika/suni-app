@@ -5,29 +5,23 @@
 class gn_donante
 {
 	
-	function __construct(Db $bd=null, sesion $sesion=null)
-	{
-		$this->nivel_dir = 3;
-		$this->id_area = 11;
-
-		if(!isset($bd)){
-            require_once('../libs/incluir.php');
-            $libs = new librerias($this->nivel_dir);
+	/**
+	 * @param object $bd     Objeto para la conectarse al modelo
+     * @param object $sesion Objeto para verificar sesión y permisos
+	 */
+	function __construct($bd=null, $sesion=null)
+    {
+        if(empty($bd) || empty($sesion)){
+            $nivel_dir = 2;
+            $libs = new librerias($nivel_dir);
+            $this->sesion = $libs->incluir('seguridad');
             $this->bd = $libs->incluir('bd');
         }
-        else{
+        if(!empty($bd) && !empty($sesion)){
             $this->bd = $bd;
-        }
-        if(!isset($sesion)){
-            require_once('../libs/incluir.php');
-            $libs = new librerias($this->nivel_dir);
-            $this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));
-        }
-        else{
             $this->sesion = $sesion;
         }
-		
-	}
+    }
 
 	/**
 	 * Devuelve la lista de donantes desde la base de datos

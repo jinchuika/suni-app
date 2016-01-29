@@ -23,6 +23,7 @@ abstract class ConstructorModelo
     public function set_common_var($libs=null)
     {
         if(!isset($libs) && empty($this->bd) ){
+            echo "este";
             require_once('../libs/incluir.php');
             $libs = new librerias(librerias::path_relativo());
             return $libs->incluir('bd');
