@@ -1,5 +1,5 @@
 <?php
-include 'autoload.php';
+include_once 'autoload.php';
 
 $ctrlNombre = Caller::getParam('ctrl');
 $accionNombre = Caller::getParam('act');

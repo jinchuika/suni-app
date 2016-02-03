@@ -14,12 +14,10 @@ class me_requisito
             }
             $nivel_dir = 3;
             $libs = new librerias($nivel_dir);
-            $this->sesion = $libs->incluir('seguridad');
             $this->bd = $libs->incluir('bd');
         }
-        if(!empty($bd) && !empty($sesion)){
+        if(!empty($bd)){
             $this->bd = $bd;
-            $this->sesion = $sesion;
         }
     }
 

@@ -9,6 +9,7 @@ class esc_contacto
     {
         $this->id_area = 7;
         if(empty($bd) || empty($sesion)){
+            include_once '../../bknd/autoload.php';
             require_once('../libs/incluir.php');
             $nivel_dir = 3;
             $libs = new librerias($nivel_dir);

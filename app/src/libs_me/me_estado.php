@@ -8,15 +8,13 @@ class me_estado
      */
     function __construct($bd=null, $sesion=null)
     {
-        if(empty($bd) || empty($sesion)){
+        if(empty($bd)){
             $nivel_dir = 2;
             $libs = new librerias($nivel_dir);
-            $this->sesion = $libs->incluir('seguridad');
             $this->bd = $libs->incluir('bd');
         }
-        if(!empty($bd) && !empty($sesion)){
+        if(!empty($bd)){
             $this->bd = $bd;
-            $this->sesion = $sesion;
         }
     }
 
