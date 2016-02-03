@@ -77,21 +77,37 @@ class GnAfe extends Model
         if ($semana) {
             $arr_filtros['semana'] = $semana;
         }
-        $query = "SELECT count(afe_cuerpo.id) as total FROM suni.afe_encabezado
+        $query = "SELECT count(afe_cuerpo.id) as total FROM afe_encabezado
         inner join afe_cuerpo on afe_encabezado.id=afe_cuerpo.id_encabezado ";
         $query .= $this->armarFiltros($arr_filtros);
 
         return $this->bd->getFila($query);
     }
 
+    /**
+     * Lista las sedes  de un capacitador
+     * @param  integer $id_persona el ID del capacitador (persona)
+     * @return Array
+     */
     public function listarSedeConsulta($id_persona = null)
     {
-        $query = "select gn_sede.id, gn_sede.nombre
+        $query = "select distinct gn_sede.id, gn_sede.nombre
         from afe_encabezado
         inner join gn_sede on gn_sede.id = afe_encabezado.id_sede ";
         if($id_persona){
             $query .= 'where gn_sede.capacitador='.$id_persona;
         }
+        return $this->bd->getResultado($query);
+    }
+
+    /**
+     * Lista los grupos de una sede
+     * @param  integer $id_sede el ID de la sede
+     * @return Array
+     */
+    public function listarGrupo($id_sede)
+    {
+        $query = $this->armarSelect('afe_encabezado', 'distinct grupo', array('id_sede'=>$id_sede));
         return $this->bd->getResultado($query);
     }
 }

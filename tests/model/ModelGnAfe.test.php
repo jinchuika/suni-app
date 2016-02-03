@@ -24,7 +24,8 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 	public function testAbreEncabezado($gn_afe)
 	{
 		$encabezado = $gn_afe->abrirEncabezado(10, 2, 2);
-		print_r($encabezado);
+		//print_r($encabezado);
+		$this->assertNotFalse($encabezado);
 	}
 
 	/**
@@ -34,14 +35,15 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 	{
 		$id_encabezado = $gn_afe->crearEncabezado(10, 2, 1);
 		$this->assertNotFalse($id_encabezado);
-		echo 'id_encabezado: '.$id_encabezado;
+		//echo 'id_encabezado: '.$id_encabezado;
 		return $id_encabezado;
 	}
 
 	/**
 	 * @depends testExiste
+	 * @depends testCreaEncabezado
 	 */
-	public function testCreaCuerpo($gn_afe)
+	public function testCreaCuerpo($gn_afe, $id_encabezado)
 	{
 		$respuestas = array(
 			'u1'=>1, 'u2'=>2, 'u3'=>3,
@@ -51,9 +53,9 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
             't1'=>1, 't2'=>2, 't3'=>3,
             'comentario'=> 'prueba!'
 			);
-		$id_cuerpo = $gn_afe->crearCuerpo(1, $respuestas);
+		$id_cuerpo = $gn_afe->crearCuerpo($id_encabezado, $respuestas);
 		$this->assertNotFalse($id_cuerpo);
-		echo 'id_cuerpo: '.$id_cuerpo;
+		//echo 'id_cuerpo: '.$id_cuerpo;
 		return $id_cuerpo;
 	}
 
@@ -63,7 +65,7 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 	public function testCuentaForm($gn_afe)
 	{
 		$total = $gn_afe->contarForm(10, 2, 2);
-		echo 'total: '.$total['total'];
+		//echo 'total: '.$total['total'];
 		$this->assertNotFalse($total);
 	}
 
@@ -73,7 +75,18 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 	public function testListaSede($gn_afe)
 	{
 		$arr_sede = $gn_afe->listarSedeConsulta(49);
-		print_r($arr_sede);
+		//print_r($arr_sede);
+		$this->assertNotFalse($arr_sede);
+	}
+
+	/**
+	 * @depends testExiste
+	 */
+	public function testListaGrupo($gn_afe)
+	{
+		$arr_grupo = $gn_afe->listarGrupo(10);
+		//print_r($arr_grupo);
+		$this->assertNotFalse($arr_grupo);
 	}
 }
 ?>

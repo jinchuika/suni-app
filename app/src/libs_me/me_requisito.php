@@ -12,7 +12,7 @@ class me_requisito
                 include_once '../../bknd/autoload.php';
                 require_once('../libs/incluir.php');
             }
-            $nivel_dir = 2;
+            $nivel_dir = 3;
             $libs = new librerias($nivel_dir);
             $this->sesion = $libs->incluir('seguridad');
             $this->bd = $libs->incluir('bd');
