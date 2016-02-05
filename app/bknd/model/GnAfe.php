@@ -57,7 +57,7 @@ class GnAfe extends Model
         $arr_datos = array('id_sede'=>$id_sede, 'grupo'=>$grupo, 'semana'=>$semana);
         $query = $this->armarInsert('afe_encabezado', $arr_datos);
         if($this->bd->ejecutar($query)){
-            return $this->bd->lastID();
+            return $this->bd->lastID(); 
         }
         else{
             return false;
@@ -109,6 +109,47 @@ class GnAfe extends Model
     {
         $query = $this->armarSelect('afe_encabezado', 'distinct grupo', array('id_sede'=>$id_sede));
         return $this->bd->getResultado($query);
+    }
+
+    /**
+     * Obtiene los encabezados en base a los filtros
+     * @param  Array  $arr_filtros los filtros para buscar
+     * @return Array
+     */
+    public function listarEncabezado(Array $arr_filtros)
+    {
+        $tabla = 'afe_encabezado inner join gn_sede on gn_sede.id=afe_encabezado.id_sede';
+        $query = $this->armarSelect($tabla, 'distinct afe_encabezado.id', $arr_filtros);
+        return $this->bd->getResultado($query);
+    }
+
+    /**
+     * Obtiene el detalle de todas las respuestas de los formularios
+     * @param  Array  $arr_filtros los ID de los encabezados a buscar
+     * @return Array              las respuestas
+     */
+    public function generarInforme(Array $arr_filtros)
+    {
+        $query = '';
+        $filtro_encabezado = '';
+        $arr_respuestas = array();
+        $arr_preguntas = array(
+            'u1', 'u2', 'u3',
+            'c1', 'c2', 'c3', 'c4',
+            's1', 's2', 's3', 's4',
+            'p1', 'p2', 'p3', 'p4', 'p5',
+            't1', 't2', 't3'
+            );
+        foreach ($arr_filtros as $key => $encabezado) {
+            $filtro_encabezado .= ($key > 0) ? ' OR id_encabezado='.$encabezado['id'].' ' : ' id_encabezado='.$encabezado['id'];
+        }
+        foreach ($arr_preguntas as $pregunta) {
+            $campos = 'distinct '.$pregunta.' as respuesta, count(*) as cantidad';
+            $query = $this->armarSelect('afe_cuerpo', $campos);
+            $query .= 'where '.$filtro_encabezado.' group by '.$pregunta;
+            $arr_respuestas[$pregunta] = $this->bd->getResultado($query);
+        }
+        return $arr_respuestas;
     }
 }
 ?>

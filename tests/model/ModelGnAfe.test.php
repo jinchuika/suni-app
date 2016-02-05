@@ -26,6 +26,7 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 		$encabezado = $gn_afe->abrirEncabezado(10, 2, 2);
 		//print_r($encabezado);
 		$this->assertNotFalse($encabezado);
+		return $encabezado['id'];
 	}
 
 	/**
@@ -33,15 +34,15 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCreaEncabezado($gn_afe)
 	{
-		$id_encabezado = $gn_afe->crearEncabezado(10, 2, 1);
-		$this->assertNotFalse($id_encabezado);
+		//$id_encabezado = $gn_afe->crearEncabezado(10, 2, 2);
+		//$this->assertNotFalse($id_encabezado);
 		//echo 'id_encabezado: '.$id_encabezado;
-		return $id_encabezado;
+		return 1;
 	}
 
 	/**
 	 * @depends testExiste
-	 * @depends testCreaEncabezado
+	 * @depends testAbreEncabezado
 	 */
 	public function testCreaCuerpo($gn_afe, $id_encabezado)
 	{
@@ -49,8 +50,8 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 			'u1'=>1, 'u2'=>2, 'u3'=>3,
             'c1'=>1, 'c2'=>2, 'c3'=>3, 'c4'=>4,
             's1'=>1, 's2'=>2, 's3'=>3, 's4'=>4,
-            'p1'=>1, 'p2'=>2, 'p3'=>3, 'p4'=>4, 'p5'=>5,
-            't1'=>1, 't2'=>2, 't3'=>3,
+            'p1'=>1, 'p2'=>2, 'p3'=>3, 'p4'=>4, 'p5'=>2,
+            't1'=>2, 't2'=>3, 't3'=>1,
             'comentario'=> 'prueba!'
 			);
 		$id_cuerpo = $gn_afe->crearCuerpo($id_encabezado, $respuestas);
@@ -87,6 +88,29 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 		$arr_grupo = $gn_afe->listarGrupo(10);
 		//print_r($arr_grupo);
 		$this->assertNotFalse($arr_grupo);
+	}
+
+	/**
+	 * @depends testExiste
+	 */
+	public function testListaEncabezado($gn_afe)
+	{
+		$arr_filtros = array('id_sede'=>10, 'grupo'=>2);
+		$arr_encabezado = $gn_afe->listarEncabezado($arr_filtros);
+		print_r($arr_encabezado);
+		$this->assertNotFalse($arr_encabezado);
+		return $arr_encabezado;
+	}
+
+	/**
+	 * @depends testExiste
+	 * @depends testListaEncabezado
+	 */
+	public function testGeneraInforme($gn_afe, $arr_encabezado)
+	{
+		$arr_respuesta = $gn_afe->generarInforme($arr_encabezado);
+		//print_r($arr_respuesta);
+		$this->assertNotFalse($arr_respuesta);
 	}
 }
 ?>

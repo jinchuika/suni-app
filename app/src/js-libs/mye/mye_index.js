@@ -2,8 +2,8 @@ $.fn.modal.Constructor.prototype.enforceFocus = function () {};
 /**
  * Estados para indicar si hay una solicitud abierta
  */
-var solicitud_abierta = false
-, estado_validacion_actual = 0;
+ var solicitud_abierta = false
+ , estado_validacion_actual = 0;
 /**
  * Limpia todos los campos de la solicitud
  */
@@ -315,29 +315,27 @@ function crear_solicitud (id_proceso, callback) {
           }
         }
       });
-      var $popover = $('.btn_cnt').popover({
+      $('.btn_cnt').popover({
         html: true,
         placement: 'bottom',
         content: function () {
           var div_id =  "popover" + $(this).data('idcontacto');
+          crear_popup($(this).data('idcontacto'), div_id);
           return '<div id="'+ div_id +'">cargando...</div>';
         }
       });
-      $popover.unbind().bind("shown", function(e) {
-        abrir_contacto_escuela($(this).data('idcontacto'), "popover" + $(this).data('idcontacto'), true);
-      });
-      $('body').unbind().bind('click', function (e) {
-        if ($(e.target).data('toggle') !== 'popover'
-          && $(e.target).parents('.popover.in').length === 0) { 
-          $('[data-toggle="popover"]').popover('hide');
-      }
-    });
     }
     else{
       bootbox.alert('Error al cargar los contactos. Por favor abra de nuevo la solicitud');
       return false;
     }
   });
+}
+
+function crear_popup (id_contacto, div_id) {
+  console.log('intenta crear id_contacto: '+id_contacto);
+  abrir_contacto_escuela(id_contacto, div_id, true);
+  return true;
 }
 
 function abrir_poblacion (id_poblacion) {
@@ -350,15 +348,23 @@ function abrir_poblacion (id_poblacion) {
   })
   .done(function (poblacion) {
     if(poblacion){
-      $('#td_alum_mujer').html('<a class="me_poblacion" data-name="alum_mujer" href="#">'+poblacion.alum_mujer+'</a>');
-      $('#td_alum_hombre').html('<a class="me_poblacion" data-name="alum_hombre" href="#">'+poblacion.alum_hombre+'</a>');
+      $('#td_alum_mujer').html('<a class="me_poblacion" id="a_alum_mujer" data-name="alum_mujer" href="#">'+poblacion.alum_mujer+'</a>');
+      $('#td_alum_hombre').html('<a class="me_poblacion" id="a_alum_hombre" data-name="alum_hombre" href="#">'+poblacion.alum_hombre+'</a>');
       $('#td_maestro_mujer').html('<a class="me_poblacion" data-name="maestro_mujer" href="#">'+poblacion.maestro_mujer+'</a>');
       $('#td_maestro_hombre').html('<a class="me_poblacion" data-name="maestro_hombre" href="#">'+poblacion.maestro_hombre+'</a>');
       (solicitud_abierta==true) ? $('#div_poblacion').show() : '';
       $('.me_poblacion').editable({
         url: nivel_entrada + 'app/src/libs_me/me_poblacion.php?fn_nombre=editar_poblacion',
-        pk: poblacion.id
+        pk: poblacion.id,
+        validate: function (value) {
+          if(isNaN(value) || value < 0){
+            return 'Ingrese un número mayor o igual a cero';
+          }
+        }
+      }).on('save', function (e, params) {
+        sumar_poblacion(params.newValue, $.parseJSON(params.response));
       });
+      sumar_poblacion();
     }
     else{
       bootbox.alert('Error al cargar la población estudiantil. Por favor abra de nuevo la solicitud');
@@ -366,6 +372,21 @@ function abrir_poblacion (id_poblacion) {
     }
     modal_c.ocultar();
   });
+}
+
+function sumar_poblacion (valor, campo) {
+  if(campo){
+    var total = $('.me_poblacion').editable('getValue');
+    total[campo.name] = valor;
+    var total_alum = parseInt(total.alum_mujer) + parseInt(total.alum_hombre);
+    var total_maestro = parseInt(total.maestro_mujer) + parseInt(total.maestro_hombre);
+  }
+  else{
+    var total_alum = parseInt($('#td_alum_mujer').text()) + parseInt($('#td_alum_hombre').text());
+    var total_maestro = parseInt($('#td_maestro_mujer').text()) + parseInt($('#td_maestro_hombre').text());
+  }
+  $('#td_cant_alumnos').html('<span class="lead">'+total_alum+'</span>');
+  $('#td_cant_maestros').html('<span class="lead">'+total_maestro+'</span>');
 }
 
 /**

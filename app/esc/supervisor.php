@@ -1,7 +1,7 @@
 <?php
 include_once '../bknd/autoload.php';
 include '../src/libs/incluir.php';
-include '../bknd/autoload.php';
+
 $nivel_dir = 2;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
@@ -9,6 +9,7 @@ $sesion = $libs->incluir('seguridad');
 $external = new ExternalLibs();
 $external->addDefault();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>

@@ -70,5 +70,10 @@ class CtrlCdAfeForm extends Controller
 			return $id_encabezado['id'];
 		}
 	}
+
+	public function listarEncabezado($id_capacitador=null, $id_sede=null, $grupo=null, $semana=null)
+	{
+		# code...
+	}
 }
 ?>
