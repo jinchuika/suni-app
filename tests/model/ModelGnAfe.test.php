@@ -65,8 +65,8 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCuentaForm($gn_afe)
 	{
-		$total = $gn_afe->contarForm(10, 2, 2);
-		//echo 'total: '.$total['total'];
+		$total = $gn_afe->contarForm(null, null, null, null);
+		echo 'total: '.$total['total'];
 		$this->assertNotFalse($total);
 	}
 
@@ -97,7 +97,7 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 	{
 		$arr_filtros = array('id_sede'=>10, 'grupo'=>2);
 		$arr_encabezado = $gn_afe->listarEncabezado($arr_filtros);
-		print_r($arr_encabezado);
+		//print_r($arr_encabezado);
 		$this->assertNotFalse($arr_encabezado);
 		return $arr_encabezado;
 	}
@@ -109,6 +109,17 @@ class ModelGnAfeTest extends PHPUnit_Framework_TestCase
 	public function testGeneraInforme($gn_afe, $arr_encabezado)
 	{
 		$arr_respuesta = $gn_afe->generarInforme($arr_encabezado);
+		//print_r($arr_respuesta);
+		$this->assertNotFalse($arr_respuesta);
+	}
+
+	/**
+	 * @depends testExiste
+	 * @depends testListaEncabezado
+	 */
+	public function testAbreComentario($gn_afe, $arr_encabezado)
+	{
+		$arr_respuesta = $gn_afe->abrirComentario($arr_encabezado);
 		//print_r($arr_respuesta);
 		$this->assertNotFalse($arr_respuesta);
 	}

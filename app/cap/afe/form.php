@@ -616,8 +616,6 @@ $cd_afe_form = new CtrlCdAfeForm();
 					delay: 3000
 				});
 			});
-			console.log('Enviado');
-			console.log($('#formulario').serializeObject());
 		});
 
 		$('#btn-consulta').click(function () {

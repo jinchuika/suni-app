@@ -4,28 +4,6 @@
 */
 class CtrlCdAfeForm extends Controller
 {
-
-	/**
-	 * Lista los departamentos de las escuelas
-	 * @return Array
-	 */
-	public function listarDepartamento()
-    {
-        $gn_departamento = new GnDepartamento();
-        return $gn_departamento->listarDepartamento();
-    }
-
-    /**
-     * Lista los municipios de las escuelas
-     * @param  Array|null $arr_filtros Filtros para buscar el municipio
-     * @return Array
-     */
-    public function listarMunicipio($id_departamento='')
-    {
-        $gn_municipio = new GnMunicipio();
-        return $gn_municipio->listarMunicipio(array('id_departamento'=>$id_departamento));
-    }
-    
 	/**
 	 * Lista las sedes del capacitador
 	 * @param  integer $id_user el ID de usuario del capacitador
@@ -39,7 +17,6 @@ class CtrlCdAfeForm extends Controller
 
 		return $arr_sede;
 	}
-
 
 	/**
 	 * Cuenta los formularios que se han ingresado para esos calendarios

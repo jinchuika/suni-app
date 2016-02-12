@@ -21,5 +21,16 @@ class GnSedeTest extends PHPUnit_Framework_TestCase
         $this->assertNotNull($sede);
         $this->assertNotFalse($sede);
     }
+
+    /**
+     * @depends testExiste
+     */
+    public function testListaSede($gn_sede)
+    {
+        $sede = $gn_sede->listarSede(array('id'=>array(1, 2, 3, 4)));
+        print_r($sede);
+        $this->assertNotNull($sede);
+        $this->assertNotFalse($sede);
+    }
 }
 ?>

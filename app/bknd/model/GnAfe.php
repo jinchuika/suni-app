@@ -71,16 +71,25 @@ class GnAfe extends Model
      * @param  integer $semana  si es inicial o final
      * @return integer          la cantidad de formularios
      */
-    public function contarForm($id_sede, $grupo, $semana=null)
+    public function contarForm($id_sede=null, $grupo=null, $semana=null, $id_capacitador=null)
     {
-        $arr_filtros = array('id_sede'=>$id_sede, 'grupo'=>$grupo);
-        if ($semana) {
+        $arr_filtros = array();
+        if(($id_sede)) {
             $arr_filtros['semana'] = $semana;
+        }
+        if(($semana)) {
+            $arr_filtros['semana'] = $semana;
+        }
+        if(($grupo)) {
+            $arr_filtros['grupo'] = $semana;
         }
         $query = "SELECT count(afe_cuerpo.id) as total FROM afe_encabezado
         inner join afe_cuerpo on afe_encabezado.id=afe_cuerpo.id_encabezado ";
+        if(($id_capacitador)){
+            $query .= 'inner join gn_sede on afe_encabezado.id_sede=gn_sede.id ';
+            $arr_filtros['capacitador'] = $id_capacitador;
+        }
         $query .= $this->armarFiltros($arr_filtros);
-
         return $this->bd->getFila($query);
     }
 
@@ -140,6 +149,7 @@ class GnAfe extends Model
             'p1', 'p2', 'p3', 'p4', 'p5',
             't1', 't2', 't3'
             );
+        //Crea los filtros como si fuera model->armarFiltros
         foreach ($arr_filtros as $key => $encabezado) {
             $filtro_encabezado .= ($key > 0) ? ' OR id_encabezado='.$encabezado['id'].' ' : ' id_encabezado='.$encabezado['id'];
         }
@@ -150,6 +160,18 @@ class GnAfe extends Model
             $arr_respuestas[$pregunta] = $this->bd->getResultado($query);
         }
         return $arr_respuestas;
+    }
+
+    /**
+     * Lista los comentarios de un set de cuerpos
+     * @param  Array  $arr_filtros los filtros para buscar
+     * @return Array              El resultado
+     */
+    public function abrirComentario(Array $arr_filtros)
+    {
+        $arr_filtros['comentario[!=]'] = '';
+        $query = $this->armarSelect('afe_cuerpo', 'comentario', $arr_filtros);
+        return $this->bd->getResultado($query);
     }
 }
 ?>

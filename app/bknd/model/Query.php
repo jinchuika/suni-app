@@ -12,28 +12,39 @@ abstract class Query
      * @param boolean $usaWhere para saber si lleva la palabra WHERE o no
      * @return string              El texto para el filtro
      */
-    public static function armarFiltros(Array $arrFiltros=null, $conector='AND', $usaWhere=true)
+    public static function armarFiltros(Array $arrFiltros=null, $conector='AND', $usaWhere=true, $nombreCampo=null)
     {
         $texto = '';
         if(!empty($arrFiltros) && is_array($arrFiltros)){
+            $texto = $usaWhere ? ' where ' : '';
             
             $arrFiltrosSalida = array();
 
             foreach ($arrFiltros as $campo => $valor) {
-                //Si el usuario no definio un igual, para mayor o menor que
-                $filtro = explode("[" , rtrim($campo, "]"));
-                
-                $filtroCompuesto = isset($filtro[1]) ? $filtro[0].$filtro[1] : $filtro[0].'=';
-                
-                //Para encerrar en comillas si es string
-                $valor = is_string($valor) ? "'".addslashes($valor)."'" : $valor;
-                //$comilla = is_string($valor) ? "'" : '';
-                
-                //Une el campo, operador logico, comillas y valor
-                array_push($arrFiltrosSalida, $filtroCompuesto.$valor);
-            }
+                //si el campo es un array se toma un OR para usar varias veces ese campo
+                if(is_array($valor)){
+                    $condicion = ' ('.self::armarFiltros($valor, 'OR', false, $campo).') ';
+                }
+                else{
 
-            $texto = $usaWhere ? ' where ' : '';
+                    //Si el usuario no definio un igual, para mayor o menor que
+                    //para eso el operador se pone entre corchetes [>=]
+                    $filtro = explode("[" , rtrim($campo, "]"));
+                    
+                    //En este punto
+                    //$filtro[0] => campo, $filtro[1] = operador logico
+                    //si el usuario definio que fuera un solo campo
+                    $campo = $nombreCampo ? $nombreCampo : $filtro[0];
+                    $filtroCompuesto = isset($filtro[1]) ? $campo.$filtro[1] : $campo.'=';
+                    
+                    //Para encerrar en comillas si es string
+                    $valor = is_string($valor) ? "'".addslashes($valor)."'" : $valor;
+                    $condicion = $filtroCompuesto.$valor;
+                    
+                    //Une el campo, operador logico, comillas y valor
+                }
+                array_push($arrFiltrosSalida, $condicion);
+            }
             $texto .= implode(' '.$conector.' ', $arrFiltrosSalida);
         }
         return $texto;

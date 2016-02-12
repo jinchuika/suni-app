@@ -15,9 +15,9 @@ class GnPersona extends Model
 	 * @param  Array  $arrFiltros Los filtros para abrir la persona
 	 * @return Array|boolean
 	 */
-	public function abrirPersona(Array $arrFiltros)
+	public function abrirPersona(Array $arrFiltros, $campos='*')
 	{
-		$query = $this->armarSelect('gn_persona', '*', $arrFiltros);
+		$query = $this->armarSelect('gn_persona', $campos, $arrFiltros);
 		$persona = $this->bd->getFila($query, true);
 		return $persona ? $persona : false;
 	}
