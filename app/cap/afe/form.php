@@ -7,7 +7,7 @@ $sesion = $libs->incluir('seguridad');
 
 $external = new ExternalLibs();
 $external->addDefault(Session::get('id'));
-//
+
 $cd_afe_form = new CtrlCdAfeForm();
 
 ?>
@@ -56,7 +56,7 @@ $cd_afe_form = new CtrlCdAfeForm();
 							<input type="radio" name="semana" id="semana-1" value="2">
 							Semana final
 						</label>
-						<button type="button" id="btn-consulta" class="btn btn-primary"><i class="icon-search"></i></button>
+						<button type="button" id="btn-consulta" class="btn btn-primary"><i class="icon-search"></i> Consultar</button>
 					</div>
 				</div>
 			</div>
@@ -583,12 +583,14 @@ $cd_afe_form = new CtrlCdAfeForm();
 
 					<div class="row-fluid">
 						<legend>Sugerencias</legend>
-						<div class="span9">
+						<div class="span8">
 							<textarea name="comentario" id="comentario" rows="6"></textarea>
 						</div>
-						<div class="span3">
-							<button id="btn-guardar" class="btn btn-large btn-primary" type="submit">Guardar</button>
+						<div class="span4">
+							<button id="btn-guardar" class="btn btn-medium btn-primary" type="submit" disabled="disabled">Guardar</button>
 						</div>
+							<input type="checkbox" id="habilitar-form" name="habilitar-form">
+							<label for="habilitar-form">Habilitar formulario</label>
 					</div>
 				</div>
 			</div>
@@ -600,6 +602,7 @@ $cd_afe_form = new CtrlCdAfeForm();
 	$(document).ready(function () {
 		$('#formulario').submit(function (e) {
 			e.preventDefault();
+
 			$('#btn-guardar').prop('disabled', true);
 			$.getJSON(nivel_entrada+'app/bknd/caller.php',{
 				ctrl: 'CtrlCdAfeForm',
@@ -635,6 +638,16 @@ $cd_afe_form = new CtrlCdAfeForm();
 					delay: 3000
 				});
 			});
+		});
+
+		$('#habilitar-form').on('change', function () {
+			console.log('cambio');
+			if ($(this).is(':checked')) {
+				$('#btn-guardar').removeAttr('disabled');
+			}
+			else{
+				$('#btn-guardar').attr('disabled', true);
+			}
 		});
 	});
 </script>

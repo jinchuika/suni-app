@@ -74,6 +74,11 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 										</a>
 									</li>
 									<li>
+										<a href="<?php echo $nivel_dir; ?>app/cap/afe/chart.php">
+											<i class="icon-tasks"></i><span class="glyphicon glyphicon-stats"></span> AFMSP (NUEVO)
+										</a>
+									</li>
+									<li>
 										<a href="http://funsepa.net/enormales/php/graph/grafico.html">
 											<i class="icon-info-sign"></i> Evaluación diagnóstica
 										</a>

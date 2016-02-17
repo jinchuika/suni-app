@@ -117,22 +117,11 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
                                     </ul>
                                 </li>
                                 <li class="divider"></li>
-                                <li class="dropdown-submenu">
-                                    <a tabindex="-1" href="#"><i class="icon-bar-chart"></i> AFMSP</a>
-                                    <ul class="dropdown-menu">
+                                <li>
                                         <!-- > Dropdown para AFMSP </!-->
-                                        <li>
-                                            <a href="<?php echo $nivel_dir; ?>afe/evaluacion.php">
-                                                <i class="icon-check"></i> Ingreso de evaluaciones
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="<?php echo $nivel_dir; ?>afe/consulta_capa.php">
-                                                <i class="icon-info-sign"></i> Informe de ingreso
-                                            </a>
-                                        </li>
+                                    <a href="<?php echo $nivel_dir; ?>app/cap/afe/form.php"><i class="icon-check-sign"></i> AFMSP (Nuevo)</i></a>
+                                    
                                         <!-- >Termina el dropdown para AFMSP</!-->
-                                    </ul>
                                 </li>
                                 <li class="dropdown-submenu">
                                     <a tabindex="-1" href="#"><i class="icon-bar-chart"></i> Evaluación diagnóstica</a>

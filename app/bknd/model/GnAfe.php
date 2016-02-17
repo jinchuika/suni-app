@@ -75,13 +75,13 @@ class GnAfe extends Model
     {
         $arr_filtros = array();
         if(($id_sede)) {
-            $arr_filtros['semana'] = $semana;
+            $arr_filtros['id_sede'] = $id_sede;
         }
         if(($semana)) {
             $arr_filtros['semana'] = $semana;
         }
         if(($grupo)) {
-            $arr_filtros['grupo'] = $semana;
+            $arr_filtros['grupo'] = $grupo;
         }
         $query = "SELECT count(afe_cuerpo.id) as total FROM afe_encabezado
         inner join afe_cuerpo on afe_encabezado.id=afe_cuerpo.id_encabezado ";
