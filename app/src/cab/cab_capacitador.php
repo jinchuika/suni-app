@@ -1,4 +1,11 @@
 <?php
+/**
+ * Encabezado para capacitadores
+ * @param  string $nombre    nombre del usuario
+ * @param  string $apellido  apellido del usuario
+ * @param  integer $id_per    id de persona
+ * @param  integer $nivel_dir que tan lejos está de la raíz
+ */
 function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 {
     //$Session:: = sesion::getInstance($id_per);

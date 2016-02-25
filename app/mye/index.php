@@ -1,6 +1,6 @@
 <?php
 /**
- * Controla las solicitudes y validaciones
+ * Controla las solicitudes de MyE
  */
 include_once '../bknd/autoload.php';
 require_once('../src/libs/incluir.php');

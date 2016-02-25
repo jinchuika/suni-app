@@ -7,7 +7,7 @@ class me_requisito
 	 */
 	function __construct($bd=null, $sesion=null)
     {
-        if(empty($bd) || empty($sesion)){
+        if(empty($bd)){
             if (is_file('../libs/incluir.php') && is_file('../../bknd/autoload.php')) {
                 include_once '../../bknd/autoload.php';
                 require_once('../libs/incluir.php');
