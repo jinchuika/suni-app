@@ -1,7 +1,7 @@
 /**
  * Clase para control de solicitud
  */
-function MyeSolicitud (nivel_creado) {
+ function MyeSolicitud (nivel_creado) {
     this.module = '_me';
     this.ctrl = 'me_solicitud';
 }
@@ -66,9 +66,9 @@ $(document).ready(function () {
     var mye_solicitud = new MyeSolicitud(nivel_entrada);
     
     listar_campos_select('app/src/libs_gen/gn_departamento.php?fn_nombre=listar_departamento', 'id_departamento', 'vacio');
-    $('#departamento').on('change', function () {
-    var args = {'id_departamento': $(this).val()};
-    listar_campos_select('app/src/libs_gen/gn_municipio.php?fn_nombre=listar_municipio&args='+JSON.stringify(args), 'id_municipio', 'vacio');
+    $('#id_departamento').on('change', function () {
+        var args = {'id_departamento': $(this).val()};
+        listar_campos_select('app/src/libs_gen/gn_municipio.php?fn_nombre=listar_municipio&args='+JSON.stringify(args), 'id_municipio', 'vacio');
     })
     .trigger('change');
     
