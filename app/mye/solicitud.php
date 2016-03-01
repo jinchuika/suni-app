@@ -11,11 +11,8 @@ $sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $i
 $bd = $libs->incluir('bd');
 $libs->clase();
 
-$me_estado = new me_estado($bd, $sesion);
 $me_requisito = new me_requisito($bd, $sesion);
 $esc_nivel = new esc_nivel($bd, $sesion);
-$gn_donante = new gn_donante($bd, $sesion);
-$gn_proyecto = new gn_proyecto($bd, $sesion);
 
 ?>
 <!DOCTYPE html>
@@ -39,20 +36,6 @@ $gn_proyecto = new gn_proyecto($bd, $sesion);
                 <fieldset>
                     <input type="button" class="btn btn-primary" value="Abrir" id="btn_informe_solicitud">
 
-                    <div class="control-group">
-                        <label class="control-label" for="me_estado">Estado del proceso</label>
-                        <div class="controls">
-                            <select id="me_estado" name="me_estado" class="span12">
-                                <option></option>
-                                <?php
-                                $lista_estados = $me_estado->listar_estado();
-                                foreach ($lista_estados as $estado) {
-                                    echo '<option value="'.$estado['id'].'">'.$estado['estado_proceso'].'</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
                     <div class="control-group">
                         <label class="control-label" for="id_departamento">Departamento</label>
                         <div class="controls">
@@ -142,34 +125,7 @@ $gn_proyecto = new gn_proyecto($bd, $sesion);
                         <div class="span3">Máximo: </div>
                         <div class="span9"><input type="number" min="0" name="poblacion_max" id="poblacion_max" class="span12"></div>
                     </div>
-                    <div class="control-group">
-                        <label class="control-label" for="donante">Donante</label>
-                        <div class="controls">
-                            <select id="donante" name="donante" class="input-large span12">
-                                <option></option>
-                                <?php
-                                $lista_donantes = $gn_donante->listar_donante();
-                                foreach ($lista_donantes as $donante) {
-                                    echo '<option value="'.$donante['id'].'">'.$donante['nombre'].'</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="control-group">
-                        <label class="control-label" for="proyecto">Proyecto</label>
-                        <div class="controls">
-                            <select id="proyecto" name="proyecto" class="input-large span12">
-                                <option></option>
-                                <?php
-                                $lista_proyectos = $gn_proyecto->listar_proyecto();
-                                foreach ($lista_proyectos as $proyecto) {
-                                    echo '<option value="'.$proyecto['id'].'">'.$donante['nombre'].'</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
+
                 </fieldset>
             </form>
         </div>

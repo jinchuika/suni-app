@@ -23,7 +23,7 @@ class me_solicitud
             include_once '../../bknd/autoload.php';
             require_once('../libs/incluir.php');
             $libs = new librerias($this->nivel_dir);
-            $this->sesion = $libs->incluir('seguridad', array('tipo' => 'validar', 'id_area' => $this->id_area));
+            $this->sesion = $libs->incluir('seguridad');
         }
         else{
             $this->sesion = $sesion;
