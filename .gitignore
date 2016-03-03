@@ -4,6 +4,7 @@ app/kar/req (luis-mac-mini's conflicted copy 2014-07-10).php
 /sftp-config.json
 .remote-sync.json
 /.remote-sync.json
+.vscode
 
 ### Base de datos
 /config.php

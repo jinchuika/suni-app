@@ -1,0 +1,480 @@
+\documentclass[11pt]{report}
+\usepackage[none]{hyphenat}
+\usepackage[spanish,mexico]{babel}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{vmargin}
+\usepackage{tikz}
+\usepackage{enumitem}
+\usepackage{appendix}
+\usepackage{titlesec}
+\setmarginsrb{3 cm}{2 cm}{1.9 cm}{1.9 cm}{1 cm}{1.5 cm}{1 cm}{1.5 cm}
+
+\title{Especificación Requisitos de Software}								% Título
+\author{Luis Carlos Contreras}								% Autor
+\date{\today}											% Fecha
+
+\newcommand{\requisito}[2]{\textbf{#1:} #2}
+\renewcommand{\labelenumi}{\arabic{enumi}.}
+\renewcommand{\labelenumii}{\arabic{enumi}.\arabic{enumii}}
+\renewcommand{\labelenumiii}{\arabic{enumi}.\arabic{enumii}.\arabic{enumiii}}
+
+\titleformat{\chapter}[hang]{\bfseries\huge}{\thechapter. }{0ex}{}
+\titlespacing*{\chapter}{0ex }{1.5pt}{1pc}
+
+
+\makeatletter
+\let\thetitle\@title
+\let\theauthor\@author
+\let\thedate\@date
+\makeatother
+
+
+\pagestyle{fancy}
+\fancyhf{}
+
+\fancyhead[OR]{\leftmark} 
+\cfoot{\thepage}
+
+\begin{document}
+	\sloppy
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\begin{titlepage}
+		\centering
+		\vspace*{0.5 cm}
+		\includegraphics[scale = 0.25]{logo.png}\\[1.0 cm]	% Company Logo
+		\textsc{\LARGE Fundación Sergio Paiz Andrade}\\[2.0 cm]	% Comapny Name
+		\rule{\linewidth}{0.2 mm} \\[0.4 cm]
+		{ \huge \bfseries \thetitle}\\
+		\rule{\linewidth}{0.2 mm} \\[1.5 cm]
+		
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushleft} \large
+				\emph{Autor:}\\
+				\theauthor
+			\end{flushleft}
+		\end{minipage}~
+		\begin{minipage}{0.4\textwidth}
+			\begin{flushright} \large
+			\end{flushright}
+		\end{minipage}\\[2 cm]
+		
+		{\large \thedate}\\[2 cm]
+		
+		\vfill
+		
+	\end{titlepage}
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\tableofcontents
+	\listoffigures
+	\pagebreak
+	
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+	
+	\chapter{Introducción}
+	\section{Propósito}
+	Este documento fue creado para establecer los requerimientos del área de \textit{Tecnología Para Educar} y \textit{Monitoreo y Evaluación} en el SUNI. Se establecerá la logística bajo la cual funciona el sistema y la forma en que el SUNI lo administra.
+	
+	\section{Ámbito del sistema}
+	\subsection{Qué hace el sistema}
+	\begin{itemize}
+		\item Llevar control de los estados por los que pasa una escuela en el proceso de equipamiento.
+		\item Guardar el registro histórico del proceso de equipamiento de una escuela.
+		\item Mostrar información actualizada en tiempo real sobre el proceso de capacitación de una escuela.
+		\item Gestionar la información sobre las solicitudes y validaciones de las escuelas durante su proceso de equipamiento.
+		\item Gestionar la información de los equipamientos de escuelas.
+		\item Gestionar la información sobre los cooperantes que participan en los procesos de equipamiento.
+		\item Gestionar la información sobre los proyectos bajo los cuáles son equipadas las escuelas.
+		\item Controlar el monitoreo de las garantías de los equipamientos.
+	\end{itemize}
+	\subsection{Qué no hace el sistema}
+	\begin{itemize}
+		\item Gestionar información sobre donaciones físicas de equipo.
+		\item Gestionar el inventario de la bodega de equipo.
+		\item Gestionar información sobre asignación de equipo para entregas de equipamiento.
+		\item Controlar el detalle de cambios de equipo en garantías
+	\end{itemize}
+	
+	\section{Definiciones, acrónimos y abreviaturas}
+	\begin{itemize}
+		\item \textbf{SUNI:} (Sistema Unificado de Información)(\textit{El sistema}) El sistema de software que administra la información.
+		\item \textbf{MyE:} (Monitoreo y Evaluación) El área del sistema que gestiona la validación del proceso de equipamiento para una escuela. Incluye las etapas de solicitud, validación de requerimientos y seguimiento de garantías para una escuela.
+		\item \textbf{TPE:} (Tecnología Para Educar) Área encargada de los equipamientos de escuelas. Comprende las donaciones de equipo, control de inventario en bodega, entregas de equipamientos y soporte técnico para las garantías.
+		\item \textbf{Proceso de equipamiento} (\textit{Proceso}) Todo el conjunto de actividades que se realizan para que una escuela pueda ser equipada. Inicia desde el momento en que la escuela se contacta con Funsepa por primera vez.
+		\item \textbf{Estado:} Etapa del proceso de equipamiento en el que se encuentra una escuela.
+		\item \textbf{Cooperante:} Patrocinador principal del equipamiento de una escuela. Pueden participar más de dos cooperantes en el mismo proceso de equipamiento.
+		\item \textbf{Proyecto:} Promoción creada por Funsepa o por un cooperante para patrocinar el equipamiento de una o varias escuelas.
+	\end{itemize}
+	
+	\section{Visión general del documento}
+	El documento contiene la descripción general del sistema y descripciones específicas por áreas. Después de eso, se establecen los requisitos que el software debe cumplir para gestionar los procesos del sistema.
+	
+	\chapter{Descripción General}
+	El sistema responde a la necesidad de gestionar la información que se genera durante el proceso de equipamiento de las escuelas. Para ello lleva el registro histórico de los cambios de estado del proceso y todo lo que esos cambios involucran.
+	
+	En el proceso participan varios usuarios durante los diferentes estados. Son los usuarios quienes, a través de su interacción con el sistema, hacen avanzar a la escuela por las diferentes etapas del proceso. En el sistema se podrán guardar registros históricos sobre qué usuario realizó las acciones necesarias para que la escuela avanzara en el proceso.
+	
+	La información estará centralizada para que pueda ser consultada desde las diferentes partes del sistema. La centralización permite crear muchos tipos de informes diferentes, adaptables a las necesidades de cada usuario del sistema.
+	
+	\section{Perspectiva del producto}
+	Esta especificación de requisitos se centra únicamente en las áreas de MyE y TPE, que son partes integradas dentro del SUNI, ya que muchos de los datos sobre las escuelas, contactos y demás actividades de Funsepa están centralizadas ahí.
+	
+	\begin{center}
+		\includegraphics[scale = 0.70]{suni_areas.png}
+	\end{center}
+	
+	
+	\section{Funciones del producto}
+	El sistema permite guardar las solicitudes de equipamiento que realizan las escuelas. Se podrán realizar informes de escuelas con solicitud y las características de las mismas. Además controla los requerimientos que las escuelas indican haber cumplido en esta etapa.
+	
+	Cuando un cooperante haya elegido una escuela para ser equipada, el sistema permitirá asignarlo a un proceso para esa escuela. A partir de ese momento se establece comunicación entre la escuela y Funsepa para verificar el cumplimiento de los requerimientos para equipar.
+	
+	Los diferentes medios que se utilizan para contactar a la escuela y las condiciones en las que se realizan son almacenadas en el sistema. En caso de que el proceso sea parte de un proyecto, también se guarda información sobre éste. Conocer qué procesos se realizan permite realizar informes basándose en este parámetro.
+	
+	Es necesario realizar una visita de validación a la escuela para garantizar que los requerimientos se cumplen en su totalidad, la cual se programa, registra y guarda en el sistema. Si los requerimientos se cumplen y las gestiones con el cooperante están en orden, se programa y se realiza el equipamiento. 
+	El sistema almacena únicamente los datos de la entrega del equipo, no el detalle del mismo ni del donante que lo haya provisto.
+	
+	Luego del equipamiento, Funsepa ofrece garantía y soporte técnico del equipo\footnote{Al momento de elaborar este documento, el período de cobertura de la garantía es de seis meses después del equipamiento}. El seguimiento al soporte se realiza por diferentes vías que incluyen llamadas, visitas, reparación de equipo, etc. Para cada evento que sucede se almacenan los datos del medio utilizado y la fecha.
+	
+	La escuela puede optar a renovar su equipo después del tiempo establecido tras el equipamiento. Funsepa valida que se cumplan las condiciones necesarias para la renovación. En caso de obtener un resultado satisfactorio, la escuela entrega el equipo que recibió la primera vez y éste entra como donación a la Fundación. Después de programar y realizar la nueva entrega de producto, se dará por finalizado el proceso.
+	
+	El cooperante puede renunciar a participar en el proceso en cualquier momento previo al equipamiento y lo mismo aplica a la participación de una escuela. Si no se logra asignar otro cooperante a la escuela, el sistema dará de baja al proceso y el mismo regresará a la fase de solicitud.
+	
+	Para toda participación de los usuarios en el sistema se guardan registros de fecha, hora y la acción realizada. Cada etapa puede ser pasada por alto en circunstancias especiales. Si fuera el caso, el sistema solicitará información sobre la razón para que una etapa sea terminada sin haber cumplido los parámetros estándares.
+	
+	\section{Características de los usuarios}
+	\begin{enumerate}
+		\item \textbf{Coordinador de TPE}: Tiene acceso a todas las áreas y funciones del sistema. Es quien autoriza cambios de etapa y valida que una escuela sea equipada.
+		Debe conocer por completo cómo funciona todo el proceso de equipamiento, pues está facultado para revisar el estado del mismo en cualquier momento.
+		Puede solicitar informes generales sobre todas las escuelas que tengan relación con Funsepa y detalles del proceso de cada una.
+		\item \textbf{Monitor de MyE:} Realiza las operaciones de ingreso y edición de los diferentes elementos en cada parte del proceso. Es quien está en contacto con las escuelas y realiza el seguimiento de los procesos.
+		Debe conocer el proceso y estar al tanto de cómo se avanza en las etapas del mismo. Será quien cree anotaciones en los registros cuando ocurran excepciones que obliguen a pasar de ciertos pasos.
+		Puede consultar informes sobre los estados de las escuelas.
+	\end{enumerate}
+	
+	\section{Descripción del proceso}
+	A continuación se listan los estados del proceso y las condiciones que se dan en cada uno de ellos. La figura \ref{state_1} muestra de forma gráfica la interacción entre los estados.
+	\begin{enumerate}
+		\item Estado: \textbf{Inicio}
+		\begin{itemize}
+			\item Descripción: La escuela no ha tenido ningún contacto previo con Funsepa.
+		\end{itemize}
+		
+		\item Estado: \textbf{Solicitud}
+		\begin{itemize}
+			\item Descripción: La escuela solicita que Funsepa le equipe.
+			\item Estados anteriores:
+			\begin{itemize}
+				\item Inicio (1): La escuela envía una solicitud de equipamiento a Funsepa.
+			\end{itemize}
+			
+			\item Estados siguientes:
+			\begin{itemize}
+				\item Elegida (3): Un cooperante escoge la escuela entre la lista de escuelas en Solicitud.
+			\end{itemize}
+			
+		\end{itemize}
+		\item Estado: \textbf{Elegida}
+		\begin{itemize}
+			\item Descripción: Se planifica que esa escuela pueda ser equipada. Funsepa tiene contacto con ella y empiezan las gestiones para la validación. Funsepa realiza llamadas a la escuela para comprobar que cumpla los requerimientos. Se programa una visita de validación para confirmar que los requerimientos en realidad se cumplen.
+			\item Estados anteriores:
+			\begin{itemize}
+				\item Inicio (1): El cooperante elige la escuela por cuenta propia, sin que Funsepa tenga que ver en ello. En este caso, se solicita a la escuela que envíe un formulario de solicitud (2).
+				\item Solicitud (2): La escuela es elegida por Funsepa como parte de su programación o es elegida por el cooperante a partir de un listado provisto por Funsepa.
+			\end{itemize}
+			\item Estados siguientes:
+			\begin{itemize}
+				\item Validación (4): Se realiza una visita de validación para verificar los requerimientos.
+				\item Cancelada (5): El cooperante o la escuela renuncia al proceso de equipamiento.
+				\item Equipada (6): La escuela se encuentra bajo condiciones especiales de un proyecto.
+			\end{itemize}
+		\end{itemize}
+		
+		\item Estado: \textbf{Validación}
+		\begin{itemize}
+			\item Descripción: La escuela cumple con los requerimientos para que sea equipada por Funsepa. Se programa la fecha para entrega del equipamiento y la escuela está a la espera de ser equipada.
+			\item Estados anteriores:
+			\begin{itemize}
+				\item Elegida (3): Se realizó la visita de validación y se comprobó que la escuela cumple todos los requerimientos para ser equipada.
+			\end{itemize}
+			\item Estados siguientes:
+			\begin{itemize}
+				\item Equipada (6): Se realiza la entrega del equipamiento.
+				\item Cancelada (5): El cooperante o la escuela renuncia al proceso de equipamiento.
+			\end{itemize}
+		\end{itemize}
+		
+		\item Estado: \textbf{Cancelada}
+		\begin{itemize}
+			\item Descripción: El cooperante decide retirar su apoyo al proceso de equipamiento y éste se cancela.
+			\item Estados anteriores:
+			\begin{itemize}
+				\item Elegida (3): El cooperante retira su apoyo.
+				\item Validación (4): El cooperante retira su apoyo.
+			\end{itemize}
+			\item Estados siguientes:
+			\begin{itemize}
+				\item Solicitud (2): La solicitud se regresa a la lista y el proceso vuelve a iniciar.
+			\end{itemize}
+		\end{itemize}
+		
+		\item Estado: \textbf{Equipada}
+		\begin{itemize}
+			\item Descripción: la escuela tiene equipo entregado por Funsepa.
+			\item Estados anteriores:
+			\begin{itemize}
+				\item Validación (4): La escuela cumple con los requerimientos y el equipo puede ser entregado.
+				\item Elegida (3): La escuela se encuentra bajo las condiciones especiales de algún proyecto que no requiere validación.
+			\end{itemize}
+			\item Estados siguientes:
+			\begin{itemize}
+				\item Monitoreo (7): La garantía de la escuela está cubierta por Funsepa.
+				\item Renovación (8): Se realiza una nueva entrega y se renueva el equipo entregado por Funsepa.
+			\end{itemize}
+		\end{itemize}
+		
+		\item Estado: \textbf{Monitoreo}
+		\begin{itemize}
+			\item Descripción: la garantía de la escuela es cubierta por Funsepa.
+			\item Estados anteriores:
+			\begin{itemize}
+				\item Equipada (6): La escuela entra a este estado automáticamente al ser equipada.
+			\end{itemize}
+			\item Estados siguientes:
+			\begin{itemize}
+				\item Equipada (6): La garantía finaliza después del período establecido.
+			\end{itemize}
+		\end{itemize}
+		
+		\item Estado: \textbf{Renovación}
+		\begin{itemize}
+			\item Descripción: después un tiempo establecido \footnote{Al momento de elaborar este documento, el tiempo establecido para las renovaciones es de dos años.}, la escuela puede optar a ser renovada en caso de cumplir con los requerimientos mínimos\footnote{Al momento de elaborar este documento, el único requerimiento es que 70\% del equipo donado a la escuela siga en buenas condiciones.}. Funsepa recibe el equipo entregado y realiza una nueva entrega con equipo renovado. La cantidad y el tipo de equipo que la escuela recibe puede variar en función de la cantidad de equipo en buen estado que tiene la escuela.
+			\item Estados anteriores:
+			\begin{itemize}
+				\item Equipada (6): La escuela tiene más del 40 por ciento del equipo en buen estado y han pasado dos años desde la primer entrega.
+			\end{itemize}
+			\item Estados siguientes:
+			\begin{itemize}
+				\item Finalizada (9): Termina el proceso de la escuela.
+			\end{itemize}
+		\end{itemize}
+		
+		\item Estado: \textbf{Finalizada}
+		\begin{itemize}
+			\item Descripción: El proceso de la escuela ha terminado.
+		\end{itemize}
+		
+	\end{enumerate}
+	
+	\begin{figure}[h]
+		\centering
+		\caption[Diagrama de estados]{Los estados por los que puede pasar el proceso de la escuela y las condiciones bajo las cuáles cambia}
+		\label{state_1}
+		\includegraphics[scale = 0.60,angle=90]{me_statechart_1.png}
+	\end{figure}
+	
+	\subsection{Actividades del proceso}
+	Las figuras \ref{activity_1}, \ref{activity_2}, \ref{activity_3} y \ref{activity_4} muestran cuáles son las actividades que se realizan en el sistema y por parte del usuario para que el proceso avance.
+	
+	\begin{figure}[h]
+		\caption[Diagrama de actividades: Solicitud]{Diagrama de actividades: Estado de Solicitud.}
+		\label{activity_1}
+		\includegraphics[scale = 0.36,angle=90]{me_activity_t_1.png}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\caption[Diagrama de actividades: Elegida, Validación y Cancelada]{Diagrama de actividades: Estados de \textit{Elegida}, \textit{Validación} y \textit{Cancelada}}
+		\label{activity_2}
+		\includegraphics[scale = 0.43,angle=90]{me_activity_t_2.png}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\centering
+		\caption[Diagrama de actividades: Equipamiento y Renovación]{Diagrama de actividades: Estado de \textit{Equipamiento}}
+		\label{activity_3}
+		\includegraphics[scale = 0.45,angle=90]{me_activity_t_3.png}
+	\end{figure}
+	
+	\begin{figure}[h]
+		\centering
+		\caption[Diagrama de actividades: Equipamiento y Renovación]{Diagrama de actividades: Estado de \textit{Renovación}}
+		\label{activity_4}
+		\includegraphics[scale = 0.42,angle=90]{me_activity_t_4.png}
+	\end{figure}
+	
+	
+	\chapter{Requisitos específicos}
+	En esta sección se especificarán todos los requisitos que debe cumplir el sistema.
+	\section{Interfaces externas}
+	\begin{itemize}
+		\item El acceso al sistema se hace a través de una aplicación web que requiere una conexión constante a internet.
+		\item El ingreso de datos debe hacerse desde un equipo de escritorio, por medio de un navegador web.
+		\item Los informes y otras partes que explícitamente lo indiquen, tienen versión móvil.
+		\item Todo usuario que interactúa con el sistema debe estar identificado mediante una sesión.
+	\end{itemize}
+	
+	\section{Funciones}
+	A continuación se especifican todas las acciones que el software lleva a cabo. La descripción de las funciones sigue una jerarquía de objetos. Cada objeto puede derivar en otras funciones que se deben cumplir para finalizar el mismo.
+	\begin{enumerate}[leftmargin=0.8cm]
+		\item \requisito{Proceso de equipamiento}{Se debe poder gestionar toda la información referente al Proceso y las diferentes etapas que atraviesa una escuela para llegar a ser equipada.}
+		\begin{enumerate}
+			\item \requisito{Creación de un proceso}{Un Proceso se debe crear de forma automática. Únicamente bajo las siguientes circunstancias:
+				\begin{itemize}
+					\item Se crea una solicitud para una escuela.
+					\item Una escuela es elegida por un cooperante o proyecto (deja constancia en el log sobre por qué fue elegida sin haber presentado solicitud.).
+					\item La escuela es equipada (deja constancia en el log sobre por qué no fue validada).
+				\end{itemize}
+			}
+			\item \requisito{Historial del proceso (\textit{log})}{Guarda un registro cada vez que se realiza un cambio de estado, que se ingresa un documento relacionado al proceso o que se realiza alguna acción que genere nueva información.}
+		\end{enumerate}
+		
+		\item \requisito{Estado del proceso}{Se guarda la información sobre el estado actual del proceso de equipamiento de la escuela.}
+		\begin{enumerate}
+			\item \requisito{Consulta de estado de escuela}{Se debe poder saber el estado actual del proceso de la escuela desde el perfil de la misma. Muestra acceso al log del proceso de esta escuela.}
+			\item \requisito{Informe de escuelas con proceso}{Debe haber un informe que permita listar todas las escuelas que se encuentren en Proceso de equipamiento, filtrando por el estado de equipamiento en el que estén.}
+			\item \requisito{Cambios de estado de la escuela bajo condiciones especiales}{Un estado puede ser pasado por alto o se puede avanzar aunque no se hayan cumplido las condiciones especificadas para ello. Cuando esto ocurre, se deja constancia en el log sobre la razón de ello y se indica qué usuario realizó la acción.}
+		\end{enumerate}
+		
+		\item \requisito{Solicitud}{El sistema debe poder gestionar toda la información referente a los formularios de solicitud que envían las escuelas como aplicación para el equipamiento.}
+		\begin{enumerate}
+			\item \requisito{Ingreso de solicitud}{Guardar toda la información de los formularios de solicitud que sean requeridos por Funsepa en la actualidad.}
+			\begin{enumerate}
+				\item \requisito{Datos exclusivos de la solicitud}{Se debe poder almacenar toda la información de la solicitud que no esté ligada directamente a la escuela, como fecha, jornadas que funcionan, observaciones, etc.}
+				\item \requisito{Información de la escuela}{La solicitud debe almacenar la información sobre qué escuela es la que aplica. Sin embargo, no contendrá los datos de la escuela ya que éstos se encuentran alojados en otra parte del SUNI. En caso de ser necesario, debe poder editar la información de la escuela desde la interfaz de la solicitud.}
+				\item \requisito{Contactos de solicitud}{La solicitud debe poder contener la información sobre los contactos de la escuela que aplica: director, supervisor departamental, encargado de laboratorio, etc.}
+				\item \requisito{Población de la escuela}{La solicitud debe almacenar la población de estudiantes y docentes, con la posibilidad de especificar género para ambos casos.}
+				\item \requisito{Requerimientos mínimos de solicitud}{La solicitud debe poder indicar cuáles de los requerimientos mínimos de la escuela son cumplidos en la etapa de solicitud.}
+			\end{enumerate}
+			\item \requisito{Consulta de solicitud}{Cada solicitud debe poder ser consultada de forma individual. En esta consulta se muestran todos los datos presentados en el formulario y los datos de la escuela que pudieran ser relevantes.}
+			\item \requisito{Informe de solicitud}{Se debe poder listar las solicitudes para todos los procesos actuales. El listado debe ser generado al menos con los siguientes filtros.
+				\begin{itemize}
+					\item Ubicación geográfica
+					\item Estado actual del proceso
+					\item Población estudiantil
+					\item Fecha de solicitud
+					\item Nivel de la escuela
+				\end{itemize}
+			}
+			\item \requisito{Estado de solicitud}{El sistema debe poder indicar de forma interna que la escuela ha pasado por estado de \textit{Solicitud} en el momento en que se ingresa una solicitud.}
+			\item \requisito{Log de solicitud}{Hay un nuevo registro en el log cada vez que se crea una solicitud. Esa entrada contiene la  fecha y hora en que se realizó y el usuario que ingresó la solicitud.}
+		\end{enumerate}
+		
+		\item \requisito{Cooperantes}{Se debe poder llevar control de quiénes son los cooperantes que participan en los procesos de equipamientos de Funsepa y de qué manera lo hacen.}
+		\begin{enumerate}
+			\item \requisito{Creación de cooperante}{Se debe poder almacenar la información general del cooperante: nombre y medios de contacto.}
+			\item \requisito{Listado de cooperantes}{Se deben poder listar todos los cooperantes en base a ciertos filtros a convenir.}
+			\item \requisito{Consulta de cooperante}{Consultar la información general de un cooperante y obtener  un listado de los procesos de equipamiento en los que haya participado.}
+			\item \requisito{Asignación de uno o más cooperantes}{Asignar los cooperantes necesarios que estén participando en el proceso de equipamiento de una escuela. En este momento se genera automáticamente una entrada en el log del proceso. En este momento la escuela cambia su estado a \textit{Elegida}.}
+			\item \requisito{Remover asignación de cooperante}{Mientras la escuela se encuentre en estado \textit{Elegida} o \textit{Validación}, puede ser eliminada la asignación de un cooperante. En este caso se deja una nueva entrada en el log y la escuela regresa al estado de solicitud.}
+		\end{enumerate}
+		
+		\item \requisito{Proyectos}{Se debe poder llevar sobre los proyectos a través de los cuáles se realizan los equipamientos de Funsepa.}
+		\begin{enumerate}
+			\item \requisito{Creación de proyecto}{Se debe poder almacenar la información general del proyecto: nombre y fecha de inicio.}
+			\item \requisito{Listado de proyectos}{Se deben poder listar todos los proyectos en base a ciertos filtros a convenir.}
+			\item \requisito{Consulta de proyecto}{Consultar la información general de un proyecto y obtener un listado de las escuelas que han sido capacitadas gracias al mismo.}
+			\item \requisito{Asignación de uno o más proyectos}{Asignar todos los proyectos en los que una escuela participe como parte de su equipamiento.}
+			\item \requisito{Remover asignación de proyecto}{Mientras la escuela se encuentre en estado \textit{Elegida} o \textit{Validación}, puede ser eliminada la asignación de un proyecto. Esta acción genera una entrada en el log que debe ser justificada por el usuario.}
+		\end{enumerate}
+		
+		\item \requisito{Validación}{El sistema debe poder almacenar los datos de la validación de requerimientos mínimos realizada a la escuela antes de ser equipada.}
+		\begin{enumerate}
+			\item \requisito{Programación de validación}{Se puede programar la fecha en que se realizará la verificación de validación, indicando qué persona la realizará.}
+			\item \requisito{Ingreso de validación}{Guardar toda la información sobre la validación de requerimientos que realiza Funsepa para garantizar el cumplimiento de los mismos por parte de la escuela. Esta área puede ser gestionada únicamente por los usuarios con autorización explícita para ello.}
+			\begin{enumerate}
+				\item \requisito{Datos exclusivos de la validación}{Se debe almacenar toda la información de la validación que no esté ligada directamente a la escuela; como fecha, usuario que realiza la validación, observaciones y forma en que se validó.}
+				\item \requisito{Información de la escuela}{Se deben poder consultar los datos de la escuela que pudieran haber cambiado desde que realizó la solicitud de equipamiento.}
+				\item \requisito{Actualización de datos de escuela}{Los datos ingresados en la solicitud pueden ser actualizados o editados conforme sea conveniente.}
+			\end{enumerate}
+			\item \requisito{Diferentes formas de validación}{Existen varias formas en que se puede realizar una validación de requerimientos.
+				\begin{itemize}
+					\item Visita programada de validación.
+					\item Pruebas físicas de cumplimiento de los requerimientos (fotografías, videos, etc.).
+					\item Autorización directa de requerimientos: cuando se da por válida una escuela por autorización explícita del personal administrativo.
+				\end{itemize}
+			}
+			\item \requisito{Consulta de validación}{Cada validación puede ser consultada de forma individual. Se mostrará la información contenida en el formulario de validación, así como el usuario que validó la escuela y la forma en que fue validada.}
+			\item \requisito{Informe de validación}{Se debe listar las validaciones para todos los procesos actuales. El listado debe ser generado al menos con los siguientes filtros.
+				\begin{itemize}
+					\item Ubicación geográfica
+					\item Fecha de validación
+					\item Nivel de la escuela
+					\item Cooperante asignado
+					\item Proyecto asignado
+				\end{itemize}
+			}
+			\item \requisito{Estado de validación}{El sistema debe indicar de forma interna que la escuela ha pasado al estado de \textit{Validación} en el momento en que se ingresa una validación.}
+			\item \requisito{Log de validación}{Hay un nuevo registro en el log cada vez que se realiza una validación. Esa entrada contiene la  fecha y hora en que se realizó, el usuario validó y observaciones necesarias.}
+		\end{enumerate}
+		
+		\item \requisito{Baja de una escuela}{Se puede cancelar el proceso de equipamiento de una escuela cuando un cooperante abandone un proceso, o cuando el proceso sea removido de un proyecto. Cualquiera que fuera el caso, el sistema guarda un registro que debe ser creado por el usuario. Ahí deberá explicar por qué fue cancelado el proceso. La escuela regresará al estado de \textit{Solicitud}.}
+		
+		\item \requisito{Entrega de equipamiento}{Se guarda el registro de la entrega del equipamiento. Se almacena la fecha del equipamiento y el número de entrega, que será el medio por el cual se podrá consultar la información desde la base de datos de TPE.}
+		\begin{enumerate}
+			\item \requisito{Asignar equipamiento a múltiples escuelas}{Se debe indicar que un equipamiento beneficia a más de una escuela.}
+			\item \requisito{Creación de centros que no son escuelas}{Cuando se realizan equipamiento en centros educativos que no son escuelas, el sistema debe crear una escuela en la base de datos con la información del centro educativo.}
+		\end{enumerate}
+		
+		\item \requisito{Garantía}{Se guarda el historial de todos los eventos relacionados al monitoreo de la garantía que tiene la escuela tras haber sido equipada.}
+		\begin{enumerate}
+			\item \requisito{Creación del registro de garantía}{Cuando la escuela es equipada, debe crearse de forma automática el registro de garantía que indique:
+				\begin{itemize}
+					\item Fecha en que inicia la garantía
+					\item Fecha en que vence la garantía
+				\end{itemize}
+			}
+			\item \requisito{Registro del monitoreo a la garantía}{Almacena cada una de las veces en que se contactó con la escuela para comprobar el estado del equipo.}
+			\item \requisito{Caducar de la garantía}{Indica que la garantía ha caducado después del tiempo establecido desde el equipamiento\footnote{Al momento de elaborar este documento, el período de vigencia de la garantía es de seis meses.}.}
+			\item \requisito{Invalidar una garantía}{En casos de equipamientos especiales en centros que no fueran escuelas, se puede indicar que no aplica garantía.}
+		\end{enumerate}
+		
+		\item \requisito{Renovación de equipo}{Una escuela podrá optar a una renovación del equipo de cómputo después del tiempo establecido\footnote{Al momento de elaborar este documento, el tiempo de espera es de dos años.}.}
+		\begin{enumerate}
+			\item \requisito{Contacto para renovación}{Guarda el registro sobre el resultado obtenido al contactar a la escuela y verificar si cumple con los requerimientos para optar a una renovación.}
+			\item \requisito{Rechazar renovación}{En caso de que la escuela no cumpla con los requerimientos para ser renovada, el proceso será denegado y se indicará en el log la razón del rechazo.}
+			\item \requisito{Indicar recepción de equipo}{En caso de aprobarse la renovación, la escuela entrega a Funsepa el equipo que se encuentra en condiciones adecuadas. El sistema debe registrar el tipo de equipo y la condición del mismo.}
+			\item \requisito{Registro de entrega de renovación}{Se realiza el registro sobre la entrega del equipo de renovación. Esta entrega se realiza en la bodega de Funsepa.}
+		\end{enumerate}
+		
+	\end{enumerate}
+	
+	\section{Atributos de sistema}
+	\subsection{Seguridad}
+	Todos los usuarios del sistema se conectan a través de un inicio de sesión con su cuenta de usuario. Esta cuenta tiene un rol asignado que le dará acceso directo a ciertas áreas del sistema.
+	
+	Es posible asignar permisos específicos para algunas partes del sistema. En estos casos, al usuario se le puede permitir Ver, Crear, Editar o Eliminar según sea conveniente. El administrador del sistema será quien asigne los permisos especiales.
+	
+	\begin{appendices}
+		\chapter{Formularios de Solicitud y Validación}
+		\begin{figure}[bh!]
+		\centering
+		\caption[Formulario de solicitud]{Formulario de solicitud y requerimientos mínimos, en vigencia desde enero de 2016.}
+		\label{form_solicitud}
+		\includegraphics[width=0.87\linewidth]{form_solicitud.jpg}
+		\end{figure}
+		
+		\begin{figure}[h]
+		\centering
+		\caption[Formulario de validación]{Parte frontal del formulario de validación, en vigencia desde abril de 2015}
+		\label{form_valid_1}
+		\includegraphics[width=0.95\linewidth]{form_valid_1.jpg}
+		\end{figure}
+		
+		\begin{figure}[h]
+			\centering
+			\caption[Formulario de validación]{Reverso del formulario de validación, en vigencia desde abril de 2015.}
+			\label{form_valid_2}
+			\includegraphics[width=0.95\linewidth]{form_valid_2.jpg}
+		\end{figure}
+
+	\end{appendices}
+	
+\end{document}
