@@ -243,39 +243,42 @@ class me_solicitud
         $arr_respuesta = array();
         $query = "
         select 
-            me_solicitud.id as id_solicitud,
-            me_solicitud.fecha,
-            gn_proceso.id as id_proceso,
-            gn_escuela.id as id_escuela,
-            gn_escuela.codigo as udi,
-            gn_escuela.nombre as escuela,
-            gn_municipio.id as id_municipio,
-            gn_municipio.nombre as municipio,
-            me_solicitud.id_requisito,
-            me_solicitud.id_poblacion,
-            me_solicitud.id_supervisor, me_solicitud.id_director, me_solicitud.id_responsable,
-            sum(me_poblacion.alum_mujer + me_poblacion.alum_hombre) as cant_alumno,
-            sum(me_poblacion.maestro_mujer + me_poblacion.maestro_hombre) as cant_maestro 
-        from me_solicitud 
-            left outer join gn_proceso on gn_proceso.id = me_solicitud.id_proceso 
-            left outer join gn_escuela on gn_escuela.id = gn_proceso.id_escuela 
-            left outer join gn_municipio on gn_municipio.id = gn_escuela.municipio 
-            left outer join me_requisito on me_requisito.id = me_solicitud.id_requisito 
-            left outer join me_poblacion on me_poblacion.id = me_solicitud.id_poblacion 
-         
+            id_solicitud,
+            id_proceso,
+            id_escuela,
+            id_director,
+            fecha,
+            udi,
+            nombre_escuela,
+            nombre_municipio,
+            cant_alumno,
+            equipada,
+            capacitada
+        from v_informe_me_solicitud
             ".$this->filtros_informe($arr_filtros)."
-        group by me_solicitud.id ";
-        $rango_poblacion = $this->ensamblar_rango($arr_filtros['poblacion_min'], $arr_filtros['poblacion_max'], 'cant_alumno', ' >= ');
-        $query .= (!empty($rango_poblacion) ? ' having '.$rango_poblacion : '');
+        ";
+
+        //$rango_poblacion = $this->ensamblar_rango($arr_filtros['poblacion_min'], $arr_filtros['poblacion_max'], 'cant_alumno', ' >= ');
+        //$query .= (!empty($rango_poblacion) ? ' having '.$rango_poblacion : '');
         
         $stmt = $this->bd->ejecutar($query, true);
         while ($solicitud = $this->bd->obtener_fila($stmt)) {
-            $fecha_temp = explode('-', $solicitud['fecha']);
-            $solicitud['fecha'] = $fecha_temp[2].'/'.$fecha_temp[1].'/'.$fecha_temp[0];
-            $solicitud['supervisor'] = (!empty($solicitud['id_supervisor']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_supervisor'])) : '');
-            $solicitud['director'] = (!empty($solicitud['id_director']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_director'])) : '');
-            $solicitud['responsable'] = (!empty($solicitud['id_responsable']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_responsable'])) : '');;
-            array_push($arr_respuesta, $solicitud);
+
+            $resultado = array(
+                'cant_alumno'=>$solicitud['cant_alumno'],
+                'capacitada'=>$solicitud['capacitada'],
+                'director'=>(!empty($solicitud['id_director']) ? $esc_contacto->abrir_contacto(array('id'=>$solicitud['id_director'])) : ''),
+                'equipada'=>$solicitud['equipada'],
+                'fecha'=>$solicitud['fecha'],
+                'id_director'=>$solicitud['id_director'],
+                'id_escuela'=>$solicitud['id_escuela'],
+                'id_proceso'=>$solicitud['id_proceso'],
+                'id_solicitud'=>$solicitud['id_solicitud'],
+                'nombre_escuela'=>$solicitud['nombre_escuela'],
+                'nombre_municipio'=>$solicitud['nombre_municipio'],
+                'udi'=>$solicitud['udi']
+                );
+            array_push($arr_respuesta, $resultado);
         }
         return $arr_respuesta;
     }
@@ -283,15 +286,21 @@ class me_solicitud
     public function filtros_informe($arr_filtros)
     {
         $string_filtros = 'where 1=1 ';
-        $string_filtros .= (!empty($arr_filtros['me_estado']) ? ' and gn_proceso.id_estado='.$arr_filtros['me_estado'] : '');
-        $string_filtros .= (!empty($arr_filtros['id_departamento']) ? ' and gn_escuela.departamento='.$arr_filtros['id_departamento'] : '');
-        $string_filtros .= (!empty($arr_filtros['id_municipio']) ? ' and gn_escuela.municipio='.$arr_filtros['id_municipio'] : '');
+        $string_filtros .= (!empty($arr_filtros['id_departamento']) ? ' and id_departamento='.$arr_filtros['id_departamento'] : '');
+        $string_filtros .= (!empty($arr_filtros['id_municipio']) ? ' and id_municipio='.$arr_filtros['id_municipio'] : '');
 
-        $string_filtros .= ($arr_filtros['lab_actual']!=='no' ? ' and me_solicitud.lab_actual='.$arr_filtros['lab_actual'] : '');
-        $string_filtros .= (!empty($arr_filtros['nivel']) ? ' and gn_escuela.nivel='.$arr_filtros['nivel'] : '');
+        $string_filtros .= ($arr_filtros['lab_actual']!=='no' ? ' and lab_actual='.$arr_filtros['lab_actual'] : '');
+        $string_filtros .= (!empty($arr_filtros['nivel']) ? ' and nivel='.$arr_filtros['nivel'] : '');
 
-        $rango_fecha = $this->ensamblar_rango($arr_filtros['fecha_inicio'], $arr_filtros['fecha_fin'], 'me_solicitud.fecha');
+        $rango_poblacion = $this->ensamblar_rango($arr_filtros['poblacion_min'], $arr_filtros['poblacion_max'], 'cant_alumno', ' >= ');
+        $string_filtros .= (!empty($rango_poblacion) ? ' and '.$rango_poblacion : '');
+
+        $rango_fecha = $this->ensamblar_rango($arr_filtros['fecha_inicio'], $arr_filtros['fecha_fin'], 'fecha');
         $string_filtros .= (!empty($rango_fecha) ? ' and '.$rango_fecha : '');
+
+        if(!empty($arr_filtros['equipamiento']) || $arr_filtros['equipamiento']=='0' ){
+            $string_filtros .= ' and equipada='.$arr_filtros['equipamiento'];
+        }
 
         $string_filtros .= ' and 1=1 ';
         

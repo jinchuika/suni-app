@@ -50,32 +50,7 @@ $esc_nivel = new esc_nivel($bd, $sesion);
                             </select>
                         </div>
                     </div>
-                    <div class="btn-group">
-                        <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="icon-list"></i> Requerimientos
-                            <span class="caret"></span>
-                        </a>
-                        <ul class="dropdown-menu dropdown-menu-form">
-                            <form id="form_chk_requisito">
-                                <?php
-                                $lista_requisitos = $me_requisito->listar_requisito();
-                                foreach ($lista_requisitos as $requisito) {
-                                    ?>
-                                    <li>
-                                        <label class="checkbox">
-                                            <?php
-                                            echo '<input type="checkbox" value="'.$requisito['id'].'" class="chk_requisito" data-name="'.$requisito['requisito'].'" id="chk_'.$requisito['requisito'].'" name="'.$requisito['requisito'].'">';
-                                            echo $requisito['requisito'];
-                                            ?>
-                                        </label>
-                                    </li>
-                                    <?php
-                                }
-                                ?>
-                            </form>
-                        </ul>
-                    </div>
-                    <br><br>
+                    
                     <div class="control-group">
                         <label class="control-label" for="lab_actual">¿Laboratorio?</label>
                         <div class="controls">
@@ -93,6 +68,25 @@ $esc_nivel = new esc_nivel($bd, $sesion);
                             </label>
                         </div>
                     </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="lab_actual">¿Equipamiento?</label>
+                        <div class="controls">
+                            <label class="radio inline" for="equipamiento-0">
+                                <input type="radio" name="equipamiento" id="equipamiento-0" value="1">
+                                Sí
+                            </label>
+                            <label class="radio inline" for="equipamiento-1">
+                                <input type="radio" name="equipamiento" id="equipamiento-1" value="0">
+                                No
+                            </label>
+                            <label class="radio inline" for="equipamiento-2">
+                                <input type="radio" name="equipamiento" id="equipamiento-2" value="" checked="checked">
+                                No importa
+                            </label>
+                        </div>
+                    </div>
+
                     <h4>Fecha</h4>
                     <div class="row-fluid">
                         <div class="div3">Desde: </div>
@@ -138,6 +132,7 @@ $esc_nivel = new esc_nivel($bd, $sesion);
                     <th>Director</th>
                     <th>Teléfono</th>
                     <th>Población</th>
+                    <th>Equipamiento</th>
                 </thead>
                 <tbody id="tbody_solicitud">
                     
@@ -147,5 +142,6 @@ $esc_nivel = new esc_nivel($bd, $sesion);
     </div>
 </div>  
 </body>
+<script src="../../js/framework/stupidtable.min.js"></script>
 <?php $libs->incluir('js-lib', 'mye/mye_solicitud.js'); ?>
 </html>

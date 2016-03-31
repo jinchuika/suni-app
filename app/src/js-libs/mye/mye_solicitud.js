@@ -32,15 +32,15 @@ MyeSolicitud.prototype.crearInforme = function(formulario) {
         },
         dataType: 'json',
         success: function (respuesta) {
-            console.log(respuesta);
             var texto_append = '';
             $.each(respuesta, function (index, item) {
                 texto_append += '<tr><td>'+ crear_enlace(item['id_solicitud'], 'app/mye/?udi='+item['udi'], item['udi']) +'</td>';
-                texto_append += '<td>'+ crear_enlace(item['escuela'], 'app/esc/perfil.php?id='+item['id_escuela'], item['udi']) +'</td>';
-                texto_append += '<td>'+(item['municipio'] ? item['municipio'] : '' )+'</td>';
+                texto_append += '<td>'+ crear_enlace(item['nombre_escuela'], 'app/esc/perfil.php?id='+item['id_escuela'], item['udi']) +'</td>';
+                texto_append += '<td>'+(item['nombre_municipio'] ? item['nombre_municipio'] : '' )+'</td>';
                 texto_append += '<td>'+(item['director'] ? item['director']['nombre']+' '+ item['director']['apellido'] : '');
                 texto_append += '<td>'+(item['director']['tel_movil'] ? item['director']['tel_movil'] : '' )+'</td>';
                 texto_append += '<td>'+(item['cant_alumno'] ? item['cant_alumno'] : '' )+'</td>';
+                texto_append += '<td>'+(item['equipada']=="1" ? 'Equipada' : 'Sin equipar' )+'</td>';
                 texto_append += '</tr>';
             });
             $('#tabla_solicitud').append(texto_append);
