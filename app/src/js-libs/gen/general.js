@@ -268,3 +268,18 @@ function getObjects(obj, key, val) {
     }
     return objects;
 }
+
+function callBackend(argument) {
+  var
+  ctrl = argument.ctrl,
+  act = argument.act,
+  args = argument.args,
+  callback = argument.callback;
+  $.getJSON(nivel_entrada+'app/bknd/caller.php',{
+      ctrl: ctrl,
+      act: act,
+      args: args
+  }, function (respuesta) {
+      callback(respuesta);
+  });
+}

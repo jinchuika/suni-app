@@ -19,7 +19,34 @@ class MeRequerimiento extends Model
 	public function abrirRequerimiento($campos='*', Array $arrFiltros=null)
 	{
 		$query = $this->armarSelect($this->tabla, $campos, $arrFiltros);
+		return $this->bd->getFila($query);
+	}
+
+	/**
+	 * Lista los requerimientos en base a los filtros solicitados
+	 * @param  Array|null $arrFiltros los filtros para buscar
+	 * @return Array                 la lista de requerimientos
+	 */
+	public function listarRequerimiento(Array $arrFiltros=null)
+	{
+		$query = $this->armarSelect($this->tabla, '*', $arrFiltros);
 		return $this->bd->getResultado($query);
+	}
+
+	/**
+	 * Crea un nuevo requerimientos en la base de datos
+	 * @param  string $nombre el nombre del requerimiento
+	 * @return integer         el ID del requerimiento creado
+	 */
+	public function crearRequerimiento($nombre)
+	{
+		$query = $this->armarInsert($this->tabla, array('requerimiento' => $nombre));
+		if($this->bd->ejecutar($query, true)){
+			return $this->bd->lastID();
+		}
+		else{
+			return false;
+		}
 	}
 }
 ?>

@@ -29,7 +29,6 @@ class esc_nivel
     {
         $respuesta = array();
         $query ="select ".$campos." from esc_nivel ".$this->crear_filtros($arr_filtros);
-        echo $query;
         $stmt = $this->bd->ejecutar($query);
         while ($nivel = $this->bd->obtener_fila($stmt)) {
             array_push($respuesta, $nivel);

@@ -79,8 +79,9 @@ abstract class Query
         }
         //Para quitar los caracteres especiales y agregar comillas a los textos
         foreach ($arrDatos as &$dato) {
-            $comilla = is_string($dato) ? "'" : '';
-            $dato = $comilla.addslashes($dato).$comilla;
+            if(is_string($dato)){
+                $dato = "'".addslashes($dato)."'";
+            }
         }
 
         $query = "INSERT INTO ".$tabla." ".$campos." VALUES (".implode(",", $arrDatos).")";
