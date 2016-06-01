@@ -23,10 +23,12 @@ class CtrlMeSolicitudVersionTest extends PHPUnit_Framework_TestCase
 		
 		$lista_requerimiento = $me_requerimiento->listarRequerimiento();
 		foreach ($lista_requerimiento as $requerimiento) {
-			array_push($arr_requerimiento, $requerimiento['id']);
+			if(intval($requerimiento['id'] % 2 == 0)){
+				array_push($arr_requerimiento, $requerimiento['id']);
+			}
 		}
 
-		$id_version = $ctrl_me_solicitud_version->crearVersion('Ver prueba', $arr_requerimiento);
+		$id_version = $ctrl_me_solicitud_version->crearVersion('Prueba controlador', $arr_requerimiento);
 		$this->assertNotFalse($id_version);
 
 		return $id_version;

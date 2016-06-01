@@ -115,6 +115,12 @@ function crear_contacto($nombre, $apellido, $genero, $direccion, $mail, $tel_cas
 function crear_contacto_lista($nombre, $apellido, $mail, $tel_movil, $etiqueta, $evento)
 {
 	$bd = Db::getInstance();
+	$query_mail = "select id from gn_persona where mail='".$mail."'";
+	$stmt_mail = $bd->ejecutar($query_mail);
+	if($mail = $bd->obtener_fila($stmt_mail, 0)){
+		return array("state"=>"no", "nombre"=>$nombre." ".$apellido, "msj"=>"Correo duplicado");
+	}
+
 	$query_tag = "SELECT id FROM ctc_etiqueta WHERE etiqueta='".$etiqueta."'";
 	$stmt_tag = $bd->ejecutar($query_tag);
 	if($tag = $bd->obtener_fila($stmt_tag, 0)){
@@ -157,11 +163,12 @@ function crear_contacto_lista($nombre, $apellido, $mail, $tel_movil, $etiqueta, 
 			}
 		}
 		else{
+			return array("state"=>"no", $id_dpi, "nombre"=>$nombre." ".$apellido, "msj"=>"Error desconocido");
 		}
-		return array("msj"=>"si", $id_dpi);	
+		return array("state"=>"si", "dpi" => $id_dpi);
 	}
 	else{
-		return array("msj"=>"no", $id_dpi, "nombre"=>$nombre." ".$apellido);
+		return array("state"=>"no", $id_dpi, "nombre"=>$nombre." ".$apellido, "msj"=>"Error en la etiqueta");
 	}
 }
 function listar_contacto()

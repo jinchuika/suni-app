@@ -86,24 +86,28 @@ $bd = $libs->incluir('bd');
 					},
 					success: function (data) {
 						var data = $.parseJSON(data);
-						if(data.msj=="no"){
+						if(data.state=="no"){
 							$.pnotify({
 								title: 'Advertencia',
-								text: "Hubo un error al crear a "+data.nombre+".<br>Compruebe que la etiqueta esté bien asignada.",
+								text: "Hubo un error al crear a "+data.nombre+".<br>"+data.msj,
 								delay: 4000,
 								type: "Notice"
 							});
 						}
-						if((cont+1)>=cant_filas){
-							modal_c.ocultar();
+						if(data.state=="si") {
 							$.pnotify({
-								title: 'Importación finalizada',
-								text: 'Los contactos con datos válidos fueron ingresados correctamente',
-								type: 'success'
+								title: 'Ingresado',
+								text: data.nombre,
+								delay: 2000,
+								type: "success"
 							});
+						}
+						if((cont+1)>cant_filas){
+							modal_c.ocultar();
 						}
 					}
 				});
+
 			}
 		});
 

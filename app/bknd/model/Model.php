@@ -113,5 +113,20 @@ class Model extends Query
             $this->actualizarCampo($this->tabla, array($campo=>$valor), array('id'=>$this->id));
         }
     }
+
+    /**
+     * Ejecutar un insert
+     * @param  string $query el insert a ejecutar
+     * @return integer|boolean        el ID de lo que se haya creado|false si hubo algun error
+     */
+    public function ejecutarInsert($query, $debug=false)
+    {
+        if($this->bd->ejecutar($query, $debug)){
+            return $this->bd->lastID();
+        }
+        else{
+            return false;
+        }
+    }
 }
 ?>

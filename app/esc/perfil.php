@@ -290,6 +290,7 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
             </div>
         </div>
     </div>
+    <?php print_r($escuela); ?>
 </body>
 <?php
 

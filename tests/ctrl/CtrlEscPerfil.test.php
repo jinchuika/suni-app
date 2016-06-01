@@ -15,7 +15,7 @@ class CtrlEscPerfilTest extends PHPUnit_Framework_TestCase
      */
     public function testAbreDatos($gn_escuela)
     {
-    	$escuela = $gn_escuela->abrirDatosEscuela(array('id_escuela'=>'9166'));
+    	$escuela = $gn_escuela->abrirDatosEscuela(array('udi'=>'05-03-2645-43'));
         $this->assertNotNull($escuela);
         print_r($escuela);
     }

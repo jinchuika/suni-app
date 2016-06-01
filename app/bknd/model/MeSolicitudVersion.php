@@ -71,6 +71,11 @@ class MeSolicitudVersion extends Model
 		return $this->bd->getResultado($query);
 	}
 
+	/**
+	 * Lista las versiones existentes
+	 * @param  Array|null $arrFiltros los filtros para listar las versiones
+	 * @return Array                 La lista de versiones
+	 */
 	public function listarVersion(Array $arrFiltros=null)
 	{
 		$query = $this->armarSelect($this->tabla, '*', $arrFiltros);
