@@ -8,23 +8,23 @@ class MePoblacion extends Model
 	 * Nombre de la tabla a la que conecta
 	 * @var string
 	 */
-	var $tabla = "me_poblacion";
+	var $tabla = "me_poblacion_2";
 
 	/**
 	 * Crea un nuevo registro de poblacion
-	 * @param  integer $alum_mujer     Cantidad de estudiantes mujeres
-	 * @param  integer $alum_hombre    Cantidad de estudiantes hombres
-	 * @param  integer $maestro_mujer  Cantidad de docentes mujeres
-	 * @param  integer $maestro_hombre Cantidad de docentes hombres
+	 * @param  integer $cant_alumna     Cantidad de estudiantes mujeres
+	 * @param  integer $cant_alumno    Cantidad de estudiantes hombres
+	 * @param  integer $cant_maestra  Cantidad de docentes mujeres
+	 * @param  integer $cant_maestro Cantidad de docentes hombres
 	 * @return integer                 el ID del nuevo registro
 	 */
-	public function crearPoblacion($alum_mujer, $alum_hombre, $maestro_mujer, $maestro_hombre)
+	public function crearPoblacion($cant_alumna, $cant_alumno, $cant_maestra, $cant_maestro)
 	{
 		$query = $this->armarInsert($this->tabla, array(
-			'alum_mujer'=>$alum_mujer,
-			'alum_hombre'=>$alum_hombre,
-			'maestro_mujer'=>$maestro_mujer,
-			'maestro_hombre'=>$maestro_hombre));
+			'cant_alumna'=>$cant_alumna,
+			'cant_alumno'=>$cant_alumno,
+			'cant_maestra'=>$cant_maestra,
+			'cant_maestro'=>$cant_maestro));
 
 		if($this->bd->ejecutar($query)){
 			return $this->bd->lastID();
@@ -46,10 +46,25 @@ class MePoblacion extends Model
 		$query = $this->armarSelect($this->tabla, $campos, $arr_filtros);
 		$poblacion = $this->bd->getFila($query);
 		if($sumar){
-			$poblacion['alum_total'] = intval($poblacion['alum_hombre']) + intval($poblacion['alum_mujer']);
-			$poblacion['maestro_total'] = intval($poblacion['maestro_hombre']) + intval($poblacion['maestro_mujer']);
+			$poblacion['alum_total'] = intval($poblacion['cant_alumno']) + intval($poblacion['cant_alumna']);
+			$poblacion['maestro_total'] = intval($poblacion['cant_maestro']) + intval($poblacion['cant_maestra']);
 		}
 		return $poblacion ? $poblacion : false;
+	}
+
+	/**
+	 * Guarda un registro de poblacion existente
+	 * @param  integer $id_poblacion el ID del registro a editar
+	 * @param  Array  $arr_datos    los nuevos datos
+	 * @return boolean
+	 */
+	public function editarPoblacion($id_poblacion, Array $arr_datos)
+	{
+		$query = $this->armarUpdate(
+            $this->tabla,
+            $arr_datos,
+            array('id'=>$id_poblacion));
+        return $this->bd->ejecutar($query, true);
 	}
 }
 ?>

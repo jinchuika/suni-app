@@ -68,6 +68,16 @@ class MeSolicitud extends Model
         return $this->bd->getFila($query);
 	}
 
+    public function abrirLink($id_solicitud, $id_externo, $tabla_externa)
+    {
+        $query = $this->armarSelect(
+            'me_solicitud_'.$tabla_externa,
+            'id_'.$tabla_externa,
+            array('id'.$tabla_externa=>$id_externo)
+            );
+        $fila = $this->bd->getFila($query);
+    }
+
     /**
      * Crea un registro de requerimiento para solicitud
      * @param  integer $id_solicitud     id de la solicitud
@@ -107,6 +117,17 @@ class MeSolicitud extends Model
     }
 
     /**
+     * Lista los requerimientos de una solicitud
+     * @param  integer $id_solicitud el ID de la solicitur
+     * @return Array               el listado de requerimientos
+     */
+    public function listarRequerimiento($id_solicitud)
+    {
+        $query = $this->armarSelect('me_solicitud_req', '*', array('id_solicitud'=>$id_solicitud));
+        return $this->bd->getResultado($query);
+    }
+
+    /**
      * Crea un registro de medio para solicitud
      * @param  integer $id_solicitud     id de la solicitud
      * @param  integer $id_medio 		id del medio
@@ -142,6 +163,17 @@ class MeSolicitud extends Model
         $query = $this->armarDelete('me_solicitud_medio', array('id_solicitud'=>$id_solicitud, 'id_medio'=>$id_medio));
         $result = $this->bd->ejecutar($query);
         return $result;
+    }
+
+    /**
+     * Lista los medios de una solicitud
+     * @param  integer $id_solicitud el ID de la solicitur
+     * @return Array               el listado de medios
+     */
+    public function listarMedio($id_solicitud)
+    {
+        $query = $this->armarSelect('me_solicitud_medio', '*', array('id_solicitud'=>$id_solicitud));
+        return $this->bd->getResultado($query);
     }
 
     /**
@@ -198,7 +230,7 @@ class MeSolicitud extends Model
     /**
      * Elimina un registro de poblacion para solicitud
      * @param  integer $id_solicitud     id de la solicitud
-     * @param  integer $id_poblacion id del poblacion
+     * @param  integer $id_poblacion id de la poblacion
      * @return integer|boolean                   id del registro
      */
     public function unlinkPoblacion($id_solicitud, $id_poblacion)
@@ -206,6 +238,17 @@ class MeSolicitud extends Model
         $query = $this->armarDelete('me_solicitud_poblacion', array('id_solicitud'=>$id_solicitud, 'id_poblacion'=>$id_poblacion));
         $result = $this->bd->ejecutar($query);
         return $result;
+    }
+
+    /**
+     * Abre el registro de población asociado a una escuela
+     * @param  integer $id_solicitud el ID de la solicitud
+     * @return Array
+     */
+    public function abrirPoblacion($id_solicitud)
+    {
+        $query = $this->armarSelect('me_solicitud_poblacion', '*', array('id_solicitud'=>$id_solicitud));
+        return $this->bd->getFila($query);
     }
 
 
@@ -222,9 +265,31 @@ class MeSolicitud extends Model
     	return $this->ejecutarInsert($query);
     }
 
-    public function listarContactos($id_solicitud)
+    /**
+     * Lista las solicitudes conforme a los filtros pedidos
+     * @param  Array|null $arr_filtros los filtros que piden campo => valor
+     * @param  string     $campos      los campos que se piden
+     * @return Array                  el listado de solicitudes
+     */
+    public function listarSolicitud(Array $arr_filtros=null, $campos='*')
     {
-        
+        $query = $this->armarSelect($this->tabla, $campos, $arr_filtros);
+        return $this->bd->getResultado($query);
+    }
+
+    /**
+     * Actualiza los datos de una solicitud
+     * @param  integer    $id_solicitud  el ID de la solicitud
+     * @param  Array|null $arr_solicitud los datos a modificar
+     * @return boolean                    false en caso de error
+     */
+    public function guardarSolicitud($id_solicitud, Array $arr_solicitud=null)
+    {
+        $query = $this->armarUpdate(
+            $this->tabla,
+            $arr_solicitud,
+            array('id'=>$id_solicitud));
+        return $this->bd->ejecutar($query, true);
     }
 }
 ?>

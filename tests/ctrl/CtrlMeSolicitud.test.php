@@ -30,20 +30,26 @@ class CtrMeSolicitudTest extends PHPUnit_Framework_TestCase
     public function testGuardaSolicitud($ctrl_solicitud)
     {
         $arr_solicitud = array(
-            'id_solicitud' => 19,
+            'id_solicitud' => 36,
             'id_version' => 13,
-            'id_proceso' => 1,
+            'id_proceso' => 43,
             'edf' => 1,
-            'fecha' => '2016-09-13',
+            'fecha' => '2016-07-10',
             'jornadas' => 2,
             'lab_actual' => 0,
-            'obs' => 'prueba desde controlador'
+            'obs' => 'prueba de edición controlador'
             );
         $arr_requerimiento = array(2, 4, 8);
         $arr_contacto = array();
-        $solicitud = $ctrl_solicitud->guardarSolicitud($arr_solicitud, $arr_requerimiento, $arr_contacto);
+        $arr_medio = array(2, 4);
+        $solicitud = $ctrl_solicitud->guardarSolicitud(
+            $arr_solicitud,
+            $arr_requerimiento,
+            $arr_contacto,
+            $arr_medio
+            );
         $this->assertNotFalse($solicitud);
-        print_r($solicitud);
+        //print_r($solicitud);
         return $solicitud['id'];
     }
 
@@ -64,7 +70,55 @@ class CtrMeSolicitudTest extends PHPUnit_Framework_TestCase
             );
         $arr_links = $ctrl_solicitud->guardarContactos($id_solicitud, $arr_contacto);
         $this->assertNotNull($arr_links);
-        print_r($arr_links);
+        //print_r($arr_links);
+    }
+
+    /**
+     * Comprueba  que abra la información de la escuela
+     * @param  CtrlMeSolicitud $ctrl_solicitud el controlador
+     * @depends testExiste
+     */
+    public function testAbreInfoEscuela(CtrlMeSolicitud $ctrl_solicitud)
+    {
+        $escuela = $ctrl_solicitud->abrirInfoEscuela('01-01-0002-43');
+        $this->assertNotFalse($escuela);
+        print_r($escuela);
+        return $escuela;
+    }
+
+    /**
+     * Mira que se puedan listar las solicitudes de una escuela
+     * @param  CtrlMeSolicitud $ctrl_solicitud el controlador
+     * @depends testExiste
+     * @depends testAbreInfoEscuela
+     */
+    public function testListaSolicitud(CtrlMeSolicitud $ctrl_solicitud, $arr_escuela)
+    {
+        $lista_solicitud = $ctrl_solicitud->listarSolicitud($arr_escuela['id_proceso']);
+        $this->assertNotFalse($lista_solicitud);
+        //print_r($lista_solicitud);
+    }
+
+    /**
+     * @depends testExiste
+     * @depends testGuardaSolicitud
+     */
+    public function testAbreSolicitud(CtrlMeSolicitud $ctrl_solicitud, $id_solicitud)
+    {
+        $solicitud = $ctrl_solicitud->abrirSolicitud($id_solicitud);
+        $this->assertNotNull($solicitud);
+        //print_r($solicitud);
+    }
+
+    /**
+     * @depends testExiste
+     * @depends testGuardaSolicitud
+     */
+    public function testListaMedio(CtrlMeSolicitud $ctrl_solicitud, $id_solicitud)
+    {
+        $arr_medio = $ctrl_solicitud->listarMedio($id_solicitud);
+        $this->assertNotFalse($arr_medio);
+        //print_r($arr_medio);
     }
 }
 ?>

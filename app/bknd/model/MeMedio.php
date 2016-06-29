@@ -39,12 +39,12 @@ class MeMedio extends Model
 	 * Crea un nuevo enlace de medio con validación o solicitud
 	 * @param  string $formulario  validacion|solicitud
 	 * @param  integer $id_form     el ID del registro
-	 * @param  integer $id_medio ID del contacto
+	 * @param  integer $id_medio ID del medio
 	 * @return integer              el ID del nuevo registro
 	 */
 	public function linkMedio($formulario='solicitud', $id_form, $id_medio)
 	{
-		$arr_filtros = array('id_'.$formulario=>$id_form, 'id_contacto'=>$id_medio);
+		$arr_filtros = array('id_'.$formulario=>$id_form, 'id_medio'=>$id_medio);
 		$query = $this->armarSelect('me_'.$formulario.'_medio', 'id', $arr_filtros);
 		$medio = $this->bd->getFila($query);
 

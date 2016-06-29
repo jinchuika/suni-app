@@ -22,7 +22,7 @@ class MeSolicitudTest extends PHPUnit_Framework_TestCase
 	public function testCreaSolicitud($me_solicitud)
 	{
 		$id_version = 34;
-		$id_proceso = 1;
+		$id_proceso = 43;
 		$edf = 1;
 		$fecha = '2016-09-13';
 		$jornadas = 2;
@@ -85,7 +85,7 @@ class MeSolicitudTest extends PHPUnit_Framework_TestCase
 		$id_medio = 1;
 		$id_link = $me_solicitud->linkmedio($id_solicitud, $id_medio);
 		$this->assertNotFalse($id_link);
-		echo "link de medio realizado";
+		//echo "link de medio realizado";
 		return $id_medio;
 	}
 
@@ -100,14 +100,45 @@ class MeSolicitudTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testUnlinkMedio(MeSolicitud $me_solicitud, $id_solicitud, $id_medio)
 	{
-		$id_link = $me_solicitud->unlinkMedio($id_solicitud, $id_medio);
-		$this->assertNotFalse($id_link);
-		return $id_link;
+		//$id_link = $me_solicitud->unlinkMedio($id_solicitud, $id_medio);
+		//$this->assertNotFalse($id_link);
+		//return $id_link;
 	}
 
-	public function testLinkPoblacion(MeSolicitud $me_solicitud)
+	/**
+	 * Prueba que se puedan listar las solicitudes
+	 * @param  MeSolicitud $me_solicitud el modelo
+	 * @depends testExiste
+	 */
+	public function testListaSolicitud(MeSolicitud $me_solicitud)
 	{
-		# code...
+		$arr_solicitud = $me_solicitud->listarSolicitud();
+		$this->assertNotFalse($arr_solicitud);
+		//print_r($arr_solicitud);
+	}
+
+	/**
+	 * @depends testExiste
+	 * @depends testCreaSolicitud
+	 */
+	public function testLinkPoblacion(MeSolicitud $me_solicitud, $id_solicitud)
+	{
+		$id_poblacion = 1;
+		$id_link = $me_solicitud->linkPoblacion($id_solicitud, $id_poblacion);
+		$this->assertNotFalse($id_link);
+		return $id_poblacion;
+	}
+
+	/**
+	 * @depends testExiste
+	 * @depends testCreaSolicitud
+	 * @depends testLinkPoblacion
+	 */
+	public function testUnlinkPoblacion(MeSolicitud $me_solicitud, $id_solicitud, $id_poblacion)
+	{
+		//$id_link = $me_solicitud->unlinkPoblacion($id_solicitud, $id_poblacion);
+		//$this->assertNotFalse($id_link);
+		//return $id_link;
 	}
 }
 ?>
