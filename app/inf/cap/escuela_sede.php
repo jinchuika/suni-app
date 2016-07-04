@@ -83,7 +83,9 @@ $ctrl_cd = new CtrlCdEscuelaSede();
 					var total_escuela = 0;
 					var total_participante = 0;
 					$.each(respuesta, function (index, item) {
-						$('#lista-escuela').append('<li>'+item.nombre+'<br />'+item.codigo+'</li>');
+						$('#lista-escuela').append(
+							'<li><a href="'+nivel_entrada+'app/esc/perfil.php?id='+item.id+'">'+item.nombre+'</a> ('+item.participantes+')<br />'+item.codigo+'</li>'
+							);
 						total_escuela += 1;
 						total_participante += parseInt(item.participantes);
 					});

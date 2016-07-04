@@ -217,6 +217,11 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
 													<i class="icon-hospital"></i><span class="glyphicon glyphicon-user"></span> Lista de escuelas
 												</a>
 											</li>
+											<li>
+												<a href="<?php echo $nivel_dir; ?>app/inf/cap/escuela_sede.php">
+													<i class="icon-list-ul"></i> Escuelas por sede
+												</a>
+											</li>
 										</ul>
 									</li>
 									<li class="dropdown-submenu">

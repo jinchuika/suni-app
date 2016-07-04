@@ -27,7 +27,16 @@ $ctrl_me_solicitud = new CtrlMeSolicitud();
 	<?php $cabeza = new encabezado(Session::get("id_per"), $nivel_dir); ?>
 	<div class="container">
 		<div class="row">
-			<div class="span12">
+			<div class="span3 bs-docs-sidebar">
+				<ul class="nav nav-list bs-docs-sidenav affix">
+					<li><a href="#form-escuela">Escuela</a></li>
+					<li><a href="#form-solicitud">Solicitud</a></li>
+					<li><a href="#form-contacto">Contactos</a></li>
+					<li><a href="#div-poblacion">Población</a></li>
+					<li><a href="#div-requerimiento">Requerimientos</a></li>
+				</ul>
+			</div>
+			<div class="span9">
 				<div class="info-escuela well">
 					<form id="form-escuela" class="form-horizontal">
 						<fieldset>
@@ -45,7 +54,6 @@ $ctrl_me_solicitud = new CtrlMeSolicitud();
 							</div>
 						</fieldset>
 					</form>
-
 					<table class="table table-hover">
 						<tr>
 							<td>Nombre</td>
@@ -121,60 +129,62 @@ $ctrl_me_solicitud = new CtrlMeSolicitud();
 							</tr>
 						</table>
 					</form>
-				</div>
-				<div class="contacto well">
-					<legend>Contactos de la escuela</legend>
-				</div>
-				<div class="poblacion well">
-					<legend>Población</legend>
-					<table class="table table-hover table-bordered">
-						<tr>
-							<th></th>
-							<th>Hombres</th>
-							<th>Mujeres</th>
-							<th>Total</th>
-						</tr>
-						<tr>
-							<td>Cantidad de estudiantes</td>
-							<td><input type="number" name="in-cant_alumno" id="in-cant_alumno"></td>
-							<td><input type="number" name="in-cant_alumna" id="in-cant_alumna"></td>
-							<td></td>
-						</tr>
-						<tr>
-							<td>Cantidad de docentes</td>
-							<td><input type="number" name="in-cant_maestro" id="in-cant_maestro"></td>
-							<td><input type="number" name="in-cant_maestra" id="in-cant_maestra"></td>
-							<td></td>
-						</tr>
-					</table>
-				</div>
-				<div class="requerimiento well">
-					<legend>Requerimientos</legend>
-					<table class="table table-hover">
-						<thead>
+					<div class="contacto" id="form-contacto">
+						<legend>Contactos de la escuela</legend>
+					</div>
+					<div class="poblacion" id="div-poblacion">
+						<legend>Población</legend>
+						<table class="table table-hover table-bordered">
 							<tr>
-								<th>Requerimiento</th>
-								<th>Cumple</th>
+								<th></th>
+								<th>Hombres</th>
+								<th>Mujeres</th>
+								<th>Total</th>
 							</tr>
-						</thead>
-					</table>
-				</div>
-				<div class="medio well">
-					<legend>Cómo se enteró de nosotros</legend>
-					<table class="table table-hover">
-						<thead>
 							<tr>
-								<th>Medio</th>
-								<th>Marcado</th>
+								<td>Cantidad de estudiantes</td>
+								<td><input type="number" name="in-cant_alumno" id="in-cant_alumno"></td>
+								<td><input type="number" name="in-cant_alumna" id="in-cant_alumna"></td>
+								<td></td>
 							</tr>
-						</thead>
-					</table>
+							<tr>
+								<td>Cantidad de docentes</td>
+								<td><input type="number" name="in-cant_maestro" id="in-cant_maestro"></td>
+								<td><input type="number" name="in-cant_maestra" id="in-cant_maestra"></td>
+								<td></td>
+							</tr>
+						</table>
+					</div>
+					<div id="div-requerimiento">
+						<legend>Requerimientos</legend>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Requerimiento</th>
+									<th>Cumple</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
+					<div id="div-medio">
+						<legend>Cómo se enteró de nosotros</legend>
+						<table class="table table-hover">
+							<thead>
+								<tr>
+									<th>Medio</th>
+									<th>Marcado</th>
+								</tr>
+							</thead>
+						</table>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 </body>
 <script>
+var modal = bootbox.dialog('<div>Helou</div>');
+
 	function abrirInfoEscuela(udi) {
 		callBackend({
 			ctrl: 'CtrlMeSolicitud',
@@ -232,6 +242,7 @@ $ctrl_me_solicitud = new CtrlMeSolicitud();
 	// body...
 }
 $(document).ready(function () {
+	modal.hide();
 	$('#form-escuela').on('submit', function (e) {
 		e.preventDefault();
 		abrirInfoEscuela($('#udi').val());
