@@ -120,5 +120,19 @@ class CtrMeSolicitudTest extends PHPUnit_Framework_TestCase
         $this->assertNotFalse($arr_medio);
         //print_r($arr_medio);
     }
+
+    /**
+     * Prueba que se puedan abrir los requerimientos de la versión
+     * @param  CtrlMeSolicitud $ctrl_solicitud el controlador a usar
+     * @param  integer          $id_solicitud   el ID de la solicitud
+     * @depends testExiste
+     * @depends testGuardaSolicitud
+     */
+    public function testListaReq(CtrlMeSolicitud $ctrl_solicitud, $id_solicitud)
+    {
+    	$arr_requerimiento = $ctrl_solicitud->listarRequerimiento($id_solicitud);
+    	$this->assertNotFalse($arr_requerimiento);
+    	//print_r($arr_requerimiento);
+    }
 }
 ?>

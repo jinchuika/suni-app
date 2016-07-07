@@ -145,7 +145,7 @@ class CtrlMeSolicitud
 		$gn_escuela = new GnEscuela();
 		$escuela = $gn_escuela->abrirVistaEscuela(
 			array('udi'=>$udi),
-			'udi, nombre, direccion, mail, telefono, id_departamento, departamento, id_municipio, municipio, id_jornada, jornada, id_equipamiento, participante, id_proceso'
+			'id_escuela, udi, nombre, direccion, mail, telefono, id_departamento, departamento, id_municipio, municipio, id_jornada, jornada, id_equipamiento, participante, id_proceso'
 			);
 		return $escuela;
 	}
@@ -216,6 +216,38 @@ class CtrlMeSolicitud
 	{
 		$arr_medio = $this->model->listarMedio($id_solicitud);
 		return $arr_medio;
+	}
+
+	/**
+	 * Obtiene los requerimientos completos de la version de la solicitud
+	 * @param  integer $id_solicitud elID de la solicitud
+	 * @return Array               el listado de requerimientos
+	 */
+	public function listarRequerimiento($id_solicitud)
+	{
+		$me_solicitud_version = new MeSolicitudVersion();
+		$me_requerimiento = new MeRequerimiento();
+
+		$solicitud = $this->model->abrirSolicitud(array('id'=>$id_solicitud), 'id_version');
+		$arr_requerimiento = $me_solicitud_version->listarRequerimientos($solicitud['id_version']);
+		foreach ($arr_requerimiento as &$requerimiento) {
+			$descripcion = $me_requerimiento->abrirRequerimiento(
+				'requerimiento',
+				array('id'=>$requerimiento['id_requerimiento'])
+				);
+			$requerimiento['requerimiento'] = $descripcion['requerimiento'];
+		}
+		return $arr_requerimiento;
+	}
+
+	/**
+	 * Muestra el listado de versiones disponibles
+	 * @return Array la lista de versiones
+	 */
+	public function listarVersion()
+	{
+		$me_solicitud_version = new MeSolicitudVersion();
+		return $me_solicitud_version->listarVersion();
 	}
 }
 ?>

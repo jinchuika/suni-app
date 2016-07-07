@@ -70,6 +70,7 @@ $ctrl_cd = new CtrlCdEscuelaSede();
 		var index = arr_sede.indexOf(id_sede);
 		arr_sede.splice(index, 1);
 	}
+	
 	$(document).ready(function () {
 		$('#btn-consulta').click(function () {
 			callBackend({
