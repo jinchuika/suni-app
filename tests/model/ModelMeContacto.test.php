@@ -29,21 +29,13 @@ class MeContactoTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAbreContacto(MeContacto $me_contacto)
 	{
-		$arr_filtros = array('id_solicitud' => 1);
-		$supervisor = $me_contacto->abrirContacto('solicitud','supervisor', '*', $arr_filtros);
+		$arr_filtros = array('id_solicitud' => 1, 'id_contacto'=>2);
+		$supervisor = $me_contacto->abrirContacto('solicitud', '*', $arr_filtros);
 		$this->assertNotFalse($supervisor);
-		$director = $me_contacto->abrirContacto('solicitud','director', '*', $arr_filtros);
-		$this->assertNotFalse($director);
-		$responsable = $me_contacto->abrirContacto('solicitud','responsable', '*', $arr_filtros);
-		$this->assertNotFalse($responsable);
 		//print_r($supervisor);
-		//print_r($director);
-		//print_r($responsable);
 
 		return array(
-			'supervisor'=>$supervisor,
-			'director'=>$director,
-			'responsable', $responsable
+			'supervisor'=>$supervisor
 			);
 	}
 
@@ -52,38 +44,12 @@ class MeContactoTest extends PHPUnit_Framework_TestCase
 	 * @param  MeContacto $me_contacto el modelo
 	 * @return integer                  el id del nuevo registro
 	 */
-	public function testLinkDirector(MeContacto $me_contacto)
+	public function testLinkContacto(MeContacto $me_contacto)
 	{
-		$id_link_director = $me_contacto->linkDirector('solicitud', 2, 1);
+		$id_link_director = $me_contacto->linkContacto('solicitud', 1, 1);
 		$this->assertNotFalse($id_link_director);
-		echo "link director: ".$id_link_director;
+		echo "link contacto: ".$id_link_director;
 		return $id_link_director;
-	}
-
-	/**
-	 * @depends testExiste
-	 * @param  MeContacto $me_contacto el modelo
-	 * @return integer                  el id del nuevo registro
-	 */
-	public function testLinkSupervisor(MeContacto $me_contacto)
-	{
-		$id_link_supervisor = $me_contacto->linkSupervisor('solicitud', 2, 2);
-		$this->assertNotFalse($id_link_supervisor);
-		echo "link supervisor: ".$id_link_supervisor;
-		return $id_link_supervisor;
-	}
-
-	/**
-	 * @depends testExiste
-	 * @param  MeContacto $me_contacto el modelo
-	 * @return integer                  el id del nuevo registro
-	 */
-	public function testLinkResponsable(MeContacto $me_contacto)
-	{
-		$id_link_responsable = $me_contacto->linkResponsable('solicitud', 2, 2);
-		$this->assertNotFalse($id_link_responsable);
-		echo "link responsable: ".$id_link_responsable;
-		return $id_link_responsable;
 	}
 
 	/**
@@ -95,9 +61,9 @@ class MeContactoTest extends PHPUnit_Framework_TestCase
 	public function testLinkContactoLista(MeContacto $me_contacto)
 	{
 		$arr_contacto = array(
-			'director' => $this->data['director'],
-			'supervisor' => $this->data['supervisor'],
-			'responsable' => $this->data['responsable']
+			$this->data['director'],
+			$this->data['supervisor'],
+			$this->data['responsable']
 			);
 		
 		$arr_links = $me_contacto->linkContactoLista('solicitud', 1, $arr_contacto);
@@ -108,9 +74,9 @@ class MeContactoTest extends PHPUnit_Framework_TestCase
 	public function unlinkData()
 	{
 		return array(
-			array('solicitud', 'responsable', 1, $this->data['responsable']),
-			array('solicitud', 'director', 1, $this->data['director']),
-			array('solicitud', 'supervisor', 1, $this->data['supervisor'])
+			array('solicitud', 1, $this->data['responsable']),
+			array('solicitud', 1, $this->data['director']),
+			array('solicitud', 1, $this->data['supervisor'])
 			);
 	}
 
@@ -121,11 +87,11 @@ class MeContactoTest extends PHPUnit_Framework_TestCase
 	 * @param  MeContacto $me_contacto el modelo
 	 * @return boolean
 	 */
-	public function testUnlinkContacto($formulario, $tabla, $id_form, $id_contacto, MeContacto $me_contacto)
+	public function testUnlinkContacto($formulario, $id_form, $id_contacto, MeContacto $me_contacto)
 	{
-		$unlink = $me_contacto->unlinkContacto($formulario, $tabla, $id_form, $id_contacto);
+		$unlink = $me_contacto->unlinkContacto($formulario, $id_form, $id_contacto);
 		$this->assertTrue($unlink);
-		echo $tabla.'-eliminado ';
+		echo '-eliminado ';
 	}
 }
 ?>

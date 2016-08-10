@@ -34,18 +34,24 @@ class CtrMeSolicitudTest extends PHPUnit_Framework_TestCase
             'id_version' => 13,
             'id_proceso' => 43,
             'edf' => 1,
-            'fecha' => '2016-07-10',
+            'fecha' => '2016-07-12',
             'jornadas' => 2,
             'lab_actual' => 0,
             'obs' => 'prueba de edición controlador'
             );
+        $arr_poblacion = array(
+        	'cant_alumna'=>12,
+			'cant_alumno'=>11,
+			'cant_maestra'=>5,
+			'cant_maestro'=>6
+        	);
         $arr_requerimiento = array(2, 4, 8);
         $arr_contacto = array();
         $arr_medio = array(2, 4);
         $solicitud = $ctrl_solicitud->guardarSolicitud(
             $arr_solicitud,
+            $arr_poblacion,
             $arr_requerimiento,
-            $arr_contacto,
             $arr_medio
             );
         $this->assertNotFalse($solicitud);
@@ -107,7 +113,7 @@ class CtrMeSolicitudTest extends PHPUnit_Framework_TestCase
     {
         $solicitud = $ctrl_solicitud->abrirSolicitud($id_solicitud);
         $this->assertNotNull($solicitud);
-        //print_r($solicitud);
+        print_r($solicitud);
     }
 
     /**

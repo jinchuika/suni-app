@@ -101,23 +101,25 @@ $me_medio = new MeMedio();
 						</tr>
 					</table>
 				</div>
-				<div id="div-lista-solicitud" class="well">
+				<div id="div-lista-solicitud" class="well inline">
 					<select name="lista-solicitud" id="lista-solicitud"></select>
 					<button class="btn btn-info" id="btn-abrir-solicitud">Abrir</button>
-					<select name="id-version" id="id-version">
+					<select class="btn-nueva hide" name="id-version" id="id-version">
 						<?php
 						foreach ($ctrl_me_solicitud->listarVersion() as $version) {
 							echo '<option value="'.$version['id'].'">'.$version['nombre'].'</option>';
 						}
 						?>
 					</select>
-					<button class="btn btn-success" id="btn-crear-solicitud">Crear nueva</button>
+					<button class="btn btn-success" id="btn-nueva-solicitud" onclick="formNueva()">Crear nueva</button>
+					<button class="btn btn-success hide btn-nueva" id="btn-crear-solicitud">Crear</button>
+					<button class="btn btn-danger hide btn-nueva" id="btn-cancelar-nueva" onclick="formNueva()">Cancelar</button>
 				</div>
 				<div class="main-solicitud well">
 					<form id="form-solicitud">
 						<table class="table">
 							<tr>
-								<td width="80%"><legend>Solicitud</legend></td>
+								<td width="80%"><legend>Solicitud <span id="no-solicitud"></span></legend></td>
 								<td width="20%" align="right">
 									<a onclick="habilitarEdicion();" class="btn btn-info" id="btn-editar">Editar</a>
 									<a onclick="desactivarEdicion();" class="btn btn-danger hide" id="btn-desactivar">Cancelar</a>
@@ -125,31 +127,38 @@ $me_medio = new MeMedio();
 							</tr>
 						</table>
 						<table class="table table-condensed table-hover">
-							<input type="hidden" class="in-campo" id="in-id">
+							<span class="campo-solicitud hide" name="id" data-campo="id" id="sp-id"></span>
+							<input type="hidden" class="in-campo" name="id" id="in-id">
+							<span class="campo-solicitud hide" name="id_version" data-campo="id_version" id="sp-id_version"></span>
+							<input type="hidden" class="in-campo" name="id_version" id="in-id_version">
 							<tr>
 								<td>Fecha</td>
-								<td class="td-campo"><span class="campo" name="fecha" id="sp-fecha"></span></td>
-								<td class="edit-in hide"><input type="text" name="in-fecha" class="in-campo" id="in-fecha" required="true"></td>
+								<td class="td-campo"><span class="campo-solicitud" name="fecha" data-campo="fecha" id="sp-fecha"></span></td>
+								<td class="edit-in hide"><input type="text" name="fecha" class="in-campo" id="in-fecha" required="true"></td>
 							</tr>
 							<tr>
 								<td>Cuántas jornadas funcionan</td>
-								<td class="td-campo"><span class="campo" name="jornadas" id="sp-jornadas"></span></td>
-								<td class="edit-in hide"><input type="number" min="1" name="in-jornadas" class="in-campo" id="in-jornadas" required="true"></td>
+								<td class="td-campo"><span class="campo-solicitud" name="jornadas" data-campo="jornadas" id="sp-jornadas"></span></td>
+								<td class="edit-in hide"><input type="number" min="1" name="jornadas" class="in-campo" id="in-jornadas" required="true"></td>
 							</tr>
 							<tr>
 								<td>La escuela fue EDF</td>
-								<td class="td-campo"><span class="campo" name="edf" id="sp-edf"></span></td>
-								<td class="edit-in hide"><input type="text" name="in-edf" class="in-campo" id="in-edf" required="true"></td>
+								<td class="td-campo"><span class="campo-solicitud sp-radio" name="edf" data-campo="edf" id="sp-edf"></span></td>
+								<td class="edit-in hide">
+									<input type="checkbox" name="edf" class="in-campo in-chk" id="in-edf" required="true">
+								</td>
 							</tr>
 							<tr>
 								<td>Tiene laboratorio actualmente</td>
-								<td class="td-campo"><span class="campo" name="lab_actual" id="sp-lab_actual"></span></td>
-								<td class="edit-in hide"><input type="text" name="in-lab_actual" class="in-campo" id="in-lab_actual" required="true"></td>
+								<td class="td-campo"><span class="campo-solicitud sp-radio" name="lab_actual" data-campo="lab_actual" id="sp-lab_actual"></span></td>
+								<td class="edit-in hide">
+									<input type="checkbox" name="lab_actual" class="in-campo in-chk" id="in-lab_actual" required="true">
+								</td>
 							</tr>
 							<tr>
 								<td>Observaciones</td>
-								<td class="td-campo"><span class="campo" name="obs" id="sp-obs"></span></td>
-								<td class="edit-in hide"><input type="text" name="in-obs" class="in-campo" id="in-obs"></td>
+								<td class="td-campo"><span class="campo-solicitud" name="obs" data-campo="obs" id="sp-obs"></span></td>
+								<td class="edit-in hide"><input type="text" name="obs" class="in-campo" id="in-obs"></td>
 							</tr>
 						</table>
 					</form>
@@ -165,67 +174,89 @@ $me_medio = new MeMedio();
 					</div>
 					<div class="poblacion" id="div-poblacion">
 						<legend>Población</legend>
-						<table class="table table-condensed table-hover table-bordered">
-							<tr>
-								<th></th>
-								<th>Hombres</th>
-								<th>Mujeres</th>
-								<th>Total</th>
-							</tr>
-							<tr>
-								<td>Cantidad de estudiantes</td>
-								<td class="td-campo"><span class="campo" name="cant_alumno" id="sp-cant_alumno"></span></td>
-								<td class="edit-in hide"><input type="number" min="0" name="in-cant_alumno" class="in-campo" id="in-cant_alumno"></td>
-								<td class="td-campo"><span class="campo" name="cant_alumna" id="sp-cant_alumna"></span></td>
-								<td class="edit-in hide"><input type="number" min="0" name="in-cant_alumna" class="in-campo" id="in-cant_alumna"></td>
-								<td></td>
-							</tr>
-							<tr>
-								<td>Cantidad de docentes</td>
-								<td class="td-campo"><span class="campo" name="cant_maestro" id="sp-cant_maestro"></span></td>
-								<td class="edit-in hide"><input type="number" min="0" name="in-cant_maestro" class="in-campo" id="in-cant_maestro"></td>
-								<td class="td-campo"><span class="campo" name="cant_maestra" id="sp-cant_maestra"></span></td>
-								<td class="edit-in hide"><input type="number" min="0" name="in-cant_maestra" class="in-campo" id="in-cant_maestra"></td>
-								<td></td>
-							</tr>
-						</table>
+						<form id="form-poblacion">
+							<table class="table table-condensed table-hover table-bordered">
+								<tr>
+									<th></th>
+									<th>Hombres</th>
+									<th>Mujeres</th>
+									<th>Total</th>
+								</tr>
+								<tr>
+									<td>Cantidad de estudiantes</td>
+									<td class="td-campo">
+										<span class="campo-poblacion" name="cant_alumno" data-campo="cant_alumno" id="sp-cant_alumno"></span>
+									</td>
+									<td class="edit-in hide">
+										<input type="number" min="0" name="cant_alumno" class="in-campo" id="in-cant_alumno">
+									</td>
+									<td class="td-campo">
+										<span class="campo-poblacion" name="cant_alumna" data-campo="cant_alumna" id="sp-cant_alumna"></span>
+									</td>
+									<td class="edit-in hide">
+										<input type="number" min="0" name="cant_alumna" class="in-campo" id="in-cant_alumna">
+										</td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Cantidad de docentes</td>
+									<td class="td-campo">
+										<span class="campo-poblacion" name="cant_maestro" data-campo="cant_maestro" id="sp-cant_maestro"></span>
+									</td>
+									<td class="edit-in hide">
+										<input type="number" min="0" name="cant_maestro" class="in-campo" id="in-cant_maestro">
+									</td>
+									<td class="td-campo">
+										<span class="campo-poblacion" name="cant_maestra" data-campo="cant_maestra" id="sp-cant_maestra"></span>
+									</td>
+									<td class="edit-in hide">
+										<input type="number" min="0" name="cant_maestra" class="in-campo" id="in-cant_maestra">
+									</td>
+									<td></td>
+								</tr>
+							</table>
+						</form>
 					</div>
 					<div id="div-requerimiento">
-						<legend>Requerimientos</legend>
-						<table class="table table-condensed table-hover">
-							<thead>
-								<tr>
-									<th>Requerimiento</th>
-									<th>Cumple</th>
-								</tr>
-							</thead>
-							<tbody id="tbody-req"></tbody>
-						</table>
+						<form id="form-requerimiento">
+							<legend>Requerimientos</legend>
+							<table class="table table-condensed table-hover">
+								<thead>
+									<tr>
+										<th>Requerimiento</th>
+										<th>Cumple</th>
+									</tr>
+								</thead>
+								<tbody id="tbody-req"></tbody>
+							</table>
+						</form>
 					</div>
 					<div id="div-medio">
-						<legend>Cómo se enteró de nosotros</legend>
-						<table class="table table-condensed table-hover">
-							<thead>
-								<tr>
-									<th>Medio</th>
-									<th>Marcado</th>
-								</tr>
-							</thead>
-							<tbody>
-								<?php
-								$arr_medio = $me_medio->listarMedio();
-								foreach ($arr_medio as $medio) {
-									$texto = "<td>".$medio['medio']."</td>";
-									$texto .= '<td class="td-campo"><span class="sp-medio" data-id-medio="'.$medio['id'].'" name="medio" id="sp-medio-'.$medio['id'].'"></span></td>';
-									$texto .= '<td class="edit-in hide"><input type="checkbox" class="in-medio" id="in-medio-'.$medio['id'].'" /></td>';
-									echo "<tr>".$texto."</tr>";
-								}
-								?>
-							</tbody>
-						</table>
+						<form id="form-medio">
+							<legend>Cómo se enteró de nosotros</legend>
+							<table class="table table-condensed table-hover">
+								<thead>
+									<tr>
+										<th>Medio</th>
+										<th>Marcado</th>
+									</tr>
+								</thead>
+								<tbody>
+									<?php
+									$arr_medio = $me_medio->listarMedio();
+									foreach ($arr_medio as $medio) {
+										$texto = "<td>".$medio['medio']."</td>";
+										$texto .= '<td class="td-campo"><span class="sp-medio" data-id-medio="'.$medio['id'].'" name="medio" id="sp-medio-'.$medio['id'].'"></span></td>';
+										$texto .= '<td class="edit-in hide"><input type="checkbox" name="id-medio" value="'.$medio['id'].'" class="in-medio" id="in-medio-'.$medio['id'].'" /></td>';
+										echo "<tr>".$texto."</tr>";
+									}
+									?>
+								</tbody>
+							</table>
+						</form>
 					</div>
 					<div id="controles">
-						<button id="btn-guardar" class="btn btn-success" onclick="guardarSolicitud();">Guardar</button>
+						<button id="btn-guardar" class="btn btn-success hide" onclick="guardarSolicitud();">Guardar</button>
 					</div>
 				</div>
 			</div>
@@ -303,24 +334,47 @@ $me_medio = new MeMedio();
 
 	function llenarFormularios(datos) {
 		document.getElementById('form-solicitud').reset();
+		desactivarEdicion();
 		$('.campo').html('');
 		$('.td-contacto').html('');
 		$('.in-req').prop('checked', false);
 		$('.in-medio').prop('checked', false);
+		$('.sp-medio').html('No');
 
-		$.each(datos.arr_solicitud, function (campo, valor) {
-			$('#sp-'+campo).html(valor);
-			$('#sp-'+campo).val(valor);
+		$('#no-solicitud').html(datos.arr_solicitud['id']+ ' ('+datos.arr_solicitud['id_version']+')');
+
+		$('.campo-solicitud').each(function () {
+			var campo = $(this).data('campo');
+			console.log(campo+": "+datos.arr_solicitud[campo])
+			$(this).html(datos.arr_solicitud[campo]);
+			$(this).val(datos.arr_solicitud[campo]);
 		});
-		$.each(datos.arr_poblacion, function (campo, valor) {
-			$('#sp-'+campo).html(valor);
-			$('#sp-'+campo).val(valor);
+
+		$('.sp-radio').each(function () {
+			$(this).html(function () {
+				if($(this).val()==1){
+					return "Sí";
+				}
+				else{
+					return "No";
+				}
+			});
 		});
+
+		$('.campo-poblacion').each(function () {
+			var campo = $(this).data('campo');
+			console.log(campo+": "+datos.arr_poblacion[campo])
+			$(this).html(datos.arr_poblacion[campo]);
+			$(this).val(datos.arr_poblacion[campo]);
+		});
+
 		$.each(datos.arr_requerimiento, function (index, req) {
 			$('#sp-req-'+req.id_requerimiento).data('check', "true");
 			$('#sp-req-'+req.id_requerimiento).html('<b>Sí</b>');
 			$('#in-req-'+req.id_requerimiento).prop('checked', true);
 		});
+
+
 		$.each(datos.arr_medio, function (index, medio) {
 			$('#sp-medio-'+medio.id_medio).data('check', "true");
 			$('#sp-medio-'+medio.id_medio).html('Sí');
@@ -339,7 +393,7 @@ $me_medio = new MeMedio();
 		$.each(arr_requerimiento, function (index, req) {
 			var text = '<td>'+req.requerimiento+'</td>';
 			text += '<td class="td-campo"><span class="sp-req" data-id-req="'+req.id_requerimiento+'" data-check="false" id="sp-req-'+req.id_requerimiento+'">No</span></td>';
-			text += '<td class="edit-in hide"><input type="checkbox" class="in-req" id="in-req-'+req.id_requerimiento+'" /></td>';
+			text += '<td class="edit-in hide"><input value="'+req.id_requerimiento+'" name="id-req" type="checkbox" class="in-req" id="in-req-'+req.id_requerimiento+'" /></td>';
 			$('#tbody-req').append('<tr>'+text+'</tr>');
 		});
 	}
@@ -347,16 +401,23 @@ $me_medio = new MeMedio();
 	function habilitarEdicion() {
 		$('#btn-editar').hide();
 		$('#btn-desactivar').show();
+		$('#btn-guardar').show();
 		$('.campo').hide();
 		$('.td-campo').hide();
 		$('.in-req').prop('checked', false);
 		$('.in-medio').prop('checked', false);
 
-		var arr_campos = document.getElementsByClassName('campo');
+		var arr_campos_solicitud = document.getElementsByClassName('campo-solicitud');
+		var arr_campos_poblacion = document.getElementsByClassName('campo-poblacion');
 		var arr_requerimiento = document.getElementsByClassName('sp-req');
 		var arr_medio = document.getElementsByClassName('sp-medio');
 
-		$.each(arr_campos, function (index, campo) {
+		$.each(arr_campos_solicitud, function (index, campo) {
+			var nombre = $(campo).attr('name');
+			$('#in-'+nombre).val($(campo).val());
+		});
+
+		$.each(arr_campos_poblacion, function (index, campo) {
 			var nombre = $(campo).attr('name');
 			$('#in-'+nombre).val($(campo).val());
 		});
@@ -364,13 +425,23 @@ $me_medio = new MeMedio();
 		$.each(arr_requerimiento, function (index, requerimiento) {
 			var id_req = $(requerimiento).data('id-req');
 			$('#in-req-'+id_req).prop('checked', $(requerimiento).data('check'));
-			console.log(id_req);
 		});
 
 		$.each(arr_medio, function (index, medio) {
 			var id_medio = $(medio).data('id-medio');
 			$('#in-medio-'+id_medio).prop('checked', $(medio).data('check'));
-			console.log(id_medio);
+		});
+
+		$('#in-fecha').datepicker({
+			format: 'yyyy-mm-dd',
+			language: 'es'
+		});
+
+		$('.in-chk').prop('checked', function () {
+			if ($(this).val()==1) {
+				return true;
+			}
+			return false;
 		});
 
 		$('.edit-in').show();
@@ -378,6 +449,7 @@ $me_medio = new MeMedio();
 
 	function desactivarEdicion() {
 		$('#btn-desactivar').hide();
+		$('#btn-guardar').hide();
 		$('#btn-editar').show();
 		$('.campo').show();
 		$('.td-campo').show();
@@ -386,14 +458,64 @@ $me_medio = new MeMedio();
 	}
 
 	function guardarSolicitud() {
+		$('.in-chk').each(function () {
+			$(this).prop('checked', function () {
+				if ($(this).is(':checked')) {
+					$(this).val(1);
+				}
+				else{
+					$(this).val(0);
+				}
+				return true;
+			});
+		})
 		callBackend({
 			ctrl: 'CtrlMeSolicitud',
-			act: 's',
+			act: 'guardarSolicitud',
 			args: {
-				arr_solicitud: $('#form-solicitud').serializeObject()
+				arr_solicitud: $('#form-solicitud').serializeObject(),
+				arr_poblacion: $('#form-poblacion').serializeObject(),
+				arr_requerimiento: function () {
+					var arr_requerimiento = [];
+					$('.in-req:checked').each(function () {
+						arr_requerimiento.push($(this).val());
+					});
+					return arr_requerimiento;
+				},
+				arr_medio: function () {
+					var arr_medio = [];
+					$('.in-medio:checked').each(function () {
+						arr_medio.push($(this).val());
+					});
+					return arr_medio;
+				}
 			},
-			callback: {
+			callback: function (respuesta) {
+				if(!respuesta['error']){
+					abrirSolicitud(respuesta['id']);
+				}
+			}
+		})
+	}
 
+	function formNueva() {
+		$('.btn-nueva').toggle();
+		$('#btn-nueva-solicitud').toggle();
+	}
+
+	function crearSolicitud(id_escuela, id_version) {
+		document.getElementById('form-solicitud').reset();
+		$('#in-id_version').val(id_version);
+		$('.in-chk').prop('checked', true).val(0);
+		callBackend({
+			ctrl: 'CtrlMeSolicitud',
+			act: 'crearSolicitud',
+			args:{
+				arr_solicitud: $('#form-solicitud').serializeObject(),
+				id_escuela: $('#id_escuela').val()
+			},
+			callback: function (respuesta) {
+				abrirSolicitud(respuesta);
 			}
 		})
 	}
@@ -407,6 +529,10 @@ $me_medio = new MeMedio();
 		$('#btn-abrir-solicitud').click(function () {
 			abrirSolicitud($('#lista-solicitud').val());
 		});
+
+		$('#btn-crear-solicitud').click(function () {
+			crearSolicitud($('#id_escuela').val(), $('#id-version').val());
+		})
 	});
 </script>
 </html>

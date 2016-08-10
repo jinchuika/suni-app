@@ -291,9 +291,6 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
         </div>
     </div>
 </body>
-<?php
-
-?>
 <script>
     var modal_c = modal_carga_gn();
     modal_c.crear();

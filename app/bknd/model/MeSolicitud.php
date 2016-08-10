@@ -89,6 +89,7 @@ class MeSolicitud extends Model
     	$query = $this->armarSelect('me_solicitud_req', 'id', array('id_solicitud'=>$id_solicitud, 'id_requerimiento'=>$id_requerimiento));
     	$id_link = $this->bd->getFila($query);
 
+
     	if($id_link){
     		return $id_link['id'];
     	}

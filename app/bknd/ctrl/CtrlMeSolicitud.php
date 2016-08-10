@@ -28,8 +28,15 @@ class CtrlMeSolicitud
 	 * @param  Array  $arr_solicitud      Los datos atómicos de la solicitud
 	 * @return integer                     El ID de la nueva solicitud
 	 */
-	public function crearSolicitud(Array $arr_solicitud)
+	public function crearSolicitud(Array $arr_solicitud, $id_escuela=null)
 	{
+		if(!isset($arr_solicitud['id_proceso']) || empty($arr_solicitud['id_proceso'])){
+			$gn_proceso = new GnProceso();
+			$arr_solicitud['id_proceso'] = $gn_proceso->crearProceso($id_escuela);
+		}
+		if (empty($arr_solicitud['fecha'])) {
+			$arr_solicitud['fecha'] = date("Y-m-d");
+		}
 		$id_solicitud = $this->model->crearSolicitud(
 			$arr_solicitud['id_version'],
 			$arr_solicitud['id_proceso'],
@@ -43,36 +50,79 @@ class CtrlMeSolicitud
 		return $id_solicitud;
 	}
 
-	public function guardarSolicitud(Array $arr_solicitud, Array $arr_requerimientos, Array $arr_contacto, Array $arr_medio)
+	/**
+	 * Guarda el registro de la solicitud, crea una nueva si no existiera
+	 * @param  Array  $arr_solicitud      datos atómicos de la solicitud
+	 * @param Array $arr_poblacion la población estudiantil de la escuela
+	 * @param  Array  $arr_requerimientos [description]
+	 * @param  Array  $arr_contacto       [description]
+	 * @param  Array  $arr_medio          [description]
+	 * @return [type]                     [description]
+	 */
+	public function guardarSolicitud(Array $arr_solicitud, Array $arr_poblacion, $arr_requerimientos, $arr_medio, $id_escuela = null)
 	{
 		/**
 		 * Abre la solicitud si ya existe
 		 */
-		if(isset($arr_solicitud['id_solicitud'])){
-			$arr_solicitud['id'] = $arr_solicitud['id_solicitud'];
-			unset($arr_solicitud['id_solicitud']);
+		if(isset($arr_solicitud['id'])){
+			//$arr_solicitud['id'] = $arr_solicitud['id_solicitud'];
+			//unset($arr_solicitud['id_solicitud']);
 			$res = $this->model->guardarSolicitud($arr_solicitud['id'], $arr_solicitud);
 			if ($res!=false) {
-				$arr_solicitud['id_solicitud'] = $arr_solicitud['id'];
-				unset($arr_solicitud['id']);
-				$id_solicitud = $arr_solicitud['id_solicitud'];
+				//$arr_solicitud['id_solicitud'] = $arr_solicitud['id'];
+				//unset($arr_solicitud['id']);
+				$id_solicitud = $arr_solicitud['id'];
 			}
 		}
 		/**
 		 * Crea la solicitud si no existe
 		 */
 		else{
-			$id_solicitud = $this->crearSolicitud($arr_solicitud);
-
+			$id_solicitud = $this->crearSolicitud($arr_solicitud, $id_escuela);
 		}
+
+		/**
+		 * Guarda los datos relacionados a la solicitud
+		 */
 		if($id_solicitud!=false){
-			$arr_req = $this->crearRequerimiento($id_solicitud, $arr_solicitud['id_version'], $arr_requerimientos);
+			$población = $this->guardarPoblacion($id_solicitud, $arr_poblacion);
+			$arr_req = $this->guardarRequerimiento($id_solicitud, $arr_solicitud['id_version'], $arr_requerimientos);
 			$arr_medio = $this->guardarMedio($id_solicitud, $arr_medio);
-			return array('id'=>$id_solicitud, 'req'=>$arr_req, 'medio'=>$arr_medio);
+			return array('id'=>$id_solicitud, 'población'=>$arr_poblacion, 'req'=>$arr_req, 'medio'=>$arr_medio);
 		}
 		else{
 			echo "error al crear";
 		}
+	}
+
+	/**
+	 * Guarda el registro de población para la solicitud
+	 * @param  integer $id_solicitud  el ID de la solicitud
+	 * @param  Array  $arr_poblacion los datos de los campos
+	 * @return boolean                true si se guardó
+	 */
+	public function guardarPoblacion($id_solicitud, Array $arr_poblacion)
+	{
+		$me_poblacion = new MePoblacion();
+		//Revisa si no existe
+		if(!isset($arr_poblacion['id']) || empty($arr_poblacion['id'])){
+			$población = $this->model->abrirPoblacion($id_solicitud);
+
+			if(!$población){
+				$arr_poblacion['id'] = $me_poblacion->crearPoblacion(
+					$arr_poblacion['cant_alumna'],
+					$arr_poblacion['cant_alumno'],
+					$arr_poblacion['cant_maestra'],
+					$arr_poblacion['cant_maestro']
+					);
+				$this->model->linkPoblacion($id_solicitud, $arr_poblacion['id']);
+			}
+			else{
+				$arr_poblacion['id'] = $población['id_poblacion'];
+			}
+		}
+		$me_poblacion->editarPoblacion($arr_poblacion['id'], $arr_poblacion);
+		return $arr_poblacion['id'];
 	}
 
 	/**
@@ -81,10 +131,15 @@ class CtrlMeSolicitud
 	 * @param  Array $arr_req_solicitud un array con los requerimientos que se cumplen
 	 * @return Array
 	 */
-	public function crearRequerimiento($id_solicitud, $id_version, $arr_req_solicitud)
+	public function guardarRequerimiento($id_solicitud, $id_version, $arr_req_solicitud)
 	{
 		$me_version = new MeSolicitudVersion();
 		$arr_respuesta = array();
+
+		if(!is_array($arr_req_solicitud)){
+			$arr_req_solicitud = explode(',', $arr_req_solicitud);
+		}
+
 
 		$arr_requerimientos = $me_version->listarRequerimientos($id_version);
 
@@ -117,11 +172,17 @@ class CtrlMeSolicitud
 		return $arr_links;
 	}
 
-	public function guardarMedio($id_solicitud, Array $arr_medio_solicitud)
+	
+
+	public function guardarMedio($id_solicitud, $arr_medio_solicitud)
 	{
 		$me_medio = new MeMedio();
 		$arr_respuesta = array();
 		$arr_medio = $me_medio->listarMedio('id');
+
+		if(!is_array($arr_medio_solicitud)){
+			$arr_medio_solicitud = explode(',', $arr_medio_solicitud);
+		}
 
 		foreach ($arr_medio as $medio) {
 			if(in_array($medio['id'], $arr_medio_solicitud)){
@@ -172,13 +233,14 @@ class CtrlMeSolicitud
 	public function abrirSolicitud($id_solicitud)
 	{
 		$me_poblacion = new MePoblacion();
+		$me_contacto = new MeContacto();
 
 		$arr_solicitud = $this->model->abrirSolicitud(array('id'=>$id_solicitud));
 		$arr_medio = $this->model->listarMedio($id_solicitud);
 		$arr_requerimiento = $this->model->listarRequerimiento($id_solicitud);
 		$arr_poblacion = $this->model->abrirPoblacion($id_solicitud);
 		$poblacion = $me_poblacion->abrirPoblacion('*', array('id'=>$arr_poblacion['id_poblacion']));
-		$arr_contacto = $this->listarContacto($id_solicitud);
+		$arr_contacto = $me_contacto->listarContacto('solicitud', 'id_contacto', array('id_solicitud'=>$id_solicitud));
 		
 		return array(
 			'arr_solicitud'=>$arr_solicitud,
