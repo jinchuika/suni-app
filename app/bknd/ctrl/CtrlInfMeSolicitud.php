@@ -54,8 +54,24 @@ class CtrlInfMeSolicitud extends Controller
      */
     public function listarVersion()
     {
-    	$me_version = new MeVersion();
+    	$me_version = new MeSolicitudVersion();
     	return $me_version->listarVersion();
+    }
+
+    /**
+     * Genera el listado de escuelas
+     * @param  Array|null $arr_filtros los filtros para buscar
+     * @return Array
+     */
+    public function generarInforme(Array $arr_filtros=null)
+    {
+    	$me_solicitud = new MeSolicitud();
+    	foreach ($arr_filtros as $filtro => $valor) {
+    		if(is_null($valor) || ($valor==='' && $valor!==0)){
+    			unset($arr_filtros[$filtro]);
+    		}
+    	}
+    	return $me_solicitud->generarInforme($arr_filtros);
     }
 }
 ?>

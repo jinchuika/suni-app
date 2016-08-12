@@ -292,5 +292,19 @@ class MeSolicitud extends Model
             array('id'=>$id_solicitud));
         return $this->bd->ejecutar($query, true);
     }
+
+    /**
+     * Genera el informe de escuelas con solicitud
+     * @param  Array|null $arr_filtros los filtros para buscar
+     * @param  Array|null $arr_campos  los campos a solicitar
+     * @return Array                  el listado de escuelas
+     */
+    public function generarInforme(Array $arr_filtros=null, Array $arr_campos=null)
+    {
+        $campos = '*';
+        $campos .= (is_array($arr_campos) ? implode(',', $arr_campos) : '');
+        $query = $this->armarSelect('v_me_solicitud', $campos, $arr_filtros);
+        return $this->bd->getResultado($query);
+    }
 }
 ?>
