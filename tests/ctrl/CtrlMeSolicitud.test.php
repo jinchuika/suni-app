@@ -70,7 +70,7 @@ class CtrMeSolicitudTest extends PHPUnit_Framework_TestCase
     public function testGuardaContactos(CtrlMeSolicitud $ctrl_solicitud, $id_solicitud)
     {
         $arr_contacto = array(
-            'supervisor'=>0,
+            'supervisor'=>1,
             'director' => 2,
             'responsable' => 29
             );
