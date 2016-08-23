@@ -8,8 +8,8 @@ $AUTOLOAD_LVL = 2;
 class MeContactoTest extends PHPUnit_Framework_TestCase
 {
 	var $data = array(
-		'id_solicitud'=>54,
-		'director' => 31,
+		'id_solicitud'=>36,
+		'director' => 1,
 		'supervisor' => 31,
 		'responsable' => 33
 		);
@@ -41,15 +41,27 @@ class MeContactoTest extends PHPUnit_Framework_TestCase
 
 	/**
 	 * @depends testExiste
+	 * @dataProvider unlinkData
 	 * @param  MeContacto $me_contacto el modelo
 	 * @return integer                  el id del nuevo registro
 	 */
-	public function testLinkContacto(MeContacto $me_contacto)
+	public function testLinkContacto($formulario, $id_form, $id_contacto, MeContacto $me_contacto)
 	{
-		$id_link_director = $me_contacto->linkContacto('solicitud', $this->data['id_solicitud'], 1);
+		$id_link_director = $me_contacto->linkContacto($formulario, $id_form, $id_contacto);
 		$this->assertNotFalse($id_link_director);
 		echo "link contacto: ".$id_link_director;
 		return $id_link_director;
+	}
+
+	/**
+	 * @depends testExiste
+	 * @depends testLinkContacto
+	 */
+	public function testListaContacto(MeContacto $me_contacto)
+	{
+		$arr_contacto = $me_contacto->listarContacto('solicitud', '*', array('id_solicitud'=>$this->data['id_solicitud']));
+		print_r($arr_contacto);
+		$this->assertNotNull($arr_contacto);
 	}
 
 	/**
@@ -84,6 +96,8 @@ class MeContactoTest extends PHPUnit_Framework_TestCase
 	/**
 	 * Prueba si se puede eliminar el registro de asignación
 	 * @depends testExiste
+	 * @depends testListaContacto
+	 * @depends testListaContacto
 	 * @dataProvider unlinkData
 	 * @param  MeContacto $me_contacto el modelo
 	 * @return boolean

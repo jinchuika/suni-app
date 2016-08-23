@@ -3,7 +3,7 @@
  * Controla las solicitudes y validaciones
  */
 require_once('../../src/libs/incluir.php');
-//require_once('../../bknd/autoload.php');
+require_once('../../bknd/autoload.php');
 $nivel_dir = 3;
 $libs = new librerias($nivel_dir);
 $sesion = $libs->incluir('seguridad');
@@ -13,7 +13,7 @@ $bd = $libs->incluir('bd');
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
 	<meta charset="UTF-8">
 	<title>Mapa de equipamiento</title>
@@ -95,7 +95,6 @@ src="http://maps.googleapis.com/maps/api/js?key=AIzaSyBMJ00p08TB-mod3SUigOxIAZGu
         	ctrl: 'CtrlInfTpeMapa',
         	act: 'listarEscuelasEquipadas',
         	args: {
-        		id_estado: 5,
         		campos: 'lat, lng, udi, id_escuela',
                 fecha_inicio: formatear_fecha($('#fecha_inicio').val()),
                 fecha_fin: formatear_fecha($('#fecha_fin').val())

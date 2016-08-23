@@ -146,7 +146,7 @@ function listar_contacto_escuela (id_escuela, objetivo, callback) {
     });
     $('#'+objetivo).submit(function (e) {
         e.preventDefault();
-        modal_c.mostrar();
+        if (typeof modal_c!=='undefined') {modal_c.mostrar();}
         $.ajax({
             url: nivel_entrada+'app/src/libs_gen/esc_contacto.php',
             data: {
@@ -159,7 +159,7 @@ function listar_contacto_escuela (id_escuela, objetivo, callback) {
                     var id_contacto = $.parseJSON(data.contacto);
                     abrir_contacto_escuela((id_contacto['id']), 'lista_contacto');
                 }
-                modal_c.ocultar();
+                if (typeof modal_c!=='undefined') {modal_c.ocultar();}
             }
         });
         nuevo_contacto(false, objetivo);

@@ -46,7 +46,12 @@ class CtrlMeSolicitud
 			$arr_solicitud['lab_actual'],
 			$arr_solicitud['obs']
 			);
-
+		$this->guardarPoblacion($id_solicitud, array(
+        	'cant_alumna'=>0,
+			'cant_alumno'=>0,
+			'cant_maestra'=>0,
+			'cant_maestro'=>0
+        	));
 		return $id_solicitud;
 	}
 
@@ -107,7 +112,6 @@ class CtrlMeSolicitud
 		//Revisa si no existe
 		if(!isset($arr_poblacion['id']) || empty($arr_poblacion['id'])){
 			$población = $this->model->abrirPoblacion($id_solicitud);
-
 			if(!$población){
 				$arr_poblacion['id'] = $me_poblacion->crearPoblacion(
 					$arr_poblacion['cant_alumna'],
@@ -157,23 +161,11 @@ class CtrlMeSolicitud
 	}
 
 	/**
-	 * Actualiza el listado de contactos de la solicitud
-	 * @param  integer $id_solicitud el ID de la solicitud
-	 * @param  Array  $arr_contacto lista de los contactos
-	 * @return Array               los ID de los links
+	 * Guarda los medios por los cuales se enteró de la fundación
+	 * @param  integer $id_solicitud        el ID de la solicitud
+	 * @param  string $arr_medio_solicitud el listado de medios
+	 * @return Array                      los ID de las relaciones establecidas
 	 */
-	public function guardarContactos($id_solicitud, Array $arr_contacto)
-	{
-		$me_contacto = new MeContacto();
-		$me_contacto->unlinkContacto('solicitud', 'director', $id_solicitud);
-		$me_contacto->unlinkContacto('solicitud', 'supervisor', $id_solicitud);
-		$me_contacto->unlinkContacto('solicitud', 'responsable', $id_solicitud);
-		$arr_links = $me_contacto->linkContactoLista('solicitud', $id_solicitud, $arr_contacto);
-		return $arr_links;
-	}
-
-	
-
 	public function guardarMedio($id_solicitud, $arr_medio_solicitud)
 	{
 		$me_medio = new MeMedio();
@@ -208,6 +200,7 @@ class CtrlMeSolicitud
 			array('udi'=>$udi),
 			'id_escuela, udi, nombre, direccion, mail, telefono, id_departamento, departamento, id_municipio, municipio, id_jornada, jornada, id_equipamiento, participante, id_proceso'
 			);
+		$escuela['arr_contacto'] = $this->listarContacto($escuela['id_escuela']);
 		return $escuela;
 	}
 
@@ -233,21 +226,18 @@ class CtrlMeSolicitud
 	public function abrirSolicitud($id_solicitud)
 	{
 		$me_poblacion = new MePoblacion();
-		$me_contacto = new MeContacto();
 
 		$arr_solicitud = $this->model->abrirSolicitud(array('id'=>$id_solicitud));
 		$arr_medio = $this->model->listarMedio($id_solicitud);
 		$arr_requerimiento = $this->model->listarRequerimiento($id_solicitud);
 		$arr_poblacion = $this->model->abrirPoblacion($id_solicitud);
 		$poblacion = $me_poblacion->abrirPoblacion('*', array('id'=>$arr_poblacion['id_poblacion']));
-		$arr_contacto = $me_contacto->listarContacto('solicitud', 'id_contacto', array('id_solicitud'=>$id_solicitud));
 		
 		return array(
 			'arr_solicitud'=>$arr_solicitud,
 			'arr_medio'=>$arr_medio,
 			'arr_requerimiento'=>$arr_requerimiento,
-			'arr_poblacion'=>$poblacion,
-			'arr_contacto'=>$arr_contacto
+			'arr_poblacion'=>$poblacion
 			);
 	}
 
@@ -256,17 +246,10 @@ class CtrlMeSolicitud
 	 * @param  integer $id_solicitud el ID de la solicitud
 	 * @return Array               los contactos
 	 */
-	public function listarContacto($id_solicitud)
+	public function listarContacto($id_escuela)
 	{
-		$me_contacto = new MeContacto();
-		$director = $me_contacto->abrirContacto('solicitud', 'director', '*', array('id_solicitud'=>$id_solicitud));
-		$supervisor = $me_contacto->abrirContacto('solicitud', 'supervisor', '*', array('id_solicitud'=>$id_solicitud));
-		$responsable = $me_contacto->abrirContacto('solicitud', 'responsable', '*', array('id_solicitud'=>$id_solicitud));
-		return array(
-			'director'=>$director,
-			'supervisor'=>$supervisor,
-			'responsable'=>$responsable
-			);
+		$me_solicitud = new MeSolicitud();
+		return $me_solicitud->listarContacto($id_escuela);
 	}
 
 	/**

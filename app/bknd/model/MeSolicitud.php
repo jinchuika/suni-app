@@ -214,7 +214,7 @@ class MeSolicitud extends Model
         $query = $this->armarSelect('me_solicitud_poblacion', 'id', array('id_solicitud'=>$id_solicitud, 'id_poblacion'=>$id_poblacion));
         $id_link = $this->bd->getFila($query);
 
-        if($id_link){
+        if(!empty($id_link) && isset($id_link['id'])){
             return $id_link['id'];
         }
         else{
@@ -267,6 +267,17 @@ class MeSolicitud extends Model
     }
 
     /**
+     * Lista los contactos de la escuela
+     * @param  integer $id_escuela ID de la escuela
+     * @return Array
+     */
+    public function listarContacto($id_escuela)
+    {
+        $query = $this->armarSelect('esc_contacto', 'id', array('id_escuela'=>$id_escuela));
+        return $this->bd->getResultado($query);
+    }
+
+    /**
      * Lista las solicitudes conforme a los filtros pedidos
      * @param  Array|null $arr_filtros los filtros que piden campo => valor
      * @param  string     $campos      los campos que se piden
@@ -290,7 +301,12 @@ class MeSolicitud extends Model
             $this->tabla,
             $arr_solicitud,
             array('id'=>$id_solicitud));
-        return $this->bd->ejecutar($query, true);
+        if($this->bd->ejecutar($query, true)){
+            return $id_solicitud;
+        }
+        else{
+            return false;
+        }
     }
 
     /**

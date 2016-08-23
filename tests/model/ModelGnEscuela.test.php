@@ -38,8 +38,17 @@ class GnEscuelaTest extends PHPUnit_Framework_TestCase
     {
         $arrFiltros = array('id_departamento'=>'04', 'id_municipio'=>'0401');
         $arr_escuelas = $gn_escuela->buscarEscuela('Normal', $arrFiltros, 0, 'nombre, id_equipamiento');
-        print_r($arr_escuelas);
+        //print_r($arr_escuelas);
         $this->assertNotNull($arr_escuelas);
+    }
+
+    /**
+     * @depends testExiste
+     */
+    public function testAbreVistaEscuela($gn_escuela)
+    {
+        $escuela = $gn_escuela->abrirVistaEscuela(array('udi'=>'01-01-0002-42'));
+        print_r($escuela);
     }
 }
 ?>

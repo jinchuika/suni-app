@@ -64,6 +64,7 @@ class MePoblacion extends Model
             $this->tabla,
             $arr_datos,
             array('id'=>$id_poblacion));
+		//echo $query;
         return $this->bd->ejecutar($query, true);
 	}
 }

@@ -33,14 +33,14 @@ $me_medio = new MeMedio();
 				<ul class="nav nav-list bs-docs-sidenav affix">
 					<li><a href="#form-escuela">Escuela</a></li>
 					<li><a href="#form-solicitud">Solicitud</a></li>
-					<li><a href="#form-contacto">Contactos</a></li>
+					<li><a href="#form_contacto">Contactos</a></li>
 					<li><a href="#div-poblacion">Población</a></li>
 					<li><a href="#div-requerimiento">Requerimientos</a></li>
 					<li><a href="#div-medio">Medios de comunicación</a></li>
 				</ul>
 			</div>
 			<div class="span9">
-				<div class="info-escuela well">
+				<div class="well">
 					<form id="form-escuela" class="form-horizontal">
 						<fieldset>
 							<div class="control-group">
@@ -57,51 +57,103 @@ $me_medio = new MeMedio();
 							</div>
 						</fieldset>
 					</form>
-					<table class="table table-condensed table-hover">
-						<input type="hidden" id="id_escuela">
-						<tr>
-							<td>Nombre</td>
-							<td><a href="#" id="esc-nombre"></a></td>
-						</tr>
-						<tr>
-							<td>Dirección</td>
-							<td><a href="#" id="esc-direccion"></a></td>
-						</tr>
-						<tr>
-							<td>Correo electrónico</td>
-							<td><a href="#" id="esc-mail"></a></td>
-						</tr>
-						<tr>
-							<td>Teléfono</td>
-							<td><a href="#" id="esc-telefono"></a></td>
-						</tr>
-						<tr>
-							<td>Departamento</td>
-							<td><a href="#" id="esc-departamento"></a></td>
-						</tr>
-						<tr>
-							<td>Municipio</td>
-							<td><a href="#" id="esc-municipio"></a></td>
-						</tr>
-						<tr>
-							<td>Jornada</td>
-							<td><a href="#" id="esc-jornada"></a></td>
-						</tr>
-						<tr>
-							<td>Comunidad étnica</td>
-							<td><a href="#" id="esc-etnia"></a></td>
-						</tr>
-						<tr>
-							<td>Equipada</td>
-							<td><a href="#" id="esc-equipada"></a></td>
-						</tr>
-						<tr>
-							<td>Capacitada</td>
-							<td><a href="#" id="esc-capacitada"></a></td>
-						</tr>
-					</table>
+					<div class="info-escuela">
+						<table class="table table-condensed table-hover">
+							<input type="hidden" id="id_escuela">
+							<tr>
+								<td>Nombre</td>
+								<td><a href="#" class="dato-escuela" id="esc-nombre"></a></td>
+							</tr>
+							<tr>
+								<td>Dirección</td>
+								<td><a href="#" class="dato-escuela" id="esc-direccion"></a></td>
+							</tr>
+							<tr>
+								<td>Correo electrónico</td>
+								<td><a href="#" class="dato-escuela" id="esc-mail"></a></td>
+							</tr>
+							<tr>
+								<td>Teléfono</td>
+								<td><a href="#" class="dato-escuela" id="esc-telefono"></a></td>
+							</tr>
+							<tr>
+								<td>Departamento</td>
+								<td><a href="#" class="dato-escuela" id="esc-departamento"></a></td>
+							</tr>
+							<tr>
+								<td>Municipio</td>
+								<td><a href="#" class="dato-escuela" id="esc-municipio"></a></td>
+							</tr>
+							<tr>
+								<td>Jornada</td>
+								<td><a href="#" class="dato-escuela" id="esc-jornada"></a></td>
+							</tr>
+							<tr>
+								<td>Comunidad étnica</td>
+								<td><a href="#" class="dato-escuela" id="esc-etnia"></a></td>
+							</tr>
+							<tr>
+								<td>Equipada</td>
+								<td><a href="#" class="dato-escuela" id="esc-equipada"></a></td>
+							</tr>
+							<tr>
+								<td>Capacitada</td>
+								<td><a href="#" class="dato-escuela" id="esc-capacitada"></a></td>
+							</tr>
+						</table>
+						<legend>Contactos de la escuela <button class="btn btn-primary" onclick="nuevo_contacto(1, 'form_contacto');">Agrear</button></legend>
+						<table>
+							<tr id="lista-contacto"></tr>
+						</table>
+						<form class="form-horizontal hide" id="form_contacto">
+							<fieldset>
+								<legend>Agregar contacto</legend>
+								<div class="control-group">
+									<label class="control-label" for="inp_nombre_cnt">Nombre</label>
+									<div class="controls">
+										<input id="inp_nombre_cnt" name="inp_nombre_cnt" type="text" placeholder="" class="input-large" required="">
+										<input id="inp_id_escuela_cnt" name="inp_id_escuela_cnt" type="hidden" placeholder="" class="input-large" required="">
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="inp_apellido_cnt">Apellido</label>
+									<div class="controls">
+										<input id="inp_apellido_cnt" name="inp_apellido_cnt" type="text" placeholder="" class="input-large" required="">
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="inp_rol_cnt">Rol</label>
+									<div class="controls">
+										<select id="inp_rol_cnt" name="inp_rol_cnt" class="input-medium">
+
+										</select>
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="inp_tel_movil_cnt">Teléfono</label>
+									<div class="controls">
+										<input id="inp_tel_movil_cnt" name="inp_tel_movil_cnt" type="text" placeholder="" class="input-small" required="">
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="inp_mail_cnt">Correo electrónico</label>
+									<div class="controls">
+										<input id="inp_mail_cnt" name="inp_mail_cnt" type="text" placeholder="" class="input-large">
+									</div>
+								</div>
+								<div class="control-group">
+									<label class="control-label" for="inp_boton_cnt"></label>
+									<div class="controls">
+										<button type="submit" id="inp_boton_cnt" name="inp_boton_cnt" class="btn btn-primary">Guardar</button>
+										<button type="button" onclick="nuevo_contacto(false, 'form_contacto');" id="inp_boton_cnt" name="inp_boton_cnt" class="btn btn-danger">Cancelar</button>
+									</div>
+								</div>
+
+							</fieldset>
+						</form>
+					</div>
 				</div>
-				<div id="div-lista-solicitud" class="well inline">
+				<div id="div-lista-solicitud" class="well inline info-escuela">
 					<select name="lista-solicitud" id="lista-solicitud"></select>
 					<button class="btn btn-info" id="btn-abrir-solicitud">Abrir</button>
 					<select class="btn-nueva hide" name="id-version" id="id-version">
@@ -122,6 +174,7 @@ $me_medio = new MeMedio();
 								<td width="80%"><legend>Solicitud <span id="no-solicitud"></span></legend></td>
 								<td width="20%" align="right">
 									<a onclick="habilitarEdicion();" class="btn btn-info" id="btn-editar">Editar</a>
+									<a onclick="cerrarSolicitud();" class="btn btn-info" id="btn-editar">Cerrar</a>
 									<a onclick="desactivarEdicion();" class="btn btn-danger hide" id="btn-desactivar">Cancelar</a>
 								</td>
 							</tr>
@@ -162,19 +215,10 @@ $me_medio = new MeMedio();
 							</tr>
 						</table>
 					</form>
-					<div class="contacto" id="form-contacto">
-						<legend>Contactos de la escuela</legend>
-						<table>
-							<tr>
-								<td class="td-contacto" name="director" id="sp-director"></td>
-								<td class="td-contacto" name="supervisor" id="sp-supervisor"></td>
-								<td class="td-contacto" name="responsable" id="sp-responsable"></td>
-							</tr>
-						</table>
-					</div>
 					<div class="poblacion" id="div-poblacion">
 						<legend>Población</legend>
 						<form id="form-poblacion">
+							
 							<table class="table table-condensed table-hover table-bordered">
 								<tr>
 									<th></th>
@@ -188,15 +232,15 @@ $me_medio = new MeMedio();
 										<span class="campo-poblacion" name="cant_alumno" data-campo="cant_alumno" id="sp-cant_alumno"></span>
 									</td>
 									<td class="edit-in hide">
-										<input type="number" min="0" name="cant_alumno" class="in-campo" id="in-cant_alumno">
+										<input type="number" min="0" name="cant_alumno" class="in-campo in-poblacion" id="in-cant_alumno" value="0">
 									</td>
 									<td class="td-campo">
 										<span class="campo-poblacion" name="cant_alumna" data-campo="cant_alumna" id="sp-cant_alumna"></span>
 									</td>
 									<td class="edit-in hide">
-										<input type="number" min="0" name="cant_alumna" class="in-campo" id="in-cant_alumna">
-										</td>
-									<td></td>
+										<input type="number" min="0" name="cant_alumna" class="in-campo in-poblacion" id="in-cant_alumna" value="0">
+									</td>
+									<td id="total_alumno"></td>
 								</tr>
 								<tr>
 									<td>Cantidad de docentes</td>
@@ -204,15 +248,15 @@ $me_medio = new MeMedio();
 										<span class="campo-poblacion" name="cant_maestro" data-campo="cant_maestro" id="sp-cant_maestro"></span>
 									</td>
 									<td class="edit-in hide">
-										<input type="number" min="0" name="cant_maestro" class="in-campo" id="in-cant_maestro">
+										<input type="number" min="0" name="cant_maestro" class="in-campo in-poblacion" id="in-cant_maestro" value="0">
 									</td>
 									<td class="td-campo">
 										<span class="campo-poblacion" name="cant_maestra" data-campo="cant_maestra" id="sp-cant_maestra"></span>
 									</td>
 									<td class="edit-in hide">
-										<input type="number" min="0" name="cant_maestra" class="in-campo" id="in-cant_maestra">
+										<input type="number" min="0" name="cant_maestra" class="in-campo in-poblacion" id="in-cant_maestra" value="0">
 									</td>
-									<td></td>
+									<td id="total_docente"></td>
 								</tr>
 							</table>
 						</form>
@@ -274,7 +318,10 @@ $me_medio = new MeMedio();
 </div>
 <script>
 	function abrirInfoEscuela(udi) {
+		cerrarEscuela();
+		$('.dato-escuela').html();
 		$('#modal-carga').modal('show');
+		$('#lista-contacto').html('');
 		callBackend({
 			ctrl: 'CtrlMeSolicitud',
 			act: 'abrirInfoEscuela',
@@ -282,11 +329,35 @@ $me_medio = new MeMedio();
 				udi: udi
 			},
 			callback: function (respuesta) {
+				if(respuesta['id_escuela'] == undefined){
+					alert('No se encuentra la escuela');
+				}
+				else{
+					$('.info-escuela').show();
+				}
 				$.each(respuesta, function (elemento, valor) {
 					$('#esc-'+elemento).html(valor);
 				});
 				$('#id_escuela').val(respuesta.id_escuela);
 				$('#modal-carga').modal('hide');
+				$.each(respuesta.arr_contacto, function (index, contacto) {
+					$('#lista-contacto').append('<td id="ctc-'+contacto.id+'"></td>');
+					abrir_contacto_escuela(contacto.id, 'ctc-'+contacto.id);
+				});
+				if(respuesta.id_equipamiento!=null){
+					$('#esc-equipada').html('Sí');
+				}
+				else{
+					$('#esc-equipada').html('No');
+				}
+				if(respuesta.participante>0){
+					$('#esc-capacitada').html('Sí');
+				}
+				else{
+					$('#esc-capacitada').html('No');
+				}
+				$('#esc-nombre').prop('href', nivel_entrada+'app/esc/perfil.php?id='+respuesta.id_escuela);
+				$('#inp_id_escuela_cnt').val(respuesta.id_escuela);
 				listarSolicitud(respuesta.id_proceso);
 			}
 		});
@@ -309,6 +380,7 @@ $me_medio = new MeMedio();
 	}
 
 	function abrirSolicitud(id_solicitud) {
+		cerrarSolicitud();
 		$('#modal-carga').modal('show');
 		callBackend({
 			ctrl: 'CtrlMeSolicitud',
@@ -326,6 +398,7 @@ $me_medio = new MeMedio();
 					},
 					callback: function (respuesta) {
 						llenarFormularios(respuesta);
+						listarSolicitud(respuesta.arr_solicitud['id_proceso']);
 					}
 				});
 			}
@@ -333,10 +406,11 @@ $me_medio = new MeMedio();
 	}
 
 	function llenarFormularios(datos) {
+		$('.main-solicitud').show();
 		document.getElementById('form-solicitud').reset();
 		desactivarEdicion();
 		$('.campo').html('');
-		$('.td-contacto').html('');
+		$('.tr-contacto').html('');
 		$('.in-req').prop('checked', false);
 		$('.in-medio').prop('checked', false);
 		$('.sp-medio').html('No');
@@ -345,7 +419,6 @@ $me_medio = new MeMedio();
 
 		$('.campo-solicitud').each(function () {
 			var campo = $(this).data('campo');
-			console.log(campo+": "+datos.arr_solicitud[campo])
 			$(this).html(datos.arr_solicitud[campo]);
 			$(this).val(datos.arr_solicitud[campo]);
 		});
@@ -362,11 +435,13 @@ $me_medio = new MeMedio();
 		});
 
 		$('.campo-poblacion').each(function () {
+			$('#')
 			var campo = $(this).data('campo');
-			console.log(campo+": "+datos.arr_poblacion[campo])
 			$(this).html(datos.arr_poblacion[campo]);
 			$(this).val(datos.arr_poblacion[campo]);
 		});
+		$('#total_docente').html(parseInt(datos.arr_poblacion['cant_maestra'])+parseInt(datos.arr_poblacion['cant_maestro']));
+		$('#total_alumno').html(parseInt(datos.arr_poblacion['cant_alumna'])+parseInt(datos.arr_poblacion['cant_alumno']));
 
 		$.each(datos.arr_requerimiento, function (index, req) {
 			$('#sp-req-'+req.id_requerimiento).data('check', "true");
@@ -380,11 +455,6 @@ $me_medio = new MeMedio();
 			$('#sp-medio-'+medio.id_medio).html('Sí');
 			$('#in-medio-'+medio.id_medio).prop('checked', true);
 		});
-		$.each(datos.arr_contacto, function (campo, contacto) {
-			if(contacto!=null){
-				abrir_contacto_escuela(contacto['id_contacto'], 'sp-'+campo);
-			}
-		})
 		$('#modal-carga').modal('hide');
 	}
 
@@ -444,6 +514,8 @@ $me_medio = new MeMedio();
 			return false;
 		});
 
+		sumarPoblacion();
+
 		$('.edit-in').show();
 	}
 
@@ -458,6 +530,7 @@ $me_medio = new MeMedio();
 	}
 
 	function guardarSolicitud() {
+		$('#modal-carga').modal('show');
 		$('.in-chk').each(function () {
 			$(this).prop('checked', function () {
 				if ($(this).is(':checked')) {
@@ -515,12 +588,34 @@ $me_medio = new MeMedio();
 				id_escuela: $('#id_escuela').val()
 			},
 			callback: function (respuesta) {
+				formNueva();
 				abrirSolicitud(respuesta);
 			}
 		})
 	}
 
+	function sumarPoblacion() {
+		var cant_alumno = isNaN(parseInt( $('#in-cant_alumno').val())) ?  0 : parseInt( $('#in-cant_alumno').val());
+		var cant_alumna = isNaN(parseInt( $('#in-cant_alumna').val())) ?  0 : parseInt( $('#in-cant_alumna').val());
+		
+		var cant_maestra = isNaN(parseInt( $('#in-cant_maestra').val())) ?  0 : parseInt( $('#in-cant_maestra').val());
+		var cant_maestro = isNaN(parseInt( $('#in-cant_maestro').val())) ?  0 : parseInt( $('#in-cant_maestro').val());
+		$('#total_docente').html(cant_maestro + cant_maestra);
+		$('#total_alumno').html(cant_alumna + cant_alumno);
+	}
+
+	function cerrarSolicitud() {
+		desactivarEdicion();
+		$('.main-solicitud').hide();
+	}
+
+	function cerrarEscuela() {
+		$('.info-escuela').hide();
+		cerrarSolicitud();
+	}
+
 	$(document).ready(function () {
+		cerrarEscuela();
 		$('#form-escuela').on('submit', function (e) {
 			e.preventDefault();
 			abrirInfoEscuela($('#udi').val());
@@ -532,7 +627,12 @@ $me_medio = new MeMedio();
 
 		$('#btn-crear-solicitud').click(function () {
 			crearSolicitud($('#id_escuela').val(), $('#id-version').val());
-		})
+		});
+
+		$('.in-poblacion').on('keyup', function () {
+			sumarPoblacion();
+		});
+		activar_form_contacto('form_contacto');
 	});
 </script>
 </html>

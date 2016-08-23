@@ -30,7 +30,7 @@ class CtrMeSolicitudTest extends PHPUnit_Framework_TestCase
     public function testGuardaSolicitud($ctrl_solicitud)
     {
         $arr_solicitud = array(
-            'id_solicitud' => 36,
+            'id' => 36,
             'id_version' => 13,
             'id_proceso' => 43,
             'edf' => 1,
@@ -40,10 +40,10 @@ class CtrMeSolicitudTest extends PHPUnit_Framework_TestCase
             'obs' => 'prueba de edición controlador'
             );
         $arr_poblacion = array(
-        	'cant_alumna'=>12,
-			'cant_alumno'=>11,
-			'cant_maestra'=>5,
-			'cant_maestro'=>6
+        	'cant_alumna'=>10,
+			'cant_alumno'=>15,
+			'cant_maestra'=>3,
+			'cant_maestro'=>1
         	);
         $arr_requerimiento = array(2, 4, 8);
         $arr_contacto = array();
@@ -57,26 +57,6 @@ class CtrMeSolicitudTest extends PHPUnit_Framework_TestCase
         $this->assertNotFalse($solicitud);
         //print_r($solicitud);
         return $solicitud['id'];
-    }
-
-    /**
-     * Crea los registros para enlazar los contactos con directores
-     * @depends testExiste
-     * @depends testGuardaSolicitud
-     * @param  CtrlMeSolicitud $ctrl_solicitud El controlador
-     * @param  integer          $id_solicitud   ID de la solicitud
-     * @return [type]                          [description]
-     */
-    public function testGuardaContactos(CtrlMeSolicitud $ctrl_solicitud, $id_solicitud)
-    {
-        $arr_contacto = array(
-            'supervisor'=>1,
-            'director' => 2,
-            'responsable' => 29
-            );
-        $arr_links = $ctrl_solicitud->guardarContactos($id_solicitud, $arr_contacto);
-        $this->assertNotNull($arr_links);
-        //print_r($arr_links);
     }
 
     /**

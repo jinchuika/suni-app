@@ -19,13 +19,19 @@ class GnProceso extends Model
 	 */
 	public function crearProceso($id_escuela, $id_estado=1, $observacion='')
 	{
-		$datosNuevos = array('id_escuela' => $id_escuela, 'id_estado'=>$id_estado, 'observacion' => $observacion);
-		$query = $this->armarInsert($this->tabla, $datosNuevos);
-		if($this->bd->ejecutar($query)){
-			return $this->bd->lastID();
+		$proceso = $this->abrirProceso(array('id_escuela'=>$id_escuela), 'id');
+		if($proceso==false){
+			$datosNuevos = array('id_escuela' => $id_escuela, 'id_estado'=>$id_estado, 'observacion' => $observacion);
+			$query = $this->armarInsert($this->tabla, $datosNuevos);
+			if($this->bd->ejecutar($query)){
+				return $this->bd->lastID();
+			}
+			else{
+				return false;
+			}
 		}
 		else{
-			return false;
+			return $proceso['id'];
 		}
 	}
 
