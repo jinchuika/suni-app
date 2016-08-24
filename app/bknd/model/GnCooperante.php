@@ -114,5 +114,33 @@ class GnCooperante extends Model
 		}
 		return $arr_cooperante;
 	}
+
+	/**
+	 * Lista las escuelas de un cooperante
+	 * @param  integer $id_cooperante el ID del cooperante
+	 * @return Array
+	 */
+	public function listarEscuela($id_cooperante)
+	{
+		$arr_escuela = array();
+		$gn_escuela = new GnEscuela();
+		$query = $this->armarSelect(
+			'me_equipamiento_cooperante
+			inner join me_equipamiento on me_equipamiento.id = me_equipamiento_cooperante.id_equipamiento
+			inner join gn_proceso on gn_proceso.id = me_equipamiento.id_proceso',
+			'gn_proceso.id_escuela as id_escuela',
+			array('id_cooperante'=>$id_cooperante)
+			);
+		foreach ($this->bd->getResultado($query) as $escuela) {
+			array_push(
+				$arr_escuela,
+				$gn_escuela->abrirVistaEscuela(
+					array('id'=>$escuela['id_escuela']),
+					'id_escuela, udi, nombre, municipio, departamento'
+					)
+				);
+		}
+		return $arr_escuela;
+	}
 }
 ?>

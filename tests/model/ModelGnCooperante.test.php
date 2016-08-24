@@ -32,7 +32,7 @@ class ModelGnCooperanteTest extends PHPUnit_Framework_TestCase
 	public function testAbreCooperante($gn_cooperante)
 	{
 		$arr_cooperante = $gn_cooperante->abrirCooperante(array('id'=>1));
-		print_r($arr_cooperante);
+		//print_r($arr_cooperante);
 		$this->assertNotFalse($arr_cooperante);
 	}
 
@@ -89,8 +89,17 @@ class ModelGnCooperanteTest extends PHPUnit_Framework_TestCase
 	public function testListaAsignacion($gn_cooperante)
 	{
 		$arr_cooperante = $gn_cooperante->listarAsignacion(array('id_equipamiento'=>1));
-		print_r($arr_cooperante);
+		//print_r($arr_cooperante);
 		$this->assertNotFalse($arr_cooperante);
+	}
+
+	/**
+	 * @depends testExiste
+	 */
+	public function testListaEscuelas($gn_cooperante)
+	{
+		$arr_escuela = $gn_cooperante->listarEscuela(2);
+		print_r($arr_escuela);
 	}
 }
 ?>

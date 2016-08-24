@@ -67,6 +67,11 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
                                             <i class="icon-check"></i> Informe de solicitudes
                                         </a>
                                     </li>
+                                    <li>
+                                        <a href="<?php echo $nivel_dir; ?>app/mye/sol/version.php">
+                                            <i class="icon-check"></i> Versiones de solicitud
+                                        </a>
+                                    </li>
                                 </ul>
                             </li>
                             <!-- Termina dropdown de proceso -->

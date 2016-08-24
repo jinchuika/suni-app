@@ -90,5 +90,16 @@ class CtrlDnt extends Controller
 		$arrFiltros = array('id'=>$id_proyecto);
 		return $gn_proyecto->editarProyecto($arrDatos, $arrFiltros);
 	}
+
+	/**
+	 * Lista las escuelas de un cooperante
+	 * @param  integer $id_cooperante el ID del cooperante
+	 * @return Array
+	 */
+	public function listarEscuelaCooperante($id_cooperante)
+	{
+		$gn_cooperante = new GnCooperante();
+		return $gn_cooperante->listarEscuela($id_cooperante);
+	}
 }
 ?>

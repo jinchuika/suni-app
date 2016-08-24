@@ -97,7 +97,19 @@ $ctrl_dnt = new CtrlDnt();
                                 </div>
                             </div>
                         </fieldset>
+                        <a href="#" class="btn btn-primary" id="btn-escuela-cooperante">Listar escuelas</a>
                     </form>
+                    <table class="table table-hover hide" id="tabla-escuela-cooperante">
+                        <thead>
+                            <tr>
+                                <th>UDI</th>
+                                <th>Escuela</th>
+                                <th>Municipio</th>
+                                <th>Departamento</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-cooperante"></tbody>
+                    </table>
                 </div>
                 <form class="form-horizontal form_nuevo hide" id="form_proyecto">
                     <fieldset>
@@ -220,6 +232,7 @@ modal_c.crear();
   function abrir_cooperante (id) {
     modal_c.mostrar();
     limpiar_forms();
+    $('#tabla-escuela-cooperante').hide();
     $('.a_dato').remove();
     $.getJSON( nivel_entrada+'app/bknd/caller.php', {
         ctrl: 'CtrlDnt',
@@ -249,6 +262,7 @@ modal_c.crear();
                 $('#a_lista_cooperante_'+data.id).text(nuevoValor);
             }
         });
+        $('#btn-escuela-cooperante').attr('onclick', 'listarEscuelaCooperante('+id+');');
         $('#form_donante').show();
         modal_c.ocultar();
         $('#form_donante').goTo();
@@ -301,6 +315,24 @@ modal_c.crear();
         modal_c.ocultar();
         $('#form_proyecto').goTo();
     });
+}
+
+function listarEscuelaCooperante(id_cooperante) {
+    $('#tbody-cooperante').html('');
+    callBackend({
+        ctrl: 'CtrlDnt',
+        act: 'listarEscuelaCooperante',
+        args: {
+            id_cooperante: id_cooperante
+        },
+        callback: function (respuesta) {
+            $.each(respuesta, function (index, escuela) {
+                var text = '<td>'+escuela.udi+'</td><td>'+escuela.nombre+'</td><td>'+escuela.municipio+'</td><td>'+escuela.departamento+'</td>';
+                $('#tbody-cooperante').append('<tr>'+text+'</tr>');
+            });
+            $('#tabla-escuela-cooperante').show();
+        }
+    })
 }
 </script>
 </html>
