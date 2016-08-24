@@ -147,7 +147,19 @@ $ctrl_dnt = new CtrlDnt();
                             </div>
                         </div>
                     </fieldset>
+                    <a href="#" class="btn btn-primary" id="btn-escuela-proyecto">Listar escuelas</a>
                 </form>
+                <table class="table table-hover hide" id="tabla-escuela-proyecto">
+                        <thead>
+                            <tr>
+                                <th>UDI</th>
+                                <th>Escuela</th>
+                                <th>Municipio</th>
+                                <th>Departamento</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-proyecto"></tbody>
+                    </table>
                 <form class="form-horizontal form_nuevo hide" id="form_cooperante">
                     <button class="close" onclick="limpiar_forms();" type="button">×</button>
                     <fieldset>
@@ -276,6 +288,7 @@ modal_c.crear();
    */
    function abrir_proyecto (id_proyecto) {
     modal_c.mostrar();
+    $('#tabla-escuela-proyecto').hide();
     limpiar_forms();
     $('.a_dato').remove()
     $('.inp').hide();
@@ -311,6 +324,7 @@ modal_c.crear();
                 }
             }
         });
+        $('#btn-escuela-proyecto').attr('onclick', 'listarEscuelaProyecto('+id_proyecto+');');
         $('#form_proyecto').show();
         modal_c.ocultar();
         $('#form_proyecto').goTo();
@@ -319,6 +333,7 @@ modal_c.crear();
 
 function listarEscuelaCooperante(id_cooperante) {
     $('#tbody-cooperante').html('');
+    modal_c.mostrar();
     callBackend({
         ctrl: 'CtrlDnt',
         act: 'listarEscuelaCooperante',
@@ -326,11 +341,32 @@ function listarEscuelaCooperante(id_cooperante) {
             id_cooperante: id_cooperante
         },
         callback: function (respuesta) {
+            modal_c.ocultar();
             $.each(respuesta, function (index, escuela) {
-                var text = '<td>'+escuela.udi+'</td><td>'+escuela.nombre+'</td><td>'+escuela.municipio+'</td><td>'+escuela.departamento+'</td>';
+                var text = '<td>'+escuela.udi+'</td><td><a href="'+nivel_entrada+'app/esc/perfil.php?id='+escuela.id_escuela+'">'+escuela.nombre+'</a></td><td>'+escuela.municipio+'</td><td>'+escuela.departamento+'</td>';
                 $('#tbody-cooperante').append('<tr>'+text+'</tr>');
             });
             $('#tabla-escuela-cooperante').show();
+        }
+    })
+}
+
+function listarEscuelaProyecto(id_proyecto) {
+    modal_c.mostrar();
+    $('#tbody-proyecto').html('');
+    callBackend({
+        ctrl: 'CtrlDnt',
+        act: 'listarEscuelaProyecto',
+        args: {
+            id_proyecto: id_proyecto
+        },
+        callback: function (respuesta) {
+            modal_c.ocultar();
+            $.each(respuesta, function (index, escuela) {
+                var text = '<td>'+escuela.udi+'</td><td><a href="'+nivel_entrada+'app/esc/perfil.php?id='+escuela.id_escuela+'">'+escuela.nombre+'</a></td><td>'+escuela.municipio+'</td><td>'+escuela.departamento+'</td>';
+                $('#tbody-proyecto').append('<tr>'+text+'</tr>');
+            });
+            $('#tabla-escuela-proyecto').show();
         }
     })
 }

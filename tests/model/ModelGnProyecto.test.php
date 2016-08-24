@@ -31,7 +31,7 @@ class ModelGnProyectoTest extends PHPUnit_Framework_TestCase
 	public function testAbreProyecto($gn_proyecto)
 	{
 		$arr_proyecto = $gn_proyecto->abrirProyecto(array('id'=>1));
-		print_r($arr_proyecto);
+		//print_r($arr_proyecto);
 		$this->assertNotFalse($arr_proyecto);
 	}
 
@@ -42,7 +42,7 @@ class ModelGnProyectoTest extends PHPUnit_Framework_TestCase
 	public function testCreaProyecto($gn_proyecto)
 	{
 		$id_proyecto = $gn_proyecto->crearProyecto('Proyecto de prueba');
-		echo 'ID del proyecto: '.$id_proyecto;
+		//echo 'ID del proyecto: '.$id_proyecto;
 		$this->assertNotFalse($id_proyecto);
 	}
 
@@ -88,8 +88,17 @@ class ModelGnProyectoTest extends PHPUnit_Framework_TestCase
 	{
 		$arr_proyecto = array();
 		$arr_proyecto = $gn_proyecto->listarAsignacion(array('id_equipamiento'=>1));
-		print_r($arr_proyecto);
+		//print_r($arr_proyecto);
 		$this->assertNotFalse($arr_proyecto);
+	}
+
+	/**
+	 * @depends testExiste
+	 */
+	public function testListaEscuelas($gn_proyecto)
+	{
+		$arr_escuela = $gn_proyecto->listarEscuela(2);
+		print_r($arr_escuela);
 	}
 }
 ?>
