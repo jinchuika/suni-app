@@ -46,7 +46,7 @@ $me_medio = new MeMedio();
 							<div class="control-group">
 								<label class="control-label" for="udi">UDI</label>
 								<div class="controls">
-									<input id="udi" name="udi" type="text" placeholder="00-00-0000-00" class="input-large search-query" required="">
+									<input id="udi" name="udi" <?php if ($_GET['udi']) { echo 'value="'.$_GET['udi'].'"'; } ?> type="text" placeholder="00-00-0000-00" class="input-large search-query" required="">
 								</div>
 							</div>
 							<div class="control-group">
@@ -317,7 +317,7 @@ $me_medio = new MeMedio();
 	</div>
 </div>
 <script>
-	function abrirInfoEscuela(udi) {
+	function abrirInfoEscuela(udi, callback) {
 		cerrarEscuela();
 		$('.dato-escuela').html();
 		$('#modal-carga').modal('show');
@@ -359,6 +359,9 @@ $me_medio = new MeMedio();
 				$('#esc-nombre').prop('href', nivel_entrada+'app/esc/perfil.php?id='+respuesta.id_escuela);
 				$('#inp_id_escuela_cnt').val(respuesta.id_escuela);
 				listarSolicitud(respuesta.id_proceso);
+				if (typeof callback==="function") {
+					callback();
+				};
 			}
 		});
 	}
@@ -633,6 +636,12 @@ $me_medio = new MeMedio();
 			sumarPoblacion();
 		});
 		activar_form_contacto('form_contacto');
+
+		<?php
+		if($_GET['udi']){
+			echo 'abrirInfoEscuela("'.$_GET['udi'].'", abrirSolicitud("'.$_GET['id_solicitud'].'"))';
+		}
+		?>
 	});
 </script>
 </html>

@@ -215,25 +215,84 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
                                             Fecha de equipamiento: <?php echo $equipamiento['fecha']; ?>
                                         </p>
                                         <table class="table table-hover">
-                                        <tr><th>Cooperante</th></tr>
-                                        <?php
-                                        foreach ($equipamiento['arr_cooperante'] as $cooperante) {
-                                            ?>
-                                            <tr><td><?php echo $cooperante['nombre']; ?></td></tr>
-                                            <?php
-                                        }
-                                        ?>
-                                            <tr><th>Proyectos</th></tr>
-                                        <?php
-                                        foreach ($equipamiento['arr_proyecto'] as $proyecto) {
-                                            ?>
-                                            <tr><td><?php echo $proyecto['nombre']; ?></td></tr>
-                                            <?php
-                                        }
-                                        ?>
+                                            <thead>
+                                                <tr>
+                                                    <th>Cooperantes</th>
+                                                    <th><button <?php echo 'onclick="$(\'#form-cooperante-'.$equipamiento['id'].'\').toggle();"'; ?> class="btn btn-mini btn-primary">Agregar</button></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                foreach ($equipamiento['arr_cooperante'] as $cooperante) {
+                                                    echo '<tr><td>'.$cooperante['nombre'].'</td></tr>';
+                                                }
+                                                ?>
+                                            </tbody>
                                         </table>
-                                        <hr>
-                                        </div>
+                                        <form class="form-horizontal form-cooperante hide" <?php echo 'id="form-cooperante-'.$equipamiento['id'].'"'; ?>>
+                                            <fieldset>
+                                                <input type="hidden" name="id_equipamiento" id="id_equipamiento" <?php echo 'value="'.$equipamiento['id'].'"'; ?>>
+                                                <div class="control-group">
+                                                    <label class="control-label" for="id_cooperante">Cooperante</label>
+                                                    <div class="controls">
+                                                        <select id="id_cooperante" name="id_cooperante" class="input-large">
+                                                            <?php
+                                                            $gn_cooperante = new GnCooperante();
+                                                            foreach ($gn_cooperante->listarCooperante() as $cooperante) {
+                                                                echo '<option value="'.$cooperante['id'].'">'.$cooperante['nombre'].'</option>';
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group">
+                                                    <label class="control-label" for="btn-guardar-cooperante"></label>
+                                                    <div class="controls">
+                                                        <button id="btn-guardar-cooperante" name="btn-guardar-cooperante" class="btn btn-primary">Guardar</button>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
+
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Proyectos</th>
+                                                    <th><button <?php echo 'onclick="$(\'#form-proyecto-'.$equipamiento['id'].'\').toggle();"'; ?> class="btn btn-mini btn-primary">Agregar</button></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <?php
+                                                foreach ($equipamiento['arr_proyecto'] as $proyecto) {
+                                                    echo '<tr><td>'.$proyecto['nombre'].'</td></tr>';
+                                                }
+                                                ?>
+                                            </tbody>
+                                        </table>
+                                        <form class="form-horizontal form-proyecto hide" <?php echo 'id="form-proyecto-'.$equipamiento['id'].'"'; ?>>
+                                            <fieldset>
+                                                <input type="hidden" name="id_equipamiento" id="id_equipamiento" <?php echo 'value="'.$equipamiento['id'].'"'; ?>>
+                                                <div class="control-group">
+                                                    <label class="control-label" for="id_proyecto">proyecto</label>
+                                                    <div class="controls">
+                                                        <select id="id_proyecto" name="id_proyecto" class="input-large">
+                                                            <?php
+                                                            $gn_proyecto = new GnProyecto();
+                                                            foreach ($gn_proyecto->listarproyecto() as $proyecto) {
+                                                                echo '<option value="'.$proyecto['id'].'">'.$proyecto['nombre'].'</option>';
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="control-group">
+                                                    <label class="control-label" for="btn-guardar-proyecto"></label>
+                                                    <div class="controls">
+                                                        <button id="btn-guardar-proyecto" name="btn-guardar-proyecto" class="btn btn-primary">Guardar</button>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                        </form>
                                         <?php
                                         }
                                     }
@@ -385,6 +444,40 @@ $escuela = $gn_escuela->abrirDatosEscuela($_GET);
             else{
                 console.log('no');
             }
+        });
+
+        $('.form-cooperante').on('submit', function  (e) {
+            e.preventDefault();
+            callBackend({
+                ctrl: 'CtrlEscPerfil',
+                act: 'asignarCooperante',
+                args: $(this).serializeObject(),
+                callback: function (respuesta) {
+                    if (respuesta==true) {
+                        location.reload();
+                    }
+                    else{
+                        alert("No fue posible realizar la asignación");
+                    }
+                }
+            })
+        });
+
+        $('.form-proyecto').on('submit', function  (e) {
+            e.preventDefault();
+            callBackend({
+                ctrl: 'CtrlEscPerfil',
+                act: 'asignarProyecto',
+                args: $(this).serializeObject(),
+                callback: function (respuesta) {
+                    if (respuesta==true) {
+                        location.reload();
+                    }
+                    else{
+                        alert("No fue posible realizar la asignación");
+                    }
+                }
+            })
         });
      });
 </script>

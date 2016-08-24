@@ -41,7 +41,7 @@ $external->addDefault(Session::get('id'));
 		$('#tbody').html('');
 		callBackend({
 			ctrl: 'TempMeSolicitud_Migracion',
-			act: 'migrarReq',
+			act: 'migrarPoblacion',
 			args: {
 				f: 'a'
 			},

@@ -22,6 +22,7 @@ class TempMeSolicitud_Migracion extends Model
 			IF(obs is null, "", obs) AS obs,
 			id_director,
 			id_responsable,
+			id_poblacion,
 			id_supervisor'
 			);
 		$arr_solicitud = $this->bd->getResultado($query);
@@ -89,6 +90,35 @@ class TempMeSolicitud_Migracion extends Model
 				echo "rel: ".$this->ejecutarInsert($query, true);
 				//$me_solicitud->linkContacto($solicitud['id_solicitud'])
 			}
+		}
+	}
+
+	public function migrarPoblacion()
+	{
+		$arr_solicitud = $this->listarSolicitud();
+		foreach ($arr_solicitud as $solicitud) {
+			$query = $this->armarSelect('me_poblacion', '*', array('id'=>$solicitud['id_poblacion']));
+			$get_poblacion = $this->bd->getFila($query);
+			$query_insert = $this->armarInsert(
+				'me_poblacion_2',
+				array(
+					'id'=>$get_poblacion['id'],
+					'cant_alumna'=>$get_poblacion['alum_mujer'],
+					'cant_alumno'=>$get_poblacion['alum_hombre'],
+					'cant_maestro'=>$get_poblacion['maestro_hombre'],
+					'cant_maestra'=>$get_poblacion['maestro_mujer']
+					)
+				);
+			$id_poblacion = $this->ejecutarInsert($query_insert, true);
+			$query_insert_2 = $this->armarInsert(
+				'me_solicitud_poblacion',
+				array(
+					'id_solicitud'=>$solicitud['id_solicitud'],
+					'id_poblacion'=>$id_poblacion
+					)
+				);
+			echo "rel: ".$this->ejecutarInsert($query_insert_2, true);
+			//print_r($get_poblacion);
 		}
 	}
 

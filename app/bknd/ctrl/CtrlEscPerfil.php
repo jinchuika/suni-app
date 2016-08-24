@@ -66,6 +66,40 @@ class CtrlEscPerfil extends Controller
     }
 
     /**
+     * Asigna un cooperante a un equipamiento
+     * @param  integer $id_equipamiento ID del equipamiento
+     * @param  integer $id_cooperante   ID del cooperante
+     * @return boolean
+     */
+    public function asignarCooperante($id_equipamiento, $id_cooperante)
+    {
+        $gn_cooperante = new GnCooperante();
+        if($gn_cooperante->asignarCooperante($id_equipamiento, $id_cooperante)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * Asigna un proyecto a un equipamiento
+     * @param  integer $id_equipamiento ID del equipamiento
+     * @param  integer $id_proyecto   ID del proyecto
+     * @return boolean
+     */
+    public function asignarProyecto($id_equipamiento, $id_proyecto)
+    {
+        $gn_proyecto = new GnProyecto();
+        if($gn_proyecto->asignarProyecto($id_equipamiento, $id_proyecto)){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
      * Abre el supermisor desde me_supervisor
      * @param  string $id_distrito Distrito de la escuela
      * @return Array

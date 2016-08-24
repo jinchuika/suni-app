@@ -58,12 +58,12 @@ function imprimir_encabezado($nombre, $apellido, $id_per, $nivel_dir)
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="icon-flag-checkered"></i> Procesos <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="<?php echo $nivel_dir; ?>app/mye">
+                                        <a href="<?php echo $nivel_dir; ?>app/mye/sol">
                                             <i class="icon-check"></i> Crear solicitud
                                         </a>
                                     </li>
                                     <li>
-                                        <a href="<?php echo $nivel_dir; ?>app/mye/solicitud.php">
+                                        <a href="<?php echo $nivel_dir; ?>app/inf/mye/solicitud.php">
                                             <i class="icon-check"></i> Informe de solicitudes
                                         </a>
                                     </li>
