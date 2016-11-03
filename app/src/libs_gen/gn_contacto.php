@@ -112,10 +112,10 @@ function crear_contacto($nombre, $apellido, $genero, $direccion, $mail, $tel_cas
 	return array("msj"=>"si", $id_dpi);
 }
 
-function crear_contacto_lista($nombre, $apellido, $mail, $tel_movil, $etiqueta, $evento)
+function crear_contacto_lista($nombre, $apellido, $mail_in, $tel_movil, $etiqueta, $evento)
 {
 	$bd = Db::getInstance();
-	$query_mail = "select id from gn_persona where mail='".$mail."'";
+	$query_mail = "select id from gn_persona where mail='".$mail_in."'";
 	$stmt_mail = $bd->ejecutar($query_mail);
 	if($mail = $bd->obtener_fila($stmt_mail, 0)){
 		return array("state"=>"no", "nombre"=>$nombre." ".$apellido, "msj"=>"Correo duplicado");
@@ -148,7 +148,7 @@ function crear_contacto_lista($nombre, $apellido, $mail, $tel_movil, $etiqueta, 
 			$respuesta["mensaje"] = "error al crear el DPI";
 			$error = 1;
 		}
-		$query_persona = "INSERT INTO gn_persona (id, nombre, apellido, genero, mail, tel_movil, avatar) VALUES ('".$id_dpi."', '".$nombre."', '".$apellido."', '1', '".$mail."', '".$tel_movil."', 1)";
+		$query_persona = "INSERT INTO gn_persona (id, nombre, apellido, genero, mail, tel_movil, avatar) VALUES ('".$id_dpi."', '".$nombre."', '".$apellido."', '1', '".$mail_in."', '".$tel_movil."', 1)";
 		if($stmt_persona = $bd->ejecutar($query_persona)){
 			$valor = $bd->lastID();
 			$query_contacto = "INSERT INTO gn_contacto (id_persona, id_empresa) VALUES (".$id_dpi.", 1)";
